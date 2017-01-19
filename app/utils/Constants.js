@@ -12,6 +12,7 @@ export const COLLECTION_USERS = 'users';
 export const COLLECTION_WORKPACES = 'workspaces';
 export const COLLECTION_TEAMMEMBERS = 'teammembers';
 export const COLLECTION_CLIENT_SETTINGS = 'client-settings';
+export const COLLECTION_GLOBAL_SETTINGS = 'global-settings';
 
 export const DB_FILE_PREFIX = './database/';
 export const DB_FILE_EXTENSION = '.db';
