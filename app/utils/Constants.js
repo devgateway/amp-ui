@@ -9,6 +9,8 @@ export const CONNECTIVITY_CHECK_INTERVAL ="3000";//"300000";//5 minutes
 
 export const WORKSPACE_URL = '/workspace';
 export const LOGIN_URL = '/';
+export const ACTIVITY_PREVIEW_URL = '/activityPreview';
+export const ACTIVITY_EDIT_URL = '/editActivity';
 
 export const COLLECTION_USERS = 'users';
 export const COLLECTION_WORKPACES = 'workspaces';
@@ -30,3 +32,6 @@ export const LANGUAGE_SPANISH = 'es';
 export const HASH_ITERATIONS = 100;
 export const DIGEST_ALGORITHM_SHA1 = 'SHA-1';
 export const DIGEST_ALGORITHM_SHA256 = 'SHA-256';
+
+export const ACTIVITY_EDIT = 'ACTIVITY_EDIT';
+export const ACTIVITY_VIEW = 'ACTIVITY_VIEW';
