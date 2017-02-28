@@ -3,7 +3,9 @@ export const SERVER_URL = '__SERVER_URL__';
 export const BASE_REST_URL= '/rest';
 export const PROTOCOL = '__SERVER_PROTOCOL__';
 export const BASE_PORT = '__SERVER_PORT__';
-export const CONNECTION_TIMEOUT = '2500';
+export const CONNECTION_TIMEOUT = 5000;
+export const MAX_RETRY_ATEMPTS = 5;
+export const ERRORS_TO_RETRY = ['ESOCKETTIMEDOUT', 'ETIMEDOUT'];
 export const CONNECTIVITY_CHECK_INTERVAL ="3000";//"300000";//5 minutes
 
 
