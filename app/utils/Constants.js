@@ -19,6 +19,8 @@ export const COLLECTION_WORKPACES = 'workspaces';
 export const COLLECTION_TEAMMEMBERS = 'teammembers';
 export const COLLECTION_CLIENT_SETTINGS = 'client-settings';
 export const COLLECTION_ACTIVITIES = 'activities';
+export const COLLECTION_SYNC_LOG = 'sync_log';
+export const COLLECTION_LANGS = 'languages';
 export const COLLECTION_WS_SETTINGS = 'workspace-settings';
 export const COLLECTION_GLOBAL_SETTINGS = 'global-settings';
 
@@ -31,6 +33,10 @@ export const DB_AUTOCOMPACT_INTERVAL_MILISECONDS = 60000;
 
 export const LANGUAGE_ENGLISH = 'en';
 export const LANGUAGE_SPANISH = 'es';
+export const LANGUAGE_FRENCH = 'fr';
+export const FS_LOCALES_DIRECTORY = './app/locales/';
+export const LANGUAGE_MASTER_TRANSLATIONS_FILE = 'master-translations';
+export const LANGUAGE_TRANSLATIONS_FILE = 'translations';
 
 export const HASH_ITERATIONS = 100;
 export const DIGEST_ALGORITHM_SHA1 = 'SHA-1';
