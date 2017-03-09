@@ -19,11 +19,12 @@ export const COLLECTION_WORKPACES = 'workspaces';
 export const COLLECTION_TEAMMEMBERS = 'teammembers';
 export const COLLECTION_CLIENT_SETTINGS = 'client-settings';
 export const COLLECTION_ACTIVITIES = 'activities';
+export const COLLECTION_POSSIBLE_VALUES = 'possible-values';
 export const COLLECTION_SYNC_LOG = 'sync_log';
 export const COLLECTION_LANGS = 'languages';
 export const COLLECTION_WS_SETTINGS = 'workspace-settings';
 export const COLLECTION_GLOBAL_SETTINGS = 'global-settings';
-
+export const COLLECTION_FIELDS = 'fields';
 export const DB_FILE_PREFIX = './database/';
 export const DB_FILE_EXTENSION = '.db';
 // TODO: Find a better way to store the key.
