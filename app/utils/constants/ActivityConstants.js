@@ -61,7 +61,6 @@ export const INTERNAL_ID = 'internal_id';
 export const AMP_ID = 'amp_id';
 export const PROJECT_TITLE = 'project_title';
 export const MODIFIED_BY = 'modified_by';
-export const ID = 'internal_id';
 
 export function toFieldNames(listOfNames) {
   return listOfNames.map(name => toFieldName(name));
