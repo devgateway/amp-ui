@@ -13,6 +13,7 @@ export const WORKSPACE_URL = '/workspace';
 export const LOGIN_URL = '/';
 export const ACTIVITY_PREVIEW_URL = '/activityPreview';
 export const ACTIVITY_EDIT_URL = '/editActivity';
+export const SYNCUP_URL = '/syncUp';
 
 export const COLLECTION_USERS = 'users';
 export const COLLECTION_WORKPACES = 'workspaces';
@@ -59,6 +60,7 @@ export const SYNCUP_TYPE_FIELDS = 'fields';
 export const SYNCUP_STATUS_SUCCESS = 'SUCCESS';
 export const SYNCUP_STATUS_FAIL = 'FAIL';
 export const SYNCUP_DATETIME_FIELD = 'timestamp';
+export const SYNCUP_OLD_DAYS = 999;
 
 export const ACTIVITY_STATUS_DRAFT = 'ACTIVITY_STATUS_DRAFT';
 export const ACTIVITY_STATUS_UNVALIDATED = 'ACTIVITY_STATUS_UNVALIDATED';
