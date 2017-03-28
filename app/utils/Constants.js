@@ -11,8 +11,8 @@ export const CONNECTIVITY_CHECK_INTERVAL ="3000";//"300000";//5 minutes
 
 export const WORKSPACE_URL = '/workspace';
 export const LOGIN_URL = '/';
-export const ACTIVITY_PREVIEW_URL = '/activityPreview';
-export const ACTIVITY_EDIT_URL = '/editActivity';
+export const ACTIVITY_PREVIEW_URL = '/activity/preview';
+export const ACTIVITY_EDIT_URL = '/activity/edit';
 export const SYNCUP_URL = '/syncUp';
 
 export const COLLECTION_USERS = 'users';
