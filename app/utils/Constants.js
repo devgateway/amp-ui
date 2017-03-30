@@ -6,6 +6,7 @@ export const BASE_PORT = '__SERVER_PORT__';
 export const CONNECTION_TIMEOUT = 15000;
 export const MAX_RETRY_ATEMPTS = 5;
 export const ERRORS_TO_RETRY = ['ESOCKETTIMEDOUT', 'ETIMEDOUT'];
+export const ERROR_NO_AMP_SERVER = 'ECONNREFUSED';
 export const CONNECTIVITY_CHECK_INTERVAL ="3000";//"300000";//5 minutes
 
 
