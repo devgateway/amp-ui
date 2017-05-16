@@ -35,6 +35,12 @@ class AdditionalInfo extends Component {
     const isComputedTeam = this.props.activityWorkspace['is-computed'] === true ? translate('Yes') : translate('No');
     // TODO dates formatting AMPOFFLINE-308
     const updatedOn = this.props.activity[AC.CLIENT_UPDATED_ON] || this.props.activity[AC.MODIFIED_ON];
+    additionalInfo.push(APField.instance('activityCreatedBy', this.props.activity[AC.CREATED_BY].value,
+      this.props.fieldNameClass, this.props.fieldValueClass));
+    additionalInfo.push(APField.instance('createdInWorkspace', `${teamName} - ${accessType}`,
+      this.props.fieldNameClass, this.props.fieldValueClass));
+    additionalInfo.push(APField.instance('computation', isComputedTeam,
+      this.props.fieldNameClass, this.props.fieldValueClass));
 
     additionalInfo.push(APField.instance('activityCreatedBy', this.props.activity[AC.CREATED_BY]).value);
     additionalInfo.push(APField.instance('createdInWorkspace', `${teamName} - ${accessType}`));
@@ -46,6 +52,9 @@ class AdditionalInfo extends Component {
       additionalInfo.push(APField.instance('activityUpdatedOn', DateUtils.createFormattedDate(updatedOn)));
     }
     additionalInfo.push(APField.instance('dataTeamLeader', this._getWorkspaceLeadData()));
+
+    additionalInfo.push(APField.instance('dataTeamLeader', this._getWorkspaceLeadData(),
+      this.props.fieldNameClass, this.props.fieldValueClass));
 
     return additionalInfo;
   }
