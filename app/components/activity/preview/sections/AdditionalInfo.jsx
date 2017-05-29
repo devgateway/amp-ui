@@ -22,8 +22,14 @@ class AdditionalInfo extends Component {
   }
 
   _getWorkspaceLeadData() {
-    // TODO update once possible options for team members are available AMP-25680
     return this.props.activityWorkspace['workspace-lead-id'];
+    let wsLead = this.props.activityWorkspace['workspace-lead-id'];
+    if (wsLead) {
+      const options = this.props.activityFieldsManager.possibleValuesMap[AC.CREATED_BY];
+      const option = PossibleValuesManager.findOption(options, wsLead);
+      wsLead = option ? option.value : wsLead;
+    }
+    return wsLead;
   }
 
   _buildAdditionalInfo() {
@@ -53,14 +59,20 @@ class AdditionalInfo extends Component {
     }
     additionalInfo.push(APField.instance('dataTeamLeader', this._getWorkspaceLeadData()));
 
-      this.props.fieldNameClass, this.props.fieldValueClass));
+    this.props.fieldNameClass, this.props.fieldValueClass;
+  )
 
-    return additionalInfo;
-  }
+)
+  ;
 
-  render() {
-    return <div>{this._buildAdditionalInfo()}</div>;
-  }
+  return;
+  additionalInfo;
+}
+
+render();
+{
+  return <div>{this._buildAdditionalInfo()}</div>;
+}
 
 }
 
