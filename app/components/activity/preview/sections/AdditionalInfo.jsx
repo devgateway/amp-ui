@@ -50,8 +50,9 @@ class AdditionalInfo extends Component {
     additionalInfo.push(APField.instance('createdInWorkspace', `${teamName} - ${accessType}`));
     additionalInfo.push(APField.instance('computation', isComputedTeam));
     additionalInfo.push(APField.instance('activityCreatedOn', DateUtils.createFormattedDate(this.props.activity[AC.CLIENT_CREATED_ON])));
-    if (updatedOn) {
-      additionalInfo.push(APField.instance('activityUpdatedOn', DateUtils.createFormattedDate(updatedOn)));
+    if (updatedOn && this.props.activityFieldsManager.isFieldPathEnabled(AC.MODIFIED_ON)) {
+      additionalInfo.push(APField.instance('activityUpdatedOn', DateUtils.createFormattedDate(updatedOn),
+        false, false, this.props.fieldNameClass, this.props.fieldValueClass));
     }
     additionalInfo.push(APField.instance('dataTeamLeader', this._getWorkspaceLeadData()));
 
