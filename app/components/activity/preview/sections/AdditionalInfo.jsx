@@ -34,11 +34,10 @@ class AdditionalInfo extends Component {
 
   _buildAdditionalInfo() {
     const additionalInfo = [];
-    const teamName = this.props.activityFieldsManager.getValue(this.props.activity, AC.TEAM);
+    const teamName = this.props.activityFieldsManager.getValueTranslation(AC.TEAM, this.props.activityWorkspace.name);
     // no need to export repeating translation for the access type through workspaces EP
     const accessType = translate(this.props.activityWorkspace['access-type']);
     const isComputedTeam = this.props.activityWorkspace['is-computed'] === true ? translate('Yes') : translate('No');
-    // TODO dates formatting AMPOFFLINE-308
     const updatedOn = this.props.activity[AC.CLIENT_UPDATED_ON] || this.props.activity[AC.MODIFIED_ON];
     additionalInfo.push(APField.instance('activityCreatedBy', this.props.activity[AC.CREATED_BY].value,
       this.props.fieldNameClass, this.props.fieldValueClass));
@@ -50,9 +49,7 @@ class AdditionalInfo extends Component {
     additionalInfo.push(APField.instance('activityCreatedBy', this.props.activity[AC.CREATED_BY]).value);
     additionalInfo.push(APField.instance('createdInWorkspace', `${teamName} - ${accessType}`));
     additionalInfo.push(APField.instance('computation', isComputedTeam));
-    // TODO update dates formatting AMPOFFLINE-308
     additionalInfo.push(APField.instance('activityCreatedOn', DateUtils.createFormattedDate(this.props.activity[AC.CLIENT_CREATED_ON])));
-    // TODO check if updated on can be displayed by ActivityPreview FM once AMPOFFLINE-309 is done
     if (updatedOn) {
       additionalInfo.push(APField.instance('activityUpdatedOn', DateUtils.createFormattedDate(updatedOn)));
     }
