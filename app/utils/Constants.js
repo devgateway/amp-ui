@@ -56,6 +56,7 @@ export const SYNCUP_TYPE_USERS = 'users';
 export const SYNCUP_TYPE_ASSETS = 'assets';
 export const SYNCUP_TYPE_WORKSPACES = 'workspaces';
 export const SYNCUP_TYPE_GS = 'global-settings';
+export const SYNCUP_TYPE_EXCHANGE_RATES = 'exchange-rates';
 export const SYNCUP_TYPE_WORKSPACE_MEMBERS = 'workspace-members';
 export const SYNCUP_TYPE_ACTIVITIES_PULL = 'activities';
 export const SYNCUP_TYPE_ACTIVITIES_PUSH = 'activities-push';
@@ -70,6 +71,8 @@ export const SYNCUP_DIFF_LEFTOVER = 'syncup-diff-leftover';
 export const ACTIVITY_STATUS_DRAFT = 'ACTIVITY_STATUS_DRAFT';
 export const ACTIVITY_STATUS_UNVALIDATED = 'ACTIVITY_STATUS_UNVALIDATED';
 export const ACTIVITY_STATUS_VALIDATED = 'ACTIVITY_STATUS_VALIDATED';
+
+export const CURRENCY_HOUR = '00:00';
 
 export const VERSION = '0.0.1';
 export const AMP_COUNTRY_LOGO = './assets/ampCountryFlag.png';
