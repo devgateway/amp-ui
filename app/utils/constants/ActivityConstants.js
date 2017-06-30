@@ -121,6 +121,7 @@ export const COMPONENT_TYPE = 'component_type';
 export const COMPONENT_TITLE = 'component_title';
 export const COMPONENT_FUNDING = 'funding';
 export const COMPONENT_DESCRIPTION = 'description';
+export const ACTIVE_LIST = 'active_list';
 export const FUNDING_AMOUNT_ID = 'amp_funding_amount_id';
 export const EXTRA_INFO = 'extra_info';
 export const ACRONYM = 'acronym';
