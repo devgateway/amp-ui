@@ -69,6 +69,7 @@ export const SYNCUP_TYPE_WORKSPACE_SETTINGS = 'workspace-settings';
 export const SYNCUP_TYPE_FIELDS = 'fields';
 export const SYNCUP_STATUS_SUCCESS = 'SUCCESS';
 export const SYNCUP_STATUS_FAIL = 'FAIL';
+export const SYNCUP_SYNC_REQUESTED_AT = 'sync-date';
 export const SYNCUP_DATETIME_FIELD = 'timestamp';
 export const SYNCUP_DIFF_LEFTOVER = 'syncup-diff-leftover';
 export const SYNCUP_DEPENDENCY_CHECK_INTERVAL = 10;
