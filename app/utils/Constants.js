@@ -65,6 +65,7 @@ export const SYNCUP_TYPE_WORKSPACE_MEMBERS = 'workspace-members';
 export const SYNCUP_TYPE_ACTIVITIES_PULL = 'activities';
 export const SYNCUP_TYPE_ACTIVITIES_PUSH = 'activities-push';
 export const SYNCUP_TYPE_POSSIBLE_VALUES = 'possible-values-fields';
+export const SYNCUP_TYPE_CONTACT_FIELDS = 'contact-fields';
 export const SYNCUP_TYPE_WORKSPACE_SETTINGS = 'workspace-settings';
 export const SYNCUP_TYPE_FIELDS = 'fields';
 export const SYNCUP_TYPE_ACTIVITY_FIELDS = 'activity-fields';
