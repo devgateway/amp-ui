@@ -30,6 +30,7 @@ export const COLLECTION_CURRENCY_RATES = 'currency-rates';
 export const COLLECTION_FEATURE_MANAGER = 'feature-manager';
 export const COLLECTION_GLOBAL_SETTINGS = 'global-settings';
 export const COLLECTION_FIELDS = 'fields';
+export const COLLECTION_CONTACTS = 'contacts';
 export const DB_FILE_PREFIX = './database/';
 export const DB_FILE_EXTENSION = '.db';
 // TODO: Find a better way to store the key.
