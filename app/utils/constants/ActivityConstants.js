@@ -140,6 +140,7 @@ export const FINANCING_ID = 'financing_id';
 export const DISBURSEMENT_ORDER_ID = 'disbursement_order_id';
 export const PLEDGE = 'pledge';
 export const CAPITAL_SPENDING_PERCENTAGE = 'capital_spending_percentage';
+export const RECIPIENT_ROLE = 'recipient_role';
 export const REPORTING_DATE = 'reporting_date';
 export const DONOR_CONTACT = 'donor_contact';
 export const PROJECT_COORDINATOR_CONTACT = 'project_coordinator_contact';
