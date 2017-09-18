@@ -127,4 +127,5 @@ export const INTERNAL_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
 export const MIN_SUPPORTED_YEAR = 1970;
 export const MAX_SUPPORTED_YEAR = 2050;
 
+export const NR_SYNC_HISTORY_ENTRIES = 5;
 export const UPDATES_DIR = 'updates';
