@@ -144,6 +144,7 @@ export const PLEDGE = 'pledge';
 export const CAPITAL_SPENDING_PERCENTAGE = 'capital_spending_percentage';
 export const RECIPIENT_ROLE = 'recipient_role';
 export const TEMPORAL_ID = '_temporal_id';
+export const MINISTRY_CODE = 'ministry_code'
 export const REPORTING_DATE = 'reporting_date';
 export const DONOR_CONTACT = 'donor_contact';
 export const PROJECT_COORDINATOR_CONTACT = 'project_coordinator_contact';
