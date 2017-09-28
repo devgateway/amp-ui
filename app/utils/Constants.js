@@ -130,3 +130,4 @@ export const MAX_SUPPORTED_YEAR = 2050;
 export const NR_SYNC_HISTORY_ENTRIES = 5;
 export const UPDATES_DIR = 'updates';
 export const CONTENT_DISPOSITION_HEADER = 'Content-Disposition';
+export const UPDATE_TMP_FILE = 'amp-offline-installer.tmp';
