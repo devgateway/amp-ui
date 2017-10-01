@@ -16,6 +16,7 @@ export const DESKTOP_CURRENT_URL = '/desktop/current';
 export const ACTIVITY_PREVIEW_URL = '/activity/preview';
 export const ACTIVITY_EDIT_URL = '/activity/edit';
 export const UPDATE_URL = '/update';
+export const SETUP_URL = '/setup';
 export const SYNCUP_URL = '/syncUp';
 
 export const COLLECTION_USERS = 'users';
