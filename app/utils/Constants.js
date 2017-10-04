@@ -19,6 +19,8 @@ export const ACTIVITY_EDIT_URL = '/activity/edit';
 export const UPDATE_URL = '/update';
 export const SETUP_URL = '/setup';
 export const SYNCUP_URL = '/syncUp';
+export const SYNCUP_SUMMARY_URL = '/syncUpSummary';
+
 
 export const COLLECTION_USERS = 'users';
 export const COLLECTION_WORKPACES = 'workspaces';
