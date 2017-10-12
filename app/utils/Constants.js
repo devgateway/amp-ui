@@ -20,7 +20,8 @@ export const ACTIVITY_PREVIEW_URL = '/activity/preview';
 export const ACTIVITY_EDIT_URL = '/activity/edit';
 export const UPDATE_URL = '/update';
 export const SETUP_URL = '/setup';
-export const SYNCUP_URL = '/syncUp';
+export const SYNCUP_REDIRECT_URL = '/syncUp/sync';
+export const SYNCUP_HISTORY_TARGET = 'history';
 export const SYNCUP_SUMMARY_URL = '/syncUpSummary';
 
 
