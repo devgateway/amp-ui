@@ -136,7 +136,10 @@ export const INTERNAL_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
 export const MIN_SUPPORTED_YEAR = 1970;
 export const MAX_SUPPORTED_YEAR = 2050;
 
-export const NR_SYNC_HISTORY_ENTRIES = 5;
+export const NR_SYNC_HISTORY_ENTRIES = 20;
+
+export const MASTER_BRANCH = 'master';
+export const DEVELOP_BRANCH = 'develop';
 export const UPDATES_DIR = 'updates';
 export const CONTENT_DISPOSITION_HEADER = 'Content-Disposition';
 export const UPDATE_TMP_FILE = 'amp-offline-installer.tmp';
