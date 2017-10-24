@@ -140,7 +140,7 @@ export const NR_SYNC_HISTORY_ENTRIES = 20;
 export const NR_LOG_FILES = 100;
 
 export const MASTER_BRANCH = 'master';
-export const DEVELOP_BRANCH = 'develop';
+export const DEVELOP_BRANCH = 'task/AMPOFFLINE-227/auto-encrypt-bd';
 export const UPDATES_DIR = 'updates';
 export const CONTENT_DISPOSITION_HEADER = 'Content-Disposition';
 export const UPDATE_TMP_FILE = 'amp-offline-installer.tmp';
