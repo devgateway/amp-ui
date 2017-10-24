@@ -137,7 +137,7 @@ export const MIN_SUPPORTED_YEAR = 1970;
 export const MAX_SUPPORTED_YEAR = 2050;
 
 export const NR_SYNC_HISTORY_ENTRIES = 20;
-export const NR_LOG_FILES = 50;
+export const NR_LOG_FILES = 100;
 
 export const MASTER_BRANCH = 'master';
 export const DEVELOP_BRANCH = 'develop';
