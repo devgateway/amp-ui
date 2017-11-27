@@ -129,6 +129,7 @@ export const COMPONENT_TYPE = 'component_type';
 export const COMPONENT_TITLE = 'component_title';
 export const COMPONENT_FUNDING = 'funding';
 export const COMPONENT_DESCRIPTION = 'description';
+export const COMPONENT_ORGANIZATION = 'component_organization';
 export const ACTIVE_LIST = 'active_list';
 export const FUNDING_AMOUNT_ID = 'amp_funding_amount_id';
 export const EXTRA_INFO = 'extra_info';
@@ -171,6 +172,7 @@ export const DEPENDENCY_PROJECT_CODE_ON_BUDGET = 'project_code_on_budget';
 export const DEPENDENCY_ON_BUDGET = 'on_budget';
 
 export const DEPENDENCY_TRANSACTION_PRESENT = 'transaction_present';
+export const DEPENDENCY_COMPONENT_FUNDING_ORG_VALID = 'component_funding_organization_valid';
 
 /** IDs for AP sections **/
 export const AP_SECTION_IDS =
