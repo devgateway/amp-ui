@@ -183,6 +183,7 @@ export const CONTACT = 'contact';
 export const ORGANIZATION_GROUP = 'organization_group';
 export const FIXED_EXCHANGE_RATE = 'fixed_exchange_rate';
 export const ACTIVITY_DOCUMENTS = 'activity_documents';
+export const DOCUMENT_TYPE = 'document_type';
 
 // Activity labels (usually those that don't come as part of Fields Def EP)
 export const SAME_AS_PROPOSED_START_DATE_LABEL = 'Same as Proposed Start Date';
