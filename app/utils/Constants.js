@@ -90,7 +90,6 @@ export const SYNCUP_TYPE_RESOURCES_PULL = 'resources';
 export const SYNCUP_TYPE_RESOURCES_PUSH = 'resources-push';
 export const SYNCUP_TYPE_RESOURCE_FIELDS = 'resource-fields';
 export const SYNCUP_TYPE_RESOURCE_POSSIBLE_VALUES = 'resource-possible-values-fields';
-
 export const SYNCUP_TYPE_WORKSPACE_SETTINGS = 'workspace-settings';
 export const SYNCUP_TYPE_FIELDS = 'fields';
 export const SYNCUP_TYPE_ACTIVITY_FIELDS = 'activity-fields';
