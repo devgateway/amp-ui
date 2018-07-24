@@ -127,6 +127,7 @@ export const
   TRANSPARENT_FLAG = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII=';
 export const HELP_PDF_FILENAME = 'amp-help';
 export const HELP_DIR = 'help';
+export const ENDS_WITH_PUNCTUATION_REGEX = /[.!?,;:]$/;
 
 export const MAP_TILES_DIR = 'map-tiles';
 export const TILES_ZIP_FILE = 'map-tiles.zip';
