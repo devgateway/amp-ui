@@ -31,6 +31,8 @@ export const ACTIVITY_DISBURSEMENTS_PLEDGES =
 export const ACTIVITY_EXPENDITURES_PLEDGES =
   '/Activity Form/Funding/Funding Group/Funding Item/Expenditures/Expenditures Table/Pledges';
 export const ACTIVITY_CONTACT = '/Activity Form/Contacts';
+export const ACTIVITY_DOCUMENTS_ADD_DOCUMENT = '/Activity Form/Related Documents/Add New Document';
+export const ACTIVITY_DOCUMENTS_ADD_WEBLINK = '/Activity Form/Related Documents/Add New Web Link';
 export const ACTIVITY_ISSUES_ADD_ISSUE = '/Activity Form/Issues Section/Add Issue';
 export const ACTIVITY_ISSUES_DELETE_ISSUE = '/Activity Form/Issues Section/Issue/Delete Item';
 export const ACTIVITY_ISSUES_ADD_MEASURE = '/Activity Form/Issues Section/Issue/Add Item';
