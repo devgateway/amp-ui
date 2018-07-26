@@ -43,6 +43,7 @@ export const COLLECTION_FIELDS = 'fields';
 export const COLLECTION_CONTACTS = 'contacts';
 export const COLLECTION_RESOURCES = 'resources';
 export const COLLECTION_REPOSITORY = 'repository';
+export const COLLECTION_GAZETTEER = 'gazetteer';
 
 export const DB_FILE_PREFIX = 'database';
 export const DB_FILE_EXTENSION = '.db';
