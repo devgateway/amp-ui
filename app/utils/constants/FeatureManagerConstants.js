@@ -30,6 +30,12 @@ export const ACTIVITY_DISBURSEMENTS_PLEDGES =
   '/Activity Form/Funding/Funding Group/Funding Item/Disbursements/Disbursements Table/Pledges';
 export const ACTIVITY_EXPENDITURES_PLEDGES =
   '/Activity Form/Funding/Funding Group/Funding Item/Expenditures/Expenditures Table/Pledges';
+export const ACTIVITY_COMMITMENTS_DISASTER_RESPONSE =
+  '/Activity Form/Funding/Funding Group/Funding Item/Commitments/Commitments Table/Disaster Response';
+export const ACTIVITY_DISBURSEMENTS_DISASTER_RESPONSE =
+  '/Activity Form/Funding/Funding Group/Funding Item/Disbursements/Disbursements Table/Disaster Response';
+export const ACTIVITY_EXPENDITURES_DISASTER_RESPONSE =
+  '/Activity Form/Funding/Funding Group/Funding Item/Expenditures/Expenditures Table/Disaster Response';
 export const ACTIVITY_CONTACT = '/Activity Form/Contacts';
 export const ACTIVITY_DOCUMENTS_ADD_DOCUMENT = '/Activity Form/Related Documents/Add New Document';
 export const ACTIVITY_DOCUMENTS_ADD_WEBLINK = '/Activity Form/Related Documents/Add New Web Link';
