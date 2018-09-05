@@ -171,6 +171,7 @@ export const DISBURSEMENT_ORDER_ID = 'disbursement_order_id';
 export const PLEDGE = 'pledge';
 export const CAPITAL_SPENDING_PERCENTAGE = 'capital_spending_percentage';
 export const RECIPIENT_ROLE = 'recipient_role';
+export const RECIPIENT_ORGANIZATION = 'recipient_organization';
 export const TEMPORAL_ID = '_temporal_id';
 export const MINISTRY_CODE = 'ministry_code';
 export const FY = 'fy';
