@@ -47,6 +47,16 @@ export const ACTIVITY_ISSUES_DELETE_MEASURE = '/Activity Form/Issues Section/Iss
 export const ACTIVITY_ISSUES_ADD_ACTOR = '/Activity Form/Issues Section/Issue/Measure/Add Item';
 export const ACTIVITY_ISSUES_DELETE_ACTOR = '/Activity Form/Issues Section/Issue/Measure/Actor/Delete Item';
 
+export const MTEF_PROJECTIONS = '/Activity Form/Funding/Funding Group/Funding Item/MTEF Projections';
+export const MTEF_PROJECTIONS_AMOUNT =
+  '/Activity Form/Funding/Funding Group/Funding Item/MTEF Projections/MTEF Projections Table/Amount';
+export const MTEF_PROJECTIONS_CURRENCY =
+  '/Activity Form/Funding/Funding Group/Funding Item/MTEF Projections/MTEF Projections Table/Currency';
+export const MTEF_PROJECTIONS_PROJECTION =
+  '/Activity Form/Funding/Funding Group/Funding Item/MTEF Projections/MTEF Projections Table/MTEF Projection';
+export const MTEF_PROJECTIONS_DATE =
+  '/Activity Form/Funding/Funding Group/Funding Item/MTEF Projections/MTEF Projections Table/Projection Date';
+
 export const ACTIVITY_DISBURSEMENTS_FUNDING_FLOWS_ORGROLE_RECIPIENT_ORGROLE =
   `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Disbursements/Disbursements Table/Funding Flows OrgRole Selector/Recipient Org Role`;
 export const ACTIVITY_DISBURSEMENTS_FUNDING_FLOWS_ORGROLE_RECIPIENT_ORGANIZATION =
