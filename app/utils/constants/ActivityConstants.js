@@ -193,6 +193,7 @@ export const ACTIVITY_DOCUMENTS = 'activity_documents';
 export const DOCUMENT_TYPE = 'document_type';
 export const MTEF_PROJECTIONS = 'mtef_projections';
 export const PROJECTION = 'projection';
+export const PIPELINE = 'pipeline';
 export const PROJECTION_DATE = 'projection_date';
 
 // Activity labels (usually those that don't come as part of Fields Def EP)
