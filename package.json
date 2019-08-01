@@ -16,7 +16,7 @@
     "test": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts tests/8.js --env=jsdom",
     "build": "rollup -c",
-    "start": "rollup -c -w",
+    "start": "rollup -c -w -m inline",
     "prepare": "npm run build",
     "lint": "eslint --ignore-path .gitignore --ignore-pattern libs/ --ext .jsx,.js --format=node_modules/eslint-formatter-pretty src *.js"
   },
