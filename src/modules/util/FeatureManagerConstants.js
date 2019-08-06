@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 /**
  * @author Nadejda Mandrescu
  */
@@ -50,25 +52,17 @@ export const ACTIVITY_FUNDING_SELECT_ORG_TYPE = `${ACTIVITY_FUNDING_SEARCH}/Sele
 
 export const ACTIVITY_PROGRAM = '/Activity Form/Program';
 export const ACTIVITY_PLANNING = '/Activity Form/Planning';
+
 export const ACTIVITY_CONTACT = '/Activity Form/Contacts';
 export const ACTIVITY_DOCUMENTS_ADD_DOCUMENT = '/Activity Form/Related Documents/Add New Document';
 export const ACTIVITY_DOCUMENTS_ADD_WEBLINK = '/Activity Form/Related Documents/Add New Web Link';
+
 export const ACTIVITY_ISSUES_ADD_ISSUE = '/Activity Form/Issues Section/Add Issue';
 export const ACTIVITY_ISSUES_DELETE_ISSUE = '/Activity Form/Issues Section/Issue/Delete Item';
 export const ACTIVITY_ISSUES_ADD_MEASURE = '/Activity Form/Issues Section/Issue/Add Item';
 export const ACTIVITY_ISSUES_DELETE_MEASURE = '/Activity Form/Issues Section/Issue/Measure/Delete Item';
 export const ACTIVITY_ISSUES_ADD_ACTOR = '/Activity Form/Issues Section/Issue/Measure/Add Item';
 export const ACTIVITY_ISSUES_DELETE_ACTOR = '/Activity Form/Issues Section/Issue/Measure/Actor/Delete Item';
-
-export const MTEF_PROJECTIONS = '/Activity Form/Funding/Funding Group/Funding Item/MTEF Projections';
-export const MTEF_PROJECTIONS_AMOUNT =
-  '/Activity Form/Funding/Funding Group/Funding Item/MTEF Projections/MTEF Projections Table/Amount';
-export const MTEF_PROJECTIONS_CURRENCY =
-  '/Activity Form/Funding/Funding Group/Funding Item/MTEF Projections/MTEF Projections Table/Currency';
-export const MTEF_PROJECTIONS_PROJECTION =
-  '/Activity Form/Funding/Funding Group/Funding Item/MTEF Projections/MTEF Projections Table/MTEF Projection';
-export const MTEF_PROJECTIONS_DATE =
-  '/Activity Form/Funding/Funding Group/Funding Item/MTEF Projections/MTEF Projections Table/Projection Date';
 
 export const ACTIVITY_DISBURSEMENTS_FUNDING_FLOWS_ORGROLE_ADD_IMPLEMENTING_AGENCY =
   `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Disbursements/Disbursements Table/Funding Flows OrgRole Selector/Add Implementing Agency`;
@@ -87,23 +81,6 @@ export const ACTIVITY_DISBURSEMENTS_FUNDING_FLOWS_ORGROLE_ADD_RESPONSIBLE_ORGANI
 export const ACTIVITY_DISBURSEMENTS_FUNDING_FLOWS_ORGROLE_ADD_SECTOR_GROUP =
   `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Disbursements/Disbursements Table/Funding Flows OrgRole Selector/Add Sector Group`;
 
-export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_IMPLEMENTING_AGENCY =
-    `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Implementing Agency`;
-export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_CONTRACTING_AGENCY =
-    `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Contracting Agency`;
-export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_BENEFICIARY_AGENCY =
-    `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Beneficiary Agency`;
-export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_DONOR_ORGANIZATION =
-    `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Donor Organization`;
-export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_EXECUTING_AGENCY =
-    `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Executing Agency`;
-export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_REGIONAL_GROUP =
-    `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Regional Group`;
-export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_RESPONSIBLE_ORGANIZATION =
-    `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Responsible Organization`;
-export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_SECTOR_GROUP =
-    `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Sector Group`;
-
 export const ACTIVITY_COMMITMENTS_FUNDING_FLOWS_ORGROLE_ADD_IMPLEMENTING_AGENCY =
   `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Commitments/Commitments Table/Funding Flows OrgRole Selector/Add Implementing Agency`;
 export const ACTIVITY_COMMITMENTS_FUNDING_FLOWS_ORGROLE_ADD_CONTRACTING_AGENCY =
@@ -120,3 +97,30 @@ export const ACTIVITY_COMMITMENTS_FUNDING_FLOWS_ORGROLE_ADD_RESPONSIBLE_ORGANIZA
   `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Commitments/Commitments Table/Funding Flows OrgRole Selector/Add Responsible Organization`;
 export const ACTIVITY_COMMITMENTS_FUNDING_FLOWS_ORGROLE_ADD_SECTOR_GROUP =
   `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Commitments/Commitments Table/Funding Flows OrgRole Selector/Add Sector Group`;
+
+export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_IMPLEMENTING_AGENCY =
+  `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Implementing Agency`;
+export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_CONTRACTING_AGENCY =
+  `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Contracting Agency`;
+export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_BENEFICIARY_AGENCY =
+  `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Beneficiary Agency`;
+export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_DONOR_ORGANIZATION =
+  `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Donor Organization`;
+export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_EXECUTING_AGENCY =
+  `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Executing Agency`;
+export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_REGIONAL_GROUP =
+  `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Regional Group`;
+export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_RESPONSIBLE_ORGANIZATION =
+  `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Responsible Organization`;
+export const ACTIVITY_EXPENDITURES_FUNDING_FLOWS_ORGROLE_ADD_SECTOR_GROUP =
+  `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/Expenditures/Expenditures Table/Funding Flows OrgRole Selector/Add Sector Group`;
+
+export const MTEF_PROJECTIONS = `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/MTEF Projections`;
+export const MTEF_PROJECTIONS_AMOUNT =
+  `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/MTEF Projections/MTEF Projections Table/Amount`;
+export const MTEF_PROJECTIONS_CURRENCY =
+  `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/MTEF Projections/MTEF Projections Table/Currency`;
+export const MTEF_PROJECTIONS_PROJECTION =
+  `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/MTEF Projections/MTEF Projections Table/MTEF Projection`;
+export const MTEF_PROJECTIONS_DATE =
+  `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/MTEF Projections/MTEF Projections Table/Projection Date`;
