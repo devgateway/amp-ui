@@ -1,4 +1,5 @@
 import * as FMC from './FeatureManagerConstants';
+import { capitalize } from '../Utils';
 
 /**
  * @author Nadejda Mandrescu
@@ -148,6 +149,7 @@ export const MEASURES = 'measures';
 export const MEASURE_NAME = 'name';
 export const MEASURE_DATE = 'measure_date';
 export const ACTORS = 'actors';
+export const ACTOR_NAME = 'name';
 export const STRUCTURES = 'structures';
 export const STRUCTURES_TITLE = 'title';
 export const STRUCTURES_DESCRIPTION = 'description';
@@ -161,21 +163,21 @@ export const STRUCTURES_POINT = 'Point';
 export const STRUCTURES_POLYGON = 'Polygon';
 export const STRUCTURES_POLYLINE = 'Polyline';
 export const STRUCTURES_COORDINATES = 'coordinates';
-export const ACTOR_NAME = 'name';
 export const COMPONENT_TYPE = 'component_type';
 export const COMPONENT_TITLE = 'component_title';
 export const COMPONENT_FUNDING = 'funding';
 export const COMPONENT_DESCRIPTION = 'description';
 export const COMPONENT_ORGANIZATION = 'component_organization';
-export const ACTIVE_LIST = 'active_list';
 export const FUNDING_AMOUNT_ID = 'amp_funding_amount_id';
 export const EXTRA_INFO = 'extra_info';
+export const VALUE = 'value';
 export const ACRONYM = 'acronym';
 export const TYPE_OF_COOPERATION = 'type_of_cooperation';
 export const ANNUAL_PROJECT_BUDGET_ID = 'annual_project_budget_id';
 export const TYPE = 'type';
 export const YEAR = 'year';
 export const GROUP_VERSIONED_FUNDING = 'group_versioned_funding';
+export const ACTIVE_LIST = 'active_list';
 export const ACTIVE = 'active';
 export const DELEGATED_COOPERATION = 'delegated_cooperation';
 export const DELEGATED_PARTNER = 'delegated_partner';
@@ -183,6 +185,7 @@ export const FINANCING_ID = 'financing_id';
 export const DISBURSEMENT_ORDER_ID = 'disbursement_order_id';
 export const PLEDGE = 'pledge';
 export const CAPITAL_SPENDING_PERCENTAGE = 'capital_spending_percentage';
+export const REPORTING_DATE = 'reporting_date';
 export const RECIPIENT_ROLE = 'recipient_role';
 export const RECIPIENT_ORGANIZATION = 'recipient_organization';
 export const TEMPORAL_ID = '_temporal_id';
@@ -192,7 +195,6 @@ export const FY = 'fy';
 export const INDIRECT_ON_BUDGET = 'indirect_on_budget';
 export const IMPLEMENTATION_LEVELS_EXTRA_INFO = 'implementation-levels';
 export const IMPLEMENTATION_LOCATION_EXTRA_INFO = 'implementation_location_name';
-export const REPORTING_DATE = 'reporting_date';
 export const DONOR_CONTACT = 'donor_contact_information';
 export const PROJECT_COORDINATOR_CONTACT = 'project_coordinator_contact_information';
 export const SECTOR_MINISTRY_CONTACT = 'sector_ministry_contact_information';
@@ -201,8 +203,10 @@ export const IMPLEMENTING_EXECUTING_AGENCY_CONTACT = 'implementing/executing_age
 export const CONTACT = 'contact';
 export const ORGANIZATION_GROUP = 'organization_group';
 export const FIXED_EXCHANGE_RATE = 'fixed_exchange_rate';
+export const PRIMARY_CONTACT = 'mark_as_primary';
 export const ACTIVITY_DOCUMENTS = 'activity_documents';
 export const DOCUMENT_TYPE = 'document_type';
+export const ISO2 = 'iso2';
 export const MTEF_PROJECTIONS = 'mtef_projections';
 export const PROJECTION = 'projection';
 export const PIPELINE = 'pipeline';
@@ -219,7 +223,6 @@ export const DEPENDENCY_IMPLEMENTATION_LOCATION_PRESENT = 'implementation_locati
 export const DEPENDENCY_IMPLEMENTATION_LOCATION_VALID = 'implementation_location_valid';
 export const DEPENDENCY_PROJECT_CODE_ON_BUDGET = 'project_code_on_budget';
 export const DEPENDENCY_ON_BUDGET = 'on_budget';
-
 export const DEPENDENCY_TRANSACTION_PRESENT = 'transaction_present';
 export const DEPENDENCY_COMPONENT_FUNDING_ORG_VALID = 'organization_present';
 
@@ -250,7 +253,6 @@ export const AP_SECTION_IDS =
     { key: 'APDocument', hash: '#APDocument', value: 'Related Documents', sectionPath: ACTIVITY_DOCUMENTS },
   ];
 
-
 /** Column counts for each section **/
 export const ACTIVITY_INTERNAL_IDS_COLS = 3;
 export const ACTIVITY_PLANNING_COLS = 2;
@@ -272,10 +274,8 @@ export function toFieldNames(listOfNames) {
  * @return {string}
  */
 export function toFieldName(name: string) {
-
   return name.toLowerCase().replace(' ', '_');
 }
-
 
 /**
  * Converts the internal field name to the Original non-translated label
@@ -285,5 +285,3 @@ export function toFieldName(name: string) {
 export function toOriginalLabel(fieldName: string) {
   return capitalize(fieldName.replace('_', ' '));
 }
-
-
