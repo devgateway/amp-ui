@@ -1,5 +1,4 @@
 import * as FMC from './FeatureManagerConstants';
-import { capitalize } from '../Utils';
 
 /**
  * @author Nadejda Mandrescu
@@ -286,6 +285,12 @@ export function toOriginalLabel(fieldName: string) {
   return capitalize(fieldName.replace('_', ' '));
 }
 
+// TODO: move again inside a shared Utils class because this is a copy from Utils.js
+export function capitalize(text: string) {
+  return text.replace(/(?:^|\s)\S/g, char => char.toUpperCase());
+}
+
+
 module.exports = Object.freeze({
   ACTIVITY_BUDGET,
   ACTIVITY_STATUS,
@@ -492,10 +497,8 @@ module.exports = Object.freeze({
   PROJECTION,
   PIPELINE,
   PROJECTION_DATE,
-
   SAME_AS_PROPOSED_START_DATE_LABEL,
   SAME_AS_PROPOSED_APPROVAL_DATE_LABEL,
-
   DEPENDENCY_IMPLEMENTATION_LEVEL_PRESENT,
   DEPENDENCY_IMPLEMENTATION_LEVEL_VALID,
   DEPENDENCY_IMPLEMENTATION_LOCATION_PRESENT,
@@ -504,16 +507,13 @@ module.exports = Object.freeze({
   DEPENDENCY_ON_BUDGET,
   DEPENDENCY_TRANSACTION_PRESENT,
   DEPENDENCY_COMPONENT_FUNDING_ORG_VALID,
-
   AP_SECTION_IDS,
-
   ACTIVITY_INTERNAL_IDS_COLS,
   ACTIVITY_PLANNING_COLS,
   ACTIVITY_LOCATION_COLS,
   ACTIVITY_FUNDING_COLS,
   ACTIVITY_CONTACT_COLS,
   AP_FUNDINGS_TABLE_COLS,
-
   MULTI_SELECT_MIN_SIZE,
   MULTI_SELECT_MAX_SIZE,
 });
