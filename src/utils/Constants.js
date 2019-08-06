@@ -1,10 +1,10 @@
-const pkg = require('../../package.json');
 
-export const BASE_URL = 'http://localhost:8080';
+
 export const SERVER_URL = '__SERVER_URL__';
-export const BASE_REST_URL= '/rest';
+export const BASE_REST_URL = '/rest';
 export const PROTOCOL = '__SERVER_PROTOCOL__';
 export const BASE_PORT = '__SERVER_PORT__';
+
 export const CONNECTION_TIMEOUT = 25000;
 export const CONNECTION_FORCED_TIMEOUT = CONNECTION_TIMEOUT + 5000;
 export const TIMEOUT_CHECK_INTERVAL = 5000;
@@ -18,29 +18,28 @@ export const WORKSPACE_URL = '/workspace';
 export const LOGIN_URL = '/';
 export const DESKTOP_URL = '/desktop';
 export const DESKTOP_CURRENT_URL = '/desktop/current';
+export const SYNCUP_REDIRECT_URL = '/syncUp/sync';
+export const SYNCUP_HISTORY_TARGET = 'history';
+export const SYNCUP_SUMMARY_URL = '/syncUpSummary';
 export const ACTIVITY_PREVIEW_URL = '/activity/preview';
 export const ACTIVITY_EDIT_URL = '/activity/edit';
 export const UPDATE_URL = '/update';
 export const SETUP_URL = '/setup';
 export const SETTINGS_URL = '/settings';
-export const SYNCUP_REDIRECT_URL = '/syncUp/sync';
-export const SYNCUP_HISTORY_TARGET = 'history';
-export const SYNCUP_SUMMARY_URL = '/syncUpSummary';
-
 
 export const COLLECTION_USERS = 'users';
 export const COLLECTION_WORKPACES = 'workspaces';
 export const COLLECTION_TEAMMEMBERS = 'teammembers';
 export const COLLECTION_CLIENT_SETTINGS = 'client-settings';
+export const COLLECTION_GLOBAL_SETTINGS = 'global-settings';
 export const COLLECTION_ACTIVITIES = 'activities';
+export const COLLECTION_FIELDS = 'fields';
 export const COLLECTION_POSSIBLE_VALUES = 'possible-values';
 export const COLLECTION_SYNCUP_LOG = 'syncup-log';
 export const COLLECTION_LANGS = 'languages';
 export const COLLECTION_WS_SETTINGS = 'workspace-settings';
 export const COLLECTION_CURRENCY_RATES = 'currency-rates';
 export const COLLECTION_FEATURE_MANAGER = 'feature-manager';
-export const COLLECTION_GLOBAL_SETTINGS = 'global-settings';
-export const COLLECTION_FIELDS = 'fields';
 export const COLLECTION_CONTACTS = 'contacts';
 export const COLLECTION_RESOURCES = 'resources';
 export const COLLECTION_REPOSITORY = 'repository';
@@ -92,6 +91,10 @@ export const SYNCUP_TYPE_WORKSPACE_MEMBERS = 'workspace-members';
 export const SYNCUP_TYPE_ALL_FIELDS = 'fields';
 export const SYNCUP_TYPE_ACTIVITIES_PULL = 'activities';
 export const SYNCUP_TYPE_ACTIVITIES_PUSH = 'activities-push';
+export const SYNCUP_TYPE_ACTIVITY_FIELDS = 'activity-fields';
+export const SYNCUP_TYPE_ACTIVITY_FIELDS_STRUCTURAL_CHANGES = 'activity-fields-structural-changes';
+export const SYNCUP_TYPE_CONTACTS_PULL = 'contacts';
+export const SYNCUP_TYPE_CONTACTS_PUSH = 'contacts-push';
 export const SYNCUP_TYPE_ACTIVITY_POSSIBLE_VALUES = 'activity-possible-values-fields';
 export const SYNCUP_TYPE_CONTACT_FIELDS = 'contact-fields';
 export const SYNCUP_TYPE_CONTACT_FIELDS_STRUCTURAL_CHANGES = 'contact-fields-structural-changes';
@@ -106,11 +109,7 @@ export const SYNCUP_TYPE_WORKSPACE_SETTINGS = 'workspace-settings';
 export const SYNCUP_TYPE_MAP_TILES = 'map-tiles';
 export const SYNCUP_TYPE_GAZETTEER = 'locators';
 export const SYNCUP_TYPE_CALENDARS = 'calendars';
-export const SYNCUP_TYPE_FIELDS = 'fields';
-export const SYNCUP_TYPE_ACTIVITY_FIELDS = 'activity-fields';
-export const SYNCUP_TYPE_ACTIVITY_FIELDS_STRUCTURAL_CHANGES = 'activity-fields-structural-changes';
-export const SYNCUP_TYPE_CONTACTS_PULL = 'contacts';
-export const SYNCUP_TYPE_CONTACTS_PUSH = 'contacts-push';
+
 export const SYNCUP_STATUS_SUCCESS = 'SUCCESS';
 export const SYNCUP_STATUS_FAIL = 'FAIL';
 export const SYNCUP_STATUS_PARTIAL = 'PARTIAL';
@@ -164,7 +163,6 @@ export const DG_ADDRESS_1 = '1110 Vermont Ave, NW, Suite 500';
 export const DG_ADDRESS_2 = 'Washington, DC 20005 USA';
 export const DG_CONTACT_INFO = 'info@developmentgateway.org, Tel: +1.202.572.9200, Fax: +1 202.572.9290';
 
-export const LOG_FILE = 'ampoffline.log';
 export const LOG_DIR = 'logs';
 export const LOG_FILE_NAME = 'ampoffline';
 export const LOG_FILE_EXTENSION = 'log';
@@ -185,6 +183,11 @@ export const INTERNAL_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
 export const MIN_SUPPORTED_YEAR = 1970;
 export const MAX_SUPPORTED_YEAR = 2050;
 
+export const UPDATES_DIR = 'updates';
+export const CONTENT_DISPOSITION_HEADER = 'Content-Disposition';
+export const UPDATE_TMP_FILE = 'amp-offline-installer.tmp';
+
+export const OTHER_ID = 999999999;
 export const NR_SYNC_HISTORY_ENTRIES = 20;
 export const NR_LOG_FILES = 100;
 // https://en.wikipedia.org/wiki/ISO_8601#Durations, example: "P1Y2M10DT2H30M"
@@ -197,8 +200,3 @@ export const RELEASE_BRANCH_REGEX = /release\//;
 export const RELEASE_BRANCHES = [MASTER_BRANCH, RELEASE_BRANCH_REGEX];
 
 export const DISABLE_CHANGELOGS = 'DISABLE_CHANGELOGS';
-export const UPDATES_DIR = 'updates';
-export const CONTENT_DISPOSITION_HEADER = 'Content-Disposition';
-export const UPDATE_TMP_FILE = 'amp-offline-installer.tmp';
-
-export const OTHER_ID = 999999999;
