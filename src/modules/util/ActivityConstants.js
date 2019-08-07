@@ -263,6 +263,7 @@ const AP_FUNDINGS_TABLE_COLS = 4;
 const MULTI_SELECT_MIN_SIZE = 8;
 const MULTI_SELECT_MAX_SIZE = 8;
 
+// TODO: move these functions to an Utils class.
 export function toFieldNames(listOfNames) {
   return listOfNames.map(name => toFieldName(name));
 }
@@ -290,8 +291,7 @@ export function capitalize(text: string) {
   return text.replace(/(?:^|\s)\S/g, char => char.toUpperCase());
 }
 
-
-module.exports = Object.freeze({
+export default Object.freeze({
   ACTIVITY_BUDGET,
   ACTIVITY_STATUS,
   STATUS_REASON,
