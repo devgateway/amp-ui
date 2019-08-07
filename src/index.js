@@ -1,7 +1,7 @@
 import TestAPField from './activityPreview/components/TestAPField';
 import TestingSection from './activityPreview/components/TestingSection';
-import CommonConstants from './commonFiles/CommonConstants';
+import Constants from './utils/Constants';
 
-export { TestAPField, TestingSection, CommonConstants };
+export { TestAPField, TestingSection, Constants };
 
-export default { TestAPField, TestingSection, CommonConstants };
+export default { TestAPField, TestingSection, Constants };
