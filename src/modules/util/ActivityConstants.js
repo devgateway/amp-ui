@@ -264,32 +264,32 @@ const MULTI_SELECT_MIN_SIZE = 8;
 const MULTI_SELECT_MAX_SIZE = 8;
 
 // TODO: move these functions to an Utils class.
-export function toFieldNames(listOfNames) {
+const toFieldNames = function (listOfNames) {
   return listOfNames.map(name => toFieldName(name));
-}
+};
 
 /**
  * Converts the original non-translated label to internal field name
  * @param name
  * @return {string}
  */
-export function toFieldName(name: string) {
+const toFieldName = function (name: string) {
   return name.toLowerCase().replace(' ', '_');
-}
+};
 
 /**
  * Converts the internal field name to the Original non-translated label
  * @param fieldName
  * @return {string}
  */
-export function toOriginalLabel(fieldName: string) {
+const toOriginalLabel = function (fieldName: string) {
   return capitalize(fieldName.replace('_', ' '));
-}
+};
 
 // TODO: move again inside a shared Utils class because this is a copy from Utils.js
-export function capitalize(text: string) {
+const capitalize = function (text: string) {
   return text.replace(/(?:^|\s)\S/g, char => char.toUpperCase());
-}
+};
 
 export default Object.freeze({
   ACTIVITY_BUDGET,
@@ -516,4 +516,8 @@ export default Object.freeze({
   AP_FUNDINGS_TABLE_COLS,
   MULTI_SELECT_MIN_SIZE,
   MULTI_SELECT_MAX_SIZE,
+  toFieldNames: toFieldNames,
+  toFieldName: toFieldName,
+  toOriginalLabel: toOriginalLabel,
+  capitalize: capitalize,
 });
