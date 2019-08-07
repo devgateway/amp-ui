@@ -1,4 +1,4 @@
-import * as FMC from './FeatureManagerConstants';
+import FMC from './FeatureManagerConstants';
 
 /**
  * @author Nadejda Mandrescu
@@ -516,8 +516,8 @@ export default Object.freeze({
   AP_FUNDINGS_TABLE_COLS,
   MULTI_SELECT_MIN_SIZE,
   MULTI_SELECT_MAX_SIZE,
-  toFieldNames: toFieldNames,
-  toFieldName: toFieldName,
-  toOriginalLabel: toOriginalLabel,
-  capitalize: capitalize,
+  toFieldNames,
+  toFieldName,
+  toOriginalLabel,
+  capitalize
 });
