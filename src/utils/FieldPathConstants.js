@@ -1,5 +1,5 @@
-import * as AC from './ActivityConstants';
-import * as FM from './FeatureManagerConstants';
+import * as AC from '../modules/util/ActivityConstants';
+import * as FM from '../modules/util/FeatureManagerConstants';
 import { ORG_ROLE_NAMES } from './ValueConstants';
 
 /**
