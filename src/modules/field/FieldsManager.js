@@ -1,10 +1,8 @@
 /* eslint-disable class-methods-use-this */
 import { LANGUAGE_ENGLISH } from '../../utils/Constants';
-import PossibleValuesManager from './PossibleValuesManager';
-import Logger from '../util/LoggerManager';
 import * as FPC from '../../utils/constants/FieldPathConstants';
 
-const logger = new Logger('Fields manager');
+let logger = null;
 
 /**
  * This is a helper class for checking fields status, getting field options translations and the like.
@@ -23,9 +21,10 @@ export default class FieldsManager {
     return newFieldsManager;
   }
 
-  constructor(fieldsDef, possibleValuesCollection, currentLanguage) {
+  constructor(fieldsDef, possibleValuesCollection, currentLanguage, LoggerManager) {
     // TODO remove cache
-    logger.log('constructor');
+    logger = new LoggerManager('Fields manager');
+    logger.debug('constructor');
     this._fieldsDef = fieldsDef;
     this._possibleValuesMap = {};
     possibleValuesCollection.forEach(pv => {
@@ -173,11 +172,11 @@ export default class FieldsManager {
     });
   }
 
-  getValue(object, fieldPath) {
-    return FieldsManager.getValue(object, fieldPath);
+  getValue(object, fieldPath, getOptionTranslation) {
+    return FieldsManager.getValue(object, fieldPath, getOptionTranslation);
   }
 
-  static getValue(object, fieldPath) {
+  static getValue(object, fieldPath, getOptionTranslation) {
     const parts = fieldPath ? fieldPath.split('~') : [];
     let value = object;
     parts.some(part => {
@@ -201,7 +200,7 @@ export default class FieldsManager {
         if (val.value === undefined) {
           return val;
         }
-        return PossibleValuesManager.getOptionTranslation(val, this._lang, this._defaultLang);
+        return getOptionTranslation(val, this._lang, this._defaultLang);
       });
       value = value instanceof Array ? values : values[0];
     }
