@@ -22,5 +22,7 @@ export default {
   FeatureManagerConstants,
   ErrorConstants,
   CurrencyRatesManager,
-  FieldsManager, FieldPathConstants, ValueConstants
+  FieldsManager,
+  FieldPathConstants,
+  ValueConstants
 };
