@@ -8,7 +8,10 @@ import FieldsManager from './modules/field/FieldsManager';
 import FieldPathConstants from './utils/FieldPathConstants';
 import ValueConstants from './utils/ValueConstants';
 
-export { TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants };
+export {
+  TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
+  FieldsManager, FieldPathConstants, ValueConstants
+};
 
 export default {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
