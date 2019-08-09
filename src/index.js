@@ -4,12 +4,14 @@ import Constants from './utils/Constants';
 import ActivityConstants from './modules/util/ActivityConstants';
 import FeatureManagerConstants from './modules/util/FeatureManagerConstants';
 import ErrorConstants from './utils/constants/ErrorConstants';
+import FieldsManager from './modules/field/FieldsManager';
+import FieldPathConstants from './utils/FieldPathConstants';
+import ValueConstants from './utils/ValueConstants';
 import CurrencyRatesManager from './modules/util/CurrencyRatesManager';
-
 
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
-  CurrencyRatesManager
+  CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants
 };
 
 export default {
@@ -19,5 +21,8 @@ export default {
   ActivityConstants,
   FeatureManagerConstants,
   ErrorConstants,
-  CurrencyRatesManager
+  CurrencyRatesManager,
+  FieldsManager,
+  FieldPathConstants,
+  ValueConstants
 };
