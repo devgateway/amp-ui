@@ -7,13 +7,20 @@ import ErrorConstants from './utils/constants/ErrorConstants';
 import FieldsManager from './modules/field/FieldsManager';
 import FieldPathConstants from './utils/FieldPathConstants';
 import ValueConstants from './utils/ValueConstants';
+import CurrencyRatesManager from './modules/util/CurrencyRatesManager';
 
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
-  FieldsManager, FieldPathConstants, ValueConstants
+  CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants
 };
 
 export default {
-  TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
+  TestAPField,
+  TestingSection,
+  Constants,
+  ActivityConstants,
+  FeatureManagerConstants,
+  ErrorConstants,
+  CurrencyRatesManager,
   FieldsManager, FieldPathConstants, ValueConstants
 };
