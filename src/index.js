@@ -4,7 +4,20 @@ import Constants from './utils/Constants';
 import ActivityConstants from './modules/util/ActivityConstants';
 import FeatureManagerConstants from './modules/util/FeatureManagerConstants';
 import ErrorConstants from './utils/constants/ErrorConstants';
+import CurrencyRatesManager from './modules/util/CurrencyRatesManager';
 
-export { TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants };
 
-export default { TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants };
+export {
+  TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
+  CurrencyRatesManager
+};
+
+export default {
+  TestAPField,
+  TestingSection,
+  Constants,
+  ActivityConstants,
+  FeatureManagerConstants,
+  ErrorConstants,
+  CurrencyRatesManager
+};
