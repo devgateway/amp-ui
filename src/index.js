@@ -5,11 +5,12 @@ import ActivityConstants from './modules/util/ActivityConstants';
 import FeatureManagerConstants from './modules/util/FeatureManagerConstants';
 import ErrorConstants from './utils/constants/ErrorConstants';
 import CurrencyRatesManager from './modules/util/CurrencyRatesManager';
+import FeatureManager from './modules/util/FeatureManager';
 
 
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
-  CurrencyRatesManager
+  CurrencyRatesManager, FeatureManager
 };
 
 export default {
@@ -19,5 +20,6 @@ export default {
   ActivityConstants,
   FeatureManagerConstants,
   ErrorConstants,
-  CurrencyRatesManager
+  CurrencyRatesManager,
+  FeatureManager
 };

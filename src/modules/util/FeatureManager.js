@@ -1,7 +1,8 @@
 /* eslint-disable class-methods-use-this */
-import Logger from './LoggerManager';
+// import Logger from './LoggerManager';
 
-const logger = new Logger('Feature manager');
+// const logger = new Logger('Feature manager');
+const FEATURE_MANAGER = 'Feature manager';
 
 /**
  * Feature Manager
@@ -10,14 +11,22 @@ const logger = new Logger('Feature manager');
 export default class FeatureManager {
   static _currentFM = new FeatureManager();
 
-  constructor(fmTree) {
+  constructor(fmTree, LoggerManager) {
     this._fmTree = fmTree;
+    this._loggerManager = new LoggerManager(FEATURE_MANAGER);
   }
 
   set fmTree(fmTree) {
     this._fmTree = fmTree;
   }
 
+  set loggerManager(LoggerManager) {
+    this._loggerManager = new LoggerManager(FEATURE_MANAGER);
+  }
+
+  static setLoggerManager(LoggerManager) {
+    FeatureManager._currentFM._loggerManager = new LoggerManager(FEATURE_MANAGER);
+  }
   static setFMTree(fmTree) {
     FeatureManager._currentFM.fmTree = fmTree;
   }
@@ -37,7 +46,7 @@ export default class FeatureManager {
   }
 
   isFMSettingEnabled(fmPath, onlyLastSegment) {
-    logger.debug('isFMSettingEnabled');
+    this._loggerManager.debug('isFMSettingEnabled');
     if (this._fmTree) {
       let lastFMSubTree = this._fmTree;
       const segments = this._getPathSegments(fmPath);
