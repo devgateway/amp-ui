@@ -1,7 +1,7 @@
 import * as FPC from '../../utils/FieldPathConstants';
 import FieldsManager from './FieldsManager';
-import * as C from '../../utils/Constants';
-import * as AC from '../util/ActivityConstants';
+import Constants from '../../utils/Constants';
+import ActivityConstants from '../util/ActivityConstants';
 import CurrencyRatesManager from '../util/CurrencyRatesManager';
 
 
@@ -11,8 +11,8 @@ import CurrencyRatesManager from '../util/CurrencyRatesManager';
  */
 export default class PossibleValuesManager {
   static _langState = {
-    lang: C.LANGUAGE_ENGLISH,
-    defaultLang: C.LANGUAGE_ENGLISH
+    lang: Constants.LANGUAGE_ENGLISH,
+    defaultLang: Constants.LANGUAGE_ENGLISH
   };
 
   static _logger;
@@ -36,8 +36,9 @@ export default class PossibleValuesManager {
   static buildHierarchicalData(options, selectedId) {
     const option = Object.assign({}, options[selectedId]);
     const valueParts = PossibleValuesManager.getHierarchicalValue(options, selectedId);
-    option[AC.HIERARCHICAL_VALUE] = PossibleValuesManager.formatValueParts(valueParts);
-    option[AC.HIERARCHICAL_VALUE_DEPTH] = (valueParts && valueParts instanceof Array) ? valueParts.length : 0;
+    option[ActivityConstants.HIERARCHICAL_VALUE] = PossibleValuesManager.formatValueParts(valueParts);
+    option[ActivityConstants.HIERARCHICAL_VALUE_DEPTH] = (valueParts && valueParts instanceof Array) ?
+      valueParts.length : 0;
     return option;
   }
 
@@ -71,7 +72,7 @@ export default class PossibleValuesManager {
       PossibleValuesManager._logger.error(`option is unspecified: ${option}`);
       return 0;
     }
-    let depth = option[AC.HIERARCHICAL_VALUE_DEPTH];
+    let depth = option[ActivityConstants.HIERARCHICAL_VALUE_DEPTH];
     if (depth === undefined) {
       // So far it is based on the current locations extra info approach
       if (option.parentId) {
@@ -80,7 +81,7 @@ export default class PossibleValuesManager {
       } else {
         depth = 0;
       }
-      option[AC.HIERARCHICAL_VALUE_DEPTH] = depth;
+      option[ActivityConstants.HIERARCHICAL_VALUE_DEPTH] = depth;
     }
     return depth;
   }

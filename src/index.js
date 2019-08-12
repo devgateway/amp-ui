@@ -13,7 +13,7 @@ import FeatureManager from './modules/util/FeatureManager';
 
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
-  CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager
+  CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager, FeatureManager
 };
 
 export default {
