@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FieldPathConstants, FieldsManager, FeatureManager } from 'amp-ui';
+import { FieldPathConstants, FieldsManager, FeatureManager, PossibleValuesManager } from 'amp-ui';
 import styles from '../ActivityPreview.css';
 import APField from '../components/APField';
 import ActivityFundingTotals from '../../../../modules/activity/ActivityFundingTotals';
