@@ -160,7 +160,7 @@ export default class PossibleValuesManager {
     return optionsList;
   }
 
-  constructor(LoggerManager) {
+  constructor(Logger) {
     logger = new Logger('Possible values manager');
   }
 
