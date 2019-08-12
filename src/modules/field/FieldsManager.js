@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import * as Constants from '../../utils/Constants';
+import Constants from '../../utils/Constants';
 import * as FPC from '../../utils/FieldPathConstants';
 
 let logger = null;

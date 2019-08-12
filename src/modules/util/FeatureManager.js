@@ -1,7 +1,4 @@
 /* eslint-disable class-methods-use-this */
-// import Logger from './LoggerManager';
-
-// const logger = new Logger('Feature manager');
 const FEATURE_MANAGER = 'Feature manager';
 
 /**
@@ -9,23 +6,24 @@ const FEATURE_MANAGER = 'Feature manager';
  * @author Nadejda Mandrescu
  */
 export default class FeatureManager {
+  // eslint-disable-next-line no-undef
   static _currentFM = new FeatureManager();
 
   constructor(fmTree, LoggerManager) {
     this._fmTree = fmTree;
-    this._loggerManager = new LoggerManager(FEATURE_MANAGER);
+    if (LoggerManager) {
+      this.loggerManager = LoggerManager;
+    }
   }
-
   set fmTree(fmTree) {
     this._fmTree = fmTree;
   }
-
   set loggerManager(LoggerManager) {
     this._loggerManager = new LoggerManager(FEATURE_MANAGER);
   }
 
   static setLoggerManager(LoggerManager) {
-    FeatureManager._currentFM._loggerManager = new LoggerManager(FEATURE_MANAGER);
+    FeatureManager._currentFM.loggerManager = LoggerManager;
   }
   static setFMTree(fmTree) {
     FeatureManager._currentFM.fmTree = fmTree;
