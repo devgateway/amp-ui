@@ -15,10 +15,12 @@ export const FUNDING_DETAILS_PATH = `${ActivityConstants.FUNDINGS}~${ActivityCon
  * @deprecated since 1.4
  */
 export const FUNDING_CURRENCY_PATH = `${FUNDING_DETAILS_PATH}~${ActivityConstants.CURRENCY}`;
-export const MTEF_CURRENCY_PATH = `${ActivityConstants.FUNDINGS}~${ActivityConstants.MTEF_PROJECTIONS}~${ActivityConstants.CURRENCY}`;
+export const MTEF_CURRENCY_PATH =
+  `${ActivityConstants.FUNDINGS}~${ActivityConstants.MTEF_PROJECTIONS}~${ActivityConstants.CURRENCY}`;
 export const PPC_CURRENCY_PATH = `${ActivityConstants.PPC_AMOUNT}~${ActivityConstants.CURRENCY}`;
 export const RPC_CURRENCY_PATH = `${ActivityConstants.RPC_AMOUNT}~${ActivityConstants.CURRENCY}`;
-export const COMPONENT_CURRENCY_PATH = `${ActivityConstants.COMPONENTS}~${ActivityConstants.COMPONENT_FUNDING}~${ActivityConstants.CURRENCY}`;
+export const COMPONENT_CURRENCY_PATH =
+  `${ActivityConstants.COMPONENTS}~${ActivityConstants.COMPONENT_FUNDING}~${ActivityConstants.CURRENCY}`;
 export const DISBURSEMENTS_PATH = `${ActivityConstants.FUNDINGS}~${ActivityConstants.DISBURSEMENTS}`;
 export const ACTIVITY_INTERNAL_IDS_INTERNAL_ID_PATH = 'activity_internal_ids~internal_id';
 export const ACTIVITY_INTERNAL_IDS_ORGANIZATION_PATH = 'activity_internal_ids~organization';
@@ -30,14 +32,17 @@ export const PRIMARY_SECTOR_PATH = 'primary_sectors~sector';
 export const SECONDARY_SECTOR_PATH = 'secondary_sectors~sector';
 export const TERTIARY_SECTOR_PATH = 'tertiary_sectors~sector';
 export const DONOR_ORGANIZATIONS_PATH = 'donor_organization~organization';
-export const RESPONSIBLE_ORGANIZATION_BUDGETS_PATH = `${ActivityConstants.RESPONSIBLE_ORGANIZATION}~${ActivityConstants.BUDGETS}`;
+export const RESPONSIBLE_ORGANIZATION_BUDGETS_PATH =
+  `${ActivityConstants.RESPONSIBLE_ORGANIZATION}~${ActivityConstants.BUDGETS}`;
 
 export const RELATED_ORGS_PATHS = ValueConstants.ORG_ROLE_NAMES.map(orgRole => ActivityConstants.toFieldName(orgRole));
 export const RELATED_ORGS_ORGANIZATION_PATHS = ValueConstants.ORG_ROLE_NAMES.map(
   orgRole => `${ActivityConstants.toFieldName(orgRole)}~${ActivityConstants.ORGANIZATION}`);
 
-export const RICH_TEXT_FIELDS = new Set([ActivityConstants.STATUS_REASON, ActivityConstants.OBJECTIVE, ActivityConstants.DESCRIPTION, ActivityConstants.PROJECT_COMMENTS,
-  ActivityConstants.LESSONS_LEARNED, ActivityConstants.PROJECT_IMPACT, ActivityConstants.ACTIVITY_SUMMARY, ActivityConstants.CONDITIONALITIES, ActivityConstants.PROJECT_MANAGEMENT, ActivityConstants.RESULTS,
+export const RICH_TEXT_FIELDS = new Set([ActivityConstants.STATUS_REASON, ActivityConstants.OBJECTIVE,
+  ActivityConstants.DESCRIPTION, ActivityConstants.PROJECT_COMMENTS, ActivityConstants.LESSONS_LEARNED,
+  ActivityConstants.PROJECT_IMPACT, ActivityConstants.ACTIVITY_SUMMARY, ActivityConstants.CONDITIONALITIES,
+  ActivityConstants.PROJECT_MANAGEMENT, ActivityConstants.RESULTS,
 ]);
 
 export const PATHS_WITH_TREE_STRUCTURE = new Set([NATIONAL_PLAN_OBJECTIVE_PATH, PRIMARY_PROGRAM_PATH,
@@ -47,13 +52,17 @@ export const PATHS_WITH_HIERARCHICAL_VALUES = new Set([NATIONAL_PLAN_OBJECTIVE_P
   SECONDARY_PROGRAM_PATH, PRIMARY_SECTOR_PATH, SECONDARY_SECTOR_PATH, TERTIARY_SECTOR_PATH, LOCATION_PATH]);
 
 export const ACTIVITY_CONTACT_PATHS = [ActivityConstants.DONOR_CONTACT, ActivityConstants.PROJECT_COORDINATOR_CONTACT,
-  ActivityConstants.SECTOR_MINISTRY_CONTACT, ActivityConstants.MOFED_CONTACT, ActivityConstants.IMPLEMENTING_EXECUTING_AGENCY_CONTACT];
+  ActivityConstants.SECTOR_MINISTRY_CONTACT, ActivityConstants.MOFED_CONTACT,
+  ActivityConstants.IMPLEMENTING_EXECUTING_AGENCY_CONTACT];
 
-export const TRANSACTION_TYPES = [ActivityConstants.COMMITMENTS, ActivityConstants.DISBURSEMENTS, ActivityConstants.EXPENDITURES];
+export const TRANSACTION_TYPES = [ActivityConstants.COMMITMENTS, ActivityConstants.DISBURSEMENTS,
+  ActivityConstants.EXPENDITURES];
 export const TRANSACTION_TYPES_ORDERED = TRANSACTION_TYPES;
 export const FUNDING_TRANSACTION_TYPES = [...TRANSACTION_TYPES, ActivityConstants.ESTIMATED_DISBURSEMENTS];
-export const ADJUSTMENT_TYPE_PATHS = FUNDING_TRANSACTION_TYPES.map(tt => `${ActivityConstants.FUNDINGS}~${tt}~${ActivityConstants.ADJUSTMENT_TYPE}`);
-export const FUNDING_CURRENCY_PATHS = TRANSACTION_TYPES.map(tt => `${ActivityConstants.FUNDINGS}~${tt}~${ActivityConstants.CURRENCY}`);
+export const ADJUSTMENT_TYPE_PATHS = FUNDING_TRANSACTION_TYPES.map(
+  tt => `${ActivityConstants.FUNDINGS}~${tt}~${ActivityConstants.ADJUSTMENT_TYPE}`);
+export const FUNDING_CURRENCY_PATHS = TRANSACTION_TYPES.map(
+  tt => `${ActivityConstants.FUNDINGS}~${tt}~${ActivityConstants.CURRENCY}`);
 
 export const PATHS_FOR_ACTIVITY_CURRENCY = [FUNDING_CURRENCY_PATH, MTEF_CURRENCY_PATH, COMPONENT_CURRENCY_PATH,
   PPC_CURRENCY_PATH, RPC_CURRENCY_PATH, ...FUNDING_CURRENCY_PATHS];
