@@ -8,10 +8,11 @@ import FieldsManager from './modules/field/FieldsManager';
 import FieldPathConstants from './utils/FieldPathConstants';
 import ValueConstants from './utils/ValueConstants';
 import CurrencyRatesManager from './modules/util/CurrencyRatesManager';
+import FeatureManager from './modules/util/FeatureManager';
 
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
-  CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants
+  CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, FeatureManager
 };
 
 export default {
@@ -24,5 +25,6 @@ export default {
   CurrencyRatesManager,
   FieldsManager,
   FieldPathConstants,
-  ValueConstants
+  ValueConstants,
+  FeatureManager
 };
