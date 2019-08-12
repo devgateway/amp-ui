@@ -4,7 +4,6 @@ import * as C from '../../utils/Constants';
 import * as AC from '../util/ActivityConstants';
 import CurrencyRatesManager from '../util/CurrencyRatesManager';
 
-let logger = null;
 
 /**
  * Possible Values manager that allows to fill in additional information and transformations
@@ -16,10 +15,15 @@ export default class PossibleValuesManager {
     defaultLang: C.LANGUAGE_ENGLISH
   };
 
+  static _logger;
+
   static setLangState(langState) {
     PossibleValuesManager._langState = langState;
   }
 
+  static setLogger(Logger) {
+    PossibleValuesManager._logger = new Logger('Possible values manager');
+  }
   static buildFormattedHierarchicalValues(options) {
     // TODO optimize
     const hOptions = {};
@@ -64,7 +68,7 @@ export default class PossibleValuesManager {
 
   static _fillHierarchicalDepth(options, option) {
     if (!option) {
-      logger.error(`option is unspecified: ${option}`);
+      PossibleValuesManager._logger.error(`option is unspecified: ${option}`);
       return 0;
     }
     let depth = option[AC.HIERARCHICAL_VALUE_DEPTH];
@@ -100,7 +104,7 @@ export default class PossibleValuesManager {
   }
 
   static setVisibility(options, fieldPath, currencyRatesManager: CurrencyRatesManager, filters, isORFilter = false,
-                       selectedId) {
+    selectedId) {
     const isLocations = FPC.LOCATION_PATH === fieldPath;
     const isCurrency = FPC.PATHS_FOR_CURRENCY.has(fieldPath);
     options = { ...options };
@@ -159,9 +163,4 @@ export default class PossibleValuesManager {
     }
     return optionsList;
   }
-
-  constructor(Logger) {
-    logger = new Logger('Possible values manager');
-  }
-
 }
