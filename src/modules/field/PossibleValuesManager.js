@@ -1,12 +1,10 @@
-import { HIERARCHICAL_VALUE, HIERARCHICAL_VALUE_DEPTH } from '../../utils/constants/ActivityConstants';
-import * as FPC from '../../utils/constants/FieldPathConstants';
-import Logger from '../util/LoggerManager';
+import * as FPC from '../../utils/FieldPathConstants';
 import FieldsManager from './FieldsManager';
-import PossibleValuesHelper from '../helpers/PossibleValuesHelper';
-import { LANGUAGE_ENGLISH } from '../../utils/Constants';
+import * as C from '../../utils/Constants';
+import * as AC from '../util/ActivityConstants';
 import CurrencyRatesManager from '../util/CurrencyRatesManager';
 
-const logger = new Logger('Possible values manager');
+let logger = null;
 
 /**
  * Possible Values manager that allows to fill in additional information and transformations
@@ -14,8 +12,8 @@ const logger = new Logger('Possible values manager');
  */
 export default class PossibleValuesManager {
   static _langState = {
-    lang: LANGUAGE_ENGLISH,
-    defaultLang: LANGUAGE_ENGLISH
+    lang: C.LANGUAGE_ENGLISH,
+    defaultLang: C.LANGUAGE_ENGLISH
   };
 
   static setLangState(langState) {
@@ -34,8 +32,8 @@ export default class PossibleValuesManager {
   static buildHierarchicalData(options, selectedId) {
     const option = Object.assign({}, options[selectedId]);
     const valueParts = PossibleValuesManager.getHierarchicalValue(options, selectedId);
-    option[HIERARCHICAL_VALUE] = PossibleValuesManager.formatValueParts(valueParts);
-    option[HIERARCHICAL_VALUE_DEPTH] = (valueParts && valueParts instanceof Array) ? valueParts.length : 0;
+    option[AC.HIERARCHICAL_VALUE] = PossibleValuesManager.formatValueParts(valueParts);
+    option[AC.HIERARCHICAL_VALUE_DEPTH] = (valueParts && valueParts instanceof Array) ? valueParts.length : 0;
     return option;
   }
 
@@ -69,7 +67,7 @@ export default class PossibleValuesManager {
       logger.error(`option is unspecified: ${option}`);
       return 0;
     }
-    let depth = option[HIERARCHICAL_VALUE_DEPTH];
+    let depth = option[AC.HIERARCHICAL_VALUE_DEPTH];
     if (depth === undefined) {
       // So far it is based on the current locations extra info approach
       if (option.parentId) {
@@ -78,7 +76,7 @@ export default class PossibleValuesManager {
       } else {
         depth = 0;
       }
-      option[HIERARCHICAL_VALUE_DEPTH] = depth;
+      option[AC.HIERARCHICAL_VALUE_DEPTH] = depth;
     }
     return depth;
   }
@@ -102,7 +100,7 @@ export default class PossibleValuesManager {
   }
 
   static setVisibility(options, fieldPath, currencyRatesManager: CurrencyRatesManager, filters, isORFilter = false,
-    selectedId) {
+                       selectedId) {
     const isLocations = FPC.LOCATION_PATH === fieldPath;
     const isCurrency = FPC.PATHS_FOR_CURRENCY.has(fieldPath);
     options = { ...options };
@@ -143,10 +141,10 @@ export default class PossibleValuesManager {
     return isActive && hasExchangeRates;
   }
 
-  static getTreeSortedOptionsList(optionsObj) {
+  static getTreeSortedOptionsList(optionsObj, reverseSortOptions) {
     const added = new Set();
     const optionsList = [];
-    const idsStack = Object.values(optionsObj).filter(o => !o.parentId).sort(PossibleValuesHelper.reverseSortOptions)
+    const idsStack = Object.values(optionsObj).filter(o => !o.parentId).sort(reverseSortOptions)
       .map(o => o.id);
     while (idsStack.length) {
       const id = idsStack.pop();
@@ -160,6 +158,10 @@ export default class PossibleValuesManager {
       }
     }
     return optionsList;
+  }
+
+  constructor(LoggerManager) {
+    logger = new Logger('Possible values manager');
   }
 
 }
