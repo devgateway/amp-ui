@@ -10,10 +10,12 @@ import ValueConstants from './utils/ValueConstants';
 import CurrencyRatesManager from './modules/util/CurrencyRatesManager';
 import PossibleValuesManager from './modules/field/PossibleValuesManager';
 import FeatureManager from './modules/util/FeatureManager';
+import APLabel from './components/activity/preview/components/APLabel.jsx';
 
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
-  CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager, FeatureManager
+  CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager, FeatureManager,
+  APLabel
 };
 
 export default {
@@ -27,5 +29,6 @@ export default {
   FieldsManager,
   FieldPathConstants,
   ValueConstants,
-  FeatureManager
+  FeatureManager,
+  APLabel
 };
