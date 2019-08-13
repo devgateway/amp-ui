@@ -23,7 +23,9 @@ export default class FieldsManager {
 
   constructor(fieldsDef, possibleValuesCollection, currentLanguage, LoggerManager) {
     // TODO remove cache
-    logger = new LoggerManager('Fields manager');
+    if (!logger) {
+      logger = new LoggerManager('Fields manager');
+    }
     logger.debug('constructor');
     this._fieldsDef = fieldsDef;
     this._possibleValuesMap = {};
