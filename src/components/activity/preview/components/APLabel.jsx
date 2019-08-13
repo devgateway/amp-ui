@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
-import translate from '../../../../utils/translate';
-import Logger from '../../../../modules/util/LoggerManager';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-const logger = new Logger('AP Label');
+let logger = null;
 
 export default class APLabel extends Component {
 
@@ -18,23 +16,26 @@ export default class APLabel extends Component {
 
   constructor(props) {
     super(props);
-    logger.log('constructor');
+    const { Logger } = this.props;
+    logger = new Logger('AP Label');
+    logger.debug('constructor');
   }
 
   getContent() {
+    const { translate } = this.props;
     const label = (this.props.dontTranslate === true ? this.props.label : translate(this.props.label));
     const labelClass = (this.props.labelClass ? this.props.labelClass : '');
-    return (<div className={labelClass} ><span>{label}</span>{this.props.separator ? <hr /> : ''}</div>);
+    return (<div className={labelClass}><span>{label}</span>{this.props.separator ? <hr /> : ''}</div>);
   }
 
   tooltip() {
-    const { tooltip, dontTranslate } = this.props;
-    return <Tooltip id="tooltip" >{dontTranslate ? tooltip : translate(this.props.tooltip)}</Tooltip>;
+    const { tooltip, dontTranslate, translate } = this.props;
+    return <Tooltip id="tooltip">{dontTranslate ? tooltip : translate(this.props.tooltip)}</Tooltip>;
   }
 
   render() {
     if (this.props.tooltip) {
-      return (<OverlayTrigger placement="right" overlay={this.tooltip()} >
+      return (<OverlayTrigger placement="right" overlay={this.tooltip()}>
         {this.getContent()}
       </OverlayTrigger>);
     } else {
