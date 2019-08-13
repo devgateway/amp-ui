@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import styles from '../ActivityPreview.css';
-import translate from '../../../../utils/translate';
-import Logger from '../../../../modules/util/LoggerManager';
+import styles from '../../../../tempActityPreview/ActivityPreview.css';
 
-const logger = new Logger('AP field');
+let logger = null;
 
 /**
  * Simple Field component that consists of a field title and field value
@@ -29,22 +27,27 @@ export default class APField extends Component {
    * @param separator add or not an <hr> tag.
    * @param nameClass css class for the field label
    * @param valueClass css class for the field value
+   * @param translate the translation function
+   * @param logger the LoggerManager
    * @return {SimpleField}
    */
-  static instance(trnLabel, value, inline = false, separator = false, nameClass, valueClass) {
+  static instance(trnLabel, value, inline = false, separator = false, nameClass, valueClass, translate, logger) {
     return (<APField
       key={trnLabel} title={translate(trnLabel)} value={value} inline={inline} separator={separator}
-      fieldNameClass={nameClass} fieldValueClass={valueClass} />);
+      fieldNameClass={nameClass} fieldValueClass={valueClass} translate={translate} Logger={logger} />);
   }
 
   constructor(props) {
     super(props);
+    const { Logger } = this.props;
+    logger = new Logger('AP field');
     logger.log('constructor');
     this.useSeparator = this.props.separator !== false;
     this.displayClass = this.props.fieldClass || (this.props.inline === true ? styles.inline : styles.block);
   }
 
   _getValue() {
+    const { translate } = this.props;
     const classNames = `${this.props.fieldValueClass} ${this.displayClass}`;
     // To handle boolean fields we dont want to show 'false' as 'No Data'.
     const value = (this.props.value || this.props.value === false) ? this.props.value : translate('No Data');
@@ -54,7 +57,8 @@ export default class APField extends Component {
         displayValue = [];
         value.forEach(v => displayValue.push(v));
       } else {
-        displayValue = value.sort().join(', ');
+        displayValue = value.sort()
+          .join(', ');
       }
     } else if (typeof value === 'boolean') {
       displayValue = value === true ? translate('Yes') : translate('No');
