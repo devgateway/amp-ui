@@ -15,8 +15,9 @@ export default class FieldsManager {
    * @param fieldsManager
    * @return {FieldsManager}
    */
-  static clone(fieldsManager: FieldsManager) {
-    const newFieldsManager = new FieldsManager([], []);
+  static clone(fieldsManager: FieldsManager, LoggerManager) {
+    const newFieldsManager = new FieldsManager([], [],undefined,
+      LoggerManager);
     Object.assign(newFieldsManager, fieldsManager);
     return newFieldsManager;
   }
