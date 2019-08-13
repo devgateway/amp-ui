@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from '../ActivityPreview.css';
-import Logger from '../../../../modules/util/LoggerManager';
-import * as Utils from '../../../../utils/Utils';
+import styles from '../../../../tempActityPreview/ActivityPreview.css';
 
-const logger = new Logger('tablify');
+let logger = null;
 
 /**
  * Component for converting content to table form
@@ -23,7 +21,7 @@ export default class Tablify extends Component {
    * @param content content for table
    * @param cols number of columns
    */
-  static addRows(content, cols) {
+  static addRows(content, cols, stringToUniqueId) {
     // Remove undefined cells.
     content = content.filter(c => c);
     // Decrease number of cols if we dont have enough elements.
@@ -36,19 +34,22 @@ export default class Tablify extends Component {
     for (let i = 0; i < rows; i++) {
       const rowContent = [];
       for (let j = 0; j < cols; j++) {
-        rowContent.push(<td key={Utils.stringToUniqueId()}>{content.pop()}</td>);
+        rowContent.push(<td key={stringToUniqueId()}>{content.pop()}</td>);
       }
-      tableContent.push(<tr key={Utils.stringToUniqueId()}>{rowContent}</tr>);
+      tableContent.push(<tr key={stringToUniqueId()}>{rowContent}</tr>);
     }
     return tableContent;
   }
 
   constructor(props) {
     super(props);
+    const { Logger } = this.props;
+    logger = new Logger('tablify');
     logger.log('constructor');
   }
 
   render() {
+    const { stringToUniqueId } = this.props;
     const columns = this.props.columns >= this.props.content.length ? this.props.content.length : this.props.columns;
     const cellWidth = `${(100 / columns)}%`;
     const cellwidthStyle = {
@@ -58,14 +59,14 @@ export default class Tablify extends Component {
     const tableContent = [];
     for (let i = 0; i < rows; i++) {
       const rowContent = [];
-      rowContent.push(<div key={Utils.stringToUniqueId()} style={cellwidthStyle} className={styles.tablify_outer_cell}>
+      rowContent.push(<div key={stringToUniqueId()} style={cellwidthStyle} className={styles.tablify_outer_cell}>
         {this.props.content.pop()}</div>);
       for (let j = 1; j < this.props.columns && this.props.content.length > 0; j++) {
-        const key = Utils.stringToUniqueId();
+        const key = stringToUniqueId();
         rowContent.push(<div key={key} style={cellwidthStyle} className={styles.tablify_inner_cell}>
           {this.props.content.pop()}</div>);
       }
-      tableContent.push(<div key={Utils.stringToUniqueId()} className={styles.flex}>{rowContent}</div>);
+      tableContent.push(<div key={stringToUniqueId()} className={styles.flex}>{rowContent}</div>);
     }
     return (<div>
       {tableContent}
