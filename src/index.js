@@ -10,7 +10,7 @@ import ValueConstants from './utils/ValueConstants';
 import CurrencyRatesManager from './modules/util/CurrencyRatesManager';
 import PossibleValuesManager from './modules/field/PossibleValuesManager';
 import FeatureManager from './modules/util/FeatureManager';
-import APLabel from './components/activity/preview/components/APLabel.jsx';
+import APLabel from './activity/preview/components/APLabel.jsx';
 
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
