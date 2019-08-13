@@ -15,17 +15,16 @@ export default class FieldsManager {
    * @param fieldsManager
    * @return {FieldsManager}
    */
-  static clone(fieldsManager: FieldsManager) {
-    const newFieldsManager = new FieldsManager([], []);
+  static clone(fieldsManager: FieldsManager, LoggerManager) {
+    const newFieldsManager = new FieldsManager([], [],undefined,
+      LoggerManager);
     Object.assign(newFieldsManager, fieldsManager);
     return newFieldsManager;
   }
 
   constructor(fieldsDef, possibleValuesCollection, currentLanguage, LoggerManager) {
     // TODO remove cache
-    if (!logger) {
-      logger = new LoggerManager('Fields manager');
-    }
+    logger = new LoggerManager('Fields manager');
     logger.debug('constructor');
     this._fieldsDef = fieldsDef;
     this._possibleValuesMap = {};
