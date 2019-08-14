@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from '../ActivityPreview.css';
-import Logger from '../../../../modules/util/LoggerManager';
-import * as Utils from '../../../../utils/Utils';
+import styles from '../../../../tempActityPreview/ActivityPreview.css';
 
-const logger = new Logger('tablify');
+let logger = null;
 
 /**
  * Component for converting content to table form
@@ -23,7 +21,7 @@ export default class Tablify extends Component {
    * @param content content for table
    * @param cols number of columns
    */
-  static addRows(content, cols) {
+  static addRows(content, cols, Utils) {
     // Remove undefined cells.
     content = content.filter(c => c);
     // Decrease number of cols if we dont have enough elements.
@@ -45,10 +43,13 @@ export default class Tablify extends Component {
 
   constructor(props) {
     super(props);
+    const { Logger } = this.props;
+    logger = new Logger('tablify');
     logger.log('constructor');
   }
 
   render() {
+    const { Utils } = this.props;
     const columns = this.props.columns >= this.props.content.length ? this.props.content.length : this.props.columns;
     const cellWidth = `${(100 / columns)}%`;
     const cellwidthStyle = {

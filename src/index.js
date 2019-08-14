@@ -12,11 +12,12 @@ import PossibleValuesManager from './modules/field/PossibleValuesManager';
 import FeatureManager from './modules/util/FeatureManager';
 import APLabel from './activity/preview/components/APLabel.jsx';
 import APField from './activity/preview/components/APField.jsx';
+import Tablify from './activity/preview/components/Tablify.jsx';
 
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
   CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager, FeatureManager,
-  APLabel, APField
+  APLabel, APField, Tablify
 };
 
 export default {
@@ -32,5 +33,6 @@ export default {
   ValueConstants,
   FeatureManager,
   APLabel,
-  APField
+  APField,
+  Tablify
 };
