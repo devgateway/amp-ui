@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import APField from './APField.jsx';
 import APPercentageField from './APPercentageField.jsx';
 import Tablify from './Tablify.jsx';
-import * as AC from '../../../modules/util/ActivityConstants';
+import ActivityConstants from '../../../modules/util/ActivityConstants';
 import FieldsManager from '../../../modules/field/FieldsManager';
 import styles from '../../../../tempActityPreview/ActivityPreview.css';
 import FeatureManager from '../../../modules/util/FeatureManager';
@@ -44,7 +44,9 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
       return this.props.getItemTitle(item);
     }
     const obj = item[valueField];
-    return obj[AC.HIERARCHICAL_VALUE] ? obj[AC.HIERARCHICAL_VALUE] : PossibleValuesManager.getOptionTranslation(obj);
+    return obj[ActivityConstants.HIERARCHICAL_VALUE] ?
+      obj[ActivityConstants.HIERARCHICAL_VALUE] :
+      PossibleValuesManager.getOptionTranslation(obj);
   }
 
   render() {
