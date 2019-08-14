@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import styles from '../ActivityPreview.css';
-import Logger from '../../../../modules/util/LoggerManager';
-import NumberUtils from '../../../../utils/NumberUtils';
+import styles from '../../../../tempActityPreview/ActivityPreview.css';
 
-const logger = new Logger('AP percentage field');
+let logger = null;
 
 /**
  * Percentage Field component
@@ -14,17 +12,22 @@ export default class APPercentageField extends Component {
     title: PropTypes.string.isRequired,
     value: PropTypes.number,
     titleClass: PropTypes.string,
-    valueClass: PropTypes.string
+    valueClass: PropTypes.string,
+    Logger: PropTypes.func.isRequired,
+    rawNumberToFormattedString: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
+    const { Logger } = this.props;
+    logger = new Logger('AP percentage field');
     logger.log('constructor');
   }
 
   render() {
+    const { rawNumberToFormattedString } = this.props;
     const percentage = this.props.value !== undefined && this.props.value !== null
-      ? `${NumberUtils.rawNumberToFormattedString(this.props.value, true)}%` : null;
+      ? `${rawNumberToFormattedString(this.props.value, true)}%` : null;
     return (<div>
       <span className={this.props.titleClass}>{this.props.title} </span>
       <span className={`${this.props.valueClass} ${styles.alignRight}`}>{percentage}</span>
