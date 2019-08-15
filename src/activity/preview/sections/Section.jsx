@@ -6,6 +6,7 @@ import FeatureManager from '../../../modules/util/FeatureManager';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 import APField from '../components/APField.jsx';
 import styles from '../ActivityPreview.css';
+import UIUtils from '../../../utils/UIUtils';
 
 let logger = null;
 
@@ -103,7 +104,7 @@ const Section = (ComposedSection, params) => class extends Component {
       if (showIfNotAvailable === true || (value !== undefined && value !== null)) {
         const useInnerHTML = FieldPathConstants.RICH_TEXT_FIELDS.has(path);
         return (<APField
-          key={params.Utils.stringToUniqueId(path)} title={title} value={value} useInnerHTML={useInnerHTML}
+          key={UIUtils.stringToUniqueId(path)} title={title} value={value} useInnerHTML={useInnerHTML}
           inline={inline}
           separator={false}
           fieldClass={options_.fieldClass || this.props.fieldClass}
