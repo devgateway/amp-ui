@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import FieldPathConstants from '../../../utils/FieldPathConstants';
+import FieldsManager from '../../../modules/field/FieldsManager';
+import FeatureManager from '../../../modules/util/FeatureManager';
+import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
+import APField from '../components/APField.jsx';
 import styles from '../ActivityPreview.css';
-import APField from '../components/APField';
-import FieldsManager from '../../../../modules/field/FieldsManager';
-import ActivityFundingTotals from '../../../../modules/activity/ActivityFundingTotals';
-import FeatureManager from '../../../../modules/util/FeatureManager';
-import * as FPC from '../../../../utils/constants/FieldPathConstants';
-import translate from '../../../../utils/translate';
-import Logger from '../../../../modules/util/LoggerManager';
-import DateUtils from '../../../../utils/DateUtils';
-import * as Utils from '../../../../utils/Utils';
+import UIUtils from '../../../utils/UIUtils';
 
-const logger = new Logger('AP section');
+let logger = null;
 
 /**
  * Generic activity preview section class
  * @author Nadejda Mandrescu
  */
-const Section = (ComposedSection, SectionTitle = null, useEncapsulateHeader = true, sID) => class extends Component {
+// const Section = (ComposedSection, SectionTitle = null, useEncapsulateHeader = true, sID) => class extends Component {
+const Section = (ComposedSection, params) => class extends Component {
   static propTypes = {
     titleDetails: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     sectionPath: PropTypes.string,
@@ -35,7 +33,8 @@ const Section = (ComposedSection, SectionTitle = null, useEncapsulateHeader = tr
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
     contactFieldsManager: PropTypes.instanceOf(FieldsManager),
     contactsByIds: PropTypes.object.isRequired,
-    activityFundingTotals: PropTypes.instanceOf(ActivityFundingTotals).isRequired,
+    activityFundingTotals: PropTypes.object.isRequired, // Will change this if ActivityFundingTotals is migrated
+    // PropTypes.instanceOf(params.ActivityFundingTotals).isRequired,
     activityWorkspace: PropTypes.object.isRequired,
     activityWSManager: PropTypes.object.isRequired,
     resourceReducer: PropTypes.object.isRequired,
@@ -50,6 +49,8 @@ const Section = (ComposedSection, SectionTitle = null, useEncapsulateHeader = tr
 
   constructor(props) {
     super(props);
+    params.useEncapsulateHeader = !params.useEncapsulateHeader ? true : params.useEncapsulateHeader;
+    logger = new params.Logger('AP section');
     logger.debug('constructor');
   }
 
@@ -67,7 +68,7 @@ const Section = (ComposedSection, SectionTitle = null, useEncapsulateHeader = tr
   buildSimpleField(path, showIfNotAvailable, NAOptions: Set, inline = false, parent = null, fieldsManager = null
     , options) {
     const options_ = options || {};
-    const fmPath = FPC.ACTIVITY_FIELDS_FM_PATH[path];
+    const fmPath = FieldPathConstants.ACTIVITY_FIELDS_FM_PATH[path];
     fieldsManager = fieldsManager || this.context.activityFieldsManager;
     if (fieldsManager.isFieldPathEnabled(path)
       && (!fmPath || FeatureManager.isFMSettingEnabled(fmPath, false))) {
@@ -77,17 +78,19 @@ const Section = (ComposedSection, SectionTitle = null, useEncapsulateHeader = tr
         const fieldPathParts = path.split('~');
         valuePath = fieldPathParts[fieldPathParts.length - 1];
       }
-      const alternatePath = FPC.ALTERNATE_VALUE_PATH[valuePath];
-      let value = fieldsManager.getValue(parent || this.context.activity, valuePath);
+      const alternatePath = FieldPathConstants.ALTERNATE_VALUE_PATH[valuePath];
+      let value = fieldsManager.getValue(parent || this.context.activity, valuePath,
+        PossibleValuesManager.getOptionTranslation);
       if ((value === null || value === undefined) && alternatePath) {
-        value = fieldsManager.getValue(this.context.activity, alternatePath);
+        value = fieldsManager.getValue(this.context.activity, alternatePath,
+          PossibleValuesManager.getOptionTranslation);
       }
       const fieldDef = fieldsManager.getFieldDef(path);
-      if (fieldDef.field_type === FPC.FIELD_TYPE_DATE) {
-        value = DateUtils.createFormattedDate(value);
-      } else if (fieldDef.field_type === FPC.FIELD_TYPE_TIMESTAMP) {
+      if (fieldDef.field_type === FieldPathConstants.FIELD_TYPE_DATE) {
+        value = params.DateUtils.createFormattedDate(value);
+      } else if (fieldDef.field_type === FieldPathConstants.FIELD_TYPE_TIMESTAMP) {
         // matching AP online to format as date for now
-        value = DateUtils.createFormattedDate(value);
+        value = params.DateUtils.createFormattedDate(value);
       } else if (Array.isArray(value) && !value.length) {
         value = null;
       }
@@ -96,16 +99,18 @@ const Section = (ComposedSection, SectionTitle = null, useEncapsulateHeader = tr
       const re = /^\s?$/; // check for whitespace
       if (re.test(value)) value = value.trim(); // check for whitespace
       if (value === '' || value === null) {
-        value = translate('No Data');
+        value = params.translate('No Data');
       }
       if (showIfNotAvailable === true || (value !== undefined && value !== null)) {
-        const useInnerHTML = FPC.RICH_TEXT_FIELDS.has(path);
+        const useInnerHTML = FieldPathConstants.RICH_TEXT_FIELDS.has(path);
         return (<APField
-          key={Utils.stringToUniqueId(path)} title={title} value={value} useInnerHTML={useInnerHTML} inline={inline}
+          key={UIUtils.stringToUniqueId(path)} title={title} value={value} useInnerHTML={useInnerHTML}
+          inline={inline}
           separator={false}
           fieldClass={options_.fieldClass || this.props.fieldClass}
           fieldNameClass={this.props.fieldNameClass}
-          fieldValueClass={options_.fieldValueClass || this.props.fieldValueClass} />);
+          fieldValueClass={options_.fieldValueClass || this.props.fieldValueClass}
+          translate={params.translate} Logger={params.Logger} />);
       }
     }
   }
@@ -119,13 +124,13 @@ const Section = (ComposedSection, SectionTitle = null, useEncapsulateHeader = tr
     }
     const composedSection = (<ComposedSection
       {...this.props} {...this.state} {...this.context} buildSimpleField={this.buildSimpleField.bind(this)} />);
-    if (useEncapsulateHeader === false) {
+    if (params.useEncapsulateHeader === false) {
       return composedSection;
     }
     // TODO iteration 2+ section toggle (TDC based on desgin + VG)
-    return (<div key={SectionTitle} className={this.props.groupClass} id={sID}>
+    return (<div key={params.SectionTitle} className={this.props.groupClass} id={params.sID}>
       <div className={this.props.titleClass}>
-        <span>{translate(SectionTitle)} </span><span>{this.props.titleDetails}</span>
+        <span>{params.translate(params.SectionTitle)} </span><span>{this.props.titleDetails}</span>
       </div>
       <div className={this.props.composedClass}>
         {composedSection}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from '../../../../tempActityPreview/ActivityPreview.css';
+import styles from '../ActivityPreview.css';
 import UIUtils from '../../../utils/UIUtils';
 
 let logger = null;

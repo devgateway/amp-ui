@@ -5,7 +5,7 @@ import APPercentageField from './APPercentageField.jsx';
 import Tablify from './Tablify.jsx';
 import ActivityConstants from '../../../modules/util/ActivityConstants';
 import FieldsManager from '../../../modules/field/FieldsManager';
-import styles from '../../../../tempActityPreview/ActivityPreview.css';
+import styles from '../ActivityPreview.css';
 import FeatureManager from '../../../modules/util/FeatureManager';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 import UIUtils from '../../../utils/UIUtils';
