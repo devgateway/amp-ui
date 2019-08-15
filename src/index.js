@@ -15,11 +15,12 @@ import APField from './activity/preview/components/APField.jsx';
 import Tablify from './activity/preview/components/Tablify.jsx';
 import APPercentageField from './activity/preview/components/APPercentageField.jsx';
 import APPercentageList from './activity/preview/components/APPercentageList.jsx';
+import UIUtils from './utils/UIUtils';
 
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
   CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager, FeatureManager,
-  APLabel, APField, Tablify, APPercentageField, APPercentageList
+  APLabel, APField, Tablify, APPercentageField, APPercentageList, UIUtils
 };
 
 export default {
@@ -38,5 +39,6 @@ export default {
   APField,
   Tablify,
   APPercentageField,
-  APPercentageList
+  APPercentageList,
+  UIUtils
 };
