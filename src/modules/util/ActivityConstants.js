@@ -1,4 +1,5 @@
 import FMC from './FeatureManagerConstants';
+import UIUtils from '../../utils/UIUtils';
 
 /**
  * @author Nadejda Mandrescu
@@ -283,12 +284,7 @@ const toFieldName = function (name: string) {
  * @return {string}
  */
 const toOriginalLabel = function (fieldName: string) {
-  return capitalize(fieldName.replace('_', ' '));
-};
-
-// TODO: move again inside a shared Utils class because this is a copy from Utils.js
-const capitalize = function (text: string) {
-  return text.replace(/(?:^|\s)\S/g, char => char.toUpperCase());
+  return UIUtils.capitalize(fieldName.replace('_', ' '));
 };
 
 export default Object.freeze({
@@ -519,5 +515,4 @@ export default Object.freeze({
   toFieldNames,
   toFieldName,
   toOriginalLabel,
-  capitalize
 });

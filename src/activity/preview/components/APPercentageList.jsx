@@ -8,6 +8,7 @@ import FieldsManager from '../../../modules/field/FieldsManager';
 import styles from '../ActivityPreview.css';
 import FeatureManager from '../../../modules/util/FeatureManager';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
+import UIUtils from '../../../utils/UIUtils';
 
 let logger = null;
 
@@ -28,7 +29,6 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     fmPath: PropTypes.string,
     getItemTitle: PropTypes.func,
     Logger: PropTypes.func.isRequired,
-    Utils: PropTypes.object.isRequired,
     translate: PropTypes.func.isRequired
   };
 
@@ -51,7 +51,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
 
   render() {
     const {
-      translate, Utils, activityFieldsManager, percentTitleClass, fmPath, activity, columns, tablify
+      translate, activityFieldsManager, percentTitleClass, fmPath, activity, columns, tablify
       , percentValueClass, fieldNameClass, fieldValueClass, Logger, rawNumberToFormattedString
     } = this.props;
     const title = listTitle ? translate(listTitle) : null;
@@ -70,12 +70,12 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
           .sort((a, b) => a.itemTitle.localeCompare(b.itemTitle));
         content = items.map(({ itemTitle, percentage }) =>
           <APPercentageField
-            key={Utils.stringToUniqueId(itemTitle)} title={itemTitle} value={percentage}
+            key={UIUtils.stringToUniqueId(itemTitle)} title={itemTitle} value={percentage}
             titleClass={percentTitleClass} valueClass={percentValueClass} translate={translate}
             Logger={Logger} rawNumberToFormattedString={rawNumberToFormattedString} />
         );
         if (tablify) {
-          content = <Tablify content={content} columns={columns} Logger={Logger} Utils={Utils} />;
+          content = <Tablify content={content} columns={columns} Logger={Logger} />;
         }
         content = (<APField
           key={listField} title={title} value={content} separator={false} inline={tablify === true}
