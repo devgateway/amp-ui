@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import styles from '../../../../tempActityPreview/ActivityPreview.css';
+import styles from '../ActivityPreview.css';
 
 let logger = null;
 
