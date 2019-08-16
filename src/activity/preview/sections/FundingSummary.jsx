@@ -26,7 +26,7 @@ class FundingSummary extends Component {
     activityFundingTotals: PropTypes.object.isRequired, // PropTypes.instanceOf(ActivityFundingTotals).isRequired,
     fieldNameClass: PropTypes.string,
     fieldValueClass: PropTypes.string,
-    Logger: PropTypes.object.isRequired,
+    Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired
   };

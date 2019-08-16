@@ -5,8 +5,8 @@ import FieldsManager from '../../../modules/field/FieldsManager';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 import APField from '../components/APField.jsx';
 import Section from './Section.jsx';
-import * as WSC from '../../../utils/constants/WorkspaceConstants';
-import * as UC from '../../../utils/constants/UserConstants';
+import WorkspaceConstants from '../../../utils/constants/WorkspaceConstants';
+import UserConstants from '../../../utils/constants/UserConstants';
 
 let logger = null;
 
@@ -23,9 +23,8 @@ class AdditionalInfo extends Component {
     fieldNameClass: PropTypes.string,
     fieldValueClass: PropTypes.string,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
-    Logger: PropTypes.object.isRequired,
-    translate: PropTypes.func.isRequired,
-    DateUtils: PropTypes.func.isRequired,
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -40,30 +39,34 @@ class AdditionalInfo extends Component {
     if (!activityWSManager) {
       return null;
     }
-    return `${activityWSManager[UC.FIRST_NAME]} ${activityWSManager[UC.LAST_NAME]} ${activityWSManager[UC.EMAIL]}`;
+    return `${activityWSManager[UserConstants.FIRST_NAME]} ${activityWSManager[UserConstants.LAST_NAME]} ${activityWSManager[UserConstants.EMAIL]}`;
   }
 
   _buildAdditionalInfo() {
+    const {
+      translate, activityWorkspace, activityFieldsManager, buildSimpleField,
+      fieldNameClass, fieldValueClass, activity, Logger
+    } = this.props;
     const additionalInfo = [];
-    const teamName = this.props.activityFieldsManager.getValue(this.props.activity, ActivityConstants.TEAM,
+    const teamName = activityFieldsManager.getValue(activity, ActivityConstants.TEAM,
       PossibleValuesManager.getOptionTranslation);
     // no need to export repeating translation for the access type through workspaces EP
-    const accessType = translate(this.props.activityWorkspace[WSC.ACCESS_TYPE]);
-    const isComputedTeam = this.props.activityWorkspace[WSC.IS_COMPUTED] === true ? translate('Yes') : translate('No');
+    const accessType = translate(activityWorkspace[WorkspaceConstants.ACCESS_TYPE]);
+    const isComputedTeam = activityWorkspace[WorkspaceConstants.IS_COMPUTED] === true ? translate('Yes') : translate('No');
 
     // TODO: the right value as defined in AMP-25403 will be shown after AMP-26295.
-    additionalInfo.push(this.props.buildSimpleField(ActivityConstants.CREATED_BY, true));
-    additionalInfo.push(this.props.buildSimpleField(ActivityConstants.CREATED_ON, true));
-    additionalInfo.push(this.props.buildSimpleField(ActivityConstants.MODIFIED_BY, true));
-    additionalInfo.push(this.props.buildSimpleField(ActivityConstants.MODIFIED_ON, true));
+    additionalInfo.push(buildSimpleField(ActivityConstants.CREATED_BY, true));
+    additionalInfo.push(buildSimpleField(ActivityConstants.CREATED_ON, true));
+    additionalInfo.push(buildSimpleField(ActivityConstants.MODIFIED_BY, true));
+    additionalInfo.push(buildSimpleField(ActivityConstants.MODIFIED_ON, true));
     additionalInfo.push(APField.instance('createdInWorkspace', `${teamName} - ${accessType}`,
-      false, false, this.props.fieldNameClass, this.props.fieldValueClass, translate, Logger));
+      false, false, fieldNameClass, fieldValueClass, translate, Logger));
 
     additionalInfo.push(APField.instance('workspaceManager', this._getWorkspaceLeadData(),
-      false, false, this.props.fieldNameClass, this.props.fieldValueClass, translate, Logger));
+      false, false, fieldNameClass, fieldValueClass, translate, Logger));
 
     additionalInfo.push(APField.instance('computation', isComputedTeam,
-      false, false, this.props.fieldNameClass, this.props.fieldValueClass, translate, Logger));
+      false, false, fieldNameClass, fieldValueClass, translate, Logger));
 
     return additionalInfo;
   }
@@ -75,8 +78,5 @@ class AdditionalInfo extends Component {
 }
 
 export default Section(AdditionalInfo, {
-  SectionTitle: 'additionalInfo',
-  Logger,
-  translate,
-  DateUtils
+  SectionTitle: 'additionalInfo'
 });
