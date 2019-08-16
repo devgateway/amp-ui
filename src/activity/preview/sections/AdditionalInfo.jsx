@@ -1,10 +1,14 @@
-import React, { Component, PropTypes } from 'react';
-import Section from './Section';
-import APField from '../components/APField';
-import * as AC from '../../../../utils/constants/ActivityConstants';
-import translate from '../../../../utils/translate';
-import LoggerManager from '../../../../modules/util/LoggerManager';
-import DateUtils from '../../../../utils/DateUtils';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import ActivityConstants from '../../../modules/util/ActivityConstants';
+import FieldsManager from '../../../modules/field/FieldsManager';
+import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
+import APField from '../components/APField.jsx';
+import Section from './Section.jsx';
+import * as WSC from '../../../utils/constants/WorkspaceConstants';
+import * as UC from '../../../utils/constants/UserConstants';
+
+let logger = null;
 
 /**
  * Additional Info summary section
@@ -13,64 +17,66 @@ import DateUtils from '../../../../utils/DateUtils';
 class AdditionalInfo extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
-    activityWorkspace: PropTypes.object.isRequired
+    activityWorkspace: PropTypes.object.isRequired,
+    activityWSManager: PropTypes.object.isRequired,
+    buildSimpleField: PropTypes.func.isRequired,
+    fieldNameClass: PropTypes.string,
+    fieldValueClass: PropTypes.string,
+    activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
+    Logger: PropTypes.object.isRequired,
+    translate: PropTypes.func.isRequired,
+    DateUtils: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-    LoggerManager.log('constructor');
+    const { Logger } = this.props;
+    logger = new Logger('AP Additional info');
+    logger.debug('constructor');
   }
 
   _getWorkspaceLeadData() {
-    return this.props.activityWorkspace['workspace-lead-id'];
-    let wsLead = this.props.activityWorkspace['workspace-lead-id'];
-    if (wsLead) {
-      const options = this.props.activityFieldsManager.possibleValuesMap[AC.CREATED_BY];
-      const option = PossibleValuesManager.findOption(options, wsLead);
-      wsLead = option ? option.value : wsLead;
+    const { activityWSManager } = this.props;
+    if (!activityWSManager) {
+      return null;
     }
-    return wsLead;
+    return `${activityWSManager[UC.FIRST_NAME]} ${activityWSManager[UC.LAST_NAME]} ${activityWSManager[UC.EMAIL]}`;
   }
 
   _buildAdditionalInfo() {
     const additionalInfo = [];
-    const teamName = this.props.activityFieldsManager.getValueTranslation(AC.TEAM, this.props.activityWorkspace.name);
+    const teamName = this.props.activityFieldsManager.getValue(this.props.activity, ActivityConstants.TEAM,
+      PossibleValuesManager.getOptionTranslation);
     // no need to export repeating translation for the access type through workspaces EP
-    const accessType = translate(this.props.activityWorkspace['access-type']);
-    const isComputedTeam = this.props.activityWorkspace['is-computed'] === true ? translate('Yes') : translate('No');
-    const updatedOn = this.props.activity[AC.CLIENT_UPDATED_ON] || this.props.activity[AC.MODIFIED_ON];
-    additionalInfo.push(APField.instance('activityCreatedBy', this.props.activity[AC.CREATED_BY].value,
-      this.props.fieldNameClass, this.props.fieldValueClass));
+    const accessType = translate(this.props.activityWorkspace[WSC.ACCESS_TYPE]);
+    const isComputedTeam = this.props.activityWorkspace[WSC.IS_COMPUTED] === true ? translate('Yes') : translate('No');
+
+    // TODO: the right value as defined in AMP-25403 will be shown after AMP-26295.
+    additionalInfo.push(this.props.buildSimpleField(ActivityConstants.CREATED_BY, true));
+    additionalInfo.push(this.props.buildSimpleField(ActivityConstants.CREATED_ON, true));
+    additionalInfo.push(this.props.buildSimpleField(ActivityConstants.MODIFIED_BY, true));
+    additionalInfo.push(this.props.buildSimpleField(ActivityConstants.MODIFIED_ON, true));
     additionalInfo.push(APField.instance('createdInWorkspace', `${teamName} - ${accessType}`,
-      this.props.fieldNameClass, this.props.fieldValueClass));
+      false, false, this.props.fieldNameClass, this.props.fieldValueClass, translate, Logger));
+
+    additionalInfo.push(APField.instance('workspaceManager', this._getWorkspaceLeadData(),
+      false, false, this.props.fieldNameClass, this.props.fieldValueClass, translate, Logger));
+
     additionalInfo.push(APField.instance('computation', isComputedTeam,
-      this.props.fieldNameClass, this.props.fieldValueClass));
+      false, false, this.props.fieldNameClass, this.props.fieldValueClass, translate, Logger));
 
-    additionalInfo.push(APField.instance('activityCreatedBy', this.props.activity[AC.CREATED_BY]).value);
-    additionalInfo.push(APField.instance('createdInWorkspace', `${teamName} - ${accessType}`));
-    additionalInfo.push(APField.instance('computation', isComputedTeam));
-    additionalInfo.push(APField.instance('activityCreatedOn', DateUtils.createFormattedDate(this.props.activity[AC.CLIENT_CREATED_ON])));
-    if (updatedOn && this.props.activityFieldsManager.isFieldPathEnabled(AC.MODIFIED_ON)) {
-      additionalInfo.push(APField.instance('activityUpdatedOn', DateUtils.createFormattedDate(updatedOn),
-        false, false, this.props.fieldNameClass, this.props.fieldValueClass));
-    }
-    additionalInfo.push(APField.instance('dataTeamLeader', this._getWorkspaceLeadData()));
+    return additionalInfo;
+  }
 
-    this.props.fieldNameClass, this.props.fieldValueClass;
-  )
-
-)
-  ;
-
-  return;
-  additionalInfo;
-}
-
-render();
-{
-  return <div>{this._buildAdditionalInfo()}</div>;
-}
+  render() {
+    return <div>{this._buildAdditionalInfo()}</div>;
+  }
 
 }
 
-export default Section(AdditionalInfo, 'additionalInfo');
+export default Section(AdditionalInfo, {
+  SectionTitle: 'additionalInfo',
+  Logger,
+  translate,
+  DateUtils
+});
