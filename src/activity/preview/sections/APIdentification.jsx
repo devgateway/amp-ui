@@ -16,7 +16,7 @@ class APIdentification extends Component {
     buildSimpleField: PropTypes.func.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
     activity: PropTypes.object.isRequired,
-    Logger: PropTypes.object.isRequired
+    Logger: PropTypes.func.isRequired
   };
 
   constructor(props) {

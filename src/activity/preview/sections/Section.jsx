@@ -38,7 +38,7 @@ const Section = (ComposedSection, params) => class extends Component {
     activityWorkspace: PropTypes.object.isRequired,
     activityWSManager: PropTypes.object.isRequired,
     resourceReducer: PropTypes.object.isRequired,
-    Logger: PropTypes.object,
+    Logger: PropTypes.func,
     translate: PropTypes.func,
     DateUtils: PropTypes.func
   };

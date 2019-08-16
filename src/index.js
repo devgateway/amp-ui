@@ -19,11 +19,16 @@ import Section from './activity/preview/sections/Section.jsx';
 import FundingSummary from './activity/preview/sections/FundingSummary.jsx';
 import APIdentification from './activity/preview/sections/APIdentification.jsx';
 import UIUtils from './utils/UIUtils';
+import AdditionalInfo from './activity/preview/sections/AdditionalInfo.jsx';
+import UserConstants from './utils/constants/UserConstants';
+import WorkspaceGroupsConstants from './utils/constants/WorkspaceGroupsConstants';
+import WorkspaceConstants from './utils/constants/WorkspaceConstants';
 
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
   CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager, FeatureManager,
-  APLabel, APField, Tablify, APPercentageField, APPercentageList, UIUtils, Section, FundingSummary, APIdentification
+  APLabel, APField, Tablify, APPercentageField, APPercentageList, UIUtils, Section, FundingSummary, AdditionalInfo,
+  UserConstants, WorkspaceConstants, WorkspaceGroupsConstants, APIdentification
 };
 
 export default {
@@ -45,6 +50,10 @@ export default {
   APPercentageList,
   Section,
   FundingSummary,
+  UIUtils,
+  AdditionalInfo,
+  UserConstants,
+  WorkspaceConstants,
+  WorkspaceGroupsConstants,
   APIdentification,
-  UIUtils
 };
