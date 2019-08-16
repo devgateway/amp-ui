@@ -38,6 +38,9 @@ const Section = (ComposedSection, params) => class extends Component {
     activityWorkspace: PropTypes.object.isRequired,
     activityWSManager: PropTypes.object.isRequired,
     resourceReducer: PropTypes.object.isRequired,
+    Logger: PropTypes.object,
+    translate: PropTypes.func,
+    DateUtils: PropTypes.func
   };
 
   static defaultProps = {
@@ -47,8 +50,13 @@ const Section = (ComposedSection, params) => class extends Component {
     fieldValueClass: styles.section_field_value
   };
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
+    if (this.context) {
+      params.Logger = this.context.Logger;
+      params.DateUtils = this.context.DateUtils;
+      params.translate = this.context.translate;
+    }
     params.useEncapsulateHeader = !params.useEncapsulateHeader ? true : params.useEncapsulateHeader;
     logger = new params.Logger('AP section');
     logger.debug('constructor');
