@@ -17,12 +17,13 @@ import APPercentageField from './activity/preview/components/APPercentageField.j
 import APPercentageList from './activity/preview/components/APPercentageList.jsx';
 import Section from './activity/preview/sections/Section.jsx';
 import FundingSummary from './activity/preview/sections/FundingSummary.jsx';
+import APIdentification from './activity/preview/sections/APIdentification.jsx';
 import UIUtils from './utils/UIUtils';
 
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
   CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager, FeatureManager,
-  APLabel, APField, Tablify, APPercentageField, APPercentageList, UIUtils, Section, FundingSummary
+  APLabel, APField, Tablify, APPercentageField, APPercentageList, UIUtils, Section, FundingSummary, APIdentification
 };
 
 export default {
@@ -44,5 +45,6 @@ export default {
   APPercentageList,
   Section,
   FundingSummary,
+  APIdentification,
   UIUtils
 };
