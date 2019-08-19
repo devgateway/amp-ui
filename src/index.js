@@ -21,15 +21,17 @@ import APIdentification from './activity/preview/sections/APIdentification.jsx';
 import UIUtils from './utils/UIUtils';
 import AdditionalInfo from './activity/preview/sections/AdditionalInfo.jsx';
 import APInternalIds from './activity/preview/sections/APInternalIds.jsx';
+import APComponents from './activity/preview/sections/APComponents.jsx';
 import UserConstants from './utils/constants/UserConstants';
 import WorkspaceGroupsConstants from './utils/constants/WorkspaceGroupsConstants';
 import WorkspaceConstants from './utils/constants/WorkspaceConstants';
+
 
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
   CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager, FeatureManager,
   APLabel, APField, Tablify, APPercentageField, APPercentageList, UIUtils, Section, FundingSummary, AdditionalInfo,
-  UserConstants, WorkspaceConstants, WorkspaceGroupsConstants, APIdentification, APInternalIds
+  UserConstants, WorkspaceConstants, WorkspaceGroupsConstants, APIdentification, APInternalIds,APComponents
 };
 
 export default {
@@ -57,5 +59,6 @@ export default {
   WorkspaceConstants,
   WorkspaceGroupsConstants,
   APIdentification,
+  APComponents,
   APInternalIds
 };
