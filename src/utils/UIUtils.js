@@ -33,4 +33,4 @@ export default class UIUtils {
   static cloneDeep(obj) {
     return JSON.parse(JSON.stringify(obj));
   }
-};
+}

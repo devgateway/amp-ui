@@ -69,10 +69,10 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
         }))
           .sort((a, b) => a.itemTitle.localeCompare(b.itemTitle));
         content = items.map(({ itemTitle, percentage }) =>
-          <APPercentageField
+          (<APPercentageField
             key={UIUtils.stringToUniqueId(itemTitle)} title={itemTitle} value={percentage}
             titleClass={percentTitleClass} valueClass={percentValueClass} translate={translate}
-            Logger={Logger} rawNumberToFormattedString={rawNumberToFormattedString} />
+            Logger={Logger} rawNumberToFormattedString={rawNumberToFormattedString} />)
         );
         if (tablify) {
           content = <Tablify content={content} columns={columns} Logger={Logger} />;

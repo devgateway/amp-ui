@@ -59,8 +59,9 @@ export default class Tablify extends Component {
     const tableContent = [];
     for (let i = 0; i < rows; i++) {
       const rowContent = [];
-      rowContent.push(<div key={UIUtils.stringToUniqueId()} style={cellwidthStyle}
-                           className={styles.tablify_outer_cell}>
+      rowContent.push(<div
+        key={UIUtils.stringToUniqueId()} style={cellwidthStyle}
+        className={styles.tablify_outer_cell}>
         {this.props.content.pop()}</div>);
       for (let j = 1; j < this.props.columns && this.props.content.length > 0; j++) {
         const key = UIUtils.stringToUniqueId();
