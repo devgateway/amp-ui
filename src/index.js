@@ -27,14 +27,14 @@ import APContact from './activity/preview/sections/APContact.jsx';
 import UserConstants from './utils/constants/UserConstants';
 import WorkspaceGroupsConstants from './utils/constants/WorkspaceGroupsConstants';
 import WorkspaceConstants from './utils/constants/WorkspaceConstants';
-
-
+import APFundingSources from './activity/preview/sections/APFundingSources.jsx';
+import APLocation from './activity/preview/sections/APLocation.jsx';
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
   CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager, FeatureManager,
   APLabel, APField, Tablify, APPercentageField, APPercentageList, UIUtils, Section, FundingSummary, AdditionalInfo,
   UserConstants, ContactConstants, WorkspaceConstants, WorkspaceGroupsConstants, APIdentification, APInternalIds,
-  APComponents, APContact
+  APComponents, APContact, APFundingSources, APLocation
 };
 
 export default {
@@ -65,5 +65,7 @@ export default {
   APIdentification,
   APComponents,
   APInternalIds,
-  APContact
+  APContact,
+  APFundingSources,
+  APLocation
 };

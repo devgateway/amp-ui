@@ -16,7 +16,9 @@ export default class APField extends Component {
     fieldClass: PropTypes.string,
     fieldNameClass: PropTypes.string,
     fieldValueClass: PropTypes.string,
-    separator: PropTypes.bool
+    separator: PropTypes.bool,
+    translate: PropTypes.func,
+    Logger: PropTypes.func
   };
 
   /**
