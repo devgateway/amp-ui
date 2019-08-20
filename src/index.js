@@ -22,16 +22,22 @@ import UIUtils from './utils/UIUtils';
 import AdditionalInfo from './activity/preview/sections/AdditionalInfo.jsx';
 import APInternalIds from './activity/preview/sections/APInternalIds.jsx';
 import APComponents from './activity/preview/sections/APComponents.jsx';
+import APDocument from './activity/preview/sections/APDocument.jsx';
 import UserConstants from './utils/constants/UserConstants';
 import WorkspaceGroupsConstants from './utils/constants/WorkspaceGroupsConstants';
 import WorkspaceConstants from './utils/constants/WorkspaceConstants';
+import ActionIcon from './activity/common/ActionIcon.jsx';
+import ActionUrl from './activity/common/ActionUrl.jsx';
+import Loading from './activity/common/Loading.jsx';
+import ResourceConstants from './utils/constants/ResourceConstants';
 
 
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
   CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager, FeatureManager,
   APLabel, APField, Tablify, APPercentageField, APPercentageList, UIUtils, Section, FundingSummary, AdditionalInfo,
-  UserConstants, WorkspaceConstants, WorkspaceGroupsConstants, APIdentification, APInternalIds,APComponents
+  UserConstants, WorkspaceConstants, WorkspaceGroupsConstants, APIdentification, APInternalIds, APComponents,
+  APDocument, ActionIcon, ActionUrl, Loading, ResourceConstants
 };
 
 export default {
@@ -60,5 +66,10 @@ export default {
   WorkspaceGroupsConstants,
   APIdentification,
   APComponents,
-  APInternalIds
+  APInternalIds,
+  APDocument,
+  ActionIcon,
+  ActionUrl,
+  Loading,
+  ResourceConstants
 };
