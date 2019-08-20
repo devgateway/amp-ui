@@ -39,6 +39,7 @@ class AdditionalInfo extends Component {
     if (!activityWSManager) {
       return null;
     }
+    // eslint-disable-next-line max-len
     return `${activityWSManager[UserConstants.FIRST_NAME]} ${activityWSManager[UserConstants.LAST_NAME]} ${activityWSManager[UserConstants.EMAIL]}`;
   }
 
@@ -52,7 +53,8 @@ class AdditionalInfo extends Component {
       PossibleValuesManager.getOptionTranslation);
     // no need to export repeating translation for the access type through workspaces EP
     const accessType = translate(activityWorkspace[WorkspaceConstants.ACCESS_TYPE]);
-    const isComputedTeam = activityWorkspace[WorkspaceConstants.IS_COMPUTED] === true ? translate('Yes') : translate('No');
+    const isComputedTeam = activityWorkspace[WorkspaceConstants.IS_COMPUTED] === true ?
+      translate('Yes') : translate('No');
 
     // TODO: the right value as defined in AMP-25403 will be shown after AMP-26295.
     additionalInfo.push(buildSimpleField(ActivityConstants.CREATED_BY, true));
