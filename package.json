@@ -23,7 +23,8 @@
   "peerDependencies": {
     "prop-types": "^15.5.4",
     "react": "15.4.2",
-    "react-dom": "15.4.2"
+    "react-dom": "15.4.2",
+    "react-bootstrap": "^0.30.6"
   },
   "devDependencies": {
     "@svgr/rollup": "^2.4.1",
