@@ -45,8 +45,8 @@ export default class FieldsManager {
       }
       if (fd.field_label) {
         Object.keys(fd.field_label).forEach(lang => {
-            fd.field_label[lang.toLowerCase()] = fd.field_label[lang];
-          });
+          fd.field_label[lang.toLowerCase()] = fd.field_label[lang];
+        });
       }
     });
   }
@@ -137,12 +137,12 @@ export default class FieldsManager {
     let fieldsDef = this._fieldsDef;
     if (fieldPath) {
       fieldPath.split('~').some(part => {
-          if (!(fieldsDef instanceof Array)) {
-            fieldsDef = fieldsDef.children;
-          }
-          fieldsDef = fieldsDef.find(fd => fd.field_name === part);
-          return fieldsDef === undefined;
-        });
+        if (!(fieldsDef instanceof Array)) {
+          fieldsDef = fieldsDef.children;
+        }
+        fieldsDef = fieldsDef.find(fd => fd.field_name === part);
+        return fieldsDef === undefined;
+      });
     } else {
       fieldsDef = { children: fieldsDef };
     }

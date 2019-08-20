@@ -32,14 +32,16 @@ import ActionIcon from './activity/common/ActionIcon.jsx';
 import ActionUrl from './activity/common/ActionUrl.jsx';
 import Loading from './activity/common/Loading.jsx';
 import ResourceConstants from './utils/constants/ResourceConstants';
-
+import APFundingSources from './activity/preview/sections/APFundingSources.jsx';
+import APLocation from './activity/preview/sections/APLocation.jsx';
 
 export {
   TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
   CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager, FeatureManager,
   APLabel, APField, Tablify, APPercentageField, APPercentageList, UIUtils, Section, FundingSummary, AdditionalInfo,
   UserConstants, WorkspaceConstants, WorkspaceGroupsConstants, APIdentification, APInternalIds, APComponents,
-  APDocument, ActionIcon, ActionUrl, Loading, ResourceConstants, ContactConstants, APContact
+  APDocument, ActionIcon, ActionUrl, Loading, ResourceConstants, ContactConstants, APContact,
+  APFundingSources, APLocation,
 };
 
 export default {
@@ -76,4 +78,6 @@ export default {
   Loading,
   ResourceConstants,
   APContact,
+  APFundingSources,
+  APLocation,
 };
