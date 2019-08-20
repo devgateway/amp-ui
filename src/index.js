@@ -7,6 +7,7 @@ import ErrorConstants from './utils/constants/ErrorConstants';
 import FieldsManager from './modules/field/FieldsManager';
 import FieldPathConstants from './utils/FieldPathConstants';
 import ValueConstants from './utils/ValueConstants';
+import ContactConstants from './modules/util/ContactConstants';
 import CurrencyRatesManager from './modules/util/CurrencyRatesManager';
 import PossibleValuesManager from './modules/field/PossibleValuesManager';
 import FeatureManager from './modules/util/FeatureManager';
@@ -23,6 +24,7 @@ import AdditionalInfo from './activity/preview/sections/AdditionalInfo.jsx';
 import APInternalIds from './activity/preview/sections/APInternalIds.jsx';
 import APComponents from './activity/preview/sections/APComponents.jsx';
 import APDocument from './activity/preview/sections/APDocument.jsx';
+import APContact from './activity/preview/sections/APContact.jsx';
 import UserConstants from './utils/constants/UserConstants';
 import WorkspaceGroupsConstants from './utils/constants/WorkspaceGroupsConstants';
 import WorkspaceConstants from './utils/constants/WorkspaceConstants';
@@ -37,7 +39,7 @@ export {
   CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager, FeatureManager,
   APLabel, APField, Tablify, APPercentageField, APPercentageList, UIUtils, Section, FundingSummary, AdditionalInfo,
   UserConstants, WorkspaceConstants, WorkspaceGroupsConstants, APIdentification, APInternalIds, APComponents,
-  APDocument, ActionIcon, ActionUrl, Loading, ResourceConstants
+  APDocument, ActionIcon, ActionUrl, Loading, ResourceConstants, ContactConstants, APContact
 };
 
 export default {
@@ -51,6 +53,7 @@ export default {
   FieldsManager,
   FieldPathConstants,
   ValueConstants,
+  ContactConstants,
   FeatureManager,
   APLabel,
   APField,
@@ -71,5 +74,6 @@ export default {
   ActionIcon,
   ActionUrl,
   Loading,
-  ResourceConstants
+  ResourceConstants,
+  APContact,
 };

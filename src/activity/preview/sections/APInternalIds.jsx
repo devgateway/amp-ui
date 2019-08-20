@@ -6,9 +6,6 @@ import Section from './Section.jsx';
 import FieldsManager from '../../../modules/field/FieldsManager';
 import ActivityConstants from '../../../modules/util/ActivityConstants';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
-// import { ACTIVITY_INTERNAL_IDS, ACTIVITY_INTERNAL_IDS_COLS } from '../../../../utils/constants/ActivityConstants';
-// import { ACTIVITY_INTERNAL_IDS_INTERNAL_ID_PATH } from '../../../../utils/constants/FieldPathConstants';
-
 import styles from '../ActivityPreview.css';
 import FieldPathConstants from '../../../utils/FieldPathConstants';
 
@@ -22,11 +19,11 @@ const APInternalIdsSection = (isSeparateSection) => class extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
-    showIfEmpty: PropTypes.bool,/* only makes sense if isSeparateSection is true, will render
+    showIfEmpty: PropTypes.bool, /* only makes sense if isSeparateSection is true, will render
                                   if there are no org ids*/
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired
-};
+  };
 
   constructor(props) {
     super(props);
