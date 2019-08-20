@@ -1,15 +1,13 @@
 /* eslint-disable class-methods-use-this */
 import React, { Component, PropTypes } from 'react';
-import Section from './Section';
-import Tablify from '../components/Tablify';
-import { ACTIVITY_CONTACT_PATHS } from '../../../../utils/constants/FieldPathConstants';
-import { ACTIVITY_CONTACT_COLS, CONTACT } from '../../../../utils/constants/ActivityConstants';
+import ActivityConstants from '../../../modules/util/ActivityConstants';
+import APField from '../components/APField.jsx';
+import FieldPathConstants from '../../../utils/FieldPathConstants';
+import FieldsManager from '../../../modules/field/FieldsManager';
+import Tablify from '../components/Tablify.jsx';
+import Section from './Section.jsx';
+import ContactConstants from '../../../modules/util/ContactConstants';
 import styles from '../ActivityPreview.css';
-import FieldsManager from '../../../../modules/field/FieldsManager';
-import { getActivityContactIds } from '../../../../actions/ContactAction';
-import * as CC from '../../../../utils/constants/ContactConstants';
-import translate from '../../../../utils/translate';
-import APField from '../components/APField';
 
 /**
  * Activity Preview Contact section
@@ -23,15 +21,21 @@ class APContact extends Component {
     contactFieldsManager: PropTypes.instanceOf(FieldsManager),
     contactsByIds: PropTypes.object,
     buildSimpleField: PropTypes.func.isRequired,
+    getActivityContactIds: PropTypes.func.isRequired,
+    Logger: PropTypes.func,
+    translate: PropTypes.func
   };
 
   getHydratedContacts() {
-    const { activity, contactsByIds } = this.props;
+    // Contacts will be hydrated and received by props
+    // Both in amp_offline and amp_online so we just need to get
+    // Activity Con
+    const { activity, contactsByIds, getActivityContactIds } = this.props;
     const contactIds = getActivityContactIds(activity);
     const hydratedContactsByIds = {};
     contactIds.forEach(cId => {
       const c = contactsByIds[cId] || {};
-      if (c[CC.TMP_HYDRATED]) {
+      if (c[ContactConstants.TMP_HYDRATED]) {
         hydratedContactsByIds[cId] = c;
       }
     });
@@ -42,32 +46,36 @@ class APContact extends Component {
     const { contactFieldsManager, buildSimpleField } = this.props;
     return (
       <div key={contact.id} className={styles.paddingBottomLarge}>
-        <div>{`${contact[CC.NAME]} ${contact[CC.LAST_NAME]}`}</div>
-        {contact[CC.EMAIL].map(email =>
-          buildSimpleField(`${CC.EMAIL}~${CC.VALUE}`, true, null, false, email, contactFieldsManager))}
-        {contact[CC.PHONE].map(phone =>
-          buildSimpleField(`${CC.PHONE}~${CC.VALUE}`, true, null, false, phone, contactFieldsManager))}
+        <div>{`${contact[ContactConstants.NAME]} ${contact[ContactConstants.LAST_NAME]}`}</div>
+        {contact[ContactConstants.EMAIL].map(email =>
+          buildSimpleField(`${ContactConstants.EMAIL}~
+          ${ContactConstants.VALUE}`, true, null, false, email, contactFieldsManager))}
+        {contact[ContactConstants.PHONE].map(phone =>
+          buildSimpleField(`${ContactConstants.PHONE}~
+          ${ContactConstants.VALUE}`, true, null, false, phone, contactFieldsManager))}
       </div>
     );
   }
 
   renderNoContacts() {
+    const { Logger, translate } = this.props;
     return (
       <APField
         fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}
-        value={translate('No Data')} />
+        value={translate('No Data')} translate={translate} Logger={Logger} />
     );
   }
 
   render() {
+    const { Logger } = this.props;
     const { activity, activityFieldsManager } = this.props;
     const hydratedContactsByIds = this.getHydratedContacts();
-    const contactGroups = ACTIVITY_CONTACT_PATHS
+    const contactGroups = FieldPathConstants.ACTIVITY_CONTACT_PATHS
       .filter(acp => activityFieldsManager.isFieldPathEnabled(acp))
       .map(acp => {
         const title = activityFieldsManager.getFieldLabelTranslation(acp);
         const contacts = (activity[acp] || []).map(c => {
-          const hydratedC = hydratedContactsByIds[c[CONTACT].id];
+          const hydratedC = hydratedContactsByIds[c[ActivityConstants.CONTACT].id];
           return hydratedC ? this.renderContact(hydratedC) : null;
         });
         const content = contacts.length ? contacts : this.renderNoContacts();
@@ -81,8 +89,13 @@ class APContact extends Component {
       })
       // TODO tablify must not reverses the order
       .reverse();
-    return <Tablify key="contact-info" content={contactGroups} columns={ACTIVITY_CONTACT_COLS} />;
+    return (<Tablify
+      key="contact-info" content={contactGroups} columns={ActivityConstants.ACTIVITY_CONTACT_COLS}
+      Logger={Logger} />);
   }
 }
 
-export default Section(APContact, 'Contact Information', true, 'APContact');
+export default Section(APContact, { SectionTitle: 'Contact Information',
+  useEncapsulateHeader: true,
+  sID: 'APContact'
+});
