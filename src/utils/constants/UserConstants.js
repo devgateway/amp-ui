@@ -6,7 +6,7 @@ const EMAIL = 'email';
 /* Team member constants */
 const TEAM_MEMBER_USER_ID = 'user-id';
 
-module.exports = Object.freeze({
+export default Object.freeze({
   FIRST_NAME,
   LAST_NAME,
   EMAIL,

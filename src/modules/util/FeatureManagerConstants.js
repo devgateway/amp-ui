@@ -125,7 +125,7 @@ const MTEF_PROJECTIONS_PROJECTION =
 const MTEF_PROJECTIONS_DATE =
   `${AF_FUNDING_FUNDINGGROUP_FUNDINGITEM}/MTEF Projections/MTEF Projections Table/Projection Date`;
 
-module.exports = Object.freeze({
+export default Object.freeze({
   PUBLIC_VIEW_CHANGE_PASSWORD,
   PUBLIC_VIEW_TROUBLE_SIGN_IN,
   ACTIVITY_DELIVERY_RATE,

@@ -20,7 +20,7 @@ const ACCESS_TYPE = 'access-type';
 const IS_COMPUTED = 'is-computed';
 const IS_PRIVATE = 'is-private';
 
-module.exports = Object.freeze({
+export default Object.freeze({
   WS_VALIDATION_OFF,
   WS_VALIDATION_ALL_EDIT,
   WS_VALIDATION_NEW_ONLY,
