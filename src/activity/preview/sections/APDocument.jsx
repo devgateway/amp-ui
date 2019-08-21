@@ -6,6 +6,7 @@ import Section from './Section.jsx';
 import APField from '../components/APField.jsx';
 import styles from '../ActivityPreview.css';
 import ResourceConstants from '../../../utils/constants/ResourceConstants';
+import ActivityConstants from '../../../modules/util/ActivityConstants';
 import Loading from '../../common/Loading.jsx';
 import ActionIcon from '../../common/ActionIcon.jsx';
 import docSyles from './APDocument.css';
@@ -32,16 +33,15 @@ class APDocument extends Component {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
-    getActivityResourceUuids: PropTypes.func.isRequired,
     getFullContentFilePath: PropTypes.func.isRequired,
     openExternal: PropTypes.func.isRequired
   };
 
   getResources() {
     const { isResourcesLoaded, isResourceManagersLoaded, resourcesByUuids } = this.props.resourceReducer;
-    const { getActivityResourceUuids, activity } = this.props;
+    const { activity } = this.props;
     if (isResourcesLoaded && isResourceManagersLoaded) {
-      const resourcesUuids = getActivityResourceUuids(activity, false);
+      const resourcesUuids = this.getActivityResourceUuids(activity);
       return resourcesUuids.map(uuid => {
         const r = { ...resourcesByUuids[uuid] };
         r[ResourceConstants.ADDING_DATE] = r[ResourceConstants.ADDING_DATE] || r[ResourceConstants.CLIENT_ADDING_DATE];
@@ -52,6 +52,16 @@ class APDocument extends Component {
         .filter(r => r);
     }
     return [];
+  }
+
+  getActivityResourceUuids(activity) {
+    const resources = new Set();
+    const docs = activity[ActivityConstants.ACTIVITY_DOCUMENTS];
+    if (docs && docs.length) {
+      docs.forEach(d => resources.add((d[ResourceConstants.UUID] &&
+        d[ResourceConstants.UUID][ResourceConstants.UUID]) || d[ResourceConstants.UUID]));
+    }
+    return Array.from(resources);
   }
 
   /**
