@@ -38,6 +38,7 @@ import APFundingSources from './activity/preview/sections/APFundingSources.jsx';
 import APLocation from './activity/preview/sections/APLocation.jsx';
 import APSector from './activity/preview/sections/APSector.jsx';
 import APRelatedOrganizations from './activity/preview/sections/APRelatedOrganizations.jsx';
+import APStructures from './activity/preview/sections/APStructures.jsx';
 
 export {
   TestAPField,
@@ -80,6 +81,7 @@ export {
   APLocation,
   APSector,
   APRelatedOrganizations,
+  APStructures,
 };
 
 export default {
@@ -123,4 +125,5 @@ export default {
   APLocation,
   APSector,
   APRelatedOrganizations,
+  APStructures,
 };
