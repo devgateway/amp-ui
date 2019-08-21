@@ -20,6 +20,7 @@ import Section from './activity/preview/sections/Section.jsx';
 import FundingSummary from './activity/preview/sections/FundingSummary.jsx';
 import APIdentification from './activity/preview/sections/APIdentification.jsx';
 import UIUtils from './utils/UIUtils';
+import APPlanning from './activity/preview/sections/APPlanning.jsx';
 import AdditionalInfo from './activity/preview/sections/AdditionalInfo.jsx';
 import APInternalIds from './activity/preview/sections/APInternalIds.jsx';
 import APComponents from './activity/preview/sections/APComponents.jsx';
@@ -37,15 +38,48 @@ import APFundingSources from './activity/preview/sections/APFundingSources.jsx';
 import APLocation from './activity/preview/sections/APLocation.jsx';
 
 export {
-  TestAPField, TestingSection, Constants, APProgram, ActivityConstants, FeatureManagerConstants, ErrorConstants,
-  CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager, FeatureManager,
-  APLabel, APField, Tablify, APPercentageField, APPercentageList, UIUtils, Section, FundingSummary, AdditionalInfo,
-  UserConstants, WorkspaceConstants, WorkspaceGroupsConstants, APIdentification, APInternalIds, APComponents,
-  APDocument, ActionIcon, ActionUrl, Loading, ResourceConstants, ContactConstants, APContact,
-  APFundingSources, APLocation,
+  TestAPField,
+  TestingSection,
+  Constants,
+  APProgram,
+  ActivityConstants,
+  FeatureManagerConstants,
+  ErrorConstants,
+  APPlanning,
+  CurrencyRatesManager,
+  FieldsManager,
+  FieldPathConstants,
+  ValueConstants,
+  PossibleValuesManager,
+  FeatureManager,
+  APLabel,
+  APField,
+  Tablify,
+  APPercentageField,
+  APPercentageList,
+  UIUtils,
+  Section,
+  FundingSummary,
+  AdditionalInfo,
+  UserConstants,
+  WorkspaceConstants,
+  WorkspaceGroupsConstants,
+  APIdentification,
+  APInternalIds,
+  APComponents,
+  APDocument,
+  ActionIcon,
+  ActionUrl,
+  Loading,
+  ResourceConstants,
+  ContactConstants,
+  APContact,
+  APFundingSources,
+  APLocation,
 };
 
 export default {
+  APPlanning,
   TestAPField,
   TestingSection,
   Constants,
@@ -82,4 +116,5 @@ export default {
   APContact,
   APFundingSources,
   APLocation,
+  PossibleValuesManager,
 };
