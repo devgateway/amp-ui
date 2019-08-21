@@ -37,6 +37,7 @@ import ResourceConstants from './utils/constants/ResourceConstants';
 import APFundingSources from './activity/preview/sections/APFundingSources.jsx';
 import APLocation from './activity/preview/sections/APLocation.jsx';
 import APSector from './activity/preview/sections/APSector.jsx';
+import APRelatedOrganizations from './activity/preview/sections/APRelatedOrganizations.jsx';
 
 export {
   TestAPField,
@@ -78,10 +79,10 @@ export {
   APFundingSources,
   APLocation,
   APSector,
+  APRelatedOrganizations,
 };
 
 export default {
-  APPlanning,
   TestAPField,
   TestingSection,
   Constants,
@@ -89,35 +90,37 @@ export default {
   ActivityConstants,
   FeatureManagerConstants,
   ErrorConstants,
+  APPlanning,
   CurrencyRatesManager,
   FieldsManager,
   FieldPathConstants,
   ValueConstants,
-  ContactConstants,
+  PossibleValuesManager,
   FeatureManager,
   APLabel,
   APField,
   Tablify,
   APPercentageField,
   APPercentageList,
+  UIUtils,
   Section,
   FundingSummary,
-  UIUtils,
   AdditionalInfo,
   UserConstants,
   WorkspaceConstants,
   WorkspaceGroupsConstants,
   APIdentification,
-  APComponents,
   APInternalIds,
+  APComponents,
   APDocument,
   ActionIcon,
   ActionUrl,
   Loading,
   ResourceConstants,
+  ContactConstants,
   APContact,
   APFundingSources,
   APLocation,
-  PossibleValuesManager,
   APSector,
+  APRelatedOrganizations,
 };
