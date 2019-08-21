@@ -22,6 +22,7 @@ class APSector extends Component {
     activity: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
     Logger: PropTypes.func.isRequired,
+    rawNumberToFormattedString: PropTypes.func.isRequired,
   };
   /* eslint-enable react/no-unused-prop-types */
 
