@@ -54,6 +54,7 @@ class APDocument extends Component {
     return [];
   }
 
+  // TODO: move to an utils class.
   getActivityResourceUuids(activity) {
     const resources = new Set();
     const docs = activity[ActivityConstants.ACTIVITY_DOCUMENTS];
