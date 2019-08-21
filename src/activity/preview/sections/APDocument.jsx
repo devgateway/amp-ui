@@ -1,18 +1,16 @@
 /* eslint-disable class-methods-use-this */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import FieldsManager from '../../../modules/field/FieldsManager';
+import Section from './Section.jsx';
+import APField from '../components/APField.jsx';
 import styles from '../ActivityPreview.css';
-import translate from '../../../../utils/translate';
-import * as RC from '../../../../utils/constants/ResourceConstants';
-import FieldsManager from '../../../../modules/field/FieldsManager';
-import Section from './Section';
-import { getActivityResourceUuids } from '../../../../actions/ResourceAction';
-import APField from '../components/APField';
-import Loading from '../../../common/Loading';
-import ActionIcon from '../../../common/ActionIcon';
+import ResourceConstants from '../../../utils/constants/ResourceConstants';
+import ActivityConstants from '../../../modules/util/ActivityConstants';
+import Loading from '../../common/Loading.jsx';
+import ActionIcon from '../../common/ActionIcon.jsx';
 import docSyles from './APDocument.css';
-import ActionUrl from '../../../common/ActionUrl';
-import RepositoryManager from '../../../../modules/repository/RepositoryManager';
+import ActionUrl from '../../common/ActionUrl.jsx';
 
 /**
  * Activity Preview Documents section
@@ -32,20 +30,39 @@ class APDocument extends Component {
     }).isRequired,
     buildSimpleField: PropTypes.func.isRequired,
     saveFileDialog: PropTypes.func.isRequired,
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
+    DateUtils: PropTypes.func.isRequired,
+    getFullContentFilePath: PropTypes.func.isRequired,
+    openExternal: PropTypes.func.isRequired
   };
 
   getResources() {
     const { isResourcesLoaded, isResourceManagersLoaded, resourcesByUuids } = this.props.resourceReducer;
+    const { activity } = this.props;
     if (isResourcesLoaded && isResourceManagersLoaded) {
-      const resourcesUuids = getActivityResourceUuids(this.props.activity, false);
+      const resourcesUuids = this.getActivityResourceUuids(activity);
       return resourcesUuids.map(uuid => {
         const r = { ...resourcesByUuids[uuid] };
-        r[RC.ADDING_DATE] = r[RC.ADDING_DATE] || r[RC.CLIENT_ADDING_DATE];
-        r[RC.YEAR_OF_PUBLICATION] = r[RC.YEAR_OF_PUBLICATION] || r[RC.CLIENT_YEAR_OF_PUBLICATION];
+        r[ResourceConstants.ADDING_DATE] = r[ResourceConstants.ADDING_DATE] || r[ResourceConstants.CLIENT_ADDING_DATE];
+        r[ResourceConstants.YEAR_OF_PUBLICATION] = r[ResourceConstants.YEAR_OF_PUBLICATION] ||
+          r[ResourceConstants.CLIENT_YEAR_OF_PUBLICATION];
         return r;
-      }).filter(r => r);
+      })
+        .filter(r => r);
     }
     return [];
+  }
+
+  // TODO: move to an utils class.
+  getActivityResourceUuids(activity) {
+    const resources = new Set();
+    const docs = activity[ActivityConstants.ACTIVITY_DOCUMENTS];
+    if (docs && docs.length) {
+      docs.forEach(d => resources.add((d[ResourceConstants.UUID] &&
+        d[ResourceConstants.UUID][ResourceConstants.UUID]) || d[ResourceConstants.UUID]));
+    }
+    return Array.from(resources);
   }
 
   /**
@@ -54,14 +71,15 @@ class APDocument extends Component {
    * @return {{urlText, url, action}}
    */
   getResourceUrlData(resource) {
+    const { getFullContentFilePath, translate, saveFileDialog } = this.props;
     const resData = {};
-    const fileName = resource[RC.FILE_NAME];
+    const fileName = resource[ResourceConstants.FILE_NAME];
     if (fileName) {
-      const srcFile = RepositoryManager.getFullContentFilePath(resource[RC.CONTENT_ID]);
+      const srcFile = getFullContentFilePath(resource[ResourceConstants.CONTENT_ID]);
       resData.urlText = fileName;
-      resData.action = srcFile ? () => this.props.saveFileDialog(srcFile, fileName) : null;
+      resData.action = srcFile ? () => saveFileDialog(srcFile, fileName) : null;
     }
-    const url = resource[RC.WEB_LINK];
+    const url = resource[ResourceConstants.WEB_LINK];
     if (url) {
       resData.urlText = url;
       resData.url = url;
@@ -71,7 +89,7 @@ class APDocument extends Component {
   }
 
   renderResource(resource) {
-    const { resourceReducer, buildSimpleField } = this.props;
+    const { resourceReducer, buildSimpleField, translate, openExternal } = this.props;
     const { resourceFieldsManager } = resourceReducer;
     const resData = this.getResourceUrlData(resource);
     const isAccessible = resData.url || resData.action;
@@ -81,21 +99,24 @@ class APDocument extends Component {
       <div key={resource.id} className={[styles.box_table, styles.table_raw].join(' ')}>
         <div key="doc-title" className={docSyles.header}>
           <span key="header" className={styles.section_subtitle_class}>
-            <span>{resource[RC.TITLE]}</span>
+            <span>{resource[ResourceConstants.TITLE]}</span>
             <span>&nbsp;&nbsp;-&nbsp;&nbsp;</span>
-            <ActionUrl urlContent={resData.urlText} href={resData.url} onClick={resData.action} tooltip={tooltip} />
+            <ActionUrl
+              urlContent={resData.urlText} href={resData.url} onClick={resData.action} tooltip={tooltip}
+              openExternal={openExternal} />
           </span>
           {isAccessible &&
           <span key="download" className={docSyles.downloadIconContainer}>
             <ActionIcon
-              iconClassName={iconClass} href={resData.url} onClick={resData.action} tooltip={tooltip} />
+              iconClassName={iconClass} href={resData.url} onClick={resData.action} tooltip={tooltip}
+              openExternal={openExternal} />
           </span>
           }
         </div>
         <div key="content">
           {[
-            buildSimpleField(RC.DESCRIPTION, true, null, false, resource, resourceFieldsManager),
-            buildSimpleField(RC.ADDING_DATE, true, null, false, resource, resourceFieldsManager),
+            buildSimpleField(ResourceConstants.DESCRIPTION, true, null, false, resource, resourceFieldsManager),
+            buildSimpleField(ResourceConstants.ADDING_DATE, true, null, false, resource, resourceFieldsManager),
           ]}
         </div>
       </div>
@@ -104,13 +125,14 @@ class APDocument extends Component {
 
   renderNoResources() {
     const { isResourcesLoading, isResourceManagersLoading } = this.props.resourceReducer;
+    const { translate, Logger } = this.props;
     if (isResourcesLoading || isResourceManagersLoading) {
-      return <Loading />;
+      return <Loading Logger={Logger} translate={translate} />;
     }
     return (
       <APField
         fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}
-        value={translate('No Data')} />
+        value={translate('No Data')} translate={translate} Logger={Logger} />
     );
   }
 
@@ -123,4 +145,8 @@ class APDocument extends Component {
   }
 }
 
-export default Section(APDocument, 'Related Documents', true, 'APDocument');
+export default Section(APDocument, {
+  SectionTitle: 'Related Documents',
+  useEncapsulateHeader: true,
+  sID: 'APDocument'
+});
