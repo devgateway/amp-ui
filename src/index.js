@@ -20,6 +20,7 @@ import Section from './activity/preview/sections/Section.jsx';
 import FundingSummary from './activity/preview/sections/FundingSummary.jsx';
 import APIdentification from './activity/preview/sections/APIdentification.jsx';
 import UIUtils from './utils/UIUtils';
+import APPlanning from './activity/preview/sections/APPlanning.jsx';
 import AdditionalInfo from './activity/preview/sections/AdditionalInfo.jsx';
 import APInternalIds from './activity/preview/sections/APInternalIds.jsx';
 import APComponents from './activity/preview/sections/APComponents.jsx';
@@ -29,8 +30,9 @@ import WorkspaceGroupsConstants from './utils/constants/WorkspaceGroupsConstants
 import WorkspaceConstants from './utils/constants/WorkspaceConstants';
 import APFundingSources from './activity/preview/sections/APFundingSources.jsx';
 import APLocation from './activity/preview/sections/APLocation.jsx';
+
 export {
-  TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
+  APPlanning, TestAPField, TestingSection, Constants, ActivityConstants, FeatureManagerConstants, ErrorConstants,
   CurrencyRatesManager, FieldsManager, FieldPathConstants, ValueConstants, PossibleValuesManager, FeatureManager,
   APLabel, APField, Tablify, APPercentageField, APPercentageList, UIUtils, Section, FundingSummary, AdditionalInfo,
   UserConstants, ContactConstants, WorkspaceConstants, WorkspaceGroupsConstants, APIdentification, APInternalIds,
@@ -38,6 +40,7 @@ export {
 };
 
 export default {
+  APPlanning,
   TestAPField,
   TestingSection,
   Constants,
