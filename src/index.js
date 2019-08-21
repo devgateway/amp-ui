@@ -36,6 +36,7 @@ import Loading from './activity/common/Loading.jsx';
 import ResourceConstants from './utils/constants/ResourceConstants';
 import APFundingSources from './activity/preview/sections/APFundingSources.jsx';
 import APLocation from './activity/preview/sections/APLocation.jsx';
+import APSector from './activity/preview/sections/APSector.jsx';
 
 export {
   TestAPField,
@@ -76,6 +77,7 @@ export {
   APContact,
   APFundingSources,
   APLocation,
+  APSector,
 };
 
 export default {
@@ -117,4 +119,5 @@ export default {
   APFundingSources,
   APLocation,
   PossibleValuesManager,
+  APSector,
 };
