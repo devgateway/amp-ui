@@ -11,7 +11,9 @@ export default class APLabel extends Component {
     labelClass: PropTypes.string,
     /* decorator: PropTypes.func, // TODO: To be implemented. */
     separator: PropTypes.bool,
-    tooltip: PropTypes.string
+    tooltip: PropTypes.string,
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   constructor(props) {

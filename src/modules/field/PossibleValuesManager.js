@@ -1,4 +1,4 @@
-import * as FPC from '../../utils/FieldPathConstants';
+import FieldPathConstants from '../../utils/FieldPathConstants';
 import FieldsManager from './FieldsManager';
 import Constants from '../../utils/Constants';
 import ActivityConstants from '../util/ActivityConstants';
@@ -106,16 +106,17 @@ export default class PossibleValuesManager {
 
   static setVisibility(options, fieldPath, currencyRatesManager: CurrencyRatesManager, filters, isORFilter = false,
     selectedId) {
-    const isLocations = FPC.LOCATION_PATH === fieldPath;
-    const isCurrency = FPC.PATHS_FOR_CURRENCY.has(fieldPath);
+    const isLocations = FieldPathConstants.LOCATION_PATH === fieldPath;
+    const isCurrency = FieldPathConstants.PATHS_FOR_CURRENCY.has(fieldPath);
     options = { ...options };
     Object.values(options).forEach(option => {
       option.visible = !isORFilter;
       if (isLocations) {
         option.displayHierarchicalValue = true;
       } else if (isCurrency) {
-        option[FPC.FIELD_OPTION_USABLE] = PossibleValuesManager.isCurrencyOptionUsable(option, currencyRatesManager);
-        if (!option[FPC.FIELD_OPTION_USABLE]) {
+        option[FieldPathConstants.FIELD_OPTION_USABLE] =
+          PossibleValuesManager.isCurrencyOptionUsable(option, currencyRatesManager);
+        if (!option[FieldPathConstants.FIELD_OPTION_USABLE]) {
           option.visible = option.id === selectedId;
         }
       }

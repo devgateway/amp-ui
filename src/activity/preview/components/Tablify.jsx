@@ -13,7 +13,8 @@ export default class Tablify extends Component {
 
   static propTypes = {
     content: PropTypes.any,
-    columns: PropTypes.number
+    columns: PropTypes.number,
+    Logger: PropTypes.func.isRequired,
   };
 
   /**

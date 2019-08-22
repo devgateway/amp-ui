@@ -33,10 +33,10 @@ export default class APField extends Component {
    * @param logger the LoggerManager
    * @return {SimpleField}
    */
-  static instance(trnLabel, value, inline = false, separator = false, nameClass, valueClass, translate, logger) {
+  static instance(trnLabel, value, inline = false, separator = false, nameClass, valueClass, translate, logger_) {
     return (<APField
       key={trnLabel} title={translate(trnLabel)} value={value} inline={inline} separator={separator}
-      fieldNameClass={nameClass} fieldValueClass={valueClass} translate={translate} Logger={logger} />);
+      fieldNameClass={nameClass} fieldValueClass={valueClass} translate={translate} Logger={logger_} />);
   }
 
   constructor(props) {
