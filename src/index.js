@@ -39,6 +39,9 @@ import APLocation from './activity/preview/sections/APLocation.jsx';
 import APSector from './activity/preview/sections/APSector.jsx';
 import APRelatedOrganizations from './activity/preview/sections/APRelatedOrganizations.jsx';
 import APStructures from './activity/preview/sections/APStructures.jsx';
+import APActor from './activity/preview/sections/issues/APActor.jsx';
+import APMeasure from './activity/preview/sections/issues/APMeasure.jsx';
+import APIssues from './activity/preview/sections/issues/APIssues.jsx';
 
 export {
   TestAPField,
@@ -82,6 +85,9 @@ export {
   APSector,
   APRelatedOrganizations,
   APStructures,
+  APActor,
+  APMeasure,
+  APIssues,
 };
 
 export default {
@@ -126,4 +132,7 @@ export default {
   APSector,
   APRelatedOrganizations,
   APStructures,
+  APActor,
+  APMeasure,
+  APIssues,
 };
