@@ -32,7 +32,6 @@ class APDocument extends Component {
     saveFileDialog: PropTypes.func.isRequired,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
-    DateUtils: PropTypes.func.isRequired,
     getFullContentFilePath: PropTypes.func.isRequired,
     openExternal: PropTypes.func.isRequired
   };

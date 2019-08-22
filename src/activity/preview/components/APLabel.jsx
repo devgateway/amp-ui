@@ -4,14 +4,15 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 let logger = null;
 
 export default class APLabel extends Component {
-
   static propTypes = {
     label: PropTypes.string.isRequired,
     dontTranslate: PropTypes.bool,
     labelClass: PropTypes.string,
     /* decorator: PropTypes.func, // TODO: To be implemented. */
     separator: PropTypes.bool,
-    tooltip: PropTypes.string
+    tooltip: PropTypes.string,
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   constructor(props) {

@@ -12,7 +12,6 @@ let logger = null;
  * @author Gabriel Inchauspe
  */
 class APStructures extends Component {
-
   static propTypes = {
     activity: PropTypes.object.isRequired,
     buildSimpleField: PropTypes.func.isRequired,

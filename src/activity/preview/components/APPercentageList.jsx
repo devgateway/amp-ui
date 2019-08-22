@@ -29,7 +29,8 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     fmPath: PropTypes.string,
     getItemTitle: PropTypes.func,
     Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired
+    translate: PropTypes.func.isRequired,
+    rawNumberToFormattedString: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -91,7 +92,6 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     }
     return content;
   }
-
 };
 
 export default APPercentageList;
