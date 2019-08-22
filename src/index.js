@@ -49,6 +49,14 @@ import APFundingSection from './activity/preview/sections/funding/APFundingSecti
 
 // TODO to remove the components that are not going to be used directly in OFFLINE or in ONLINE and are
 // TODO Internal components
+import APStructures from './activity/preview/sections/APStructures.jsx';
+import APActor from './activity/preview/sections/issues/APActor.jsx';
+import APMeasure from './activity/preview/sections/issues/APMeasure.jsx';
+import APIssues from './activity/preview/sections/issues/APIssues.jsx';
+import downloadImage from './assets/images/download.svg';
+import ajaxLoader from './assets/images/ajax-loader.gif';
+import gotoImage from './assets/images/goto_url.svg';
+
 export {
   Constants,
   APProgram,
@@ -98,7 +106,14 @@ export {
   APFundingItem,
   APFundingTransactionTypeItem,
   APFundingOrganizationSection,
-  APFundingSection
+  APFundingSection,
+  APStructures,
+  APActor,
+  APMeasure,
+  APIssues,
+  downloadImage,
+  ajaxLoader,
+  gotoImage
 };
 
 export default {
@@ -150,5 +165,12 @@ export default {
   APFundingItem,
   APFundingTransactionTypeItem,
   APFundingOrganizationSection,
-  APFundingSection
+  APFundingSection,
+  APStructures,
+  APActor,
+  APMeasure,
+  APIssues,
+  downloadImage,
+  ajaxLoader,
+  gotoImage
 };

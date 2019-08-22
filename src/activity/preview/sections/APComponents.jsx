@@ -14,7 +14,6 @@ let logger = null;
  * @author Gabriel Inchauspe
  */
 class APComponents extends Component {
-  /* eslint-disable react/no-unused-prop-types */
   static propTypes = {
     activity: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,

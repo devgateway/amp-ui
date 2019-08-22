@@ -17,14 +17,12 @@ let logger = null;
  * @author Nadejda Mandrescu
  */
 class APSector extends Component {
-  /* eslint-disable react/no-unused-prop-types */
   static propTypes = {
     activity: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
     Logger: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired,
   };
-  /* eslint-enable react/no-unused-prop-types */
 
   constructor(props) {
     super(props);

@@ -28,7 +28,6 @@ class FundingSummary extends Component {
     fieldValueClass: PropTypes.string,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
-    DateUtils: PropTypes.func.isRequired
   };
 
   constructor(props) {

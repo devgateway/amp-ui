@@ -76,7 +76,6 @@ class AdditionalInfo extends Component {
   render() {
     return <div>{this._buildAdditionalInfo()}</div>;
   }
-
 }
 
 export default Section(AdditionalInfo, {
