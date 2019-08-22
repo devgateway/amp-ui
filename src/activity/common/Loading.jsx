@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import spinner from '../../assets/images/ajax-loader.gif';
 import styles from './Loading.css';
 
 let logger = null;
@@ -23,7 +24,7 @@ export default class Loading extends Component {
     return (
       <div className={styles.loading}>
         <span>{translate('loadingMessage')}</span>
-        <img className={styles.loading_icon} alt="loading" />
+        <img className={styles.loading_icon} alt="loading" src={spinner} />
       </div>
     );
   }
