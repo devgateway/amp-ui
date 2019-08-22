@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Logger from '../../../../../modules/util/LoggerManager';
-import CurrencyRatesManager from '../../../../../modules/util/CurrencyRatesManager';
-import * as AC from '../../../../../utils/constants/ActivityConstants';
-import translate from '../../../../../utils/translate';
-import { createFormattedDate } from '../../../../../utils/DateUtils';
+import ActivityConstants from '../../../../modules/util/ActivityConstants';
+import CurrencyRatesManager from '../../../../modules/util/CurrencyRatesManager';
+import FieldsManager from '../../../../modules/field/FieldsManager';
 import styles from './APFundingItem.css';
-import { rawNumberToFormattedString } from '../../../../../utils/NumberUtils';
-import FieldsManager from '../../../../../modules/field/FieldsManager';
 
-const logger = new Logger('AP Funding item');
+let logger = null;
 
 /**
  * @author Gabriel Inchauspe
  */
 export default class APFundingItem extends Component {
-
   static propTypes = {
     item: PropTypes.object.isRequired,
     trnType: PropTypes.string.isRequired,
@@ -24,6 +19,10 @@ export default class APFundingItem extends Component {
     showDisasterResponse: PropTypes.bool.isRequired,
     showPledge: PropTypes.bool.isRequired,
     showFixedExchangeRate: PropTypes.bool.isRequired,
+    DateUtils: PropTypes.func.isRequired,
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
+    rawNumberToFormattedString: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -33,24 +32,28 @@ export default class APFundingItem extends Component {
 
   constructor(props) {
     super(props);
+    const { Logger } = this.props;
+    logger = new Logger('AP Funding item');
     logger.debug('constructor');
   }
 
   getDisasterResponse() {
-    if (this.props.showDisasterResponse && this.props.item[AC.DISASTER_RESPONSE] === true) {
+    if (this.props.showDisasterResponse && this.props.item[ActivityConstants.DISASTER_RESPONSE] === true) {
       const { activityFieldsManager } = this.context;
-      return activityFieldsManager.getFieldLabelTranslation(AC.FUNDINGS, this.props.trnType, AC.DISASTER_RESPONSE);
+      return activityFieldsManager.getFieldLabelTranslation(ActivityConstants.FUNDINGS, this.props.trnType,
+        ActivityConstants.DISASTER_RESPONSE);
     }
     return '';
   }
 
   insertPledgeRow() {
+    const { translate } = this.props;
     if (this.props.item.pledge && this.props.showPledge) {
       return (<tr className={styles.row}>
-        <td colSpan={AC.AP_FUNDINGS_TABLE_COLS} className={styles.left_text}>
+        <td colSpan={ActivityConstants.AP_FUNDINGS_TABLE_COLS} className={styles.left_text}>
           <span className={styles.pledge_row}>
             <span>{`${translate('Source Pledge')}: `}</span>
-            <span className={styles.value}>{`${translate(this.props.item[AC.PLEDGE].value)}`}</span>
+            <span className={styles.value}>{`${translate(this.props.item[ActivityConstants.PLEDGE].value)}`}</span>
           </span>
         </td>
       </tr>);
@@ -60,17 +63,17 @@ export default class APFundingItem extends Component {
   }
 
   insertRecipientOrgRow() {
-    const { item, buildSimpleField, trnType } = this.props;
-    if (item[AC.RECIPIENT_ORGANIZATION] && item[AC.RECIPIENT_ROLE]) {
+    const { item, buildSimpleField, trnType, translate } = this.props;
+    if (item[ActivityConstants.RECIPIENT_ORGANIZATION] && item[ActivityConstants.RECIPIENT_ROLE]) {
       const options = { noTitle: true };
       return (<tr>
-        <td colSpan={AC.AP_FUNDINGS_TABLE_COLS} className={styles.left_text}>
+        <td colSpan={ActivityConstants.AP_FUNDINGS_TABLE_COLS} className={styles.left_text}>
           <span className={styles.recipient_row}>
             <span className={styles.normal}>{`${translate('Recipient')}: `}</span>
-            {buildSimpleField(`${AC.FUNDINGS}~${trnType}~${AC.RECIPIENT_ORGANIZATION}`,
+            {buildSimpleField(`${ActivityConstants.FUNDINGS}~${trnType}~${ActivityConstants.RECIPIENT_ORGANIZATION}`,
               true, null, true, item, null, options)}
             <span className={styles.normal}>{` ${translate('as the')} `}</span>
-            {buildSimpleField(`${AC.FUNDINGS}~${trnType}~${AC.RECIPIENT_ROLE}`,
+            {buildSimpleField(`${ActivityConstants.FUNDINGS}~${trnType}~${ActivityConstants.RECIPIENT_ROLE}`,
               true, null, true, item, null, options)}
           </span>
         </td>
@@ -81,19 +84,22 @@ export default class APFundingItem extends Component {
   }
 
   insertFixedExchangeRateCell() {
-    return this.props.showFixedExchangeRate ? this.props.item[AC.FIXED_EXCHANGE_RATE] : null;
+    return this.props.showFixedExchangeRate ? this.props.item[ActivityConstants.FIXED_EXCHANGE_RATE] : null;
   }
 
   render() {
     logger.debug('render');
+    const { translate, DateUtils, rawNumberToFormattedString } = this.props;
     const convertedAmount = this.context.currencyRatesManager.convertTransactionAmountToCurrency(this.props.item,
       this.props.wsCurrency);
     return (
       <tbody>
         <tr className={styles.row}>
-          <td className={styles.left_text}>{translate(this.props.item[AC.ADJUSTMENT_TYPE].value)}</td>
+          <td className={styles.left_text}>{translate(this.props.item[ActivityConstants.ADJUSTMENT_TYPE].value)}</td>
           <td className={styles.disaster_response}>{this.getDisasterResponse()}</td>
-          <td className={styles.right_text}>{createFormattedDate(this.props.item[AC.TRANSACTION_DATE])}</td>
+          <td className={styles.right_text}>
+            {DateUtils.createFormattedDate(this.props.item[ActivityConstants.TRANSACTION_DATE])}
+          </td>
           <td
             className={styles.right_text}>
             {`${rawNumberToFormattedString(convertedAmount)} ${this.props.wsCurrency}`}</td>
