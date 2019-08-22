@@ -11,6 +11,8 @@ import Loading from '../../common/Loading.jsx';
 import ActionIcon from '../../common/ActionIcon.jsx';
 import docSyles from './APDocument.css';
 import ActionUrl from '../../common/ActionUrl.jsx';
+import download from '../../../assets/images/download.svg';
+import gotoUrl from '../../../assets/images/goto_url.svg';
 
 /**
  * Activity Preview Documents section
@@ -92,7 +94,8 @@ class APDocument extends Component {
     const { resourceFieldsManager } = resourceReducer;
     const resData = this.getResourceUrlData(resource);
     const isAccessible = resData.url || resData.action;
-    const iconClass = (resData.url && docSyles.urlIcon) || (resData.action && docSyles.downloadIcon);
+    const iconImage = (resData.url && gotoUrl) || (resData.action && download);
+    const iconElement = <img src={iconImage} alt="" />;
     const tooltip = translate('ClickToDownload');
     return (
       <div key={resource.id} className={[styles.box_table, styles.table_raw].join(' ')}>
@@ -107,7 +110,7 @@ class APDocument extends Component {
           {isAccessible &&
           <span key="download" className={docSyles.downloadIconContainer}>
             <ActionIcon
-              iconClassName={iconClass} href={resData.url} onClick={resData.action} tooltip={tooltip}
+              iconElement={iconElement} href={resData.url} onClick={resData.action} tooltip={tooltip}
               openExternal={openExternal} />
           </span>
           }
