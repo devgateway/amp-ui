@@ -42,6 +42,9 @@ import APStructures from './activity/preview/sections/APStructures.jsx';
 import APActor from './activity/preview/sections/issues/APActor.jsx';
 import APMeasure from './activity/preview/sections/issues/APMeasure.jsx';
 import APIssues from './activity/preview/sections/issues/APIssues.jsx';
+import downloadImage from './assets/images/download.svg';
+import ajaxLoader from './assets/images/ajax-loader.gif';
+import gotoImage from './assets/images/goto_url.svg';
 
 export {
   TestAPField,
@@ -88,6 +91,9 @@ export {
   APActor,
   APMeasure,
   APIssues,
+  downloadImage,
+  ajaxLoader,
+  gotoImage
 };
 
 export default {
@@ -135,4 +141,7 @@ export default {
   APActor,
   APMeasure,
   APIssues,
+  downloadImage,
+  ajaxLoader,
+  gotoImage
 };
