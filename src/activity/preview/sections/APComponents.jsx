@@ -22,7 +22,6 @@ class APComponents extends Component {
     translate: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired
   };
-  /* eslint-enable react/no-unused-prop-types */
 
   static _extractYear(dateString) {
     return new Date(Date.parse(dateString)).getFullYear();

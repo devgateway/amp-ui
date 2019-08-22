@@ -1,5 +1,3 @@
-import TestAPField from './activityPreview/components/TestAPField';
-import TestingSection from './activityPreview/components/TestingSection';
 import Constants from './utils/Constants';
 import ActivityConstants from './modules/util/ActivityConstants';
 import FeatureManagerConstants from './modules/util/FeatureManagerConstants';
@@ -34,14 +32,24 @@ import ActionIcon from './activity/common/ActionIcon.jsx';
 import ActionUrl from './activity/common/ActionUrl.jsx';
 import Loading from './activity/common/Loading.jsx';
 import ResourceConstants from './utils/constants/ResourceConstants';
+import CalendarConstants from './modules/util/CalendarConstants';
 import APFundingSources from './activity/preview/sections/APFundingSources.jsx';
 import APLocation from './activity/preview/sections/APLocation.jsx';
 import APSector from './activity/preview/sections/APSector.jsx';
 import APRelatedOrganizations from './activity/preview/sections/APRelatedOrganizations.jsx';
+import { APProposedProjectCost, APRevisedProjectCost } from './activity/preview/sections/APProjectCost.jsx';
+import APFundingTotalItem from './activity/preview/sections/funding/APFundingTotalItem.jsx';
+import APFundingTotalsSection from './activity/preview/sections/funding/APFundingTotalsSection.jsx';
+import APFundingMTEFItem from './activity/preview/sections/funding/APFundingMTEFItem.jsx';
+import APFundingMTEFSection from './activity/preview/sections/funding/APFundingMTEFSection.jsx';
+import APFundingItem from './activity/preview/sections/funding/APFundingItem.jsx';
+import APFundingTransactionTypeItem from './activity/preview/sections/funding/APFundingTransactionTypeItem.jsx';
+import APFundingOrganizationSection from './activity/preview/sections/funding/APFundingOrganizationSection.jsx';
+import APFundingSection from './activity/preview/sections/funding/APFundingSection.jsx';
 
+// TODO to remove the components that are not going to be used directly in OFFLINE or in ONLINE and are
+// TODO Internal components
 export {
-  TestAPField,
-  TestingSection,
   Constants,
   APProgram,
   ActivityConstants,
@@ -74,17 +82,26 @@ export {
   ActionUrl,
   Loading,
   ResourceConstants,
+  CalendarConstants,
   ContactConstants,
   APContact,
   APFundingSources,
   APLocation,
   APSector,
   APRelatedOrganizations,
+  APProposedProjectCost,
+  APRevisedProjectCost,
+  APFundingTotalItem,
+  APFundingTotalsSection,
+  APFundingMTEFItem,
+  APFundingMTEFSection,
+  APFundingItem,
+  APFundingTransactionTypeItem,
+  APFundingOrganizationSection,
+  APFundingSection
 };
 
 export default {
-  TestAPField,
-  TestingSection,
   Constants,
   APProgram,
   ActivityConstants,
@@ -117,10 +134,21 @@ export default {
   ActionUrl,
   Loading,
   ResourceConstants,
+  CalendarConstants,
   ContactConstants,
   APContact,
   APFundingSources,
   APLocation,
   APSector,
   APRelatedOrganizations,
+  APProposedProjectCost,
+  APRevisedProjectCost,
+  APFundingTotalItem,
+  APFundingTotalsSection,
+  APFundingMTEFItem,
+  APFundingMTEFSection,
+  APFundingItem,
+  APFundingTransactionTypeItem,
+  APFundingOrganizationSection,
+  APFundingSection
 };

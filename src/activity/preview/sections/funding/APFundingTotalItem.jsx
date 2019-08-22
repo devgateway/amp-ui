@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import Logger from '../../../../../modules/util/LoggerManager';
 import styles from './APFundingTransactionTypeItem.css';
-import { rawNumberToFormattedString } from '../../../../../utils/NumberUtils';
 
-const logger = new Logger('AP Funding total item');
+
+let logger = null;
 
 /**
  * @author Gabriel Inchauspe
@@ -15,15 +14,20 @@ class APFundingTotalItem extends Component {
     label: PropTypes.string.isRequired,
     currency: PropTypes.string,
     dontFormatNumber: PropTypes.bool,
-    isPercentage: PropTypes.bool
+    isPercentage: PropTypes.bool,
+    Logger: PropTypes.func.isRequired,
+    rawNumberToFormattedString: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
+    const { Logger } = this.props;
+    logger = new Logger('AP Funding total item')
     logger.debug('constructor');
   }
 
   render() {
+    const { rawNumberToFormattedString } = this.props;
     logger.debug('render');
     // Note: dont translate the label because it might be a phrase composed by individually translated words.
     let val = (this.props.dontFormatNumber
