@@ -1,5 +1,4 @@
 export default class UIUtils {
-
   static stringToId(string: string) {
     string = string || '';
     let hash = 5381;

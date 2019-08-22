@@ -92,7 +92,6 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     }
     return content;
   }
-
 };
 
 export default APPercentageList;

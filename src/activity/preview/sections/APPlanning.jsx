@@ -41,7 +41,6 @@ class APPlanning extends Component {
     const tableContent = Tablify.addRows(content, ActivityConstants.ACTIVITY_PLANNING_COLS);
     return <div><table className={styles.box_table}><tbody>{tableContent}</tbody></table></div>;
   }
-
 }
 
 export default Section(APPlanning, { SectionTitle: 'Planning',

@@ -10,7 +10,6 @@ let logger = null;
  * @author Anya Marshall
  */
 export default class Tablify extends Component {
-
   static propTypes = {
     content: PropTypes.any,
     columns: PropTypes.number,
