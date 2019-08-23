@@ -1,23 +1,27 @@
 import React, { Component, PropTypes } from 'react';
 import styles from './ActivityPreview.css';
-import FundingSummary from './sections/FundingSummary';
-import AdditionalInfo from './sections/AdditionalInfo';
-import Logger from '../../../modules/util/LoggerManager';
+import FundingSummary from './sections/FundingSummary.jsx';
+import AdditionalInfo from './sections/AdditionalInfo.jsx';
 
-const logger = new Logger('Summary group');
+let logger = null;
 
 /**
  * Activty summary information
  * @author Nadejda Mandrescu
  */
 export default class SummaryGroup extends Component {
-
   static contextTypes = {
     currentWorkspaceSettings: PropTypes.object.isRequired
   };
 
+  static propTypes = {
+    Logger: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
+    const { Logger } = this.props;
+    logger = new Logger('Summary group');
     logger.log('constructor');
   }
 
@@ -37,5 +41,4 @@ export default class SummaryGroup extends Component {
         fieldValueClass={styles.summary_field_value} />
     </div>);
   }
-
 }
