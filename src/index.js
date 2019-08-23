@@ -57,6 +57,7 @@ import ajaxLoader from './assets/images/ajax-loader.gif';
 import gotoImage from './assets/images/goto_url.svg';
 import APStatusBar from './activity/preview/sections/APStatusBar.jsx';
 import SummaryGroup from './activity/preview/SummaryGroup.jsx';
+import MainGroup from './activity/preview/MainGroup.jsx';
 
 export {
   Constants,
@@ -116,7 +117,8 @@ export {
   ajaxLoader,
   gotoImage,
   APStatusBar,
-  SummaryGroup
+  SummaryGroup,
+  MainGroup
 };
 
 export default {
@@ -177,5 +179,6 @@ export default {
   ajaxLoader,
   gotoImage,
   APStatusBar,
-  SummaryGroup
+  SummaryGroup,
+  MainGroup,
 };

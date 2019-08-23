@@ -81,8 +81,10 @@ const APInternalIdsSection = (isSeparateSection) => class extends Component {
     return content;
   }
 };
+
 const APInternalIds = Section(APInternalIdsSection(true), { SectionTitle: 'Agency Internal IDs',
   useEncapsulateHeader: true,
   sID: 'APInternalIds'
 });
+
 export default APInternalIds;
