@@ -26,7 +26,7 @@ class APFundingMTEFSection extends Component {
     translate: PropTypes.func.isRequired,
     Logger: PropTypes.func.isRequired
   };
-  constructor(props, context){
+  constructor(props, context) {
     super(props, context);
     const { Logger } = props;
     logger = new Logger('AP Funding MTEF section');
