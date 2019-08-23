@@ -8,7 +8,6 @@ let logger = null;
  * @author Gabriel Inchauspe
  */
 class APFundingTotalItem extends Component {
-
   static propTypes = {
     value: PropTypes.number.isRequired,
     label: PropTypes.string.isRequired,
@@ -22,7 +21,7 @@ class APFundingTotalItem extends Component {
   constructor(props) {
     super(props);
     const { Logger } = this.props;
-    logger = new Logger('AP Funding total item')
+    logger = new Logger('AP Funding total item');
     logger.debug('constructor');
   }
 

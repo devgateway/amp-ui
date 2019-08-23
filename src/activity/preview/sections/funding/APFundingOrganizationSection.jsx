@@ -18,7 +18,6 @@ let logger = null;
  * @author Gabriel Inchauspe
  */
 class APFundingOrganizationSection extends Component {
-
   static propTypes = {
     funding: PropTypes.object.isRequired,
     buildSimpleField: PropTypes.func.isRequired,
@@ -108,14 +107,14 @@ class APFundingOrganizationSection extends Component {
       }
     });
     return groups.map(([trnType, group], idx) =>
-      <APFundingTransactionTypeItem
+      (<APFundingTransactionTypeItem
         trnType={trnType}
         fundingDetails={group}
         key={idx}
         buildSimpleField={this.props.buildSimpleField}
         DateUtils={DateUtils} translate={translate}
         Logger={Logger}
-        rawNumberToFormattedString={rawNumberToFormattedString} />
+        rawNumberToFormattedString={rawNumberToFormattedString} />)
     );
   }
 

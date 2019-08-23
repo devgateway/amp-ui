@@ -17,7 +17,6 @@ let logger = null;
  * @author Gabriel Inchauspe
  */
 class APFundingSection extends Component {
-
   static propTypes = {
     activity: PropTypes.object.isRequired,
     buildSimpleField: PropTypes.func.isRequired,
@@ -37,7 +36,7 @@ class APFundingSection extends Component {
 
   render() {
     logger.debug('render');
-    const { DateUtils ,Logger, translate, rawNumberToFormattedString, getAmountsInThousandsMessage } = this.props;
+    const { DateUtils, Logger, translate, rawNumberToFormattedString, getAmountsInThousandsMessage } = this.props;
     const fundingList = [];
     if (this.props.activity.fundings) {
       this.props.activity.fundings.forEach((funding) => {

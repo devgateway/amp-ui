@@ -19,10 +19,10 @@ class APLocation extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired, // eslint-disable-line
     buildSimpleField: PropTypes.func.isRequired,
-    Logger: PropTypes.func,
-    translate: PropTypes.func,
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func,
-    rawNumberToFormattedString: PropTypes.func,
+    rawNumberToFormattedString: PropTypes.func.isRequired,
   };
 
   constructor(props) {

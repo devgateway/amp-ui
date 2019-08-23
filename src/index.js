@@ -46,7 +46,6 @@ import APFundingItem from './activity/preview/sections/funding/APFundingItem.jsx
 import APFundingTransactionTypeItem from './activity/preview/sections/funding/APFundingTransactionTypeItem.jsx';
 import APFundingOrganizationSection from './activity/preview/sections/funding/APFundingOrganizationSection.jsx';
 import APFundingSection from './activity/preview/sections/funding/APFundingSection.jsx';
-
 // TODO to remove the components that are not going to be used directly in OFFLINE or in ONLINE and are
 // TODO Internal components
 import APStructures from './activity/preview/sections/APStructures.jsx';
@@ -56,6 +55,9 @@ import APIssues from './activity/preview/sections/issues/APIssues.jsx';
 import downloadImage from './assets/images/download.svg';
 import ajaxLoader from './assets/images/ajax-loader.gif';
 import gotoImage from './assets/images/goto_url.svg';
+import APStatusBar from './activity/preview/sections/APStatusBar.jsx';
+import SummaryGroup from './activity/preview/SummaryGroup.jsx';
+import MainGroup from './activity/preview/MainGroup.jsx';
 
 export {
   Constants,
@@ -113,7 +115,10 @@ export {
   APIssues,
   downloadImage,
   ajaxLoader,
-  gotoImage
+  gotoImage,
+  APStatusBar,
+  SummaryGroup,
+  MainGroup
 };
 
 export default {
@@ -172,5 +177,8 @@ export default {
   APIssues,
   downloadImage,
   ajaxLoader,
-  gotoImage
+  gotoImage,
+  APStatusBar,
+  SummaryGroup,
+  MainGroup,
 };

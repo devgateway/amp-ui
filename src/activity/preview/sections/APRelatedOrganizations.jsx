@@ -30,7 +30,8 @@ const SG = APPercentageList(ActivityConstants.SECTOR_GROUP, ActivityConstants.OR
 class APRelatedOrganizations extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
-    activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired
+    activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
+    rawNumberToFormattedString: PropTypes.func.isRequired,
   };
 
   getItemTitle(item) {
