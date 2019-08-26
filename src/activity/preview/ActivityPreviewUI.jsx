@@ -25,6 +25,8 @@ export default class ActivityPreviewUI extends Component {
     APDocumentPage: PropTypes.func,
   };
 
+  /* Notice we dont implement getChildContext() and childContextTypes here because thats defined in Offline's
+  * ActivityPreview.jsx and thats enough to go down to any depth level here. */
   static contextTypes = {
     activityReducer: PropTypes.shape({
       isActivityLoading: PropTypes.bool,
@@ -73,26 +75,9 @@ export default class ActivityPreviewUI extends Component {
   constructor(props, context) {
     super(props, context);
     const { Logger } = this.context;
-
     logger = new Logger('Activity preview');
     logger.debug('constructor');
   }
-
-  /*getChildContext() {
-    return {
-      activity: this.context.activityReducer.activity,
-      activityWorkspace: this.context.activityReducer.activityWorkspace,
-      activityWSManager: this.context.activityReducer.activityWSManager,
-      activityFieldsManager: this.context.activityReducer.activityFieldsManager,
-      contactFieldsManager: this.context.contactReducer.contactFieldsManager,
-      contactsByIds: this.context.contactReducer.contactsByIds,
-      currentWorkspaceSettings: this.context.activityReducer.currentWorkspaceSettings,
-      activityFundingTotals: this.context.activityReducer.activityFundingTotals,
-      currencyRatesManager: this.context.activityReducer.currencyRatesManager,
-      resourceReducer: this.context.resourceReducer,
-      calendar: this.context.startUpReducer.calendar,
-    };
-  }*/
 
   componentWillMount() {
     this.context.loadActivityForActivityPreview(this.context.params.activityId);
@@ -106,13 +91,13 @@ export default class ActivityPreviewUI extends Component {
     const activity = this.context.activityReducer.activity;
     const {
       translate, Logger, rawNumberToFormattedString, getActivityContactIds,
-      getAmountsInThousandsMessage
+      getAmountsInThousandsMessage, activityReducer, userReducer, workspaceReducer
     } = this.context;
     const { IconFormatter, DesktopManager, APDocumentPage } = this.props;
 
     const categories = ActivityConstants.AP_SECTION_IDS.map((category) => {
       if (category.sectionPath
-        && !this.context.activityReducer.activityFieldsManager.isFieldPathEnabled(category.sectionPath)) {
+        && !activityReducer.activityFieldsManager.isFieldPathEnabled(category.sectionPath)) {
         return null;
       }
       if (category.fmPath && !FeatureManager.isFMSettingEnabled(category.fmPath)) {
@@ -124,10 +109,10 @@ export default class ActivityPreviewUI extends Component {
     const categoryKeys = ActivityConstants.AP_SECTION_IDS.map(category => category.key);
 
     const teamLeadFlag =
-      this.context.userReducer.teamMember[WorkspaceConstants.ROLE_ID] === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_MANAGER
-      || this.context.userReducer.teamMember[WorkspaceConstants.ROLE_ID] === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_APPROVER;
+      userReducer.teamMember[WorkspaceConstants.ROLE_ID] === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_MANAGER
+      || userReducer.teamMember[WorkspaceConstants.ROLE_ID] === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_APPROVER;
 
-    const privateWSWarning = this.context.workspaceReducer.currentWorkspace[WorkspaceConstants.IS_PRIVATE]
+    const privateWSWarning = workspaceReducer.currentWorkspace[WorkspaceConstants.IS_PRIVATE]
       ? translate('privateWorkspaceWarning') : '';
 
     return (
@@ -141,10 +126,10 @@ export default class ActivityPreviewUI extends Component {
                 id={activity.id} edit={!activity[ActivityConstants.REJECTED_ID]} view={false}
                 status={DesktopManager.getActivityStatus(activity)}
                 activityTeamId={activity[ActivityConstants.TEAM].id}
-                teamId={this.context.userReducer.teamMember[WorkspaceConstants.WORKSPACE_ID]}
+                teamId={userReducer.teamMember[WorkspaceConstants.WORKSPACE_ID]}
                 teamLeadFlag={teamLeadFlag}
-                wsAccessType={this.context.workspaceReducer.currentWorkspace[WorkspaceConstants.ACCESS_TYPE]}
-                crossTeamWS={this.context.workspaceReducer.currentWorkspace[WorkspaceConstants.CROSS_TEAM_VALIDATION]} />
+                wsAccessType={workspaceReducer.currentWorkspace[WorkspaceConstants.ACCESS_TYPE]}
+                crossTeamWS={workspaceReducer.currentWorkspace[WorkspaceConstants.CROSS_TEAM_VALIDATION]} />
             </ul>
           </span>
 
@@ -185,16 +170,16 @@ export default class ActivityPreviewUI extends Component {
   }
 
   _getMessage() {
-    const { translate } = this.context;
+    const { translate, activityReducer } = this.context;
     let message = null;
-    if (this.context.activityReducer.isActivityLoading === true) {
+    if (activityReducer.isActivityLoading === true) {
       message = translate('activityLoading');
-    } else if (this.context.activityReducer.isActivityLoaded === true) {
-      if (!this.context.activityReducer.activity) {
+    } else if (activityReducer.isActivityLoaded === true) {
+      if (!activityReducer.activity) {
         message = translate('activityUnexpectedError');
       }
-    } else if (this.context.activityReducer.errorMessage) {
-      message = `${this.context.activityReducer.errorMessage}`;
+    } else if (activityReducer.errorMessage) {
+      message = `${activityReducer.errorMessage}`;
     }
     return message === null ? '' : <h1>{message}</h1>;
   }
