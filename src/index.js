@@ -20,8 +20,6 @@ import ActionUrl from './activity/common/ActionUrl.jsx';
 import Loading from './activity/common/Loading.jsx';
 import ResourceConstants from './utils/constants/ResourceConstants';
 import CalendarConstants from './modules/util/CalendarConstants';
-import APFundingSources from './activity/preview/sections/APFundingSources.jsx';
-import APRelatedOrganizations from './activity/preview/sections/APRelatedOrganizations.jsx';
 import downloadImage from './assets/images/download.svg';
 import ajaxLoader from './assets/images/ajax-loader.gif';
 import gotoImage from './assets/images/goto_url.svg';
@@ -50,8 +48,6 @@ export {
   ResourceConstants,
   CalendarConstants,
   ContactConstants,
-  APFundingSources,
-  APRelatedOrganizations,
   downloadImage,
   ajaxLoader,
   gotoImage,
@@ -81,8 +77,6 @@ export default {
   ResourceConstants,
   CalendarConstants,
   ContactConstants,
-  APFundingSources,
-  APRelatedOrganizations,
   downloadImage,
   ajaxLoader,
   gotoImage,
