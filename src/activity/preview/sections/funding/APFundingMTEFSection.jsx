@@ -16,7 +16,8 @@ let logger = null;
 class APFundingMTEFSection extends Component {
   static contextTypes = {
     currentWorkspaceSettings: PropTypes.object.isRequired,
-    currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager)
+    currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
+    Logger: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -24,19 +25,19 @@ class APFundingMTEFSection extends Component {
     DateUtils: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
-    Logger: PropTypes.func.isRequired
   };
+
   constructor(props, context) {
     super(props, context);
-    const { Logger } = props;
+    const { Logger } = this.context;
     logger = new Logger('AP Funding MTEF section');
   }
   drawTable(mtef, currency) {
-    const { translate, Logger, rawNumberToFormattedString, DateUtils } = this.props;
+    const { translate, rawNumberToFormattedString, DateUtils } = this.props;
     return (<table className={styles.funding_table}>
       {<APFundingMTEFItem
         item={mtef} key={UIUtils.numberRandom()} wsCurrency={currency}
-        translate={translate} Logger={Logger} rawNumberToFormattedString={rawNumberToFormattedString}
+        translate={translate} rawNumberToFormattedString={rawNumberToFormattedString}
         DateUtils={DateUtils}
       />}
     </table>);
@@ -44,7 +45,7 @@ class APFundingMTEFSection extends Component {
 
   drawSubTotal(funding, currency, type) {
     let subtotal = 0;
-    const { translate, Logger, rawNumberToFormattedString } = this.props;
+    const { translate, rawNumberToFormattedString } = this.props;
     funding[ActivityConstants.MTEF_PROJECTIONS].forEach(mtef => {
       if (mtef[ActivityConstants.PROJECTION].value === type) {
         subtotal += this.context.currencyRatesManager.convertAmountToCurrency(mtef[ActivityConstants.AMOUNT],
@@ -58,14 +59,14 @@ class APFundingMTEFSection extends Component {
         currency={currency}
         key={Math.random()}
         rawNumberToFormattedString={rawNumberToFormattedString}
-        Logger={Logger}
+
       />
     </div>);
   }
 
   render() {
     logger.debug('render');
-    const { translate, Logger, funding } = this.props;
+    const { translate, funding } = this.props;
     const types = [ActivityConstants.PIPELINE, ActivityConstants.PROJECTION];
     const currency = this.context.currentWorkspaceSettings.currency.code;
     if (FeatureManager.isFMSettingEnabled(FeatureManagerConstants.MTEF_PROJECTIONS)
@@ -90,7 +91,7 @@ class APFundingMTEFSection extends Component {
         <div className={stylesMTEF.header}>
           <APLabel
             label={translate('MTEF Projections')} labelClass={styles.header} key={Math.random()}
-            translate={translate} Logger={Logger} />
+            translate={translate} />
         </div>
         {content}
       </div>);

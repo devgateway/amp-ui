@@ -87,7 +87,7 @@ export default class ActivityPreviewUI extends Component {
   _renderData() {
     const activity = this.context.activityReducer.activity;
     const {
-      translate, Logger, rawNumberToFormattedString, getActivityContactIds,
+      translate, rawNumberToFormattedString, getActivityContactIds,
       getAmountsInThousandsMessage, activityReducer, userReducer, workspaceReducer,
       IconFormatter, DesktopManager, APDocumentPage
     } = this.context;
@@ -134,7 +134,7 @@ export default class ActivityPreviewUI extends Component {
             <APStatusBar
               fieldClass={styles.inline_flex}
               fieldNameClass={styles.preview_status_title} fieldValueClass={styles.preview_status_detail}
-              titleClass={styles.status_title_class} groupClass={styles.status_group_class} Logger={Logger} />
+              titleClass={styles.status_title_class} groupClass={styles.status_group_class} />
           </div>
           <div className={styles.preview_categories}>
             <Scrollspy items={categoryKeys} currentClassName={styles.preview_category_selected}>
@@ -147,13 +147,13 @@ export default class ActivityPreviewUI extends Component {
             <Row>
               <Col md={9}>
                 <MainGroup
-                  Logger={Logger} APDocumentPage={APDocumentPage}
+                  APDocumentPage={APDocumentPage}
                   rawNumberToFormattedString={rawNumberToFormattedString}
                   getAmountsInThousandsMessage={getAmountsInThousandsMessage}
-                  getActivityContactIds={getActivityContactIds} {...this.props} {...this.context} />
+                  getActivityContactIds={getActivityContactIds} />
               </Col>
               <Col mdOffset={9} className={styles.preview_summary}>
-                <SummaryGroup Logger={Logger} {...this.props} {...this.context} />
+                <SummaryGroup />
               </Col>
             </Row>
           </Grid>

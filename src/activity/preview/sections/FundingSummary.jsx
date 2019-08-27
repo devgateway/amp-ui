@@ -26,13 +26,16 @@ class FundingSummary extends Component {
     activityFundingTotals: PropTypes.object.isRequired, // PropTypes.instanceOf(ActivityFundingTotals).isRequired,
     fieldNameClass: PropTypes.string,
     fieldValueClass: PropTypes.string,
-    Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+  };
+
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('Funding summary');
     logger.debug('constructor');
   }
@@ -117,7 +120,7 @@ class FundingSummary extends Component {
         fundingInfoSummary.push(<APField
           key={key} title={title} value={value} separator={false}
           fieldNameClass={this.props.fieldNameClass} fieldValueClass={this.props.fieldValueClass}
-          translate={translate} Logger={this.props.Logger} />);
+          translate={translate} />);
       }
     });
     return fundingInfoSummary;

@@ -11,12 +11,15 @@ let logger = null;
 class APStatusBar extends Component {
   static propTypes = {
     buildSimpleField: PropTypes.func.isRequired,
+  };
+
+  static contextTypes = {
     Logger: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP status bar');
     logger.debug('constructor');
   }

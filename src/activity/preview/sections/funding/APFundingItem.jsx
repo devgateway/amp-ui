@@ -20,7 +20,6 @@ export default class APFundingItem extends Component {
     showPledge: PropTypes.bool.isRequired,
     showFixedExchangeRate: PropTypes.bool.isRequired,
     DateUtils: PropTypes.func.isRequired,
-    Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired
   };
@@ -28,11 +27,12 @@ export default class APFundingItem extends Component {
   static contextTypes = {
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     activityFieldsManager: PropTypes.instanceOf(FieldsManager),
+    Logger: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP Funding item');
     logger.debug('constructor');
   }

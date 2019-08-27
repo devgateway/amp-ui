@@ -11,13 +11,16 @@ export default class APLabel extends Component {
     /* decorator: PropTypes.func, // TODO: To be implemented. */
     separator: PropTypes.bool,
     tooltip: PropTypes.string,
-    Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+  };
+
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP Label');
     logger.debug('constructor');
   }

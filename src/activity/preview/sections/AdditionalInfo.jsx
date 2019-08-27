@@ -23,13 +23,16 @@ class AdditionalInfo extends Component {
     fieldNameClass: PropTypes.string,
     fieldValueClass: PropTypes.string,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
-    Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+  };
+
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP Additional info');
     logger.debug('constructor');
   }
@@ -46,7 +49,7 @@ class AdditionalInfo extends Component {
   _buildAdditionalInfo() {
     const {
       translate, activityWorkspace, activityFieldsManager, buildSimpleField,
-      fieldNameClass, fieldValueClass, activity, Logger
+      fieldNameClass, fieldValueClass, activity
     } = this.props;
     const additionalInfo = [];
     const teamName = activityFieldsManager.getValue(activity, ActivityConstants.TEAM,
@@ -62,13 +65,13 @@ class AdditionalInfo extends Component {
     additionalInfo.push(buildSimpleField(ActivityConstants.MODIFIED_BY, true));
     additionalInfo.push(buildSimpleField(ActivityConstants.MODIFIED_ON, true));
     additionalInfo.push(APField.instance('createdInWorkspace', `${teamName} - ${accessType}`,
-      false, false, fieldNameClass, fieldValueClass, translate, Logger));
+      false, false, fieldNameClass, fieldValueClass, translate));
 
     additionalInfo.push(APField.instance('workspaceManager', this._getWorkspaceLeadData(),
-      false, false, fieldNameClass, fieldValueClass, translate, Logger));
+      false, false, fieldNameClass, fieldValueClass, translate));
 
     additionalInfo.push(APField.instance('computation', isComputedTeam,
-      false, false, fieldNameClass, fieldValueClass, translate, Logger));
+      false, false, fieldNameClass, fieldValueClass, translate));
 
     return additionalInfo;
   }

@@ -122,7 +122,7 @@ const Section = (ComposedSection, params) => class extends Component {
           fieldClass={options_.fieldClass || this.props.fieldClass}
           fieldNameClass={this.props.fieldNameClass}
           fieldValueClass={options_.fieldValueClass || this.props.fieldValueClass}
-          translate={params.translate} Logger={params.Logger} />);
+          translate={params.translate} />);
       }
     }
   }

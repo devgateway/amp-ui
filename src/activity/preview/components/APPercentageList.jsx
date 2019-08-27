@@ -28,14 +28,17 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     columns: PropTypes.number,
     fmPath: PropTypes.string,
     getItemTitle: PropTypes.func,
-    Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+  };
+
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP percentage list');
     logger.debug('constructor');
   }
@@ -53,7 +56,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
   render() {
     const {
       translate, activityFieldsManager, percentTitleClass, fmPath, activity, columns, tablify
-      , percentValueClass, fieldNameClass, fieldValueClass, Logger, rawNumberToFormattedString
+      , percentValueClass, fieldNameClass, fieldValueClass, rawNumberToFormattedString
     } = this.props;
     const title = listTitle ? translate(listTitle) : null;
     let items = activity[listField];
@@ -73,21 +76,21 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
           (<APPercentageField
             key={UIUtils.stringToUniqueId(itemTitle)} title={itemTitle} value={percentage}
             titleClass={percentTitleClass} valueClass={percentValueClass} translate={translate}
-            Logger={Logger} rawNumberToFormattedString={rawNumberToFormattedString} />)
+            rawNumberToFormattedString={rawNumberToFormattedString} />)
         );
         if (tablify) {
-          content = <Tablify content={content} columns={columns} Logger={Logger} />;
+          content = <Tablify content={content} columns={columns} />;
         }
         content = (<APField
           key={listField} title={title} value={content} separator={false} inline={tablify === true}
           fieldNameClass={fieldNameClass} fieldValueClass={fieldValueClass}
-          translate={translate} Logger={Logger} />);
+          translate={translate} />);
       } else {
         content = (<APField
           key={listField} title={title} value={translate('No Data')} separator={false}
           inline={tablify === true}
           fieldNameClass={fieldNameClass} fieldValueClass={styles.nodata}
-          translate={translate} Logger={Logger} />);
+          translate={translate} />);
       }
     }
     return content;

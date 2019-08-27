@@ -19,6 +19,7 @@ export default class APFundingTransactionTypeItem extends Component {
     currentWorkspaceSettings: PropTypes.object.isRequired,
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
+    Logger: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -28,12 +29,11 @@ export default class APFundingTransactionTypeItem extends Component {
     DateUtils: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
-    Logger: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
-    super(props);
-    const { Logger } = this.props;
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP Funding transaction type item');
     logger.debug('constructor');
     this._currency = context.currentWorkspaceSettings.currency.code;
@@ -50,21 +50,21 @@ export default class APFundingTransactionTypeItem extends Component {
   }
 
   _drawHeader() {
-    const { translate, Logger } = this.props;
+    const { translate } = this.props;
     return (
       <div>
         <APLabel
           label={translate(this._measure)} labelClass={styles.header} key={this._key}
-          translate={translate} Logger={Logger} />
+          translate={translate} />
         {this._showFixedExRate ?
           <APLabel
             label={translate('Fixed Exchange Rate')} labelClass={styles.exchange_rate}
-            translate={translate} Logger={Logger} /> : null}
+            translate={translate} /> : null}
       </div>);
   }
 
   _drawDetail() {
-    const { fundingDetails, trnType, translate, Logger, DateUtils, rawNumberToFormattedString } = this.props;
+    const { fundingDetails, trnType, translate, DateUtils, rawNumberToFormattedString } = this.props;
     return (<table className={styles.funding_table}>
       {fundingDetails.map(item =>
         (<APFundingItem
@@ -75,14 +75,14 @@ export default class APFundingTransactionTypeItem extends Component {
           translate={translate}
           DateUtils={DateUtils}
           rawNumberToFormattedString={rawNumberToFormattedString}
-          Logger={Logger}
+
         />))
       }
     </table>);
   }
 
   _drawSubTotalFooter() {
-    const { fundingDetails, translate, Logger, rawNumberToFormattedString } = this.props;
+    const { fundingDetails, translate, rawNumberToFormattedString } = this.props;
     const subtotal = this.context.currencyRatesManager.convertFundingDetailsToCurrency(fundingDetails, this._currency);
     const labelTrn = translate(`Subtotal ${this._measure}`).toUpperCase();
     return (
@@ -93,7 +93,7 @@ export default class APFundingTransactionTypeItem extends Component {
           currency={translate(this._currency)}
           key={this._key}
           rawNumberToFormattedString={rawNumberToFormattedString}
-          Logger={Logger}
+
         />
       </div>);
   }

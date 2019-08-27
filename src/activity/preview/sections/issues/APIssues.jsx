@@ -13,26 +13,26 @@ let logger = null;
  * @author Gabriel Inchauspe
  */
 class APIssues extends Component {
-  /* eslint-disable react/no-unused-prop-types */
   static propTypes = {
     activity: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
-    Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func,
   };
 
-  /* eslint-enable react/no-unused-prop-types */
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+  };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP issues');
     logger.debug('constructor');
   }
 
   _buildIssues() {
-    const { DateUtils, activity, activityFieldsManager, translate, Logger } = this.props;
+    const { DateUtils, activity, activityFieldsManager, translate } = this.props;
     let content = [];
     if (activity[ActivityConstants.ISSUES]) {
       activity[ActivityConstants.ISSUES].forEach((issue) => {
@@ -48,7 +48,7 @@ class APIssues extends Component {
           content.push(
             <APMeasure
               key={UIUtils.stringToUniqueId()} activityFieldsManager={activityFieldsManager}
-              measure={measure} translate={translate} Logger={Logger}
+              measure={measure} translate={translate}
               DateUtils={DateUtils} />);
         });
       });

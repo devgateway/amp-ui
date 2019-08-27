@@ -22,18 +22,19 @@ class APFundingOrganizationSection extends Component {
     funding: PropTypes.object.isRequired,
     buildSimpleField: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
-    Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired
   };
+
   static contextTypes = {
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
-    currentWorkspaceSettings: PropTypes.object.isRequired
+    currentWorkspaceSettings: PropTypes.object.isRequired,
+    Logger: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
-    super(props);
-    const { Logger } = this.props;
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP funding organization section');
     logger.debug('constructor');
     this._currency = context.currentWorkspaceSettings.currency.code;
@@ -75,16 +76,16 @@ class APFundingOrganizationSection extends Component {
   }
 
   _buildMTEFDetailSection() {
-    const { translate, rawNumberToFormattedString, DateUtils, Logger } = this.props;
+    const { translate, rawNumberToFormattedString, DateUtils } = this.props;
     return (<APFundingMTEFSection
-      funding={this.props.funding} Logger={Logger} translate={translate}
+      funding={this.props.funding} translate={translate}
       DateUtils={DateUtils} rawNumberToFormattedString={rawNumberToFormattedString}
     />);
   }
 
   _buildFundingDetailSection() {
     // Group the list of funding details by adjustment_type and transaction_type.
-    const { translate, rawNumberToFormattedString, DateUtils, Logger } = this.props;
+    const { translate, rawNumberToFormattedString, DateUtils } = this.props;
     const groups = [];
     FieldPathConstants.FUNDING_TRANSACTION_TYPES.forEach(trnType => {
       const fds = this.props.funding[trnType];
@@ -113,13 +114,13 @@ class APFundingOrganizationSection extends Component {
         key={idx}
         buildSimpleField={this.props.buildSimpleField}
         DateUtils={DateUtils} translate={translate}
-        Logger={Logger}
+
         rawNumberToFormattedString={rawNumberToFormattedString} />)
     );
   }
 
   _buildUndisbursedBalanceSection() {
-    const { translate, rawNumberToFormattedString, Logger } = this.props;
+    const { translate, rawNumberToFormattedString } = this.props;
     let totalActualDisbursements = 0;
     let totalActualCommitments = 0;
     const fd = this.props.funding;
@@ -145,7 +146,7 @@ class APFundingOrganizationSection extends Component {
         currency={translate(this._currency)}
         key={'undisbursed-balance-key'}
         rawNumberToFormattedString={rawNumberToFormattedString}
-        Logger={Logger}
+
       />
     </div>);
   }

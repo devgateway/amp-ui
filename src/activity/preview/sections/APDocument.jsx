@@ -129,12 +129,12 @@ class APDocument extends Component {
     const { isResourcesLoading, isResourceManagersLoading } = this.props.resourceReducer;
     const { translate, Logger } = this.props;
     if (isResourcesLoading || isResourceManagersLoading) {
-      return <Loading Logger={Logger} translate={translate} />;
+      return <Loading translate={translate} Logger={Logger} />;
     }
     return (
       <APField
         fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}
-        value={translate('No Data')} translate={translate} Logger={Logger} />
+        value={translate('No Data')} translate={translate} />
     );
   }
 

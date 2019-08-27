@@ -17,14 +17,17 @@ const APProjectCost = (fieldName) => class extends Component {
     activityFieldsManager: PropTypes.object.isRequired,
     activityFundingTotals: PropTypes.object.isRequired,
     translate: PropTypes.func.isRequired,
-    Logger: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+  };
+
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP project cost');
     logger.debug('constructor');
   }
