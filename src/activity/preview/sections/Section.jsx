@@ -43,6 +43,7 @@ const Section = (ComposedSection, params) => class extends Component {
     rawNumberToFormattedString: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
     getAmountsInThousandsMessage: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -50,7 +51,6 @@ const Section = (ComposedSection, params) => class extends Component {
     groupClass: styles.section_group_class,
     fieldNameClass: styles.section_field_name,
     fieldValueClass: styles.section_field_value,
-    translate: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
