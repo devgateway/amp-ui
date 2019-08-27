@@ -34,13 +34,9 @@ import APFundingMTEFSection from './activity/preview/sections/funding/APFundingM
 import APFundingItem from './activity/preview/sections/funding/APFundingItem.jsx';
 import APFundingTransactionTypeItem from './activity/preview/sections/funding/APFundingTransactionTypeItem.jsx';
 import APFundingOrganizationSection from './activity/preview/sections/funding/APFundingOrganizationSection.jsx';
-import APFundingSection from './activity/preview/sections/funding/APFundingSection.jsx';
 import downloadImage from './assets/images/download.svg';
 import ajaxLoader from './assets/images/ajax-loader.gif';
 import gotoImage from './assets/images/goto_url.svg';
-import APStatusBar from './activity/preview/sections/APStatusBar.jsx';
-import SummaryGroup from './activity/preview/SummaryGroup.jsx';
-import MainGroup from './activity/preview/MainGroup.jsx';
 import ActivityPreviewUI from './activity/preview/ActivityPreviewUI.jsx';
 
 export {
@@ -81,13 +77,9 @@ export {
   APFundingItem,
   APFundingTransactionTypeItem,
   APFundingOrganizationSection,
-  APFundingSection,
   downloadImage,
   ajaxLoader,
   gotoImage,
-  APStatusBar,
-  SummaryGroup,
-  MainGroup,
   ActivityPreviewUI,
 };
 
@@ -129,12 +121,8 @@ export default {
   APFundingItem,
   APFundingTransactionTypeItem,
   APFundingOrganizationSection,
-  APFundingSection,
   downloadImage,
   ajaxLoader,
   gotoImage,
-  APStatusBar,
-  SummaryGroup,
-  MainGroup,
   ActivityPreviewUI,
 };
