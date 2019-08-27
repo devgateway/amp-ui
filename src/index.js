@@ -10,10 +10,8 @@ import CurrencyRatesManager from './modules/util/CurrencyRatesManager';
 import PossibleValuesManager from './modules/field/PossibleValuesManager';
 import FeatureManager from './modules/util/FeatureManager';
 import APLabel from './activity/preview/components/APLabel.jsx';
-import FundingSummary from './activity/preview/sections/FundingSummary.jsx';
 import APIdentification from './activity/preview/sections/APIdentification.jsx';
 import UIUtils from './utils/UIUtils';
-import APInternalIds from './activity/preview/sections/APInternalIds.jsx';
 import APDocument from './activity/preview/sections/APDocument.jsx';
 import APContact from './activity/preview/sections/APContact.jsx';
 import UserConstants from './utils/constants/UserConstants';
@@ -27,10 +25,6 @@ import CalendarConstants from './modules/util/CalendarConstants';
 import APFundingSources from './activity/preview/sections/APFundingSources.jsx';
 import APRelatedOrganizations from './activity/preview/sections/APRelatedOrganizations.jsx';
 import { APProposedProjectCost, APRevisedProjectCost } from './activity/preview/sections/APProjectCost.jsx';
-import APFundingTotalItem from './activity/preview/sections/funding/APFundingTotalItem.jsx';
-import APFundingTotalsSection from './activity/preview/sections/funding/APFundingTotalsSection.jsx';
-import APFundingMTEFItem from './activity/preview/sections/funding/APFundingMTEFItem.jsx';
-import APFundingMTEFSection from './activity/preview/sections/funding/APFundingMTEFSection.jsx';
 import APFundingItem from './activity/preview/sections/funding/APFundingItem.jsx';
 import APFundingTransactionTypeItem from './activity/preview/sections/funding/APFundingTransactionTypeItem.jsx';
 import APFundingOrganizationSection from './activity/preview/sections/funding/APFundingOrganizationSection.jsx';
@@ -52,12 +46,10 @@ export {
   FeatureManager,
   APLabel,
   UIUtils,
-  FundingSummary,
   UserConstants,
   WorkspaceConstants,
   WorkspaceGroupsConstants,
   APIdentification,
-  APInternalIds,
   APDocument,
   ActionIcon,
   ActionUrl,
@@ -70,10 +62,6 @@ export {
   APRelatedOrganizations,
   APProposedProjectCost,
   APRevisedProjectCost,
-  APFundingTotalItem,
-  APFundingTotalsSection,
-  APFundingMTEFItem,
-  APFundingMTEFSection,
   APFundingItem,
   APFundingTransactionTypeItem,
   APFundingOrganizationSection,
@@ -96,12 +84,10 @@ export default {
   FeatureManager,
   APLabel,
   UIUtils,
-  FundingSummary,
   UserConstants,
   WorkspaceConstants,
   WorkspaceGroupsConstants,
   APIdentification,
-  APInternalIds,
   APDocument,
   ActionIcon,
   ActionUrl,
@@ -114,10 +100,6 @@ export default {
   APRelatedOrganizations,
   APProposedProjectCost,
   APRevisedProjectCost,
-  APFundingTotalItem,
-  APFundingTotalsSection,
-  APFundingMTEFItem,
-  APFundingMTEFSection,
   APFundingItem,
   APFundingTransactionTypeItem,
   APFundingOrganizationSection,
