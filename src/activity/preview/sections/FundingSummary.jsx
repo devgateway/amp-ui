@@ -26,11 +26,11 @@ class FundingSummary extends Component {
     activityFundingTotals: PropTypes.object.isRequired, // PropTypes.instanceOf(ActivityFundingTotals).isRequired,
     fieldNameClass: PropTypes.string,
     fieldValueClass: PropTypes.string,
-    translate: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
     Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
@@ -95,7 +95,7 @@ class FundingSummary extends Component {
   }
 
   _buildTotalFields(measuresTotals) {
-    const { translate } = this.props;
+    const { translate } = this.context;
     const measuresOrder = [
       { trn: ValueConstants.ACTUAL_COMMITMENTS, total: true },
       { trn: ValueConstants.PLANNED_COMMITMENTS, total: true },
@@ -120,7 +120,7 @@ class FundingSummary extends Component {
         fundingInfoSummary.push(<APField
           key={key} title={title} value={value} separator={false}
           fieldNameClass={this.props.fieldNameClass} fieldValueClass={this.props.fieldValueClass}
-          translate={translate} />);
+        />);
       }
     });
     return fundingInfoSummary;

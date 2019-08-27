@@ -28,12 +28,12 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     columns: PropTypes.number,
     fmPath: PropTypes.string,
     getItemTitle: PropTypes.func,
-    translate: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired
   };
 
   static contextTypes = {
     Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
@@ -55,9 +55,10 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
 
   render() {
     const {
-      translate, activityFieldsManager, percentTitleClass, fmPath, activity, columns, tablify
+      activityFieldsManager, percentTitleClass, fmPath, activity, columns, tablify
       , percentValueClass, fieldNameClass, fieldValueClass, rawNumberToFormattedString
     } = this.props;
+    const { translate } = this.context;
     const title = listTitle ? translate(listTitle) : null;
     let items = activity[listField];
     let content = null;
@@ -75,7 +76,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
         content = items.map(({ itemTitle, percentage }) =>
           (<APPercentageField
             key={UIUtils.stringToUniqueId(itemTitle)} title={itemTitle} value={percentage}
-            titleClass={percentTitleClass} valueClass={percentValueClass} translate={translate}
+            titleClass={percentTitleClass} valueClass={percentValueClass}
             rawNumberToFormattedString={rawNumberToFormattedString} />)
         );
         if (tablify) {
@@ -84,13 +85,13 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
         content = (<APField
           key={listField} title={title} value={content} separator={false} inline={tablify === true}
           fieldNameClass={fieldNameClass} fieldValueClass={fieldValueClass}
-          translate={translate} />);
+        />);
       } else {
         content = (<APField
           key={listField} title={title} value={translate('No Data')} separator={false}
           inline={tablify === true}
           fieldNameClass={fieldNameClass} fieldValueClass={styles.nodata}
-          translate={translate} />);
+        />);
       }
     }
     return content;

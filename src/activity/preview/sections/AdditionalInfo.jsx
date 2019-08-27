@@ -23,11 +23,11 @@ class AdditionalInfo extends Component {
     fieldNameClass: PropTypes.string,
     fieldValueClass: PropTypes.string,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
-    translate: PropTypes.func.isRequired
   };
 
   static contextTypes = {
     Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
@@ -48,9 +48,10 @@ class AdditionalInfo extends Component {
 
   _buildAdditionalInfo() {
     const {
-      translate, activityWorkspace, activityFieldsManager, buildSimpleField,
+      activityWorkspace, activityFieldsManager, buildSimpleField,
       fieldNameClass, fieldValueClass, activity
     } = this.props;
+    const { translate } = this.context;
     const additionalInfo = [];
     const teamName = activityFieldsManager.getValue(activity, ActivityConstants.TEAM,
       PossibleValuesManager.getOptionTranslation);

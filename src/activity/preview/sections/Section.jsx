@@ -39,7 +39,6 @@ const Section = (ComposedSection, params) => class extends Component {
     activityWSManager: PropTypes.object.isRequired,
     resourceReducer: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
@@ -50,7 +49,8 @@ const Section = (ComposedSection, params) => class extends Component {
     titleClass: styles.section_title_class,
     groupClass: styles.section_group_class,
     fieldNameClass: styles.section_field_name,
-    fieldValueClass: styles.section_field_value
+    fieldValueClass: styles.section_field_value,
+    translate: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {

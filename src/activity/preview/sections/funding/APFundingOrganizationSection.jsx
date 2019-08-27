@@ -22,7 +22,6 @@ class APFundingOrganizationSection extends Component {
     funding: PropTypes.object.isRequired,
     buildSimpleField: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired
   };
 
@@ -30,6 +29,7 @@ class APFundingOrganizationSection extends Component {
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     currentWorkspaceSettings: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
@@ -76,16 +76,16 @@ class APFundingOrganizationSection extends Component {
   }
 
   _buildMTEFDetailSection() {
-    const { translate, rawNumberToFormattedString, DateUtils } = this.props;
+    const { rawNumberToFormattedString, DateUtils } = this.props;
     return (<APFundingMTEFSection
-      funding={this.props.funding} translate={translate}
+      funding={this.props.funding}
       DateUtils={DateUtils} rawNumberToFormattedString={rawNumberToFormattedString}
     />);
   }
 
   _buildFundingDetailSection() {
     // Group the list of funding details by adjustment_type and transaction_type.
-    const { translate, rawNumberToFormattedString, DateUtils } = this.props;
+    const { rawNumberToFormattedString, DateUtils } = this.props;
     const groups = [];
     FieldPathConstants.FUNDING_TRANSACTION_TYPES.forEach(trnType => {
       const fds = this.props.funding[trnType];
@@ -113,14 +113,15 @@ class APFundingOrganizationSection extends Component {
         fundingDetails={group}
         key={idx}
         buildSimpleField={this.props.buildSimpleField}
-        DateUtils={DateUtils} translate={translate}
+        DateUtils={DateUtils}
 
         rawNumberToFormattedString={rawNumberToFormattedString} />)
     );
   }
 
   _buildUndisbursedBalanceSection() {
-    const { translate, rawNumberToFormattedString } = this.props;
+    const { rawNumberToFormattedString } = this.props;
+    const { translate } = this.context;
     let totalActualDisbursements = 0;
     let totalActualCommitments = 0;
     const fd = this.props.funding;

@@ -16,13 +16,13 @@ const APProjectCost = (fieldName) => class extends Component {
     activity: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.object.isRequired,
     activityFundingTotals: PropTypes.object.isRequired,
-    translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired
   };
 
   static contextTypes = {
     Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
@@ -43,7 +43,8 @@ const APProjectCost = (fieldName) => class extends Component {
 
   render() {
     let content = null;
-    const { rawNumberToFormattedString, translate, DateUtils } = this.props;
+    const { rawNumberToFormattedString, DateUtils } = this.props;
+    const { translate } = this.context;
     if (this.props.activityFieldsManager.isFieldPathEnabled(fieldName) === true) {
       const currency = this.props.activityFundingTotals._currentWorkspaceSettings.currency.code;
       let amount = 0;

@@ -16,12 +16,12 @@ class APIssues extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
-    translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func,
   };
 
   static contextTypes = {
     Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
@@ -32,7 +32,8 @@ class APIssues extends Component {
   }
 
   _buildIssues() {
-    const { DateUtils, activity, activityFieldsManager, translate } = this.props;
+    const { DateUtils, activity, activityFieldsManager } = this.props;
+    const { translate } = this.context;
     let content = [];
     if (activity[ActivityConstants.ISSUES]) {
       activity[ActivityConstants.ISSUES].forEach((issue) => {
@@ -48,7 +49,7 @@ class APIssues extends Component {
           content.push(
             <APMeasure
               key={UIUtils.stringToUniqueId()} activityFieldsManager={activityFieldsManager}
-              measure={measure} translate={translate}
+              measure={measure}
               DateUtils={DateUtils} />);
         });
       });
@@ -60,7 +61,8 @@ class APIssues extends Component {
   }
 
   render() {
-    const { activityFieldsManager, translate } = this.props;
+    const { activityFieldsManager } = this.props;
+    const { translate } = this.context;
     if (activityFieldsManager.isFieldPathEnabled(ActivityConstants.ISSUES)) {
       return <div>{this._buildIssues()}</div>;
     } else {

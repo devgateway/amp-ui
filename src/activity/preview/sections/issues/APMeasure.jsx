@@ -15,12 +15,12 @@ export default class APMeasures extends Component {
   static propTypes = {
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
     measure: PropTypes.object.isRequired,
-    translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func,
   };
 
   static contextTypes = {
     Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
@@ -31,7 +31,7 @@ export default class APMeasures extends Component {
   }
 
   _buildMeasure() {
-    const { translate, DateUtils } = this.props;
+    const { DateUtils } = this.props;
     const content = [];
     let date = '';
     /* eslint-disable max-len */
@@ -45,7 +45,7 @@ export default class APMeasures extends Component {
       content.push(
         <APActor
           key={UIUtils.stringToUniqueId()} activityFieldsManager={this.props.activityFieldsManager} actor={actor}
-          measure={measure} translate={translate} />);
+          measure={measure} />);
     });
     return content;
   }

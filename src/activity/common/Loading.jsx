@@ -8,7 +8,6 @@ let logger = null;
 export default class Loading extends Component {
   static propTypes = {
     Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -20,7 +19,7 @@ export default class Loading extends Component {
 
   render() {
     logger.log('render');
-    const { translate } = this.props;
+    const { translate } = this.context;
     return (
       <div className={styles.loading}>
         <span>{translate('loadingMessage')}</span>

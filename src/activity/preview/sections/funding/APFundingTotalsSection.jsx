@@ -20,11 +20,11 @@ class APFundingTotalsSection extends Component {
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     currentWorkspaceSettings: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   static propTypes = {
     rawNumberToFormattedString: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
@@ -37,8 +37,8 @@ class APFundingTotalsSection extends Component {
 
   render() {
     const content = [];
-    const { activityFieldsManager, activityFundingTotals } = this.context;
-    const { translate, rawNumberToFormattedString } = this.props;
+    const { activityFieldsManager, activityFundingTotals, translate } = this.context;
+    const { rawNumberToFormattedString } = this.props;
     let actualCommitments;
     let actualDisbursements;
     const options = [];

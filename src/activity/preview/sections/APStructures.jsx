@@ -15,11 +15,11 @@ class APStructures extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
     buildSimpleField: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
     Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   static getCoordinates(structure) {
@@ -46,7 +46,8 @@ class APStructures extends Component {
   }
 
   getCoordinates(structure) {
-    const { buildSimpleField, translate } = this.props;
+    const { buildSimpleField } = this.props;
+    const { translate } = this.context;
     let isPoint = false;
     if (!structure[ActivityConstants.STRUCTURES_SHAPE]) {
       if (!structure[ActivityConstants.STRUCTURES_LATITUDE] || !structure[ActivityConstants.STRUCTURES_LONGITUDE]) {

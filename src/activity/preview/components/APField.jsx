@@ -17,11 +17,11 @@ export default class APField extends Component {
     fieldNameClass: PropTypes.string,
     fieldValueClass: PropTypes.string,
     separator: PropTypes.bool,
-    translate: PropTypes.func,
   };
 
   static contextTypes = {
     Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func,
   };
 
   /**
@@ -38,7 +38,7 @@ export default class APField extends Component {
   static instance(trnLabel, value, inline = false, separator = false, nameClass, valueClass, translate) {
     return (<APField
       key={trnLabel} title={translate(trnLabel)} value={value} inline={inline} separator={separator}
-      fieldNameClass={nameClass} fieldValueClass={valueClass} translate={translate} />);
+      fieldNameClass={nameClass} fieldValueClass={valueClass} />);
   }
 
   constructor(props, context) {
@@ -51,7 +51,7 @@ export default class APField extends Component {
   }
 
   _getValue() {
-    const { translate } = this.props;
+    const { translate } = this.context;
     const classNames = `${this.props.fieldValueClass} ${this.displayClass}`;
     // To handle boolean fields we dont want to show 'false' as 'No Data'.
     const value = (this.props.value || this.props.value === false) ? this.props.value : translate('No Data');
