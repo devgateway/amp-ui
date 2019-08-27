@@ -19,12 +19,6 @@ let logger = null;
  * @author Nadejda Mandrescu
  */
 export default class ActivityPreviewUI extends Component {
-  static propTypes = {
-    IconFormatter: PropTypes.func,
-    DesktopManager: PropTypes.object,
-    APDocumentPage: PropTypes.func,
-  };
-
   /* Notice we dont implement getChildContext() and childContextTypes here because thats defined in Offline's
   * ActivityPreview.jsx and thats enough to go down to any depth level here. */
   static contextTypes = {
@@ -69,7 +63,10 @@ export default class ActivityPreviewUI extends Component {
     DateUtils: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
-    getAmountsInThousandsMessage: PropTypes.func.isRequired
+    getAmountsInThousandsMessage: PropTypes.func.isRequired,
+    IconFormatter: PropTypes.func.isRequired,
+    DesktopManager: PropTypes.object.isRequired,
+    APDocumentPage: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
@@ -91,9 +88,9 @@ export default class ActivityPreviewUI extends Component {
     const activity = this.context.activityReducer.activity;
     const {
       translate, Logger, rawNumberToFormattedString, getActivityContactIds,
-      getAmountsInThousandsMessage, activityReducer, userReducer, workspaceReducer
+      getAmountsInThousandsMessage, activityReducer, userReducer, workspaceReducer,
+      IconFormatter, DesktopManager, APDocumentPage
     } = this.context;
-    const { IconFormatter, DesktopManager, APDocumentPage } = this.props;
 
     const categories = ActivityConstants.AP_SECTION_IDS.map((category) => {
       if (category.sectionPath
