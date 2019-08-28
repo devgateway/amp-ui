@@ -32,8 +32,8 @@ class APDocument extends Component {
     }).isRequired,
     buildSimpleField: PropTypes.func.isRequired,
     saveFileDialog: PropTypes.func.isRequired,
-    getFullContentFilePath: PropTypes.func.isRequired,
-    openExternal: PropTypes.func.isRequired
+    openExternal: PropTypes.func.isRequired,
+    RepositoryManager: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
@@ -75,12 +75,12 @@ class APDocument extends Component {
    * @return {{urlText, url, action}}
    */
   getResourceUrlData(resource) {
-    const { getFullContentFilePath, saveFileDialog } = this.props;
+    const { saveFileDialog, RepositoryManager } = this.props;
     const { translate } = this.context;
     const resData = {};
     const fileName = resource[ResourceConstants.FILE_NAME];
     if (fileName) {
-      const srcFile = getFullContentFilePath(resource[ResourceConstants.CONTENT_ID]);
+      const srcFile = RepositoryManager.getFullContentFilePath(resource[ResourceConstants.CONTENT_ID]);
       resData.urlText = fileName;
       resData.action = srcFile ? () => saveFileDialog(srcFile, fileName) : null;
     }
