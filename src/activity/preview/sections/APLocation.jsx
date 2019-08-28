@@ -19,25 +19,28 @@ class APLocation extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired, // eslint-disable-line
     buildSimpleField: PropTypes.func.isRequired,
-    Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func,
     rawNumberToFormattedString: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
+  };
+
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP location');
     logger.debug('constructor');
   }
 
   render() {
-    const { Logger, translate, rawNumberToFormattedString } = this.props;
+    const { rawNumberToFormattedString } = this.props;
     let content = [<APLocationsList
       key="locations-list" {...this.props}
       percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value} tablify={false}
-      translate={translate} Logger={Logger} rawNumberToFormattedString={rawNumberToFormattedString} />];
+      rawNumberToFormattedString={rawNumberToFormattedString} />];
     const topContent = [ActivityConstants.IMPLEMENTATION_LEVEL, ActivityConstants.IMPLEMENTATION_LOCATION]
       .map(fp => <td key={fp}>{this.props.buildSimpleField(fp, true, new Set([0]))}</td>);
     content = content.filter(el => el !== undefined);

@@ -16,12 +16,15 @@ class APIdentification extends Component {
     buildSimpleField: PropTypes.func.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
     activity: PropTypes.object.isRequired,
-    Logger: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+  };
+
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP Identification');
     logger.debug('constructor');
   }

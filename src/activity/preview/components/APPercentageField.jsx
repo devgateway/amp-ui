@@ -13,13 +13,16 @@ export default class APPercentageField extends Component {
     value: PropTypes.number,
     titleClass: PropTypes.string,
     valueClass: PropTypes.string,
-    Logger: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+  };
+
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP percentage field');
     logger.log('constructor');
   }

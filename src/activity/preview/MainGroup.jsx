@@ -24,16 +24,19 @@ let logger = null;
  */
 export default class MainGroup extends Component {
   static propTypes = {
-    Logger: PropTypes.func.isRequired,
     APDocumentPage: PropTypes.any.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired,
     getAmountsInThousandsMessage: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+  };
+
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP Main group');
     logger.debug('constructor');
   }

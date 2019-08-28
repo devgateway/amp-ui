@@ -14,13 +14,17 @@ class APFundingTotalItem extends Component {
     currency: PropTypes.string,
     dontFormatNumber: PropTypes.bool,
     isPercentage: PropTypes.bool,
-    Logger: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+  };
+
+
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP Funding total item');
     logger.debug('constructor');
   }

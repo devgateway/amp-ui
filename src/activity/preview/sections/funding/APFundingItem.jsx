@@ -20,19 +20,19 @@ export default class APFundingItem extends Component {
     showPledge: PropTypes.bool.isRequired,
     showFixedExchangeRate: PropTypes.bool.isRequired,
     DateUtils: PropTypes.func.isRequired,
-    Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired
   };
 
   static contextTypes = {
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     activityFieldsManager: PropTypes.instanceOf(FieldsManager),
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP Funding item');
     logger.debug('constructor');
   }
@@ -47,7 +47,7 @@ export default class APFundingItem extends Component {
   }
 
   insertPledgeRow() {
-    const { translate } = this.props;
+    const { translate } = this.context;
     if (this.props.item.pledge && this.props.showPledge) {
       return (<tr className={styles.row}>
         <td colSpan={ActivityConstants.AP_FUNDINGS_TABLE_COLS} className={styles.left_text}>
@@ -63,7 +63,8 @@ export default class APFundingItem extends Component {
   }
 
   insertRecipientOrgRow() {
-    const { item, buildSimpleField, trnType, translate } = this.props;
+    const { item, buildSimpleField, trnType } = this.props;
+    const { translate } = this.context;
     if (item[ActivityConstants.RECIPIENT_ORGANIZATION] && item[ActivityConstants.RECIPIENT_ROLE]) {
       const options = { noTitle: true };
       return (<tr>
@@ -89,7 +90,8 @@ export default class APFundingItem extends Component {
 
   render() {
     logger.debug('render');
-    const { translate, DateUtils, rawNumberToFormattedString } = this.props;
+    const { DateUtils, rawNumberToFormattedString } = this.props;
+    const { translate } = this.context;
     const convertedAmount = this.context.currencyRatesManager.convertTransactionAmountToCurrency(this.props.item,
       this.props.wsCurrency);
     return (

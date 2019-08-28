@@ -22,8 +22,11 @@ class APContact extends Component {
     contactsByIds: PropTypes.object,
     buildSimpleField: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
-    Logger: PropTypes.func,
-    translate: PropTypes.func
+  };
+
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func,
   };
 
   getHydratedContacts() {
@@ -58,16 +61,15 @@ class APContact extends Component {
   }
 
   renderNoContacts() {
-    const { Logger, translate } = this.props;
+    const { translate } = this.context;
     return (
       <APField
         fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}
-        value={translate('No Data')} translate={translate} Logger={Logger} />
+        value={translate('No Data')} />
     );
   }
 
   render() {
-    const { Logger } = this.props;
     const { activity, activityFieldsManager } = this.props;
     const hydratedContactsByIds = this.getHydratedContacts();
     const contactGroups = FieldPathConstants.ACTIVITY_CONTACT_PATHS
@@ -91,7 +93,7 @@ class APContact extends Component {
       .reverse();
     return (<Tablify
       key="contact-info" content={contactGroups} columns={ActivityConstants.ACTIVITY_CONTACT_COLS}
-      Logger={Logger} />);
+    />);
   }
 }
 

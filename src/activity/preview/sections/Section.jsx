@@ -39,18 +39,18 @@ const Section = (ComposedSection, params) => class extends Component {
     activityWSManager: PropTypes.object.isRequired,
     resourceReducer: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
     getAmountsInThousandsMessage: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     titleClass: styles.section_title_class,
     groupClass: styles.section_group_class,
     fieldNameClass: styles.section_field_name,
-    fieldValueClass: styles.section_field_value
+    fieldValueClass: styles.section_field_value,
   };
 
   constructor(props, context) {
@@ -122,7 +122,7 @@ const Section = (ComposedSection, params) => class extends Component {
           fieldClass={options_.fieldClass || this.props.fieldClass}
           fieldNameClass={this.props.fieldNameClass}
           fieldValueClass={options_.fieldValueClass || this.props.fieldValueClass}
-          translate={params.translate} Logger={params.Logger} />);
+          translate={params.translate} />);
       }
     }
   }

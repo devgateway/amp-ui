@@ -8,7 +8,7 @@ let logger = null;
 export default class Loading extends Component {
   static propTypes = {
     Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired
+    translate: PropTypes.func.isRequired,
   };
 
   constructor(props) {

@@ -32,10 +32,13 @@ class APDocument extends Component {
     }).isRequired,
     buildSimpleField: PropTypes.func.isRequired,
     saveFileDialog: PropTypes.func.isRequired,
-    Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
     getFullContentFilePath: PropTypes.func.isRequired,
     openExternal: PropTypes.func.isRequired
+  };
+
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   getResources() {
@@ -72,7 +75,8 @@ class APDocument extends Component {
    * @return {{urlText, url, action}}
    */
   getResourceUrlData(resource) {
-    const { getFullContentFilePath, translate, saveFileDialog } = this.props;
+    const { getFullContentFilePath, saveFileDialog } = this.props;
+    const { translate } = this.context;
     const resData = {};
     const fileName = resource[ResourceConstants.FILE_NAME];
     if (fileName) {
@@ -90,7 +94,8 @@ class APDocument extends Component {
   }
 
   renderResource(resource) {
-    const { resourceReducer, buildSimpleField, translate, openExternal } = this.props;
+    const { resourceReducer, buildSimpleField, openExternal } = this.props;
+    const { translate } = this.context;
     const { resourceFieldsManager } = resourceReducer;
     const resData = this.getResourceUrlData(resource);
     const isAccessible = resData.url || resData.action;
@@ -127,14 +132,14 @@ class APDocument extends Component {
 
   renderNoResources() {
     const { isResourcesLoading, isResourceManagersLoading } = this.props.resourceReducer;
-    const { translate, Logger } = this.props;
+    const { translate, Logger } = this.context;
     if (isResourcesLoading || isResourceManagersLoading) {
       return <Loading Logger={Logger} translate={translate} />;
     }
     return (
       <APField
         fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}
-        value={translate('No Data')} translate={translate} Logger={Logger} />
+        value={translate('No Data')} />
     );
   }
 

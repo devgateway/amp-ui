@@ -20,23 +20,26 @@ class APFundingSection extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
     buildSimpleField: PropTypes.func.isRequired,
-    Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired,
     getAmountsInThousandsMessage: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
+  };
+
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP funding section');
     logger.debug('constructor');
   }
 
   render() {
     logger.debug('render');
-    const { DateUtils, Logger, translate, rawNumberToFormattedString, getAmountsInThousandsMessage } = this.props;
+    const { DateUtils, rawNumberToFormattedString, getAmountsInThousandsMessage } = this.props;
     const fundingList = [];
     if (this.props.activity.fundings) {
       this.props.activity.fundings.forEach((funding) => {
@@ -44,8 +47,8 @@ class APFundingSection extends Component {
           funding={funding} key={funding[ActivityConstants.AMP_FUNDING_ID] || UIUtils.stringToUniqueId()}
           buildSimpleField={this.props.buildSimpleField}
           DateUtils={DateUtils}
-          Logger={Logger}
-          translate={translate}
+
+
           rawNumberToFormattedString={rawNumberToFormattedString}
         />);
         fundingList.push(item);
@@ -60,8 +63,8 @@ class APFundingSection extends Component {
       />
       <div>{fundingList}</div>
       <div><APFundingTotalsSection
-        Logger={Logger}
-        translate={translate}
+
+
         rawNumberToFormattedString={rawNumberToFormattedString} /></div>
       <div className={fundingStyles.clear} />
     </div>);

@@ -15,8 +15,6 @@ class APFundingMTEFItem extends Component {
   static propTypes = {
     item: PropTypes.object.isRequired,
     wsCurrency: PropTypes.string.isRequired,
-    Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
   };
@@ -24,12 +22,14 @@ class APFundingMTEFItem extends Component {
   static contextTypes = {
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     activityFieldsManager: PropTypes.instanceOf(FieldsManager),
-    calendar: PropTypes.object
+    calendar: PropTypes.object,
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
     super(props, context);
-    const { Logger } = props;
+    const { Logger } = this.context;
     logger = new Logger('AP Funding MTEF item');
   }
   _formatDate(date) {
@@ -39,7 +39,8 @@ class APFundingMTEFItem extends Component {
   }
 
   render() {
-    const { item, wsCurrency, translate, rawNumberToFormattedString } = this.props;
+    const { item, wsCurrency, rawNumberToFormattedString } = this.props;
+    const { translate } = this.context;
     logger.debug('render');
     const convertedAmount = this.context.currencyRatesManager.convertAmountToCurrency(item[ActivityConstants.AMOUNT],
       item[ActivityConstants.CURRENCY].value, item[ActivityConstants.PROJECTION_DATE], null, wsCurrency);

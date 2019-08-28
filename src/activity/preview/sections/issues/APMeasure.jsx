@@ -12,26 +12,26 @@ let logger = null;
  * @author Gabriel Inchauspe
  */
 export default class APMeasures extends Component {
-  /* eslint-disable react/no-unused-prop-types */
   static propTypes = {
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
     measure: PropTypes.object.isRequired,
-    Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func,
   };
 
-  /* eslint-enable react/no-unused-prop-types */
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
+  };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP measure');
     logger.debug('constructor');
   }
 
   _buildMeasure() {
-    const { Logger, translate, DateUtils } = this.props;
+    const { DateUtils } = this.props;
     const content = [];
     let date = '';
     /* eslint-disable max-len */
@@ -45,7 +45,7 @@ export default class APMeasures extends Component {
       content.push(
         <APActor
           key={UIUtils.stringToUniqueId()} activityFieldsManager={this.props.activityFieldsManager} actor={actor}
-          measure={measure} translate={translate} Logger={Logger} />);
+          measure={measure} />);
     });
     return content;
   }

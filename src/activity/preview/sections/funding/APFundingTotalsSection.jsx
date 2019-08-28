@@ -18,18 +18,18 @@ class APFundingTotalsSection extends Component {
     activityFundingTotals: PropTypes.object.isRequired, // PropTypes.instanceOf(ActivityFundingTotals).isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager),
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
-    currentWorkspaceSettings: PropTypes.object.isRequired
+    currentWorkspaceSettings: PropTypes.object.isRequired,
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   static propTypes = {
     rawNumberToFormattedString: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
-    Logger: PropTypes.func.isRequired
-  }
+  };
 
   constructor(props, context) {
-    super(props);
-    const { Logger } = this.props;
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP funding totals section');
     logger.debug('constructor');
     this._wsCurrency = context.currentWorkspaceSettings.currency.code;
@@ -37,8 +37,8 @@ class APFundingTotalsSection extends Component {
 
   render() {
     const content = [];
-    const { activityFieldsManager, activityFundingTotals } = this.context;
-    const { translate, rawNumberToFormattedString, Logger } = this.props;
+    const { activityFieldsManager, activityFundingTotals, translate } = this.context;
+    const { rawNumberToFormattedString } = this.props;
     let actualCommitments;
     let actualDisbursements;
     const options = [];
@@ -64,7 +64,7 @@ class APFundingTotalsSection extends Component {
           value={g.value}
           label={g.label}
           rawNumberToFormattedString={rawNumberToFormattedString}
-          Logger={Logger}
+
         />);
       }
     });
@@ -73,7 +73,7 @@ class APFundingTotalsSection extends Component {
         label={translate('Undisbursed Balance')} value={actualCommitments - actualDisbursements}
         currency={translate(this._wsCurrency)} key={UIUtils.numberRandom()}
         rawNumberToFormattedString={rawNumberToFormattedString}
-        Logger={Logger}
+
       />);
     }
     if (actualDisbursements && actualCommitments) {
@@ -82,7 +82,7 @@ class APFundingTotalsSection extends Component {
         value={Math.round((actualDisbursements / actualCommitments) * 100)}
         label={translate('Delivery rate')} isPercentage
         rawNumberToFormattedString={rawNumberToFormattedString}
-        Logger={Logger}
+
       />);
     }
     return (<div>{content}</div>);

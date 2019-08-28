@@ -11,16 +11,13 @@ let logger = null;
  */
 export default class SummaryGroup extends Component {
   static contextTypes = {
-    currentWorkspaceSettings: PropTypes.object.isRequired
-  };
-
-  static propTypes = {
+    currentWorkspaceSettings: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('Summary group');
     logger.log('constructor');
   }

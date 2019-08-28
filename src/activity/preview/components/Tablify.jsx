@@ -13,6 +13,9 @@ export default class Tablify extends Component {
   static propTypes = {
     content: PropTypes.any,
     columns: PropTypes.number,
+  };
+
+  static contextTypes = {
     Logger: PropTypes.func.isRequired,
   };
 
@@ -42,9 +45,9 @@ export default class Tablify extends Component {
     return tableContent;
   }
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('tablify');
     logger.log('constructor');
   }

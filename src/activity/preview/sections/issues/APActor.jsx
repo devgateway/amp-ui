@@ -9,17 +9,19 @@ let logger = null;
  * @author Gabriel Inchauspe
  */
 export default class APActors extends Component {
-  /* eslint-disable react/no-unused-prop-types */
   static propTypes = {
     actor: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
+  };
+
+  static contextTypes = {
     Logger: PropTypes.func.isRequired,
   };
-  /* eslint-enable react/no-unused-prop-types */
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP actor');
     logger.log('constructor');
   }
