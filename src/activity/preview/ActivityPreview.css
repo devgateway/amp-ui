@@ -466,14 +466,14 @@
   }
 
   .main_group_container {
-    width: 550px !important;
-    max-width: 550px !important;
+    width: 75% !important;
+    max-width: 75% !important;
     float: left !important;
 
   }
 
   .preview_summary {
-    width: 250px !important;
+    width: 24% !important;
     margin: 0 !important;
     float: right !important;
     position: relative !important;
@@ -516,7 +516,13 @@
   }
 
   .section_field_name {
+    font-weight: normal !important;
     color: #767676 !important;
+  }
+
+  .section_field_value {
+    font-weight: 600 !important;
+    border-bottom: 1px solid #ebebeb !important;
   }
 
   .box_field_name {
