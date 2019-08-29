@@ -43,6 +43,10 @@
   cursor: pointer;
 }
 
+.print {
+  cursor: pointer;
+}
+
 .preview_status_container {
   margin-left: 10px;
   margin-top: 20px;

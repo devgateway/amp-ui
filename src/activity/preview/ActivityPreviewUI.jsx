@@ -128,7 +128,9 @@ export default class ActivityPreviewUI extends Component {
                 teamLeadFlag={teamLeadFlag}
                 wsAccessType={workspaceReducer.currentWorkspace[WorkspaceConstants.ACCESS_TYPE]}
                 crossTeamWS={workspaceReducer.currentWorkspace[WorkspaceConstants.CROSS_TEAM_VALIDATION]} />
-              <img onClick={() => window.print()} alt="print" src={printIcon} title={translate('clickToPrint')} />
+              <img
+                className={styles.print} onClick={() => window.print()} alt="print" src={printIcon}
+                title={translate('clickToPrint')} />
             </ul>
           </span>
 
