@@ -129,6 +129,7 @@ export default class ActivityPreviewUI extends Component {
                 crossTeamWS={workspaceReducer.currentWorkspace[WorkspaceConstants.CROSS_TEAM_VALIDATION]} />
             </ul>
           </span>
+          <span onClick={() => window.print()}>print</span>
 
           <div className={styles.preview_status_container}>
             <APStatusBar
