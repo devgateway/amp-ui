@@ -26,6 +26,7 @@ class APLocation extends Component {
   static contextTypes = {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    rtl: PropTypes.bool,
   };
 
   constructor(props, context) {
@@ -46,9 +47,9 @@ class APLocation extends Component {
     content = content.filter(el => el !== undefined);
     let table = null;
     if ((this.props.activity[ActivityConstants.IMPLEMENTATION_LEVEL]
-      && this.props.activity[ActivityConstants.IMPLEMENTATION_LEVEL].value !== 'National')
+      && this.props.activity[ActivityConstants.IMPLEMENTATION_LEVEL].value !== ActivityConstants.NATIONAL)
       || (this.props.activity[ActivityConstants.IMPLEMENTATION_LOCATION]
-        && this.props.activity[ActivityConstants.IMPLEMENTATION_LOCATION].value !== 'Country')) {
+        && this.props.activity[ActivityConstants.IMPLEMENTATION_LOCATION].value !== ActivityConstants.COUNTRY)) {
       table = (<table className={styles.box_table2}>
         <tbody>
           {content}

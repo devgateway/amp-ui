@@ -1,3 +1,7 @@
+.rtl {
+  direction: rtl !important;
+}
+
 .preview_container {
   font-family: 'open_sansregular', sans-serif;
   margin-left: 30px;
@@ -57,16 +61,17 @@
 
 .inline_flex {
   display: inline-flex;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .preview_status_title {
-  margin-left: 10px;
-  margin-right: 5px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .preview_status_detail {
   font-family: 'open_sansextrabold', sans-serif;
-  margin-right: 20px;
 }
 
 .status_title_class {
@@ -363,6 +368,14 @@
 
 .hidden {
   display: none;
+}
+
+.float_right {
+  float: right !important;
+}
+
+.float_left {
+  float: left !important;
 }
 
 .table_raw {

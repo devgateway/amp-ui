@@ -75,6 +75,7 @@ export default class ActivityPreviewUI extends Component {
     const { Logger } = this.context;
     logger = new Logger('Activity preview');
     logger.debug('constructor');
+    this.state = { rtl: false };
   }
 
   componentWillMount() {
@@ -86,6 +87,7 @@ export default class ActivityPreviewUI extends Component {
   }
 
   _renderData() {
+    const { rtl } = this.state;
     const activity = this.context.activityReducer.activity;
     const {
       translate, rawNumberToFormattedString, getActivityContactIds,
@@ -114,53 +116,60 @@ export default class ActivityPreviewUI extends Component {
       ? translate('privateWorkspaceWarning') : '';
 
     return (
-      <div className={styles.preview_container}>
-        <div className={styles.preview_header}>
-          <span className={styles.top_warning_text}>{privateWSWarning}</span>
-          <span className={styles.preview_title}>{activity[ActivityConstants.PROJECT_TITLE]}</span>
-          <span className={styles.preview_icons}>
-            <ul>
-              <IconFormatter
-                id={activity.id} edit={!activity[ActivityConstants.REJECTED_ID]} view={false}
-                status={DesktopManager.getActivityStatus(activity)}
-                activityTeamId={activity[ActivityConstants.TEAM].id}
-                teamId={userReducer.teamMember[WorkspaceConstants.WORKSPACE_ID]}
-                teamLeadFlag={teamLeadFlag}
-                wsAccessType={workspaceReducer.currentWorkspace[WorkspaceConstants.ACCESS_TYPE]}
-                crossTeamWS={workspaceReducer.currentWorkspace[WorkspaceConstants.CROSS_TEAM_VALIDATION]} />
-              <img
-                className={styles.print} onClick={() => window.print()} alt="print" src={printIcon}
-                title={translate('clickToPrint')} />
-            </ul>
-          </span>
+      <div className={rtl ? styles.rtl : ''}>
+        <div className={styles.preview_container}>
+          <div className={styles.preview_header}>
+            <span className={styles.top_warning_text}>{privateWSWarning}</span>
+            <span className={styles.preview_title}>{activity[ActivityConstants.PROJECT_TITLE]}</span>
+            <span className={styles.preview_icons}>
+              <ul>
+                <IconFormatter
+                  id={activity.id} edit={!activity[ActivityConstants.REJECTED_ID]} view={false}
+                  status={DesktopManager.getActivityStatus(activity)}
+                  activityTeamId={activity[ActivityConstants.TEAM].id}
+                  teamId={userReducer.teamMember[WorkspaceConstants.WORKSPACE_ID]}
+                  teamLeadFlag={teamLeadFlag}
+                  wsAccessType={workspaceReducer.currentWorkspace[WorkspaceConstants.ACCESS_TYPE]}
+                  crossTeamWS={workspaceReducer.currentWorkspace[WorkspaceConstants.CROSS_TEAM_VALIDATION]} />
+                <img
+                  className={styles.print} onClick={() => window.print()} alt="print" src={printIcon}
+                  title={translate('clickToPrint')} />
+                <span onClick={() => this.activarRtl()}>rtl</span>
+              </ul>
+            </span>
 
-          <div className={styles.preview_status_container}>
-            <APStatusBar
-              fieldClass={styles.inline_flex}
-              fieldNameClass={styles.preview_status_title} fieldValueClass={styles.preview_status_detail}
-              titleClass={styles.status_title_class} groupClass={styles.status_group_class} />
+            <div className={styles.preview_status_container}>
+              <APStatusBar
+                fieldClass={styles.inline_flex}
+                fieldNameClass={styles.preview_status_title} fieldValueClass={styles.preview_status_detail}
+                titleClass={styles.status_title_class} groupClass={styles.status_group_class} />
+            </div>
+            <div className={styles.preview_categories}>
+              <Scrollspy items={categoryKeys} currentClassName={styles.preview_category_selected}>
+                {categories}
+              </Scrollspy>
+            </div>
           </div>
-          <div className={styles.preview_categories}>
-            <Scrollspy items={categoryKeys} currentClassName={styles.preview_category_selected}>
-              {categories}
-            </Scrollspy>
+          <div className={styles.preview_content}>
+            <Grid fluid>
+              <Row>
+                <Col
+                  md={9}
+                  className={rtl ? [styles.preview_summary, styles.float_right].join(' ') : styles.preview_summary}>
+                  <MainGroup
+                    APDocumentPage={APDocumentPage}
+                    rawNumberToFormattedString={rawNumberToFormattedString}
+                    getAmountsInThousandsMessage={getAmountsInThousandsMessage}
+                    getActivityContactIds={getActivityContactIds} rtl={rtl} />
+                </Col>
+                <Col
+                  md={3}
+                  className={rtl ? [styles.preview_summary, styles.float_left].join(' ') : styles.preview_summary}>
+                  <SummaryGroup />
+                </Col>
+              </Row>
+            </Grid>
           </div>
-        </div>
-        <div className={styles.preview_content}>
-          <Grid fluid>
-            <Row>
-              <Col md={9}>
-                <MainGroup
-                  APDocumentPage={APDocumentPage}
-                  rawNumberToFormattedString={rawNumberToFormattedString}
-                  getAmountsInThousandsMessage={getAmountsInThousandsMessage}
-                  getActivityContactIds={getActivityContactIds} />
-              </Col>
-              <Col mdOffset={9} className={styles.preview_summary}>
-                <SummaryGroup />
-              </Col>
-            </Row>
-          </Grid>
         </div>
       </div>
     );
@@ -168,6 +177,11 @@ export default class ActivityPreviewUI extends Component {
 
   _hasActivity() {
     return this.context.activityReducer.activity !== undefined && this.context.activityReducer.activity !== null;
+  }
+
+  activarRtl() {
+    const rtl = this.state.rtl;
+    this.setState({ rtl: !rtl });
   }
 
   _getMessage() {
