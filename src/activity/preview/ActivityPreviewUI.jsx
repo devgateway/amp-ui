@@ -11,6 +11,7 @@ import styles from './ActivityPreview.css';
 import APStatusBar from './sections/APStatusBar.jsx';
 import MainGroup from './MainGroup.jsx';
 import SummaryGroup from './SummaryGroup.jsx';
+import printIcon from '../../assets/images/print.svg';
 
 let logger = null;
 
@@ -127,6 +128,9 @@ export default class ActivityPreviewUI extends Component {
                 teamLeadFlag={teamLeadFlag}
                 wsAccessType={workspaceReducer.currentWorkspace[WorkspaceConstants.ACCESS_TYPE]}
                 crossTeamWS={workspaceReducer.currentWorkspace[WorkspaceConstants.CROSS_TEAM_VALIDATION]} />
+              <img
+                className={styles.print} onClick={() => window.print()} alt="print" src={printIcon}
+                title={translate('clickToPrint')} />
             </ul>
           </span>
 

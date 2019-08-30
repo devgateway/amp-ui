@@ -7,6 +7,7 @@
 .preview_title {
   margin-left: 10px;
   background-color: #FFFFFF;
+  -webkit-print-color-adjust: exact;
   color: #000000;
   font-size: 1.5em;
   font-weight: bold;
@@ -42,11 +43,16 @@
   cursor: pointer;
 }
 
+.print {
+  cursor: pointer;
+}
+
 .preview_status_container {
   margin-left: 10px;
   margin-top: 20px;
   padding: 10px;
   background-color: #f5faff;
+  -webkit-print-color-adjust: exact;
 }
 
 .inline_flex {
@@ -96,6 +102,7 @@
 .preview_categories ul li:hover {
   color: #1d2531;
   background-color: #f8f8f8;
+  -webkit-print-color-adjust: exact;
   position: relative;
 }
 
@@ -112,6 +119,7 @@
 .preview_category_selected {
   color: #1d2531;
   /* background-color: #f8f8f8; */
+  -webkit-print-color-adjust: exact;
   position: relative;
 }
 
@@ -140,6 +148,7 @@
 
 .summary_section_title {
   background-color: #3a84b3;
+  -webkit-print-color-adjust: exact;
   color: #FFFFFF;
   font-size: 1.3em;
   margin-bottom: 15px;
@@ -155,6 +164,7 @@
 
 .summary_section_group {
   background-color: #f5faff;
+  -webkit-print-color-adjust: exact;
   margin-top: 15px;
   padding-bottom: 10px;
 }
@@ -283,6 +293,7 @@
   display: inline-block;
   width: 55%;
   background-color: #f8fff5;
+  -webkit-print-color-adjust: exact;
   margin-left: 10px;
   padding-left: 20px;
   padding-top: 10px;
@@ -328,6 +339,7 @@
 
 .sector_title {
   background-color: #f4f4f4;
+  -webkit-print-color-adjust: exact;
   color: #9d9d9d;
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
@@ -428,6 +440,7 @@
 
 .structure_title {
   background-color: #f4f4f4;
+  -webkit-print-color-adjust: exact;
   color: #3a84b3;
   border: 1px solid #ebebeb;
   padding: 8px;
@@ -445,4 +458,131 @@
 .structures_coordinates_value {
   border: none;
   font-weight: bold;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  a {
+    color: #337ab7 !important;
+  }
+
+  .main_group_container {
+    width: 75% !important;
+    max-width: 75% !important;
+    float: left !important;
+
+  }
+
+  .preview_summary {
+    width: 24% !important;
+    margin: 0 !important;
+    float: right !important;
+    position: relative !important;
+  }
+
+  .preview_categories {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  .preview_icons {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  .preview_status_container {
+    background-color: #f5faff !important;
+  }
+
+  .preview_categories ul li {
+    color: #778293 !important;
+  }
+
+  .preview_categories ul li:hover {
+    color: #1d2531 !important;
+    background-color: #f8f8f8 !important;
+  }
+
+  .preview_category_selected {
+    color: #1d2531 !important;
+  }
+
+  .summary_section_title {
+    background-color: #3a84b3 !important;
+    color: #FFFFFF !important;
+  }
+
+  .summary_section_group {
+    background-color: #f5faff !important;
+  }
+
+  .section_field_name {
+    font-weight: normal !important;
+    color: #767676 !important;
+  }
+
+  .section_field_value {
+    font-weight: 600 !important;
+    border-bottom: 1px solid #ebebeb !important;
+  }
+
+  .box_field_name {
+    color: #767676 !important;
+  }
+
+  .percent_field_value {
+    color: #3a84b3 !important;
+  }
+
+  .project_cost_left {
+    background-color: #f8fff5 !important;
+    border-top: 1px solid #ebebeb !important;
+    border-bottom: 1px solid #ebebeb !important;
+    border-right: 1px solid #ebebeb !important;
+  }
+
+  .project_cost_right {
+    border-top: 1px solid #ebebeb !important;
+    border-bottom: 1px solid #ebebeb !important;
+  }
+
+  .project_cost_title {
+    color: #767676 !important;
+  }
+
+  .sector_title {
+    background-color: #f4f4f4 !important;
+    color: #9d9d9d !important;
+    border-top: 1px solid #ebebeb !important;
+    border-bottom: 1px solid #ebebeb !important;
+  }
+
+  .box_table2 tr td:nth-child(2) {
+    border-left: 1px solid #ebebeb !important;
+    border-right: 1px solid #ebebeb !important;
+  }
+
+  .tablify_inner_cell {
+    border-left: 1px solid #ebebeb !important;
+    border-bottom: 1px solid #ebebeb !important;
+  }
+
+  .tablify_outer_cell {
+    border-bottom: 1px solid #ebebeb !important;
+  }
+
+  .structure_title {
+    background-color: #f4f4f4 !important;
+    color: #3a84b3 !important;
+    border: 1px solid #ebebeb !important;
+  }
+
+  .preview_container {
+    font-family: 'open_sansregular', sans-serif !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
 }
