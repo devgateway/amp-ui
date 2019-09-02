@@ -1,5 +1,6 @@
 .rtl {
   direction: rtl !important;
+  unicode-bidi: embed !important;
 }
 
 .preview_container {
