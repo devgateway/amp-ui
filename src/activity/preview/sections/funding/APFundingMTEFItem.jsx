@@ -32,9 +32,10 @@ class APFundingMTEFItem extends Component {
     const { Logger } = this.context;
     logger = new Logger('AP Funding MTEF item');
   }
+
   _formatDate(date) {
     const isFiscalCalendar = this.context.calendar[CalendarConstants.IS_FISCAL];
-    const year = this.props.DateUtils.createFormattedDate(date);
+    const year = this.props.DateUtils.getYearFromDate(date);
     return isFiscalCalendar ? `${year} / ${year + 1}` : year;
   }
 
@@ -58,4 +59,5 @@ class APFundingMTEFItem extends Component {
       </tbody>);
   }
 }
+
 export default APFundingMTEFItem;
