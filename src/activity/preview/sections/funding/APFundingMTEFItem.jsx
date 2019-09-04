@@ -3,6 +3,7 @@ import ActivityConstants from '../../../../modules/util/ActivityConstants';
 import CurrencyRatesManager from '../../../../modules/util/CurrencyRatesManager';
 import FieldsManager from '../../../../modules/field/FieldsManager';
 import CalendarConstants from '../../../../modules/util/CalendarConstants';
+import SHOW_ANNUAL_MTEF_ENTRY_FORMAT from '../../../../utils/constants/GlobalSettingsConstants';
 import styles from './APFundingItem.css';
 import stylesMTEF from './APFundingMTEF.css';
 
@@ -25,6 +26,7 @@ class APFundingMTEFItem extends Component {
     calendar: PropTypes.object,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    globalSettings: PropTypes.object.isRequired
   };
 
   constructor(props, context) {
@@ -32,10 +34,16 @@ class APFundingMTEFItem extends Component {
     const { Logger } = this.context;
     logger = new Logger('AP Funding MTEF item');
   }
+
   _formatDate(date) {
     const isFiscalCalendar = this.context.calendar[CalendarConstants.IS_FISCAL];
-    const year = this.props.DateUtils.createFormattedDate(date);
-    return isFiscalCalendar ? `${year} / ${year + 1}` : year;
+    const showYearOnly = this.context.globalSettings[SHOW_ANNUAL_MTEF_ENTRY_FORMAT];
+    if (showYearOnly === 'true') {
+      const year = this.props.DateUtils.getYearFromDate(date);
+      return isFiscalCalendar ? `${year} / ${year + 1}` : year;
+    } else {
+      return this.props.DateUtils.createFormattedDate(date);
+    }
   }
 
   render() {
@@ -58,4 +66,5 @@ class APFundingMTEFItem extends Component {
       </tbody>);
   }
 }
+
 export default APFundingMTEFItem;

@@ -67,6 +67,7 @@ export default class ActivityPreviewUI extends Component {
     IconFormatter: PropTypes.func.isRequired,
     DesktopManager: PropTypes.object.isRequired,
     APDocumentPage: PropTypes.func.isRequired,
+    globalSettings: PropTypes.object.isRequired
   };
 
   constructor(props, context) {
