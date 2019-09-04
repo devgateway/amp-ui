@@ -38,7 +38,7 @@ class APFundingMTEFItem extends Component {
   _formatDate(date) {
     const isFiscalCalendar = this.context.calendar[CalendarConstants.IS_FISCAL];
     const showYearOnly = this.context.globalSettings[SHOW_ANNUAL_MTEF_ENTRY_FORMAT];
-    if (showYearOnly && showYearOnly === 'true') {
+    if (showYearOnly === 'true') {
       const year = this.props.DateUtils.getYearFromDate(date);
       return isFiscalCalendar ? `${year} / ${year + 1}` : year;
     } else {
