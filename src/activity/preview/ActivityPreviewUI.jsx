@@ -22,19 +22,8 @@ let logger = null;
 export default class ActivityPreviewUI extends Component {
   /* Notice we dont implement getChildContext() and childContextTypes here because thats defined in Offline's
   * ActivityPreview.jsx and thats enough to go down to any depth level here. */
+
   static contextTypes = {
-    activityReducer: PropTypes.shape({
-      isActivityLoading: PropTypes.bool,
-      isActivityLoaded: PropTypes.bool,
-      activity: PropTypes.object,
-      activityWorkspace: PropTypes.object,
-      activityWSManager: PropTypes.object,
-      activityFieldsManager: PropTypes.instanceOf(FieldsManager),
-      activityFundingTotals: PropTypes.object,
-      currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
-      currentWorkspaceSettings: PropTypes.object,
-      errorMessage: PropTypes.object
-    }).isRequired,
     contactReducer: PropTypes.shape({
       contactFieldsManager: PropTypes.instanceOf(FieldsManager),
       contactsByIds: PropTypes.object,
@@ -49,7 +38,6 @@ export default class ActivityPreviewUI extends Component {
     userReducer: PropTypes.object,
     startUpReducer: PropTypes.object,
     ActivityFundingTotals: PropTypes.object,
-    activity: PropTypes.object,
     activityWorkspace: PropTypes.object,
     activityWSManager: PropTypes.object,
     currentWorkspaceSettings: PropTypes.object,
@@ -69,6 +57,13 @@ export default class ActivityPreviewUI extends Component {
     DesktopManager: PropTypes.object.isRequired,
     APDocumentPage: PropTypes.func.isRequired,
   };
+  static propTypes = {
+    activity: PropTypes.object
+  }
+
+  static childContextTypes = {
+    activity: PropTypes.object
+  }
 
   constructor(props, context) {
     super(props, context);
@@ -76,26 +71,22 @@ export default class ActivityPreviewUI extends Component {
     logger = new Logger('Activity preview');
     logger.debug('constructor');
   }
-
-  componentWillMount() {
-    this.context.loadActivityForActivityPreview(this.context.params.activityId);
+  getChildContext() {
+    return {
+      activity: this.props.activity
+    };
   }
-
-  componentWillUnmount() {
-    this.context.unloadActivity();
-  }
-
   _renderData() {
-    const activity = this.context.activityReducer.activity;
+    const { activity } = this.props;
     const {
       translate, rawNumberToFormattedString, getActivityContactIds,
-      getAmountsInThousandsMessage, activityReducer, userReducer, workspaceReducer,
-      IconFormatter, DesktopManager, APDocumentPage
+      getAmountsInThousandsMessage, userReducer, workspaceReducer,
+      IconFormatter, DesktopManager, APDocumentPage, activityFieldsManager
     } = this.context;
 
     const categories = ActivityConstants.AP_SECTION_IDS.map((category) => {
       if (category.sectionPath
-        && !activityReducer.activityFieldsManager.isFieldPathEnabled(category.sectionPath)) {
+        && !activityFieldsManager.isFieldPathEnabled(category.sectionPath)) {
         return null;
       }
       if (category.fmPath && !FeatureManager.isFMSettingEnabled(category.fmPath)) {
@@ -167,29 +158,12 @@ export default class ActivityPreviewUI extends Component {
   }
 
   _hasActivity() {
-    return this.context.activityReducer.activity !== undefined && this.context.activityReducer.activity !== null;
+    return this.props.activity !== undefined && this.props.activity !== null;
   }
-
-  _getMessage() {
-    const { translate, activityReducer } = this.context;
-    let message = null;
-    if (activityReducer.isActivityLoading === true) {
-      message = translate('activityLoading');
-    } else if (activityReducer.isActivityLoaded === true) {
-      if (!activityReducer.activity) {
-        message = translate('activityUnexpectedError');
-      }
-    } else if (activityReducer.errorMessage) {
-      message = `${activityReducer.errorMessage}`;
-    }
-    return message === null ? '' : <h1>{message}</h1>;
-  }
-
   render() {
     const activityPreview = this._hasActivity() ? this._renderData() : '';
     return (
       <div>
-        {this._getMessage()}
         {activityPreview}
       </div>
     );
