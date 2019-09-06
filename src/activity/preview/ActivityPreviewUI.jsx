@@ -24,13 +24,7 @@ export default class ActivityPreviewUI extends Component {
   * ActivityPreview.jsx and thats enough to go down to any depth level here. */
 
   static contextTypes = {
-    contactReducer: PropTypes.shape({
-      contactFieldsManager: PropTypes.instanceOf(FieldsManager),
-      contactsByIds: PropTypes.object,
-    }).isRequired,
     resourceReducer: PropTypes.object.isRequired,
-    loadActivityForActivityPreview: PropTypes.func.isRequired,
-    unloadActivity: PropTypes.func.isRequired,
     params: PropTypes.shape({
       activityId: PropTypes.string.isRequired
     }).isRequired,
