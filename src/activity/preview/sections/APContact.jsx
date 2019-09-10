@@ -51,11 +51,11 @@ class APContact extends Component {
       <div key={contact.id} className={styles.paddingBottomLarge}>
         <div>{`${contact[ContactConstants.NAME]} ${contact[ContactConstants.LAST_NAME]}`}</div>
         {contact[ContactConstants.EMAIL].map(email =>
-          buildSimpleField(`${ContactConstants.EMAIL}~
-          ${ContactConstants.VALUE}`, true, null, false, email, contactFieldsManager))}
+          buildSimpleField(
+            `${ContactConstants.EMAIL}~${ContactConstants.VALUE}`, true, null, false, email, contactFieldsManager))}
         {contact[ContactConstants.PHONE].map(phone =>
-          buildSimpleField(`${ContactConstants.PHONE}~
-          ${ContactConstants.VALUE}`, true, null, false, phone, contactFieldsManager))}
+          buildSimpleField(
+            `${ContactConstants.PHONE}~${ContactConstants.VALUE}`, true, null, false, phone, contactFieldsManager))}
       </div>
     );
   }
