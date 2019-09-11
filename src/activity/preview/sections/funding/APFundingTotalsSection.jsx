@@ -7,6 +7,7 @@ import FieldPathConstants from '../../../../utils/FieldPathConstants';
 import FieldsManager from '../../../../modules/field/FieldsManager';
 import UIUtils from '../../../../utils/UIUtils';
 import APFundingTotalItem from './APFundingTotalItem.jsx';
+import WorkspaceConstants from '../../../../utils/constants/WorkspaceConstants';
 
 let logger = null;
 
@@ -18,9 +19,20 @@ class APFundingTotalsSection extends Component {
     activityFundingTotals: PropTypes.object.isRequired, // PropTypes.instanceOf(ActivityFundingTotals).isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager),
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
-    currentWorkspaceSettings: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    activityContext: PropTypes.shape({
+      activityStatus: PropTypes.string,
+      userTeamMember: PropTypes.number.isRequired,
+      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
+      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
+      [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
+      teamMemberRole: PropTypes.number.isRequired,
+      workspaceCurrency: PropTypes.string.isRequired,
+      [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
+      calendar: PropTypes.object,
+      workspaceLeadData: PropTypes.string
+    }).isRequired,
   };
 
   static propTypes = {
@@ -29,10 +41,10 @@ class APFundingTotalsSection extends Component {
 
   constructor(props, context) {
     super(props, context);
-    const { Logger } = this.context;
+    const { Logger, activityContext } = this.context;
     logger = new Logger('AP funding totals section');
     logger.debug('constructor');
-    this._wsCurrency = context.currentWorkspaceSettings.currency.code;
+    this._wsCurrency = activityContext.workspaceCurrency;
   }
 
   render() {

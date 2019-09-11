@@ -17,12 +17,8 @@ class APComponents extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired
-  };
-
-  static contextTypes = {
-    Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
+    rawNumberToFormattedString: PropTypes.func.isRequired,
+    Logger: PropTypes.func.isRequired
   };
 
   static _extractYear(dateString) {
@@ -77,9 +73,9 @@ class APComponents extends Component {
     return table;
   }
 
-  constructor(props, context) {
-    super(props, context);
-    const { Logger } = this.context;
+  constructor(props) {
+    super(props);
+    const { Logger } = this.props;
     logger = new Logger('AP Components');
     logger.debug('constructor');
   }

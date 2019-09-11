@@ -8,6 +8,7 @@ import APLabel from '../../components/APLabel.jsx';
 import APFundingTotalItem from './APFundingTotalItem.jsx';
 import APFundingItem from './APFundingItem.jsx';
 import styles from './APFundingTransactionTypeItem.css';
+import WorkspaceConstants from '../../../../utils/constants/WorkspaceConstants';
 
 let logger = null;
 
@@ -16,11 +17,22 @@ let logger = null;
  */
 export default class APFundingTransactionTypeItem extends Component {
   static contextTypes = {
-    currentWorkspaceSettings: PropTypes.object.isRequired,
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    activityContext: PropTypes.shape({
+      activityStatus: PropTypes.string,
+      userTeamMember: PropTypes.number.isRequired,
+      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
+      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
+      [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
+      teamMemberRole: PropTypes.number.isRequired,
+      workspaceCurrency: PropTypes.string.isRequired,
+      [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
+      calendar: PropTypes.object,
+      workspaceLeadData: PropTypes.string
+    }).isRequired,
   };
 
   static propTypes = {
@@ -33,10 +45,10 @@ export default class APFundingTransactionTypeItem extends Component {
 
   constructor(props, context) {
     super(props, context);
-    const { Logger } = this.context;
+    const { Logger, activityContext } = this.context;
     logger = new Logger('AP Funding transaction type item');
     logger.debug('constructor');
-    this._currency = context.currentWorkspaceSettings.currency.code;
+    this._currency = activityContext.workspaceCurrency;
     this._adjType = props.fundingDetails[0][ActivityConstants.ADJUSTMENT_TYPE];
     this._measure = `${this._adjType.value} ${props.trnType}`;
     this._key = this._adjType.value + props.trnType;

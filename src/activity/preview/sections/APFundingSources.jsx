@@ -11,15 +11,12 @@ let logger = null;
 class APFundingSources extends Component {
   static propTypes = {
     buildSimpleField: PropTypes.func.isRequired,
+    Logger: PropTypes.func.isRequired
   };
 
-  static contextTypes = {
-    Logger: PropTypes.func.isRequired,
-  };
-
-  constructor(props, context) {
-    super(props, context);
-    const { Logger } = this.context;
+  constructor(props) {
+    super(props);
+    const { Logger } = this.props;
     logger = new Logger('AP funding sources');
     logger.log('constructor');
   }

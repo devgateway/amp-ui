@@ -11,6 +11,7 @@ import APFundingMTEFSection from './APFundingMTEFSection.jsx';
 import APFundingTransactionTypeItem from './APFundingTransactionTypeItem.jsx';
 import APFundingTotalItem from './APFundingTotalItem.jsx';
 import styles from './APFundingOrganizationSection.css';
+import WorkspaceConstants from '../../../../utils/constants/WorkspaceConstants';
 
 let logger = null;
 
@@ -27,17 +28,28 @@ class APFundingOrganizationSection extends Component {
 
   static contextTypes = {
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
-    currentWorkspaceSettings: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    activityContext: PropTypes.shape({
+      activityStatus: PropTypes.string,
+      userTeamMember: PropTypes.number.isRequired,
+      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
+      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
+      [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
+      teamMemberRole: PropTypes.number.isRequired,
+      workspaceCurrency: PropTypes.string.isRequired,
+      [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
+      calendar: PropTypes.object,
+      workspaceLeadData: PropTypes.string
+    }).isRequired,
   };
 
   constructor(props, context) {
     super(props, context);
-    const { Logger } = this.context;
+    const { Logger, activityContext } = this.context;
     logger = new Logger('AP funding organization section');
     logger.debug('constructor');
-    this._currency = context.currentWorkspaceSettings.currency.code;
+    this._currency = activityContext.workspaceCurrency;
   }
 
   _buildDonorInfo() {

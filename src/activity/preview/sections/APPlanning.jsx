@@ -13,15 +13,12 @@ let logger = null;
 class APPlanning extends Component {
   static propTypes = {
     buildSimpleField: PropTypes.func.isRequired,
-  };
-
-  static contextTypes = {
     Logger: PropTypes.func.isRequired,
   };
 
-  constructor(props, context) {
-    super(props, context);
-    const { Logger } = this.context;
+  constructor(props) {
+    super(props);
+    const { Logger } = this.props;
     logger = new Logger('AP Planning');
     logger.log('constructor');
   }

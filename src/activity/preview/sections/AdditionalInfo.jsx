@@ -6,7 +6,6 @@ import PossibleValuesManager from '../../../modules/field/PossibleValuesManager'
 import APField from '../components/APField.jsx';
 import Section from './Section.jsx';
 import WorkspaceConstants from '../../../utils/constants/WorkspaceConstants';
-import UserConstants from '../../../utils/constants/UserConstants';
 
 let logger = null;
 
@@ -17,47 +16,50 @@ let logger = null;
 class AdditionalInfo extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
-    activityWorkspace: PropTypes.object.isRequired,
-    activityWSManager: PropTypes.object.isRequired,
     buildSimpleField: PropTypes.func.isRequired,
     fieldNameClass: PropTypes.string,
     fieldValueClass: PropTypes.string,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
-  };
-
-  static contextTypes = {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    activityContext: PropTypes.shape({
+      activityStatus: PropTypes.string,
+      userTeamMember: PropTypes.number.isRequired,
+      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
+      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
+      [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
+      teamMemberRole: PropTypes.number.isRequired,
+      workspaceCurrency: PropTypes.string.isRequired,
+      [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
+      calendar: PropTypes.object,
+      workspaceLeadData: PropTypes.string
+    }).isRequired,
   };
 
-  constructor(props, context) {
-    super(props, context);
-    const { Logger } = this.context;
+  constructor(props) {
+    super(props);
+    const { Logger } = this.props;
     logger = new Logger('AP Additional info');
     logger.debug('constructor');
   }
 
   _getWorkspaceLeadData() {
-    const { activityWSManager } = this.props;
-    if (!activityWSManager) {
+    const { activityContext } = this.props;
+    if (!activityContext.workspaceLeadData) {
       return null;
     }
-    // eslint-disable-next-line max-len
-    return `${activityWSManager[UserConstants.FIRST_NAME]} ${activityWSManager[UserConstants.LAST_NAME]} ${activityWSManager[UserConstants.EMAIL]}`;
+    return activityContext.workspaceLeadData;
   }
 
   _buildAdditionalInfo() {
-    const {
-      activityWorkspace, activityFieldsManager, buildSimpleField,
-      fieldNameClass, fieldValueClass, activity
-    } = this.props;
-    const { translate } = this.context;
+    const { activityFieldsManager, buildSimpleField, fieldNameClass, fieldValueClass, activity, translate,
+      activityContext } = this.props;
     const additionalInfo = [];
     const teamName = activityFieldsManager.getValue(activity, ActivityConstants.TEAM,
       PossibleValuesManager.getOptionTranslation);
     // no need to export repeating translation for the access type through workspaces EP
-    const accessType = translate(activityWorkspace[WorkspaceConstants.ACCESS_TYPE]);
-    const isComputedTeam = activityWorkspace[WorkspaceConstants.IS_COMPUTED] === true ?
+    const accessType = translate(activityContext[WorkspaceConstants.ACCESS_TYPE]);
+    const isComputedTeam = activityContext[WorkspaceConstants.IS_COMPUTED] === true ?
       translate('Yes') : translate('No');
 
     // TODO: the right value as defined in AMP-25403 will be shown after AMP-26295.

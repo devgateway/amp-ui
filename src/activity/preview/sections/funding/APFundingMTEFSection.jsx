@@ -9,16 +9,28 @@ import APFundingTotalItem from './APFundingTotalItem.jsx';
 import APFundingMTEFItem from './APFundingMTEFItem.jsx';
 import styles from './APFundingTransactionTypeItem.css';
 import stylesMTEF from './APFundingMTEF.css';
+import WorkspaceConstants from '../../../../utils/constants/WorkspaceConstants';
 
 
 let logger = null;
 
 class APFundingMTEFSection extends Component {
   static contextTypes = {
-    currentWorkspaceSettings: PropTypes.object.isRequired,
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    activityContext: PropTypes.shape({
+      activityStatus: PropTypes.string,
+      userTeamMember: PropTypes.number.isRequired,
+      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
+      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
+      [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
+      teamMemberRole: PropTypes.number.isRequired,
+      workspaceCurrency: PropTypes.string.isRequired,
+      [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
+      calendar: PropTypes.object,
+      workspaceLeadData: PropTypes.string
+    }).isRequired,
   };
 
   static propTypes = {
@@ -68,9 +80,9 @@ class APFundingMTEFSection extends Component {
   render() {
     logger.debug('render');
     const { funding } = this.props;
-    const { translate } = this.context;
+    const { translate, activityContext } = this.context;
     const types = [ActivityConstants.PIPELINE, ActivityConstants.PROJECTION];
-    const currency = this.context.currentWorkspaceSettings.currency.code;
+    const currency = activityContext.workspaceCurrency;
     if (FeatureManager.isFMSettingEnabled(FeatureManagerConstants.MTEF_PROJECTIONS)
       && funding[ActivityConstants.MTEF_PROJECTIONS] && funding[ActivityConstants.MTEF_PROJECTIONS].length > 0) {
       const content = [];
