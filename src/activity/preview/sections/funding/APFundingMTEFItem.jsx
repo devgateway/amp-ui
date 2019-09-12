@@ -5,7 +5,6 @@ import FieldsManager from '../../../../modules/field/FieldsManager';
 import CalendarConstants from '../../../../modules/util/CalendarConstants';
 import styles from './APFundingItem.css';
 import stylesMTEF from './APFundingMTEF.css';
-import WorkspaceConstants from '../../../../utils/constants/WorkspaceConstants';
 
 let logger = null;
 
@@ -26,16 +25,7 @@ class APFundingMTEFItem extends Component {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
-      activityStatus: PropTypes.string,
-      userTeamMember: PropTypes.number.isRequired,
-      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
-      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
-      [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
-      teamMemberRole: PropTypes.number.isRequired,
-      workspaceCurrency: PropTypes.string.isRequired,
-      [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
-      calendar: PropTypes.object,
-      workspaceLeadData: PropTypes.string
+      calendar: PropTypes.object
     }).isRequired,
   };
 

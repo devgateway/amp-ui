@@ -8,7 +8,6 @@ import APLabel from '../../components/APLabel.jsx';
 import APFundingTotalItem from './APFundingTotalItem.jsx';
 import APFundingItem from './APFundingItem.jsx';
 import styles from './APFundingTransactionTypeItem.css';
-import WorkspaceConstants from '../../../../utils/constants/WorkspaceConstants';
 
 let logger = null;
 
@@ -22,16 +21,7 @@ export default class APFundingTransactionTypeItem extends Component {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
-      activityStatus: PropTypes.string,
-      userTeamMember: PropTypes.number.isRequired,
-      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
-      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
-      [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
-      teamMemberRole: PropTypes.number.isRequired,
-      workspaceCurrency: PropTypes.string.isRequired,
-      [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
-      calendar: PropTypes.object,
-      workspaceLeadData: PropTypes.string
+      workspaceCurrency: PropTypes.string.isRequired
     }).isRequired,
   };
 

@@ -4,7 +4,6 @@ import styles from '../ActivityPreview.css';
 import ActivityConstants from '../../../modules/util/ActivityConstants';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 import Section from './Section.jsx';
-import WorkspaceConstants from '../../../utils/constants/WorkspaceConstants';
 import CurrencyRatesManager from '../../../modules/util/CurrencyRatesManager';
 
 let logger = null;
@@ -23,16 +22,7 @@ const APProjectCost = (fieldName) => class extends Component {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
-      activityStatus: PropTypes.string,
-      userTeamMember: PropTypes.number.isRequired,
-      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
-      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
-      [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
-      teamMemberRole: PropTypes.number.isRequired,
-      workspaceCurrency: PropTypes.string.isRequired,
-      [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
-      calendar: PropTypes.object,
-      workspaceLeadData: PropTypes.string
+      workspaceCurrency: PropTypes.string.isRequired
     }).isRequired,
   };
 
