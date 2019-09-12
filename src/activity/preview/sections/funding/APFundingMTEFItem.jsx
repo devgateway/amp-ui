@@ -22,9 +22,11 @@ class APFundingMTEFItem extends Component {
   static contextTypes = {
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     activityFieldsManager: PropTypes.instanceOf(FieldsManager),
-    calendar: PropTypes.object,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    activityContext: PropTypes.shape({
+      calendar: PropTypes.object
+    }).isRequired,
   };
 
   constructor(props, context) {
@@ -33,7 +35,7 @@ class APFundingMTEFItem extends Component {
     logger = new Logger('AP Funding MTEF item');
   }
   _formatDate(date) {
-    const isFiscalCalendar = this.context.calendar[CalendarConstants.IS_FISCAL];
+    const isFiscalCalendar = this.context.activityContext.calendar[CalendarConstants.IS_FISCAL];
     const year = this.props.DateUtils.createFormattedDate(date);
     return isFiscalCalendar ? `${year} / ${year + 1}` : year;
   }

@@ -21,16 +21,13 @@ class APLocation extends Component {
     buildSimpleField: PropTypes.func.isRequired,
     DateUtils: PropTypes.func,
     rawNumberToFormattedString: PropTypes.func.isRequired,
-  };
-
-  static contextTypes = {
     Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
   };
 
-  constructor(props, context) {
-    super(props, context);
-    const { Logger } = this.context;
+  constructor(props) {
+    super(props);
+    const { Logger } = this.props;
     logger = new Logger('AP location');
     logger.debug('constructor');
   }

@@ -22,11 +22,7 @@ class APContact extends Component {
     contactsByIds: PropTypes.object,
     buildSimpleField: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
-  };
-
-  static contextTypes = {
-    Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func,
+    translate: PropTypes.func
   };
 
   getHydratedContacts() {
@@ -61,7 +57,7 @@ class APContact extends Component {
   }
 
   renderNoContacts() {
-    const { translate } = this.context;
+    const { translate } = this.props;
     return (
       <APField
         fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}

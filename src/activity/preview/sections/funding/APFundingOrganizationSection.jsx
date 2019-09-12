@@ -27,17 +27,19 @@ class APFundingOrganizationSection extends Component {
 
   static contextTypes = {
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
-    currentWorkspaceSettings: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    activityContext: PropTypes.shape({
+      workspaceCurrency: PropTypes.string.isRequired
+    }).isRequired,
   };
 
   constructor(props, context) {
     super(props, context);
-    const { Logger } = this.context;
+    const { Logger, activityContext } = this.context;
     logger = new Logger('AP funding organization section');
     logger.debug('constructor');
-    this._currency = context.currentWorkspaceSettings.currency.code;
+    this._currency = activityContext.workspaceCurrency;
   }
 
   _buildDonorInfo() {

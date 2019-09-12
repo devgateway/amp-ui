@@ -10,15 +10,16 @@ import APFundingMTEFItem from './APFundingMTEFItem.jsx';
 import styles from './APFundingTransactionTypeItem.css';
 import stylesMTEF from './APFundingMTEF.css';
 
-
 let logger = null;
 
 class APFundingMTEFSection extends Component {
   static contextTypes = {
-    currentWorkspaceSettings: PropTypes.object.isRequired,
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    activityContext: PropTypes.shape({
+      workspaceCurrency: PropTypes.string.isRequired
+    }).isRequired,
   };
 
   static propTypes = {
@@ -68,9 +69,9 @@ class APFundingMTEFSection extends Component {
   render() {
     logger.debug('render');
     const { funding } = this.props;
-    const { translate } = this.context;
+    const { translate, activityContext } = this.context;
     const types = [ActivityConstants.PIPELINE, ActivityConstants.PROJECTION];
-    const currency = this.context.currentWorkspaceSettings.currency.code;
+    const currency = activityContext.workspaceCurrency;
     if (FeatureManager.isFMSettingEnabled(FeatureManagerConstants.MTEF_PROJECTIONS)
       && funding[ActivityConstants.MTEF_PROJECTIONS] && funding[ActivityConstants.MTEF_PROJECTIONS].length > 0) {
       const content = [];
