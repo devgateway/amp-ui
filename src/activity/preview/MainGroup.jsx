@@ -48,7 +48,7 @@ export default class MainGroup extends Component {
       APDocumentPage, rawNumberToFormattedString, getAmountsInThousandsMessage,
       getActivityContactIds, rtl
     } = this.props;
-    return (<div className={styles.main_group_container}>
+    return (<div className={rtl ? styles.main_group_container_rtl : styles.main_group_container}>
       <APIdentification fmPath={FeatureManagerConstants.ACTIVITY_IDENTIFICATION} />
       <APInternalIds
         sectionPath={ActivityConstants.ACTIVITY_INTERNAL_IDS} />

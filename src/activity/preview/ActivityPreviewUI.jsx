@@ -152,12 +152,12 @@ export default class ActivityPreviewUI extends Component {
               <Row>
                 <Col
                   md={9}
-                  className={rtl ? [styles.preview_summary, styles.float_right].join(' ') : null}>
+                  className={rtl ? [styles.float_right].join(' ') : null}>
                   <MainGroup
                     APDocumentPage={APDocumentPage}
                     rawNumberToFormattedString={rawNumberToFormattedString}
                     getAmountsInThousandsMessage={getAmountsInThousandsMessage}
-                    getActivityContactIds={getActivityContactIds} />
+                    getActivityContactIds={getActivityContactIds} rtl={rtl} />
                 </Col>
                 <Col
                   md={3}
