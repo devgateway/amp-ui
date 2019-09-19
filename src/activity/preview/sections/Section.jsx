@@ -7,6 +7,7 @@ import PossibleValuesManager from '../../../modules/field/PossibleValuesManager'
 import APField from '../components/APField.jsx';
 import styles from '../ActivityPreview.css';
 import UIUtils from '../../../utils/UIUtils';
+import WorkspaceConstants from '../../../utils/constants/WorkspaceConstants';
 
 let logger = null;
 
@@ -35,15 +36,25 @@ const Section = (ComposedSection, params) => class extends Component {
     contactsByIds: PropTypes.object.isRequired,
     activityFundingTotals: PropTypes.object.isRequired, // Will change this if ActivityFundingTotals is migrated
     // PropTypes.instanceOf(params.ActivityFundingTotals).isRequired,
-    activityWorkspace: PropTypes.object.isRequired,
-    activityWSManager: PropTypes.object.isRequired,
     resourceReducer: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
     getAmountsInThousandsMessage: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    rawNumberToFormattedString: PropTypes.func.isRequired,
+    activityContext: PropTypes.shape({
+      activityStatus: PropTypes.string,
+      userTeamMember: PropTypes.number.isRequired,
+      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
+      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
+      [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
+      teamMemberRole: PropTypes.number.isRequired,
+      workspaceCurrency: PropTypes.string.isRequired,
+      [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
+      calendar: PropTypes.object,
+      workspaceLeadData: PropTypes.string
+    }).isRequired,
   };
 
   static defaultProps = {

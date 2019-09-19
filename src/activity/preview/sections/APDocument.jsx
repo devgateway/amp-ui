@@ -34,11 +34,8 @@ class APDocument extends Component {
     saveFileDialog: PropTypes.func.isRequired,
     openExternal: PropTypes.func.isRequired,
     RepositoryManager: PropTypes.object.isRequired,
-  };
-
-  static contextTypes = {
     Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
   };
 
   getResources() {
@@ -75,8 +72,7 @@ class APDocument extends Component {
    * @return {{urlText, url, action}}
    */
   getResourceUrlData(resource) {
-    const { saveFileDialog, RepositoryManager } = this.props;
-    const { translate } = this.context;
+    const { saveFileDialog, RepositoryManager, translate } = this.props;
     const resData = {};
     const fileName = resource[ResourceConstants.FILE_NAME];
     if (fileName) {
@@ -94,8 +90,7 @@ class APDocument extends Component {
   }
 
   renderResource(resource) {
-    const { resourceReducer, buildSimpleField, openExternal } = this.props;
-    const { translate } = this.context;
+    const { resourceReducer, buildSimpleField, openExternal, translate } = this.props;
     const { resourceFieldsManager } = resourceReducer;
     const resData = this.getResourceUrlData(resource);
     const isAccessible = resData.url || resData.action;
@@ -132,7 +127,7 @@ class APDocument extends Component {
 
   renderNoResources() {
     const { isResourcesLoading, isResourceManagersLoading } = this.props.resourceReducer;
-    const { translate, Logger } = this.context;
+    const { translate, Logger } = this.props;
     if (isResourcesLoading || isResourceManagersLoading) {
       return <Loading Logger={Logger} translate={translate} />;
     }

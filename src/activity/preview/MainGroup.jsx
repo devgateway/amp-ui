@@ -58,16 +58,13 @@ export default class MainGroup extends Component {
         fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} />
       <APLocation
         sectionPath={ActivityConstants.LOCATIONS} tablify columns={ActivityConstants.ACTIVITY_LOCATION_COLS}
-        fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value}
-        rawNumberToFormattedString={rawNumberToFormattedString} rtl={rtl} />
+        fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} rtl={rtl} />
       <APProgram
         fieldNameClass={styles.sector_title} fmPath={FeatureManagerConstants.ACTIVITY_PROGRAM}
-        percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value}
-        rawNumberToFormattedString={rawNumberToFormattedString} rtl={rtl} />
+        percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value} rtl={rtl} />
       <APSector
         fieldNameClass={styles.sector_title} fieldValueClass={''} fmPath={FeatureManagerConstants.ACTIVITY_SECTORS}
-        percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value}
-        rawNumberToFormattedString={rawNumberToFormattedString} rtl={rtl} />
+        percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value} rtl={rtl} />
       <APFundingSources
         sectionPath={ActivityConstants.TOTAL_NUMBER_OF_FUNDING_SOURCES}
         fieldValueClass={styles.box_field_value} />

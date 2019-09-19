@@ -29,17 +29,13 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     fmPath: PropTypes.string,
     getItemTitle: PropTypes.func,
     rawNumberToFormattedString: PropTypes.func.isRequired,
-    rtl: PropTypes.bool, // TODO: Maybe this will be a context.
-  };
-
-  static contextTypes = {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    rtl: PropTypes.bool,
   };
-
-  constructor(props, context) {
-    super(props, context);
-    const { Logger } = this.context;
+  constructor(props) {
+    super(props);
+    const { Logger } = this.props;
     logger = new Logger('AP percentage list');
     logger.debug('constructor');
   }
@@ -65,9 +61,8 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
   render() {
     const {
       activityFieldsManager, percentTitleClass, fmPath, activity, columns, tablify
-      , percentValueClass, fieldNameClass, fieldValueClass, rawNumberToFormattedString
+      , percentValueClass, fieldNameClass, fieldValueClass, rawNumberToFormattedString, translate
     } = this.props;
-    const { translate } = this.context;
     const title = listTitle ? translate(listTitle) : null;
     let items = activity[listField];
     let content = null;

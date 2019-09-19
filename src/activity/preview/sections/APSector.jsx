@@ -22,15 +22,11 @@ class APSector extends Component {
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired,
     rtl: PropTypes.bool,
+    Logger: PropTypes.func.isRequired
   };
-
-  static contextTypes = {
-    Logger: PropTypes.func.isRequired,
-  };
-
-  constructor(props, context) {
-    super(props, context);
-    const { Logger } = this.context;
+  constructor(props) {
+    super(props);
+    const { Logger } = this.props;
     logger = new Logger('AP sector');
     logger.log('constructor');
   }

@@ -18,9 +18,11 @@ class APFundingTotalsSection extends Component {
     activityFundingTotals: PropTypes.object.isRequired, // PropTypes.instanceOf(ActivityFundingTotals).isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager),
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
-    currentWorkspaceSettings: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    activityContext: PropTypes.shape({
+      workspaceCurrency: PropTypes.string.isRequired
+    }).isRequired,
   };
 
   static propTypes = {
@@ -29,10 +31,10 @@ class APFundingTotalsSection extends Component {
 
   constructor(props, context) {
     super(props, context);
-    const { Logger } = this.context;
+    const { Logger, activityContext } = this.context;
     logger = new Logger('AP funding totals section');
     logger.debug('constructor');
-    this._wsCurrency = context.currentWorkspaceSettings.currency.code;
+    this._wsCurrency = activityContext.workspaceCurrency;
   }
 
   render() {

@@ -21,16 +21,13 @@ const APInternalIdsSection = (isSeparateSection) => class extends Component {
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
     showIfEmpty: PropTypes.bool, /* only makes sense if isSeparateSection is true, will render
                                   if there are no org ids*/
-  };
-
-  static contextTypes = {
     Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
   };
 
-  constructor(props, context) {
-    super(props, context);
-    const { Logger } = this.context;
+  constructor(props) {
+    super(props);
+    const { Logger } = this.props;
     logger = new Logger('AP Internal ids');
     logger.log('constructor');
   }
@@ -63,7 +60,7 @@ const APInternalIdsSection = (isSeparateSection) => class extends Component {
   }
 
   render() {
-    const { translate } = this.context;
+    const { translate } = this.props;
     let content = this.buildContent();
     if (isSeparateSection === true) {
       // make sure content exists before formatting

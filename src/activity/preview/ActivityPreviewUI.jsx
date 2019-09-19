@@ -25,22 +25,12 @@ export default class ActivityPreviewUI extends Component {
 
   static contextTypes = {
     resourceReducer: PropTypes.object.isRequired,
-    params: PropTypes.shape({
-      activityId: PropTypes.string.isRequired
-    }).isRequired,
-    workspaceReducer: PropTypes.object,
-    userReducer: PropTypes.object,
-    startUpReducer: PropTypes.object,
     ActivityFundingTotals: PropTypes.object,
-    activityWorkspace: PropTypes.object,
-    activityWSManager: PropTypes.object,
-    currentWorkspaceSettings: PropTypes.object,
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     activityFieldsManager: PropTypes.instanceOf(FieldsManager),
     activityFundingTotals: PropTypes.any,
     contactFieldsManager: PropTypes.instanceOf(FieldsManager),
     contactsByIds: PropTypes.object,
-    calendar: PropTypes.object,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
@@ -48,16 +38,39 @@ export default class ActivityPreviewUI extends Component {
     getActivityContactIds: PropTypes.func.isRequired,
     getAmountsInThousandsMessage: PropTypes.func.isRequired,
     IconFormatter: PropTypes.func.isRequired,
-    DesktopManager: PropTypes.object.isRequired,
-    APDocumentPage: PropTypes.func.isRequired,
+    APDocumentPage: PropTypes.func.isRequired
   };
 
   static propTypes = {
-    activity: PropTypes.object
+    activity: PropTypes.object,
+    activityContext: PropTypes.shape({
+      activityStatus: PropTypes.string,
+      userTeamMember: PropTypes.number.isRequired,
+      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
+      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
+      [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
+      teamMemberRole: PropTypes.number.isRequired,
+      workspaceCurrency: PropTypes.string,
+      [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
+      calendar: PropTypes.object,
+      workspaceLeadData: PropTypes.string
+    }).isRequired,
   };
 
   static childContextTypes = {
-    activity: PropTypes.object
+    activity: PropTypes.object,
+    calendar: PropTypes.object,
+    activityContext: PropTypes.shape({
+      activityStatus: PropTypes.string,
+      userTeamMember: PropTypes.number.isRequired,
+      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
+      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
+      [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
+      workspaceCurrency: PropTypes.string,
+      teamMemberRole: PropTypes.number.isRequired,
+      [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
+      calendar: PropTypes.object,
+    })
   };
 
   constructor(props, context) {
@@ -70,17 +83,16 @@ export default class ActivityPreviewUI extends Component {
 
   getChildContext() {
     return {
-      activity: this.props.activity
+      activity: this.props.activity,
+      activityContext: this.props.activityContext
     };
   }
-
   _renderData() {
+    const { activity, activityContext } = this.props;
     const { rtl } = this.state;
-    const { activity } = this.props;
     const {
-      translate, rawNumberToFormattedString, getActivityContactIds,
-      getAmountsInThousandsMessage, userReducer, workspaceReducer,
-      IconFormatter, DesktopManager, APDocumentPage, activityFieldsManager
+      translate, rawNumberToFormattedString, getActivityContactIds, getAmountsInThousandsMessage, IconFormatter,
+      APDocumentPage, activityFieldsManager
     } = this.context;
 
     const categories = ActivityConstants.AP_SECTION_IDS.map((category) => {
@@ -96,13 +108,10 @@ export default class ActivityPreviewUI extends Component {
 
     const categoryKeys = ActivityConstants.AP_SECTION_IDS.map(category => category.key);
 
-    const teamLeadFlag =
-      userReducer.teamMember[WorkspaceConstants.ROLE_ID] === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_MANAGER
-      || userReducer.teamMember[WorkspaceConstants.ROLE_ID] === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_APPROVER;
+    const teamLeadFlag = activityContext.teamMemberRole === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_MANAGER
+      || activityContext.teamMemberRole === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_APPROVER;
 
-    const privateWSWarning = workspaceReducer.currentWorkspace[WorkspaceConstants.IS_PRIVATE]
-      ? translate('privateWorkspaceWarning') : '';
-
+    const privateWSWarning = activityContext[WorkspaceConstants.IS_PRIVATE] ? translate('privateWorkspaceWarning') : '';
     return (
       <div className={rtl ? styles.rtl : ''}>
         <div className={styles.preview_container}>
@@ -113,12 +122,12 @@ export default class ActivityPreviewUI extends Component {
               <ul>
                 <IconFormatter
                   id={activity.id} edit={!activity[ActivityConstants.REJECTED_ID]} view={false}
-                  status={DesktopManager.getActivityStatus(activity)}
+                  status={activityContext.activityStatus}
                   activityTeamId={activity[ActivityConstants.TEAM].id}
-                  teamId={userReducer.teamMember[WorkspaceConstants.WORKSPACE_ID]}
+                  teamId={activityContext.userTeamMember}
                   teamLeadFlag={teamLeadFlag}
-                  wsAccessType={workspaceReducer.currentWorkspace[WorkspaceConstants.ACCESS_TYPE]}
-                  crossTeamWS={workspaceReducer.currentWorkspace[WorkspaceConstants.CROSS_TEAM_VALIDATION]} />
+                  wsAccessType={activityContext[WorkspaceConstants.ACCESS_TYPE]}
+                  crossTeamWS={activityContext[WorkspaceConstants.CROSS_TEAM_VALIDATION]} />
                 <img
                   className={styles.print} onClick={() => window.print()} alt="print" src={printIcon}
                   title={translate('clickToPrint')} />
@@ -148,7 +157,7 @@ export default class ActivityPreviewUI extends Component {
                     APDocumentPage={APDocumentPage}
                     rawNumberToFormattedString={rawNumberToFormattedString}
                     getAmountsInThousandsMessage={getAmountsInThousandsMessage}
-                    getActivityContactIds={getActivityContactIds} rtl={rtl} />
+                    getActivityContactIds={getActivityContactIds} />
                 </Col>
                 <Col
                   md={3}

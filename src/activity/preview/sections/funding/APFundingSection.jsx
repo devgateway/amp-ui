@@ -23,16 +23,12 @@ class APFundingSection extends Component {
     rawNumberToFormattedString: PropTypes.func.isRequired,
     getAmountsInThousandsMessage: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
+    Logger: PropTypes.func.isRequired
   };
 
-  static contextTypes = {
-    Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
-  };
-
-  constructor(props, context) {
-    super(props, context);
-    const { Logger } = this.context;
+  constructor(props) {
+    super(props);
+    const { Logger } = this.props;
     logger = new Logger('AP funding section');
     logger.debug('constructor');
   }
@@ -47,8 +43,6 @@ class APFundingSection extends Component {
           funding={funding} key={funding[ActivityConstants.AMP_FUNDING_ID] || UIUtils.stringToUniqueId()}
           buildSimpleField={this.props.buildSimpleField}
           DateUtils={DateUtils}
-
-
           rawNumberToFormattedString={rawNumberToFormattedString}
         />);
         fundingList.push(item);
@@ -62,10 +56,7 @@ class APFundingSection extends Component {
         rawNumberToFormattedString={rawNumberToFormattedString}
       />
       <div>{fundingList}</div>
-      <div><APFundingTotalsSection
-
-
-        rawNumberToFormattedString={rawNumberToFormattedString} /></div>
+      <div><APFundingTotalsSection rawNumberToFormattedString={rawNumberToFormattedString} /></div>
       <div className={fundingStyles.clear} />
     </div>);
   }

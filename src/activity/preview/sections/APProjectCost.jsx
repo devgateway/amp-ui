@@ -4,6 +4,7 @@ import styles from '../ActivityPreview.css';
 import ActivityConstants from '../../../modules/util/ActivityConstants';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 import Section from './Section.jsx';
+import CurrencyRatesManager from '../../../modules/util/CurrencyRatesManager';
 
 let logger = null;
 
@@ -15,19 +16,19 @@ const APProjectCost = (fieldName) => class extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.object.isRequired,
-    activityFundingTotals: PropTypes.object.isRequired,
     DateUtils: PropTypes.func.isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired
-  };
-
-  static contextTypes = {
+    currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
+    rawNumberToFormattedString: PropTypes.func.isRequired,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    activityContext: PropTypes.shape({
+      workspaceCurrency: PropTypes.string.isRequired
+    }).isRequired,
   };
 
-  constructor(props, context) {
-    super(props, context);
-    const { Logger } = this.context;
+  constructor(props) {
+    super(props);
+    const { Logger } = this.props;
     logger = new Logger('AP project cost');
     logger.debug('constructor');
   }
@@ -43,10 +44,9 @@ const APProjectCost = (fieldName) => class extends Component {
 
   render() {
     let content = null;
-    const { rawNumberToFormattedString, DateUtils } = this.props;
-    const { translate } = this.context;
+    const { rawNumberToFormattedString, DateUtils, translate, activityContext } = this.props;
     if (this.props.activityFieldsManager.isFieldPathEnabled(fieldName) === true) {
-      const currency = this.props.activityFundingTotals._currentWorkspaceSettings.currency.code;
+      const currency = activityContext.workspaceCurrency;
       let amount = 0;
       let showPPC = false;
       const ppcAsFunding = this.props.activity[ActivityConstants.PPC_AMOUNT];
@@ -55,8 +55,7 @@ const APProjectCost = (fieldName) => class extends Component {
         ppcAsFunding[ActivityConstants.CURRENCY] = ppcAsFunding[ActivityConstants.CURRENCY];
         ppcAsFunding[ActivityConstants.TRANSACTION_AMOUNT] = ppcAsFunding[ActivityConstants.AMOUNT];
         if (ppcAsFunding[ActivityConstants.CURRENCY] && ppcAsFunding[ActivityConstants.TRANSACTION_AMOUNT]) {
-          amount = this.props.activityFundingTotals
-            ._currencyRatesManager.convertTransactionAmountToCurrency(ppcAsFunding, currency);
+          amount = this.props.currencyRatesManager.convertTransactionAmountToCurrency(ppcAsFunding, currency);
           amount = rawNumberToFormattedString(amount);
         }
       }
