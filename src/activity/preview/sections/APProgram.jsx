@@ -24,6 +24,7 @@ class APProgram extends Component {
     activity: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
     rawNumberToFormattedString: PropTypes.func.isRequired,
+    rtl: PropTypes.bool,
     Logger: PropTypes.func.isRequired
   };
   constructor(props) {

@@ -30,7 +30,8 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     getItemTitle: PropTypes.func,
     rawNumberToFormattedString: PropTypes.func.isRequired,
     Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired
+    translate: PropTypes.func.isRequired,
+    rtl: PropTypes.bool,
   };
   constructor(props) {
     super(props);
@@ -44,9 +45,17 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
       return this.props.getItemTitle(item);
     }
     const obj = item[valueField];
-    return obj[ActivityConstants.HIERARCHICAL_VALUE] ?
+    let values = obj[ActivityConstants.HIERARCHICAL_VALUE] ?
       obj[ActivityConstants.HIERARCHICAL_VALUE] :
       PossibleValuesManager.getOptionTranslation(obj);
+    if (this.props.rtl) {
+      // We need to reverse the order of a string with format "[Haiti][Artibonite][Saint-Marc Arrondissement]".
+      if (values && values.indexOf(']') > -1) {
+        values = values.replace(/[[]/gm, '').split(']').reverse().filter(i => i.length > 0);
+        values = `[${values.toString().replace(/[,]/g, '][')}]`;
+      }
+    }
+    return values;
   }
 
   render() {

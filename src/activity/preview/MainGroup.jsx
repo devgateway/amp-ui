@@ -28,6 +28,7 @@ export default class MainGroup extends Component {
     rawNumberToFormattedString: PropTypes.func.isRequired,
     getAmountsInThousandsMessage: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
+    rtl: PropTypes.bool,
   };
 
   static contextTypes = {
@@ -45,9 +46,9 @@ export default class MainGroup extends Component {
     // TODO (iteration 2+) hide sections that are not directly connected to a single field (e.g. planning, program)
     const {
       APDocumentPage, rawNumberToFormattedString, getAmountsInThousandsMessage,
-      getActivityContactIds
+      getActivityContactIds, rtl
     } = this.props;
-    return (<div className={styles.main_group_container}>
+    return (<div className={rtl ? styles.main_group_container_rtl : styles.main_group_container}>
       <APIdentification fmPath={FeatureManagerConstants.ACTIVITY_IDENTIFICATION} />
       <APInternalIds
         sectionPath={ActivityConstants.ACTIVITY_INTERNAL_IDS} />
@@ -57,13 +58,13 @@ export default class MainGroup extends Component {
         fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} />
       <APLocation
         sectionPath={ActivityConstants.LOCATIONS} tablify columns={ActivityConstants.ACTIVITY_LOCATION_COLS}
-        fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} />
+        fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} rtl={rtl} />
       <APProgram
         fieldNameClass={styles.sector_title} fmPath={FeatureManagerConstants.ACTIVITY_PROGRAM}
-        percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value} />
+        percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value} rtl={rtl} />
       <APSector
         fieldNameClass={styles.sector_title} fieldValueClass={''} fmPath={FeatureManagerConstants.ACTIVITY_SECTORS}
-        percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value} />
+        percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value} rtl={rtl} />
       <APFundingSources
         sectionPath={ActivityConstants.TOTAL_NUMBER_OF_FUNDING_SOURCES}
         fieldValueClass={styles.box_field_value} />

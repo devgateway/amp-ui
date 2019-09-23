@@ -211,6 +211,8 @@ const MTEF_PROJECTIONS = 'mtef_projections';
 const PROJECTION = 'projection';
 const PIPELINE = 'pipeline';
 const PROJECTION_DATE = 'projection_date';
+const NATIONAL = 'National';
+const COUNTRY = 'Country';
 
 // Activity labels (usually those that don't come as part of Fields Def EP)
 const SAME_AS_PROPOSED_START_DATE_LABEL = 'Same as Proposed Start Date';
@@ -493,6 +495,8 @@ export default Object.freeze({
   PROJECTION,
   PIPELINE,
   PROJECTION_DATE,
+  NATIONAL,
+  COUNTRY,
   SAME_AS_PROPOSED_START_DATE_LABEL,
   SAME_AS_PROPOSED_APPROVAL_DATE_LABEL,
   DEPENDENCY_IMPLEMENTATION_LEVEL_PRESENT,
