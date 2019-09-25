@@ -10,10 +10,13 @@ let logger = null;
  * @author Anya Marshall
  */
 export default class Tablify extends Component {
-
   static propTypes = {
     content: PropTypes.any,
-    columns: PropTypes.number
+    columns: PropTypes.number,
+  };
+
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
   };
 
   /**
@@ -42,9 +45,9 @@ export default class Tablify extends Component {
     return tableContent;
   }
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('tablify');
     logger.log('constructor');
   }
@@ -59,8 +62,9 @@ export default class Tablify extends Component {
     const tableContent = [];
     for (let i = 0; i < rows; i++) {
       const rowContent = [];
-      rowContent.push(<div key={UIUtils.stringToUniqueId()} style={cellwidthStyle}
-                           className={styles.tablify_outer_cell}>
+      rowContent.push(<div
+        key={UIUtils.stringToUniqueId()} style={cellwidthStyle}
+        className={styles.tablify_outer_cell}>
         {this.props.content.pop()}</div>);
       for (let j = 1; j < this.props.columns && this.props.content.length > 0; j++) {
         const key = UIUtils.stringToUniqueId();

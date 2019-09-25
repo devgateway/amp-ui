@@ -8,6 +8,6 @@ const WORKSPACES_GROUPS = [
   { type: 'Other' }
 ];
 
-module.exports = Object.freeze({
+export default Object.freeze({
   WORKSPACES_GROUPS
 });

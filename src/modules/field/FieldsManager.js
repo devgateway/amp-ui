@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import Constants from '../../utils/Constants';
-import * as FPC from '../../utils/FieldPathConstants';
+import FieldPathConstants from '../../utils/FieldPathConstants';
 
 let logger = null;
 
@@ -29,7 +29,7 @@ export default class FieldsManager {
     this._fieldsDef = fieldsDef;
     this._possibleValuesMap = {};
     possibleValuesCollection.forEach(pv => {
-      this._possibleValuesMap[pv.id] = pv[FPC.FIELD_OPTIONS];
+      this._possibleValuesMap[pv.id] = pv[FieldPathConstants.FIELD_OPTIONS];
     });
     this._fieldPathsEnabledStatusMap = {};
     this._lang = currentLanguage || Constants.LANGUAGE_ENGLISH;
@@ -45,8 +45,8 @@ export default class FieldsManager {
       }
       if (fd.field_label) {
         Object.keys(fd.field_label).forEach(lang => {
-            fd.field_label[lang.toLowerCase()] = fd.field_label[lang];
-          });
+          fd.field_label[lang.toLowerCase()] = fd.field_label[lang];
+        });
       }
     });
   }
@@ -92,9 +92,9 @@ export default class FieldsManager {
     let currentTree = this._fieldsDef;
     const isDisabled = pathParts.some(part => {
       currentTree = currentTree.find(field => field.field_name === part);
-      if (currentTree && ((currentTree[FPC.FIELD_TYPE] === FPC.FIELD_TYPE_LIST
-        && currentTree[FPC.FIELD_ITEM_TYPE] === FPC.FIELD_TYPE_OBJECT)
-        || currentTree[FPC.FIELD_TYPE] === FPC.FIELD_TYPE_OBJECT)) {
+      if (currentTree && ((currentTree[FieldPathConstants.FIELD_TYPE] === FieldPathConstants.FIELD_TYPE_LIST
+        && currentTree[FieldPathConstants.FIELD_ITEM_TYPE] === FieldPathConstants.FIELD_TYPE_OBJECT)
+        || currentTree[FieldPathConstants.FIELD_TYPE] === FieldPathConstants.FIELD_TYPE_OBJECT)) {
         currentTree = currentTree.children;
       }
       return !currentTree;
@@ -137,12 +137,12 @@ export default class FieldsManager {
     let fieldsDef = this._fieldsDef;
     if (fieldPath) {
       fieldPath.split('~').some(part => {
-          if (!(fieldsDef instanceof Array)) {
-            fieldsDef = fieldsDef.children;
-          }
-          fieldsDef = fieldsDef.find(fd => fd.field_name === part);
-          return fieldsDef === undefined;
-        });
+        if (!(fieldsDef instanceof Array)) {
+          fieldsDef = fieldsDef.children;
+        }
+        fieldsDef = fieldsDef.find(fd => fd.field_name === part);
+        return fieldsDef === undefined;
+      });
     } else {
       fieldsDef = { children: fieldsDef };
     }

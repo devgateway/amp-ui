@@ -23,13 +23,16 @@ class AdditionalInfo extends Component {
     fieldNameClass: PropTypes.string,
     fieldValueClass: PropTypes.string,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
-    Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    const { Logger } = this.props;
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
+  };
+
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
     logger = new Logger('AP Additional info');
     logger.debug('constructor');
   }
@@ -39,20 +42,23 @@ class AdditionalInfo extends Component {
     if (!activityWSManager) {
       return null;
     }
+    // eslint-disable-next-line max-len
     return `${activityWSManager[UserConstants.FIRST_NAME]} ${activityWSManager[UserConstants.LAST_NAME]} ${activityWSManager[UserConstants.EMAIL]}`;
   }
 
   _buildAdditionalInfo() {
     const {
-      translate, activityWorkspace, activityFieldsManager, buildSimpleField,
-      fieldNameClass, fieldValueClass, activity, Logger
+      activityWorkspace, activityFieldsManager, buildSimpleField,
+      fieldNameClass, fieldValueClass, activity
     } = this.props;
+    const { translate } = this.context;
     const additionalInfo = [];
     const teamName = activityFieldsManager.getValue(activity, ActivityConstants.TEAM,
       PossibleValuesManager.getOptionTranslation);
     // no need to export repeating translation for the access type through workspaces EP
     const accessType = translate(activityWorkspace[WorkspaceConstants.ACCESS_TYPE]);
-    const isComputedTeam = activityWorkspace[WorkspaceConstants.IS_COMPUTED] === true ? translate('Yes') : translate('No');
+    const isComputedTeam = activityWorkspace[WorkspaceConstants.IS_COMPUTED] === true ?
+      translate('Yes') : translate('No');
 
     // TODO: the right value as defined in AMP-25403 will be shown after AMP-26295.
     additionalInfo.push(buildSimpleField(ActivityConstants.CREATED_BY, true));
@@ -60,13 +66,13 @@ class AdditionalInfo extends Component {
     additionalInfo.push(buildSimpleField(ActivityConstants.MODIFIED_BY, true));
     additionalInfo.push(buildSimpleField(ActivityConstants.MODIFIED_ON, true));
     additionalInfo.push(APField.instance('createdInWorkspace', `${teamName} - ${accessType}`,
-      false, false, fieldNameClass, fieldValueClass, translate, Logger));
+      false, false, fieldNameClass, fieldValueClass, translate));
 
     additionalInfo.push(APField.instance('workspaceManager', this._getWorkspaceLeadData(),
-      false, false, fieldNameClass, fieldValueClass, translate, Logger));
+      false, false, fieldNameClass, fieldValueClass, translate));
 
     additionalInfo.push(APField.instance('computation', isComputedTeam,
-      false, false, fieldNameClass, fieldValueClass, translate, Logger));
+      false, false, fieldNameClass, fieldValueClass, translate));
 
     return additionalInfo;
   }
@@ -74,7 +80,6 @@ class AdditionalInfo extends Component {
   render() {
     return <div>{this._buildAdditionalInfo()}</div>;
   }
-
 }
 
 export default Section(AdditionalInfo, {

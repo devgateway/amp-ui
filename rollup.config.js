@@ -4,6 +4,7 @@ import external from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
 import resolve from 'rollup-plugin-node-resolve';
 import url from 'rollup-plugin-url';
+import image from 'rollup-plugin-img';
 
 import pkg from './package.json';
 
@@ -25,6 +26,9 @@ export default {
   ],
   plugins: [
     external(),
+    image({
+      limit: 10000
+    }),
     postcss({
       modules: true
     }),
@@ -37,6 +41,11 @@ export default {
       plugins: ['external-helpers']
     }),
     resolve(),
-    commonjs()
+    commonjs({
+      include: 'node_modules/**',
+      namedExports: {
+        'node_modules/react-is/index.js': ['isValidElementType']
+      }
+    })
   ]
 };
