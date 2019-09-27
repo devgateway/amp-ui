@@ -12,6 +12,7 @@ import APStatusBar from './sections/APStatusBar.jsx';
 import MainGroup from './MainGroup.jsx';
 import SummaryGroup from './SummaryGroup.jsx';
 import printIcon from '../../assets/images/print.svg';
+import IconFormatter from '../common/IconFormatter.jsx';
 
 let logger = null;
 
@@ -37,7 +38,6 @@ export default class ActivityPreviewUI extends Component {
     rawNumberToFormattedString: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
     getAmountsInThousandsMessage: PropTypes.func.isRequired,
-    IconFormatter: PropTypes.func.isRequired,
     APDocumentPage: PropTypes.func.isRequired
   };
 
@@ -91,7 +91,7 @@ export default class ActivityPreviewUI extends Component {
     const { activity, activityContext } = this.props;
     const { rtl } = this.state;
     const {
-      translate, rawNumberToFormattedString, getActivityContactIds, getAmountsInThousandsMessage, IconFormatter,
+      translate, rawNumberToFormattedString, getActivityContactIds, getAmountsInThousandsMessage,
       APDocumentPage, activityFieldsManager
     } = this.context;
 
@@ -127,7 +127,8 @@ export default class ActivityPreviewUI extends Component {
                   teamId={activityContext.userTeamMember}
                   teamLeadFlag={teamLeadFlag}
                   wsAccessType={activityContext[WorkspaceConstants.ACCESS_TYPE]}
-                  crossTeamWS={activityContext[WorkspaceConstants.CROSS_TEAM_VALIDATION]} />
+                  crossTeamWS={activityContext[WorkspaceConstants.CROSS_TEAM_VALIDATION]}
+                  translate={translate} />
                 <img
                   className={styles.print} onClick={() => window.print()} alt="print" src={printIcon}
                   title={translate('clickToPrint')} />
