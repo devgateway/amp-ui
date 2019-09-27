@@ -24,6 +24,8 @@ import downloadImage from './assets/images/download.svg';
 import ajaxLoader from './assets/images/ajax-loader.gif';
 import gotoImage from './assets/images/goto_url.svg';
 import ActivityPreviewUI from './activity/preview/ActivityPreviewUI.jsx';
+import FmManagerHelper from './utils/helpers/FmManagerHelper';
+import CommonPossibleValuesHelper from './utils/helpers/CommonPossibleValuesHelper';
 
 export {
   Constants,
@@ -52,6 +54,8 @@ export {
   ajaxLoader,
   gotoImage,
   ActivityPreviewUI,
+  FmManagerHelper,
+  CommonPossibleValuesHelper
 };
 
 export default {
@@ -81,4 +85,6 @@ export default {
   ajaxLoader,
   gotoImage,
   ActivityPreviewUI,
+  FmManagerHelper,
+  CommonPossibleValuesHelper
 };
