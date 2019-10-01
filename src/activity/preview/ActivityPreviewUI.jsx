@@ -12,6 +12,7 @@ import APStatusBar from './sections/APStatusBar.jsx';
 import MainGroup from './MainGroup.jsx';
 import SummaryGroup from './SummaryGroup.jsx';
 import printIcon from '../../assets/images/print.svg';
+import GenerateWordPreview from '../../utils/export/GenerateWordPreview';
 
 let logger = null;
 
@@ -119,6 +120,7 @@ export default class ActivityPreviewUI extends Component {
             <span className={styles.top_warning_text}>{privateWSWarning}</span>
             <span className={styles.preview_title}>{activity[ActivityConstants.PROJECT_TITLE]}</span>
             <span className={styles.preview_icons}>
+              <span onClick={() => this.wordExport()}>word</span>
               <ul>
                 <IconFormatter
                   id={activity.id} edit={!activity[ActivityConstants.REJECTED_ID]} view={false}
@@ -179,6 +181,11 @@ export default class ActivityPreviewUI extends Component {
   activateRtl() {
     const rtl = this.state.rtl;
     this.setState({ rtl: !rtl });
+  }
+
+  wordExport() {
+    alert('export');
+    GenerateWordPreview.generateDocument();
   }
 
   render() {
