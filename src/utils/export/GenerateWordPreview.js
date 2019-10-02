@@ -103,6 +103,12 @@ export default class GenerateWordPreview {
   }
 
   static createStyles() {
+    document.Styles.createParagraphStyle('Normal', 'Normal')
+      .basedOn('Normal')
+      .next('Normal')
+      .quickFormat()
+      .font('Calibri');
+
     document.Styles.createParagraphStyle('ProjectTitle', 'Project Title')
       .basedOn('Normal')
       .next('Normal')
