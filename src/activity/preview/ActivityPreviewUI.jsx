@@ -184,8 +184,7 @@ export default class ActivityPreviewUI extends Component {
   }
 
   wordExport() {
-    alert('export');
-    GenerateWordPreview.generateDocument();
+    GenerateWordPreview.generateDocument(this.props, this.context, this.state.rtl);
   }
 
   render() {
