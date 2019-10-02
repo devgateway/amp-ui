@@ -86,11 +86,20 @@ const Section = (ComposedSection, params) => class extends Component {
    * @param inline optional flag to render name and values on the same line
    * @param parent optional object where we look for the path (instead of the activity root).
    * @param fieldsManager (optional) custom fields manager. Activity Fields Manager used by default.
-   * @return {null|APField}
    */
   buildSimpleField(path, showIfNotAvailable, NAOptions: Set, inline = false, parent = null, fieldsManager = null
     , options) {
     const options_ = options || {};
+
+    // If stringOnly then we need to populate params and context manually.
+    if (options_.stringOnly) {
+      params = {};
+      this.context = options_.context;
+      this.context.activity = options_.props.activity;
+      params.DateUtils = options_.context.DateUtils;
+      params.translate = options_.context.translate;
+    }
+
     const fmPath = FieldPathConstants.ACTIVITY_FIELDS_FM_PATH[path];
     fieldsManager = fieldsManager || this.context.activityFieldsManager;
     if (fieldsManager.isFieldPathEnabled(path)
@@ -126,14 +135,18 @@ const Section = (ComposedSection, params) => class extends Component {
       }
       if (showIfNotAvailable === true || (value !== undefined && value !== null)) {
         const useInnerHTML = FieldPathConstants.RICH_TEXT_FIELDS.has(path);
-        return (<APField
-          key={UIUtils.stringToUniqueId(path)} title={title} value={value} useInnerHTML={useInnerHTML}
-          inline={inline}
-          separator={false}
-          fieldClass={options_.fieldClass || this.props.fieldClass}
-          fieldNameClass={this.props.fieldNameClass}
-          fieldValueClass={options_.fieldValueClass || this.props.fieldValueClass}
-          translate={params.translate} />);
+        if (options_.stringOnly) {
+          return { title, value: params.translate(value) };
+        } else {
+          return (<APField
+            key={UIUtils.stringToUniqueId(path)} title={title} value={value} useInnerHTML={useInnerHTML}
+            inline={inline}
+            separator={false}
+            fieldClass={options_.fieldClass || this.props.fieldClass}
+            fieldNameClass={this.props.fieldNameClass}
+            fieldValueClass={options_.fieldValueClass || this.props.fieldValueClass}
+            translate={params.translate} />);
+        }
       }
     }
   }

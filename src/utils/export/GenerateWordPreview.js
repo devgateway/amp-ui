@@ -3,6 +3,7 @@ import ActivityConstants from '../../modules/util/ActivityConstants';
 import FieldPathConstants from '../FieldPathConstants';
 import FeatureManager from '../../modules/util/FeatureManager';
 import PossibleValuesManager from '../../modules/field/PossibleValuesManager';
+import Section from '../../activity/preview/sections/Section.jsx';
 
 const FileSaver = require('file-saver');
 const docx = require('docx');
@@ -12,7 +13,7 @@ let document;
 let _props;
 let _context;
 let _rtl;
-let styles;
+const section = new Section();
 
 /**
  * Useful resources: https://github.com/dolanmiu/docx/wiki/Styling-with-JS,
@@ -46,17 +47,35 @@ export default class GenerateWordPreview {
   }
 
   static addContentTitleSection() {
-    this.createSimpleParagraphElement(_props.activity[ActivityConstants.PROJECT_TITLE], 'ProjectTitle');
+    this.createSimpleLabel(_props.activity[ActivityConstants.PROJECT_TITLE], 'ProjectTitle');
   }
 
   static addSummarySection() {
-    const items = [ActivityConstants.AMP_ID, ActivityConstants.ACTIVITY_STATUS, ActivityConstants.ACTIVITY_BUDGET];
+    let items = [ActivityConstants.AMP_ID, ActivityConstants.ACTIVITY_STATUS, ActivityConstants.ACTIVITY_BUDGET];
+    if (_rtl) {
+      items = items.reverse();
+    }
     items.map(i => {
-      this.createSimpleParagraphElement(this.buildSimpleField(i, true));
+      const field = section.prototype.buildSimpleField(i, true, null, false, null, null,
+        { stringOnly: true, context: _context, props: _props });
+      return this.createField(field.title, field.value);
     });
   }
 
-  static createSimpleParagraphElement(text, styleName, options) {
+  static createField(title, value) {
+    const p = document.createParagraph();
+    if (!_rtl) {
+      p.createTextRun(`${title}: `);
+      p.createTextRun(value).bold();
+    } else {
+      p.createTextRun(value).bold();
+      p.createTextRun(` :${title}`);
+      p.right();
+    }
+    return p;
+  }
+
+  static createSimpleLabel(text, styleName, options) {
     const p = document.createParagraph();
     p.createTextRun(text);
     if (styleName) {
@@ -92,56 +111,5 @@ export default class GenerateWordPreview {
       .spacing({ after: 120 });
 
     document.Styles.createParagraphStyle('RTL', 'RTL').right();
-  }
-
-  static buildSimpleField(path, showIfNotAvailable, NAOptions: Set, inline = false, parent = null, fieldsManager = null
-    , options) {
-    const options_ = options || {};
-    const fmPath = FieldPathConstants.ACTIVITY_FIELDS_FM_PATH[path];
-    fieldsManager = fieldsManager || _context.activityFieldsManager;
-    if (fieldsManager.isFieldPathEnabled(path)
-      && (!fmPath || FeatureManager.isFMSettingEnabled(fmPath, false))) {
-      const title = (options_.noTitle ? '' : fieldsManager.getFieldLabelTranslation(path));
-      let valuePath = path;
-      if (parent) {
-        const fieldPathParts = path.split('~');
-        valuePath = fieldPathParts[fieldPathParts.length - 1];
-      }
-      const alternatePath = FieldPathConstants.ALTERNATE_VALUE_PATH[valuePath];
-      let value = fieldsManager.getValue(parent || _props.activity, valuePath,
-        PossibleValuesManager.getOptionTranslation);
-      if ((value === null || value === undefined) && alternatePath) {
-        value = fieldsManager.getValue(_props.activity, alternatePath,
-          PossibleValuesManager.getOptionTranslation);
-      }
-      const fieldDef = fieldsManager.getFieldDef(path);
-      if (fieldDef.field_type === FieldPathConstants.FIELD_TYPE_DATE) {
-        value = _context.DateUtils.createFormattedDate(value);
-      } else if (fieldDef.field_type === FieldPathConstants.FIELD_TYPE_TIMESTAMP) {
-        // matching AP online to format as date for now
-        value = _context.DateUtils.createFormattedDate(value);
-      } else if (Array.isArray(value) && !value.length) {
-        value = null;
-      }
-      value = NAOptions && NAOptions.has(value) ? null : value;
-
-      const re = /^\s?$/; // check for whitespace
-      if (re.test(value)) value = value.trim(); // check for whitespace
-      if (value === '' || value === null) {
-        value = _context.translate('No Data');
-      }
-      if (showIfNotAvailable === true || (value !== undefined && value !== null)) {
-        const useInnerHTML = FieldPathConstants.RICH_TEXT_FIELDS.has(path);
-        /* return (<APField
-          key={UIUtils.stringToUniqueId(path)} title={title} value={value} useInnerHTML={useInnerHTML}
-          inline={inline}
-          separator={false}
-          fieldClass={options_.fieldClass || _props.fieldClass}
-          fieldNameClass={_props.fieldNameClass}
-          fieldValueClass={options_.fieldValueClass || _props.fieldValueClass}
-          translate={_context.translate} />);*/
-        return `${title}: ${_context.translate(value)}`;
-      }
-    }
   }
 }
