@@ -55,24 +55,27 @@ export default class GenerateWordPreview {
     if (_rtl) {
       items = items.reverse();
     }
+    const p = document.createParagraph();
     items.map(i => {
       const field = section.prototype.buildSimpleField(i, true, null, false, null, null,
         { stringOnly: true, context: _context, props: _props });
-      return this.createField(field.title, field.value);
+      return this.createField(field.title, field.value, p);
     });
   }
 
-  static createField(title, value) {
-    const p = document.createParagraph();
-    if (!_rtl) {
-      p.createTextRun(`${title}: `);
-      p.createTextRun(value).bold();
-    } else {
-      p.createTextRun(value).bold();
-      p.createTextRun(` :${title}`);
-      p.right();
+  static createField(title, value, paragraph) {
+    if (!paragraph) {
+      paragraph = document.createParagraph();
     }
-    return p;
+    if (!_rtl) {
+      paragraph.createTextRun(`${title}: `);
+      paragraph.createTextRun(value).bold();
+    } else {
+      paragraph.createTextRun(value).bold();
+      paragraph.createTextRun(` :${title}`);
+      paragraph.right();
+    }
+    return paragraph;
   }
 
   static createSimpleLabel(text, styleName, options) {
