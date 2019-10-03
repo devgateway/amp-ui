@@ -42,6 +42,7 @@ export default class GenerateWordPreview {
     this.addPlanningSection();
     this.addLocationSection();
     this.addProgramSection();
+    this.addSectorsSection();
 
     this.download();
   }
@@ -160,6 +161,14 @@ export default class GenerateWordPreview {
       ActivityConstants.PROGRAM, ActivityConstants.PROGRAM_PERCENTAGE, null, 'Primary Program');
     this.createPercentageList(null, ActivityConstants.SECONDARY_PROGRAMS, ActivityConstants.PROGRAM,
       ActivityConstants.PROGRAM_PERCENTAGE, null, 'Secondary Program');
+  }
+
+  static addSectorsSection() {
+    this.createSimpleLabel(_context.translate('Sectors'), 'Heading2');
+    this.createPercentageList(null, ActivityConstants.PRIMARY_SECTORS, ActivityConstants.SECTOR,
+      ActivityConstants.SECTOR_PERCENTAGE, null, 'Primary Sector');
+    this.createPercentageList(null, ActivityConstants.SECONDARY_SECTORS, ActivityConstants.SECTOR,
+      ActivityConstants.SECTOR_PERCENTAGE, null, 'Secondary Sector');
   }
 
   static createPercentageList(paragraph, listField, valueField, percentageField, fmPath, listTitle) {
