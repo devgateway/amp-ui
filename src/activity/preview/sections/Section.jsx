@@ -136,7 +136,7 @@ const Section = (ComposedSection, params) => class extends Component {
       if (showIfNotAvailable === true || (value !== undefined && value !== null)) {
         const useInnerHTML = FieldPathConstants.RICH_TEXT_FIELDS.has(path);
         if (options_.stringOnly) {
-          return { title, value: params.translate(value) };
+          return { title, value: (value instanceof String ? params.translate(value) : value) };
         } else {
           return (<APField
             key={UIUtils.stringToUniqueId(path)} title={title} value={value} useInnerHTML={useInnerHTML}

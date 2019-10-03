@@ -1,9 +1,8 @@
 import React from 'react';
 import ActivityConstants from '../../modules/util/ActivityConstants';
-import FieldPathConstants from '../FieldPathConstants';
-import FeatureManager from '../../modules/util/FeatureManager';
-import PossibleValuesManager from '../../modules/field/PossibleValuesManager';
 import Section from '../../activity/preview/sections/Section.jsx';
+import APIdentification from '../../activity/preview/sections/APIdentification.jsx';
+import ValueConstants from '../ValueConstants';
 
 const FileSaver = require('file-saver');
 const docx = require('docx');
@@ -18,6 +17,7 @@ const section = new Section();
 /**
  * Useful resources: https://github.com/dolanmiu/docx/wiki/Styling-with-JS,
  * https://runkit.com/dolanmiu/docx-demo2
+ * https://runkit.com/dolanmiu/docx-demo10
  */
 export default class GenerateWordPreview {
   static _gwp = new GenerateWordPreview();
@@ -35,6 +35,7 @@ export default class GenerateWordPreview {
     this.createStyles();
     this.addContentTitleSection();
     this.addSummarySection();
+    this.addIdentificationSection();
     this.download();
   }
 
@@ -47,7 +48,7 @@ export default class GenerateWordPreview {
   }
 
   static addContentTitleSection() {
-    this.createSimpleLabel(_props.activity[ActivityConstants.PROJECT_TITLE], 'ProjectTitle');
+    this.createSimpleLabel(_props.activity[ActivityConstants.PROJECT_TITLE], 'Heading1');
   }
 
   static addSummarySection() {
@@ -63,16 +64,61 @@ export default class GenerateWordPreview {
     });
   }
 
-  static createField(title, value, paragraph) {
+  static addIdentificationSection() {
+    this.createSimpleLabel(_context.translate('Identification'), 'Heading2');
+    const pContent = document.createParagraph();
+    // TODO: This is a copy from APIdentification.jsx, try to find a way to have it in one place.
+    const fieldPaths = [ActivityConstants.STATUS_REASON, ActivityConstants.TYPE_OF_COOPERATION,
+      ActivityConstants.TYPE_OF_IMPLEMENTATION, ActivityConstants.MODALITIES, ActivityConstants.OBJECTIVE,
+      ActivityConstants.DESCRIPTION, ActivityConstants.PROJECT_COMMENTS, ActivityConstants.RESULTS,
+      ActivityConstants.LESSONS_LEARNED, ActivityConstants.PROJECT_IMPACT, ActivityConstants.ACTIVITY_SUMMARY,
+      ActivityConstants.CONDITIONALITIES, ActivityConstants.PROJECT_MANAGEMENT,
+      ActivityConstants.BUDGET_CODE_PROJECT_ID, ActivityConstants.A_C_CHAPTER, ActivityConstants.CRIS_NUMBER,
+      ActivityConstants.ACTIVITY_BUDGET, ActivityConstants.GOVERNMENT_AGREEMENT_NUMBER,
+      ActivityConstants.GOVERNMENT_APPROVAL_PROCEDURES, ActivityConstants.JOINT_CRITERIA,
+      ActivityConstants.HUMANITARIAN_AID];
+    // Show budget extras fields like ministry_code, etc only when activity_budget is enabled and has value 'On Budget'.
+    if (_context.activityFieldsManager.isFieldPathEnabled(ActivityConstants.ACTIVITY_BUDGET)
+      && _props.activity[ActivityConstants.ACTIVITY_BUDGET]
+      && _props.activity[ActivityConstants.ACTIVITY_BUDGET].value === ValueConstants.ON_BUDGET) {
+      fieldPaths.push(ActivityConstants.INDIRECT_ON_BUDGET);
+      fieldPaths.push(ActivityConstants.FY);
+      fieldPaths.push(ActivityConstants.MINISTRY_CODE);
+      fieldPaths.push(ActivityConstants.PROJECT_CODE);
+    }
+    fieldPaths.push(...[ActivityConstants.FINANCIAL_INSTRUMENT, ActivityConstants.IATI_IDENTIFIER]);
+    fieldPaths.map(i => {
+      const field = section.prototype.buildSimpleField(i, true, null, false, null, null,
+        { stringOnly: true, context: _context, props: _props });
+      if (field) {
+        console.error(field);
+        return this.createField(field.title, field.value, pContent, null, null);
+      }
+    });
+  }
+
+  static createField(title, value, paragraph, titleStyle, valueStyle) {
     if (!paragraph) {
       paragraph = document.createParagraph();
     }
     if (!_rtl) {
-      paragraph.createTextRun(`${title}: `);
-      paragraph.createTextRun(value).bold();
+      const titleText = paragraph.createTextRun(`${title}: `);
+      if (titleStyle) {
+        titleText.style(titleText);
+      }
+      const valueText = paragraph.createTextRun(value).bold();
+      if (valueStyle) {
+        valueText.style(valueStyle);
+      }
     } else {
-      paragraph.createTextRun(value).bold();
-      paragraph.createTextRun(` :${title}`);
+      const valueText = paragraph.createTextRun(value).bold();
+      if (valueStyle) {
+        valueText.style(valueStyle);
+      }
+      const titleText = paragraph.createTextRun(` :${title}`);
+      if (titleStyle) {
+        titleText.style(titleText);
+      }
       paragraph.right();
     }
     return paragraph;
@@ -107,6 +153,7 @@ export default class GenerateWordPreview {
       .basedOn('Normal')
       .next('Normal')
       .quickFormat()
+      .spacing({ before: 120, after: 120 })
       .font('Calibri');
 
     document.Styles.createParagraphStyle('ProjectTitle', 'Project Title')
