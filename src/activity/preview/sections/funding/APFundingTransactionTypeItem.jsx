@@ -21,7 +21,7 @@ export default class APFundingTransactionTypeItem extends Component {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
-      workspaceCurrency: PropTypes.string.isRequired
+      effectiveCurrency: PropTypes.string.isRequired
     }).isRequired,
   };
 
@@ -38,7 +38,7 @@ export default class APFundingTransactionTypeItem extends Component {
     const { Logger, activityContext } = this.context;
     logger = new Logger('AP Funding transaction type item');
     logger.debug('constructor');
-    this._currency = activityContext.workspaceCurrency;
+    this._currency = activityContext.effectiveCurrency;
     this._adjType = props.fundingDetails[0][ActivityConstants.ADJUSTMENT_TYPE];
     this._measure = `${this._adjType.value} ${props.trnType}`;
     this._key = this._adjType.value + props.trnType;

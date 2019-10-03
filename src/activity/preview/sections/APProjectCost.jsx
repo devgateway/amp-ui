@@ -22,7 +22,7 @@ const APProjectCost = (fieldName) => class extends Component {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
-      workspaceCurrency: PropTypes.string.isRequired
+      effectiveCurrency: PropTypes.string.isRequired
     }).isRequired,
   };
 
@@ -46,7 +46,7 @@ const APProjectCost = (fieldName) => class extends Component {
     let content = null;
     const { rawNumberToFormattedString, DateUtils, translate, activityContext } = this.props;
     if (this.props.activityFieldsManager.isFieldPathEnabled(fieldName) === true) {
-      const currency = activityContext.workspaceCurrency;
+      const currency = activityContext.effectiveCurrency;
       let amount = 0;
       let showPPC = false;
       const ppcAsFunding = this.props.activity[ActivityConstants.PPC_AMOUNT];

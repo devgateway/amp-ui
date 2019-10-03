@@ -13,7 +13,7 @@ export default class SummaryGroup extends Component {
   static contextTypes = {
     Logger: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
-      workspaceCurrency: PropTypes.string.isRequired
+      effectiveCurrency: PropTypes.string.isRequired
     }).isRequired,
   };
 
@@ -25,7 +25,7 @@ export default class SummaryGroup extends Component {
   }
 
   render() {
-    const currency = this.context.activityContext.workspaceCurrency;
+    const currency = this.context.activityContext.effectiveCurrency;
     return (<div className={styles.summary_container}>
       <FundingSummary
         titleDetails={`(${currency})`}
