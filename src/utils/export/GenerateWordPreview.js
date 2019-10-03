@@ -41,6 +41,7 @@ export default class GenerateWordPreview {
     this.addIdentificationSection();
     this.addPlanningSection();
     this.addLocationSection();
+    this.addProgramSection();
 
     this.download();
   }
@@ -151,7 +152,17 @@ export default class GenerateWordPreview {
     }
   }
 
-  static createPercentageList(paragraph, listField, valueField, percentageField, fmPath) {
+  static addProgramSection() {
+    this.createSimpleLabel(_context.translate('Program'), 'Heading2');
+    this.createPercentageList(null, ActivityConstants.NATIONAL_PLAN_OBJECTIVE,
+      ActivityConstants.PROGRAM, ActivityConstants.PROGRAM_PERCENTAGE, null, 'National Plan Objective');
+    this.createPercentageList(null, ActivityConstants.PRIMARY_PROGRAMS,
+      ActivityConstants.PROGRAM, ActivityConstants.PROGRAM_PERCENTAGE, null, 'Primary Program');
+    this.createPercentageList(null, ActivityConstants.SECONDARY_PROGRAMS, ActivityConstants.PROGRAM,
+      ActivityConstants.PROGRAM_PERCENTAGE, null, 'Secondary Program');
+  }
+
+  static createPercentageList(paragraph, listField, valueField, percentageField, fmPath, listTitle) {
     if (!paragraph) {
       paragraph = document.createParagraph();
     }
@@ -161,6 +172,9 @@ export default class GenerateWordPreview {
       isListEnabled = FeatureManager.isFMSettingEnabled(fmPath) ? isListEnabled : false;
     }
     if (isListEnabled) {
+      if (listTitle) {
+        this.createSimpleLabel(listTitle, 'Heading3');
+      }
       if (items && items.length) {
         items = items.map(item => ({
           itemTitle: UIUtils.getItemTitle(item, valueField, PossibleValuesManager, _rtl),
@@ -206,7 +220,7 @@ export default class GenerateWordPreview {
 
   static createSimpleLabel(text, styleName, options) {
     const p = document.createParagraph();
-    p.createTextRun(text);
+    p.createTextRun(_context.translate(text));
     if (styleName) {
       p.style(styleName);
     }
