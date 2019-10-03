@@ -1,9 +1,10 @@
 import React from 'react';
 import ActivityConstants from '../../modules/util/ActivityConstants';
 import Section from '../../activity/preview/sections/Section.jsx';
-import APIdentification from '../../activity/preview/sections/APIdentification.jsx';
 import ValueConstants from '../ValueConstants';
-import styles from '../../activity/preview/ActivityPreview.css';
+import FeatureManager from '../../modules/util/FeatureManager';
+import UIUtils from '../../utils/UIUtils';
+import PossibleValuesManager from '../../modules/field/PossibleValuesManager';
 
 const FileSaver = require('file-saver');
 const docx = require('docx');
@@ -121,7 +122,7 @@ export default class GenerateWordPreview {
         false, null, null, { stringOnly: true, context: _context, props: _props });
       if (field) {
         console.error(field);
-        return this.createField(field.title, field.value, pContent, null, null);
+        return this.createField(field.title, field.value, null, null, null);
       }
     }));
   }
@@ -145,13 +146,35 @@ export default class GenerateWordPreview {
       || (_props.activity[ActivityConstants.IMPLEMENTATION_LOCATION]
         && _props.activity[ActivityConstants.IMPLEMENTATION_LOCATION].value !== ActivityConstants.COUNTRY)) {
       // Locations list.
-      this.createPercentageList(ActivityConstants.LOCATIONS, ActivityConstants.LOCATION,
-        ActivityConstants.LOCATION_PERCENTAGE);
+      this.createPercentageList(null, ActivityConstants.LOCATIONS, ActivityConstants.LOCATION,
+        ActivityConstants.LOCATION_PERCENTAGE, null, null);
     }
   }
 
-  static createPercentageList(listField, valueField, percentageField, listTitle = null) {
-    let items = activity[listField];
+  static createPercentageList(paragraph, listField, valueField, percentageField, fmPath) {
+    if (!paragraph) {
+      paragraph = document.createParagraph();
+    }
+    let items = _props.activity[listField];
+    let isListEnabled = _context.activityFieldsManager.isFieldPathEnabled(listField) === true;
+    if (fmPath) {
+      isListEnabled = FeatureManager.isFMSettingEnabled(fmPath) ? isListEnabled : false;
+    }
+    if (isListEnabled) {
+      if (items && items.length) {
+        items = items.map(item => ({
+          itemTitle: UIUtils.getItemTitle(item, valueField, PossibleValuesManager, _rtl),
+          percentage: item[percentageField]
+        })).sort((a, b) => a.itemTitle.localeCompare(b.itemTitle));
+        items.map(({ itemTitle, percentage }) => {
+          this.createField(itemTitle, `${percentage}%`);
+        });
+        // TODO: implement tablify.
+        /* if (tablify) {
+          content = <Tablify content={content} columns={columns} />;
+        } */
+      }
+    }
   }
 
   static createField(title, value, paragraph, titleStyle, valueStyle) {

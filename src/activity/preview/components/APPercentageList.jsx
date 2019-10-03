@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import APField from './APField.jsx';
 import APPercentageField from './APPercentageField.jsx';
 import Tablify from './Tablify.jsx';
-import ActivityConstants from '../../../modules/util/ActivityConstants';
 import FieldsManager from '../../../modules/field/FieldsManager';
 import styles from '../ActivityPreview.css';
 import FeatureManager from '../../../modules/util/FeatureManager';
@@ -44,18 +43,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     if (this.props.getItemTitle) {
       return this.props.getItemTitle(item);
     }
-    const obj = item[valueField];
-    let values = obj[ActivityConstants.HIERARCHICAL_VALUE] ?
-      obj[ActivityConstants.HIERARCHICAL_VALUE] :
-      PossibleValuesManager.getOptionTranslation(obj);
-    if (this.props.rtl) {
-      // We need to reverse the order of a string with format "[Haiti][Artibonite][Saint-Marc Arrondissement]".
-      if (values && values.indexOf(']') > -1) {
-        values = values.replace(/[[]/gm, '').split(']').reverse().filter(i => i.length > 0);
-        values = `[${values.toString().replace(/[,]/g, '][')}]`;
-      }
-    }
-    return values;
+    return UIUtils.getItemTitle(item, valueField, PossibleValuesManager, this.props.rtl);
   }
 
   render() {
