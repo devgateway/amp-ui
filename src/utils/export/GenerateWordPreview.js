@@ -43,6 +43,7 @@ export default class GenerateWordPreview {
     this.addLocationSection();
     this.addProgramSection();
     this.addSectorsSection();
+    this.addFundingSourcesSection();
 
     this.download();
   }
@@ -64,17 +65,15 @@ export default class GenerateWordPreview {
     if (_rtl) {
       items = items.reverse();
     }
-    const p = document.createParagraph();
     items.map(i => {
       const field = section.prototype.buildSimpleField(i, true, null, false, null, null,
         { stringOnly: true, context: _context, props: _props });
-      return this.createField(field.title, field.value, p);
+      return this.createField(field.title, field.value);
     });
   }
 
   static addIdentificationSection() {
     this.createSimpleLabel(_context.translate('Identification'), 'Heading2');
-    const pContent = document.createParagraph();
     // TODO: This is a copy from APIdentification.jsx, try to find a way to have it in one place.
     const fieldPaths = [ActivityConstants.STATUS_REASON, ActivityConstants.TYPE_OF_COOPERATION,
       ActivityConstants.TYPE_OF_IMPLEMENTATION, ActivityConstants.MODALITIES, ActivityConstants.OBJECTIVE,
@@ -99,17 +98,16 @@ export default class GenerateWordPreview {
       const field = section.prototype.buildSimpleField(i, true, null, false, null, null,
         { stringOnly: true, context: _context, props: _props });
       if (field) {
-        console.error(field);
-        return this.createField(field.title, field.value, pContent, null, null);
+        return this.createField(field.title, field.value, null, null);
       }
     });
   }
 
   static addPlanningSection() {
     this.createSimpleLabel(_context.translate('Planning'), 'Heading2');
-    const pContent = document.createParagraph();
     let content = [];
-    content.push(section.prototype.buildSimpleField(ActivityConstants.LINE_MINISTRY_RANK, true, new Set([-1]), false));
+    content.push(section.prototype.buildSimpleField(ActivityConstants.LINE_MINISTRY_RANK, true, new Set([-1]), false,
+      null, null, { stringOnly: true, context: _context, props: _props }));
     const fieldPaths = [ActivityConstants.ORIGINAL_COMPLETION_DATE, ActivityConstants.ACTUAL_START_DATE,
       ActivityConstants.ACTUAL_COMPLETION_DATE, ActivityConstants.PROPOSED_START_DATE,
       ActivityConstants.ACTUAL_APPROVAL_DATE, ActivityConstants.PROPOSED_COMPLETION_DATE,
@@ -123,7 +121,6 @@ export default class GenerateWordPreview {
       const field = section.prototype.buildSimpleField(fieldPath, showIfNotAvailable.has(fieldPath), null,
         false, null, null, { stringOnly: true, context: _context, props: _props });
       if (field) {
-        console.error(field);
         return this.createField(field.title, field.value, null, null, null);
       }
     }));
@@ -139,7 +136,6 @@ export default class GenerateWordPreview {
         const field = section.prototype.buildSimpleField(fp, true, new Set([0]), false,
           null, null, { stringOnly: true, context: _context, props: _props });
         if (field) {
-          console.error(field);
           return this.createField(field.title, field.value, pContent, null, null);
         }
       });
@@ -171,6 +167,16 @@ export default class GenerateWordPreview {
       ActivityConstants.SECTOR_PERCENTAGE, null, 'Secondary Sector');
   }
 
+  // TODO: Add a function to create the sections so we can check if they are enabled or not (use fmPath).
+  static addFundingSourcesSection() {
+    this.createSimpleLabel(_context.translate('Funding Sources'), 'Heading2');
+    const field = section.prototype.buildSimpleField(ActivityConstants.TOTAL_NUMBER_OF_FUNDING_SOURCES, true,
+      new Set([0]), false, null, null, { stringOnly: true, context: _context, props: _props });
+    if (field) {
+      this.createField(field.title, field.value, null, null);
+    }
+  }
+
   static createPercentageList(paragraph, listField, valueField, percentageField, fmPath, listTitle) {
     if (!paragraph) {
       paragraph = document.createParagraph();
@@ -190,7 +196,7 @@ export default class GenerateWordPreview {
           percentage: item[percentageField]
         })).sort((a, b) => a.itemTitle.localeCompare(b.itemTitle));
         items.map(({ itemTitle, percentage }) => {
-          this.createField(itemTitle, `${percentage}%`);
+          this.createField(itemTitle, (percentage ? `${percentage}%` : ''));
         });
         // TODO: implement tablify.
         /* if (tablify) {
