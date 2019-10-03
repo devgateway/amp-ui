@@ -3,6 +3,7 @@ import ActivityConstants from '../../modules/util/ActivityConstants';
 import Section from '../../activity/preview/sections/Section.jsx';
 import APIdentification from '../../activity/preview/sections/APIdentification.jsx';
 import ValueConstants from '../ValueConstants';
+import styles from '../../activity/preview/ActivityPreview.css';
 
 const FileSaver = require('file-saver');
 const docx = require('docx');
@@ -33,9 +34,13 @@ export default class GenerateWordPreview {
 
     this.createDocument();
     this.createStyles();
+
     this.addContentTitleSection();
     this.addSummarySection();
     this.addIdentificationSection();
+    this.addPlanningSection();
+    this.addLocationSection();
+
     this.download();
   }
 
@@ -95,6 +100,58 @@ export default class GenerateWordPreview {
         return this.createField(field.title, field.value, pContent, null, null);
       }
     });
+  }
+
+  static addPlanningSection() {
+    this.createSimpleLabel(_context.translate('Planning'), 'Heading2');
+    const pContent = document.createParagraph();
+    let content = [];
+    content.push(section.prototype.buildSimpleField(ActivityConstants.LINE_MINISTRY_RANK, true, new Set([-1]), false));
+    const fieldPaths = [ActivityConstants.ORIGINAL_COMPLETION_DATE, ActivityConstants.ACTUAL_START_DATE,
+      ActivityConstants.ACTUAL_COMPLETION_DATE, ActivityConstants.PROPOSED_START_DATE,
+      ActivityConstants.ACTUAL_APPROVAL_DATE, ActivityConstants.PROPOSED_COMPLETION_DATE,
+      ActivityConstants.PROPOSED_APPROVAL_DATE];
+    const showIfNotAvailable = new Set([ActivityConstants.ORIGINAL_COMPLETION_DATE,
+      ActivityConstants.ACTUAL_START_DATE, ActivityConstants.ACTUAL_COMPLETION_DATE,
+      ActivityConstants.PROPOSED_START_DATE, ActivityConstants.ACTUAL_APPROVAL_DATE,
+      ActivityConstants.PROPOSED_COMPLETION_DATE, ActivityConstants.PROPOSED_APPROVAL_DATE]);
+
+    content = content.concat(fieldPaths.map(fieldPath => {
+      const field = section.prototype.buildSimpleField(fieldPath, showIfNotAvailable.has(fieldPath), null,
+        false, null, null, { stringOnly: true, context: _context, props: _props });
+      if (field) {
+        console.error(field);
+        return this.createField(field.title, field.value, pContent, null, null);
+      }
+    }));
+  }
+
+  static addLocationSection() {
+    this.createSimpleLabel(_context.translate('Location'), 'Heading2');
+    const pContent = document.createParagraph();
+
+    // Top content.
+    [ActivityConstants.IMPLEMENTATION_LEVEL, ActivityConstants.IMPLEMENTATION_LOCATION]
+      .map(fp => {
+        const field = section.prototype.buildSimpleField(fp, true, new Set([0]), false,
+          null, null, { stringOnly: true, context: _context, props: _props });
+        if (field) {
+          console.error(field);
+          return this.createField(field.title, field.value, pContent, null, null);
+        }
+      });
+    if ((_props.activity[ActivityConstants.IMPLEMENTATION_LEVEL]
+      && _props.activity[ActivityConstants.IMPLEMENTATION_LEVEL].value !== ActivityConstants.NATIONAL)
+      || (_props.activity[ActivityConstants.IMPLEMENTATION_LOCATION]
+        && _props.activity[ActivityConstants.IMPLEMENTATION_LOCATION].value !== ActivityConstants.COUNTRY)) {
+      // Locations list.
+      this.createPercentageList(ActivityConstants.LOCATIONS, ActivityConstants.LOCATION,
+        ActivityConstants.LOCATION_PERCENTAGE);
+    }
+  }
+
+  static createPercentageList(listField, valueField, percentageField, listTitle = null) {
+    let items = activity[listField];
   }
 
   static createField(title, value, paragraph, titleStyle, valueStyle) {
