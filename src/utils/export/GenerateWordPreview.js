@@ -44,6 +44,8 @@ export default class GenerateWordPreview {
     this.addProgramSection();
     this.addSectorsSection();
     this.addFundingSourcesSection();
+    this.addFundingSection();
+    this.addRelatedOrganizationsSection();
 
     this.download();
   }
@@ -175,6 +177,31 @@ export default class GenerateWordPreview {
     if (field) {
       this.createField(field.title, field.value, null, null);
     }
+  }
+
+  static addFundingSection() {
+
+  }
+
+  // TODO: check it uses fmPath for one of the orgs.
+  static addRelatedOrganizationsSection() {
+    this.createSimpleLabel(_context.translate('Related Organizations'), 'Heading2');
+    this.createPercentageList(null, ActivityConstants.DONOR_ORGANIZATION, ActivityConstants.ORGANIZATION,
+      ActivityConstants.PERCENTAGE, null, 'Donor Organization');
+    this.createPercentageList(null, ActivityConstants.RESPONSIBLE_ORGANIZATION, ActivityConstants.ORGANIZATION,
+      ActivityConstants.PERCENTAGE, null, 'Responsible Organization');
+    this.createPercentageList(null, ActivityConstants.CONTRACTING_AGENCY, ActivityConstants.ORGANIZATION,
+      ActivityConstants.PERCENTAGE, null, 'Contracting Agency');
+    this.createPercentageList(null, ActivityConstants.BENEFICIARY_AGENCY, ActivityConstants.ORGANIZATION,
+      ActivityConstants.PERCENTAGE, null, 'Beneficiary Agency');
+    this.createPercentageList(null, ActivityConstants.IMPLEMENTING_AGENCY, ActivityConstants.ORGANIZATION,
+      ActivityConstants.PERCENTAGE, null, 'Implementing Agency');
+    this.createPercentageList(null, ActivityConstants.EXECUTING_AGENCY, ActivityConstants.ORGANIZATION,
+      ActivityConstants.PERCENTAGE, null, 'Executing Agency');
+    this.createPercentageList(null, ActivityConstants.REGIONAL_GROUP, ActivityConstants.ORGANIZATION,
+      ActivityConstants.PERCENTAGE, null, 'Regional Group');
+    this.createPercentageList(null, ActivityConstants.SECTOR_GROUP, ActivityConstants.ORGANIZATION,
+      ActivityConstants.PERCENTAGE, null, 'Sector Group');
   }
 
   static createPercentageList(paragraph, listField, valueField, percentageField, fmPath, listTitle) {
