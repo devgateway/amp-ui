@@ -5,6 +5,7 @@ import ValueConstants from '../ValueConstants';
 import FeatureManager from '../../modules/util/FeatureManager';
 import UIUtils from '../../utils/UIUtils';
 import PossibleValuesManager from '../../modules/field/PossibleValuesManager';
+import FMC from '../../modules/util/FeatureManagerConstants';
 
 const FileSaver = require('file-saver');
 const docx = require('docx');
@@ -35,18 +36,7 @@ export default class GenerateWordPreview {
 
     this.createDocument();
     this.createStyles();
-
-    this.addContentTitleSection();
-    this.addSummarySection();
-    this.addIdentificationSection();
-    this.addPlanningSection();
-    this.addLocationSection();
-    this.addProgramSection();
-    this.addSectorsSection();
-    this.addFundingSourcesSection();
-    this.addFundingSection();
-    this.addRelatedOrganizationsSection();
-
+    this.createAllSections();
     this.download();
   }
 
@@ -56,6 +46,33 @@ export default class GenerateWordPreview {
       description: 'Activity Preview Export',
       title: 'Activity Preview Export',
     });
+  }
+
+  static createAllSections() {
+    this.addContentTitleSection();
+    this.addSummarySection();
+    if (this.checkIfSectionIsEnabled(FMC.ACTIVITY_IDENTIFICATION)) {
+      this.addIdentificationSection();
+    }
+    if (this.checkIfSectionIsEnabled(FMC.ACTIVITY_PLANNING)) {
+      this.addPlanningSection();
+    }
+    this.addLocationSection();
+    if (this.checkIfSectionIsEnabled(FMC.ACTIVITY_PROGRAM)) {
+      this.addProgramSection();
+    }
+    if (this.checkIfSectionIsEnabled(FMC.ACTIVITY_SECTORS)) {
+      this.addSectorsSection();
+    }
+    if (this.checkIfSectionIsEnabled(FMC.ACTIVITY_ORGANIZATIONS)) {
+      this.addFundingSourcesSection();
+    }
+    this.addFundingSection();
+    this.addRelatedOrganizationsSection();
+  }
+
+  static checkIfSectionIsEnabled(fmPath) {
+    return FeatureManager.isFMSettingEnabled(fmPath);
   }
 
   static addContentTitleSection() {
@@ -169,7 +186,6 @@ export default class GenerateWordPreview {
       ActivityConstants.SECTOR_PERCENTAGE, null, 'Secondary Sector');
   }
 
-  // TODO: Add a function to create the sections so we can check if they are enabled or not (use fmPath).
   static addFundingSourcesSection() {
     this.createSimpleLabel(_context.translate('Funding Sources'), 'Heading2');
     const field = section.prototype.buildSimpleField(ActivityConstants.TOTAL_NUMBER_OF_FUNDING_SOURCES, true,
@@ -183,7 +199,6 @@ export default class GenerateWordPreview {
 
   }
 
-  // TODO: check it uses fmPath for one of the orgs.
   static addRelatedOrganizationsSection() {
     this.createSimpleLabel(_context.translate('Related Organizations'), 'Heading2');
     this.createPercentageList(null, ActivityConstants.DONOR_ORGANIZATION, ActivityConstants.ORGANIZATION,
@@ -202,6 +217,10 @@ export default class GenerateWordPreview {
       ActivityConstants.PERCENTAGE, null, 'Regional Group');
     this.createPercentageList(null, ActivityConstants.SECTOR_GROUP, ActivityConstants.ORGANIZATION,
       ActivityConstants.PERCENTAGE, null, 'Sector Group');
+  }
+
+  static createSection() {
+
   }
 
   static createPercentageList(paragraph, listField, valueField, percentageField, fmPath, listTitle) {
