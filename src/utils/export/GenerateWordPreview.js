@@ -57,22 +57,34 @@ export default class GenerateWordPreview {
     if (this.checkIfSectionIsEnabled(FMC.ACTIVITY_PLANNING)) {
       this.addPlanningSection();
     }
-    this.addLocationSection();
+    if (this.checkIfSectionIsEnabled(null, ActivityConstants.LOCATIONS)) {
+      this.addLocationSection();
+    }
     if (this.checkIfSectionIsEnabled(FMC.ACTIVITY_PROGRAM)) {
       this.addProgramSection();
     }
     if (this.checkIfSectionIsEnabled(FMC.ACTIVITY_SECTORS)) {
       this.addSectorsSection();
     }
-    if (this.checkIfSectionIsEnabled(FMC.ACTIVITY_ORGANIZATIONS)) {
+    if (this.checkIfSectionIsEnabled(null, ActivityConstants.TOTAL_NUMBER_OF_FUNDING_SOURCES)) {
       this.addFundingSourcesSection();
     }
-    this.addFundingSection();
-    this.addRelatedOrganizationsSection();
+    if (this.checkIfSectionIsEnabled(null, ActivityConstants.FUNDINGS)) {
+      this.addFundingSection();
+    }
+    if (this.checkIfSectionIsEnabled(FMC.ACTIVITY_ORGANIZATIONS)) {
+      this.addRelatedOrganizationsSection();
+    }
   }
 
-  static checkIfSectionIsEnabled(fmPath) {
-    return FeatureManager.isFMSettingEnabled(fmPath);
+  static checkIfSectionIsEnabled(fmPath, sectionPath) {
+    if (fmPath) {
+      return FeatureManager.isFMSettingEnabled(fmPath);
+    } else if (sectionPath) {
+      return _context.activityFieldsManager.isFieldPathEnabled(sectionPath);
+    } else {
+      return true;
+    }
   }
 
   static addContentTitleSection() {
