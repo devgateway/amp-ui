@@ -10,7 +10,7 @@ import FMC from '../../modules/util/FeatureManagerConstants';
 const FileSaver = require('file-saver');
 const docx = require('docx');
 
-const { Document, Paragraph, Packer, TextRun, AlignmentType } = docx;
+const { Document, Paragraph, Packer, TextRun, Numbering, Indent } = docx;
 let document;
 let _props;
 let _context;
@@ -271,15 +271,22 @@ export default class GenerateWordPreview {
   }
 
   static createListField(title, value, level = 0, paragraph) {
+    const numbering = new Numbering();
+    const abstractNum = numbering.createAbstractNumbering();
+    abstractNum.createLevel(0, 'upperRoman', '%1', 'start')
+      .addParagraphProperty(new Indent(240, 87));
+    abstractNum.createLevel(1, 'decimal', '%2.', 'start')
+      .addParagraphProperty(new Indent(480, 327));
+    abstractNum.createLevel(2, 'lowerLetter', '%3)', 'start')
+      .addParagraphProperty(new Indent(720, 567));
+    const concrete = numbering.createConcreteNumbering(abstractNum);
+
     if (!paragraph) {
       paragraph = document.createParagraph();
     }
-    const titleText = paragraph.createTextRun(`${title}: `);
-    for (let i = 0; i < level; i++) {
-      titleText.tab();
-    }
+    paragraph.createTextRun(`${title}: `);
     paragraph.createTextRun(value).bold();
-    paragraph.bullet();
+    paragraph.setNumbering(concrete, level);
   }
 
   static createPercentageList(paragraph, listField, valueField, percentageField, fmPath, listTitle, getItemTitle) {
