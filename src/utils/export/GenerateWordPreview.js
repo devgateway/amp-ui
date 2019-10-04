@@ -214,28 +214,28 @@ export default class GenerateWordPreview {
   static addRelatedOrganizationsSection() {
     this.createSimpleLabel(_context.translate('Related Organizations'), 'Heading2');
     this.createPercentageList(null, ActivityConstants.DONOR_ORGANIZATION, ActivityConstants.ORGANIZATION,
-      ActivityConstants.PERCENTAGE, null, 'Donor Organization');
+      ActivityConstants.PERCENTAGE, null, 'Donor Organization', UIUtils.getItemTitleForOrganizations);
     this.createPercentageList(null, ActivityConstants.RESPONSIBLE_ORGANIZATION, ActivityConstants.ORGANIZATION,
-      ActivityConstants.PERCENTAGE, null, 'Responsible Organization');
+      ActivityConstants.PERCENTAGE, null, 'Responsible Organization', UIUtils.getItemTitleForOrganizations);
     this.createPercentageList(null, ActivityConstants.CONTRACTING_AGENCY, ActivityConstants.ORGANIZATION,
-      ActivityConstants.PERCENTAGE, null, 'Contracting Agency');
+      ActivityConstants.PERCENTAGE, null, 'Contracting Agency', UIUtils.getItemTitleForOrganizations);
     this.createPercentageList(null, ActivityConstants.BENEFICIARY_AGENCY, ActivityConstants.ORGANIZATION,
-      ActivityConstants.PERCENTAGE, null, 'Beneficiary Agency');
+      ActivityConstants.PERCENTAGE, null, 'Beneficiary Agency', UIUtils.getItemTitleForOrganizations);
     this.createPercentageList(null, ActivityConstants.IMPLEMENTING_AGENCY, ActivityConstants.ORGANIZATION,
-      ActivityConstants.PERCENTAGE, null, 'Implementing Agency');
+      ActivityConstants.PERCENTAGE, null, 'Implementing Agency', UIUtils.getItemTitleForOrganizations);
     this.createPercentageList(null, ActivityConstants.EXECUTING_AGENCY, ActivityConstants.ORGANIZATION,
-      ActivityConstants.PERCENTAGE, null, 'Executing Agency');
+      ActivityConstants.PERCENTAGE, null, 'Executing Agency', UIUtils.getItemTitleForOrganizations);
     this.createPercentageList(null, ActivityConstants.REGIONAL_GROUP, ActivityConstants.ORGANIZATION,
-      ActivityConstants.PERCENTAGE, null, 'Regional Group');
+      ActivityConstants.PERCENTAGE, null, 'Regional Group', UIUtils.getItemTitleForOrganizations);
     this.createPercentageList(null, ActivityConstants.SECTOR_GROUP, ActivityConstants.ORGANIZATION,
-      ActivityConstants.PERCENTAGE, null, 'Sector Group');
+      ActivityConstants.PERCENTAGE, null, 'Sector Group', UIUtils.getItemTitleForOrganizations);
   }
 
   static createSection() {
 
   }
 
-  static createPercentageList(paragraph, listField, valueField, percentageField, fmPath, listTitle) {
+  static createPercentageList(paragraph, listField, valueField, percentageField, fmPath, listTitle, getItemTitle) {
     if (!paragraph) {
       paragraph = document.createParagraph();
     }
@@ -250,7 +250,9 @@ export default class GenerateWordPreview {
       }
       if (items && items.length) {
         items = items.map(item => ({
-          itemTitle: UIUtils.getItemTitle(item, valueField, PossibleValuesManager, _rtl),
+          itemTitle: !getItemTitle ?
+            UIUtils.getItemTitle(item, valueField, PossibleValuesManager, _rtl) :
+            getItemTitle(item),
           percentage: item[percentageField]
         })).sort((a, b) => a.itemTitle.localeCompare(b.itemTitle));
         items.map(({ itemTitle, percentage }) => {
