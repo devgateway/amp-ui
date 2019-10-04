@@ -75,6 +75,9 @@ export default class GenerateWordPreview {
     if (this.checkIfSectionIsEnabled(FMC.ACTIVITY_ORGANIZATIONS)) {
       this.addRelatedOrganizationsSection();
     }
+    if (this.checkIfSectionIsEnabled(null, ActivityConstants.ISSUES)) {
+      this.addIssuesSection();
+    }
   }
 
   static checkIfSectionIsEnabled(fmPath, sectionPath) {
@@ -231,8 +234,52 @@ export default class GenerateWordPreview {
       ActivityConstants.PERCENTAGE, null, 'Sector Group', UIUtils.getItemTitleForOrganizations);
   }
 
-  static createSection() {
+  static addIssuesSection() {
+    this.createSimpleLabel(_context.translate('Issues'), 'Heading2');
+    let hasData = false;
+    if (_props.activity[ActivityConstants.ISSUES]) {
+      _props.activity[ActivityConstants.ISSUES].forEach((issue) => {
+        let date = '';
+        // eslint-disable-next-line max-len
+        if (_context.activityFieldsManager.isFieldPathEnabled(`${ActivityConstants.ISSUES}~${ActivityConstants.ISSUE_DATE}`)) {
+          date = ` ${_context.DateUtils.createFormattedDate(issue[ActivityConstants.ISSUE_DATE])}`;
+        }
+        //  TODO: use createListItem con el lvl.
+        this.createListField(issue.name, date, 0);
+        hasData = true;
+        issue[ActivityConstants.MEASURES].forEach((measure) => {
+          date = '';
+          // eslint-disable-next-line max-len
+          if (_context.activityFieldsManager.isFieldPathEnabled(`${ActivityConstants.ISSUES}~${ActivityConstants.MEASURES}~${ActivityConstants.MEASURE_DATE}`)) {
+            date = ` ${_context.DateUtils.createFormattedDate(measure[ActivityConstants.MEASURE_DATE])}`;
+          }
+          /* eslint-enable max-len */
+          //  TODO: use createListItem con el lvl.
+          this.createListField(measure.name || '', date, 1);
+          measure[ActivityConstants.ACTORS].forEach((actor) => {
+            // eslint-disable-next-line max-len
+            if (_context.activityFieldsManager.isFieldPathEnabled(`${ActivityConstants.ISSUES}~${ActivityConstants.MEASURES}~${ActivityConstants.ACTORS}`)) {
+              this.createListField(actor.name || '', null, 2);
+            }
+          });
+        });
+        if (!hasData) {
+          this.createSimpleLabel('No Data');
+        }
+      });
+    }
+  }
 
+  static createListField(title, value, level = 0, paragraph) {
+    if (!paragraph) {
+      paragraph = document.createParagraph();
+    }
+    const titleText = paragraph.createTextRun(`${title}: `);
+    for (let i = 0; i < level; i++) {
+      titleText.tab();
+    }
+    paragraph.createTextRun(value).bold();
+    paragraph.bullet();
   }
 
   static createPercentageList(paragraph, listField, valueField, percentageField, fmPath, listTitle, getItemTitle) {
