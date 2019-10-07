@@ -1,4 +1,5 @@
 import ActivityConstants from '../modules/util/ActivityConstants';
+import ResourceConstants from './constants/ResourceConstants';
 
 export default class UIUtils {
   static stringToId(string: string) {
@@ -58,5 +59,15 @@ export default class UIUtils {
       return `${orgTitle} (${additionalInfo})`;
     }
     return orgTitle;
+  }
+
+  static getActivityResourceUuids(activity) {
+    const resources = new Set();
+    const docs = activity[ActivityConstants.ACTIVITY_DOCUMENTS];
+    if (docs && docs.length) {
+      docs.forEach(d => resources.add((d[ResourceConstants.UUID] &&
+        d[ResourceConstants.UUID][ResourceConstants.UUID]) || d[ResourceConstants.UUID]));
+    }
+    return Array.from(resources);
   }
 }
