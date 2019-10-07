@@ -274,18 +274,18 @@ export default class GenerateWordPreview {
     const numbering = new Numbering();
     const abstractNum = numbering.createAbstractNumbering();
     abstractNum.createLevel(0, 'upperRoman', '%1', 'start')
-      .addParagraphProperty(new Indent(240, 87));
+      .addParagraphProperty(new Indent(10, 3));
     abstractNum.createLevel(1, 'decimal', '%2.', 'start')
-      .addParagraphProperty(new Indent(480, 327));
+      .addParagraphProperty(new Indent(20, 6));
     abstractNum.createLevel(2, 'lowerLetter', '%3)', 'start')
-      .addParagraphProperty(new Indent(720, 567));
+      .addParagraphProperty(new Indent(30, 9));
     const concrete = numbering.createConcreteNumbering(abstractNum);
 
     if (!paragraph) {
       paragraph = document.createParagraph();
     }
-    paragraph.createTextRun(`${title}: `);
-    paragraph.createTextRun(value).bold();
+    paragraph.createTextRun(`${title}: `).bold();
+    paragraph.createTextRun(value);
     paragraph.setNumbering(concrete, level);
   }
 
@@ -325,20 +325,20 @@ export default class GenerateWordPreview {
       paragraph = document.createParagraph();
     }
     if (!_rtl) {
-      const titleText = paragraph.createTextRun(`${title}: `);
+      const titleText = paragraph.createTextRun(`${title}: `).bold();
       if (titleStyle) {
         titleText.style(titleText);
       }
-      const valueText = paragraph.createTextRun(value).bold();
+      const valueText = paragraph.createTextRun(value);
       if (valueStyle) {
         valueText.style(valueStyle);
       }
     } else {
-      const valueText = paragraph.createTextRun(value).bold();
+      const valueText = paragraph.createTextRun(value);
       if (valueStyle) {
         valueText.style(valueStyle);
       }
-      const titleText = paragraph.createTextRun(` :${title}`);
+      const titleText = paragraph.createTextRun(` :${title}`).bold();
       if (titleStyle) {
         titleText.style(titleText);
       }
