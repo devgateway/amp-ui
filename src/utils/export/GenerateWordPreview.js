@@ -12,6 +12,7 @@ import SectorPreview from './sections/SectorPreview';
 import FundingSourcesPreview from './sections/FundingSourcesPreview';
 import RelatedOrganizationsPreview from './sections/RelatedOrganizationsPreview';
 import IssuesPreview from './sections/IssuesPreview';
+import SitesPreview from './sections/SitesPreview';
 
 const FileSaver = require('file-saver');
 const docx = require('docx');
@@ -67,6 +68,7 @@ export default class GenerateWordPreview {
       FMC.ACTIVITY_ORGANIZATIONS, null).generateSection();
     new IssuesPreview(document, _props, _context, _rtl, null, ActivityConstants.ISSUES).generateSection();
     new ContactsPreview(document, _props, _context, _rtl, FMC.ACTIVITY_CONTACT, null).generateSection();
+    new SitesPreview(document, _props, _context, _rtl, null, ActivityConstants.STRUCTURES).generateSection();
   }
 
   static download() {
