@@ -16,9 +16,11 @@ export default class ContactsPreview extends PreviewSection {
         .map(acp => {
           const title = this._context.activityFieldsManager.getFieldLabelTranslation(acp);
           this.createSimpleLabel(title, 'Heading3');
+          let hasData = false;
           (this._props.activity[acp] || []).map(c => {
             const hydratedC = hydratedContactsByIds[c[ActivityConstants.CONTACT].id];
             if (hydratedC) {
+              hasData = true;
               const emails = hydratedC[ContactConstants.EMAIL].map(email => this._section.prototype.buildSimpleField(
                 // eslint-disable-next-line max-len
                 `${ContactConstants.EMAIL}~${ContactConstants.VALUE}`, true, null,
@@ -41,6 +43,9 @@ export default class ContactsPreview extends PreviewSection {
                 (phones ? ` - ${phones.map(e => e.value).toString()}` : '')).bullet();
             }
           });
+          if (!hasData) {
+            this.createSimpleLabel('No Data', null, { tab: true });
+          }
         });
       this.createSeparator();
     }
