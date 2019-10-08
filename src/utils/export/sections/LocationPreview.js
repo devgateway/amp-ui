@@ -7,7 +7,6 @@ export default class LocationPreview extends PreviewSection {
     super.generateSection();
     if (this.checkIfEnabled()) {
       this.createSimpleLabel(this._context.translate('Location'), ExportConstants.STYLE_HEADING2);
-      const pContent = this._document.createParagraph();
 
       // Top content.
       [ActivityConstants.IMPLEMENTATION_LEVEL, ActivityConstants.IMPLEMENTATION_LOCATION]
@@ -15,7 +14,7 @@ export default class LocationPreview extends PreviewSection {
           const field = this._section.prototype.buildSimpleField(fp, true, new Set([0]), false,
             null, null, { stringOnly: true, context: this._context, props: this._props });
           if (field) {
-            return this.createField(field.title, field.value, pContent, null, null);
+            return this.createField(field.title, field.value, null, null, null);
           }
         });
       if ((this._props.activity[ActivityConstants.IMPLEMENTATION_LEVEL]

@@ -72,12 +72,8 @@ export default class PreviewSection {
           percentage: item[percentageField]
         })).sort((a, b) => a.itemTitle.localeCompare(b.itemTitle));
         items.map(({ itemTitle, percentage }) => {
-          this.createField(itemTitle, (percentage ? `${percentage}%` : ''));
+          this.createField(itemTitle, (percentage ? `${percentage}%` : '')).bullet();
         });
-        // TODO: implement tablify.
-        /* if (tablify) {
-          content = <Tablify content={content} columns={columns} />;
-        } */
       }
     }
   }
