@@ -1,9 +1,13 @@
 import PreviewSection from './PreviewSection';
 import * as ExportConstants from '../ExportConstants';
 import ActivityConstants from '../../../modules/util/ActivityConstants';
-import UIUtils from '../../UIUtils';
 import FieldPathConstants from '../../FieldPathConstants';
 import ValueConstants from '../../ValueConstants';
+
+const docx = require('docx');
+
+const { Paragraph, TextRun, WidthType, Table, TableAnchorType, RelativeHorizontalPosition,
+  RelativeVerticalPosition } = docx;
 
 export default class FundingPreview extends PreviewSection {
   generateSection() {
@@ -67,23 +71,34 @@ export default class FundingPreview extends PreviewSection {
             const showPledge = this._context.activityFieldsManager
               .isFieldPathEnabled(`${trnPath}~${ActivityConstants.PLEDGE}`);
             // Adj type header.
-            this.createSimpleLabel(measure, 'Heading3');
+            this.createSimpleLabel(measure, ExportConstants.STYLE_HEADING3);
             if (showFixedExRate) {
               this.createSimpleLabel('Fixed Exchange Rate');
             }
-            // TODO: Implement some sort of 'tablify' in PreviewSection.
-            const table = this._document.createTable(group.length + 1, 4);
-            group.forEach((g, i) => {
-              table.getCell(i, 0).addContent(this.createSimpleLabel(adjType.value, null, { dontAddToDocument: true }));
 
-              table.getCell(i, 1).addContent(this.createSimpleLabel(
+            // TODO: Implement some sort of 'tablify' in PreviewSection.
+            const table = this._document.createTable(group.length + 1, 5);
+            table.setWidth(WidthType.DXA, 9000);
+
+            group.forEach((g, i) => {
+              table.getCell(i, 0).addContent(this.createSimpleLabel(adjType.value, null,
+                { dontAddToDocument: true }));
+
+              table.getCell(i, 1).addContent(this.createSimpleLabel(this.getDisasterResponse(g, showDisasterResponse,
+                trnType), null, { dontAddToDocument: true }));
+
+              table.getCell(i, 2).addContent(this.createSimpleLabel(
                 this._context.DateUtils.createFormattedDate(g[ActivityConstants.TRANSACTION_DATE]),
                 null, { dontAddToDocument: true }));
 
               const convertedAmount = this._context.currencyRatesManager
                 .convertTransactionAmountToCurrency(g, currency);
-              table.getCell(i, 2).addContent(this.createSimpleLabel(
+              table.getCell(i, 3).addContent(this.createSimpleLabel(
                 `${this._context.rawNumberToFormattedString(convertedAmount)} ${currency}`,
+                null, { dontAddToDocument: true }));
+
+              table.getCell(i, 4).addContent(this.createSimpleLabel(
+                showFixedExRate ? g[ActivityConstants.FIXED_EXCHANGE_RATE] : '',
                 null, { dontAddToDocument: true }));
             });
             table.getCell(group.length, 0).addContent(this.createSimpleLabel(`Subtotal ${measure}`, null,
@@ -94,5 +109,14 @@ export default class FundingPreview extends PreviewSection {
         });
       }
     }
+  }
+
+  getDisasterResponse(g, showDisasterResponse, trnType) {
+    if (showDisasterResponse && g[ActivityConstants.DISASTER_RESPONSE] === true) {
+      const { activityFieldsManager } = this._context;
+      return activityFieldsManager.getFieldLabelTranslation(ActivityConstants.FUNDINGS, trnType,
+        ActivityConstants.DISASTER_RESPONSE);
+    }
+    return '';
   }
 }

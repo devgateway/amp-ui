@@ -30,6 +30,15 @@ let _rtl;
  * https://runkit.com/dolanmiu/docx-demo2
  * https://runkit.com/dolanmiu/docx-demo10
  * https://docx.js.org/api/
+ * https://github.com/dolanmiu/docx/tree/4.7.1/demo
+ * https://github.com/dolanmiu/docx/blob/4.7.1/demo/demo20.ts (table borders)
+ * https://github.com/dolanmiu/docx/blob/4.7.1/demo/demo22.ts (bidi)
+ * https://github.com/dolanmiu/docx/blob/4.7.1/demo/demo26.ts (borders)
+ * https://github.com/dolanmiu/docx/blob/4.7.1/demo/demo29.ts (lists)
+ * https://github.com/dolanmiu/docx/blob/4.7.1/demo/demo3.ts (lists)
+ * https://github.com/dolanmiu/docx/blob/4.7.1/demo/demo31.ts (align)
+ * https://github.com/dolanmiu/docx/blob/4.7.1/demo/demo32.ts (tables, merge)
+ * https://github.com/dolanmiu/docx/blob/4.7.1/demo/demo34.ts (tables, width)
  */
 export default class GenerateWordPreview {
   static _gwp = new GenerateWordPreview();
