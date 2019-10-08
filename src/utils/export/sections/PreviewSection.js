@@ -4,7 +4,6 @@ import PossibleValuesManager from '../../../modules/field/PossibleValuesManager'
 import Section from '../../../activity/preview/sections/Section.jsx';
 
 const docx = require('docx');
-
 const { Paragraph, Packer, TextRun, Numbering, Indent } = docx;
 
 export default class PreviewSection {
@@ -109,7 +108,7 @@ export default class PreviewSection {
 
   createSimpleLabel(text, styleName, options) {
     const _options = options || {};
-    const p = this._document.createParagraph();
+    const p = new Paragraph();
     const textRun = p.createTextRun(this._context.translate(text));
     if (_options.tab) {
       textRun.tab();
@@ -122,6 +121,10 @@ export default class PreviewSection {
       // title.bidirectional();
       p.right();
     }
+    if (_options.dontAddToDocument) {
+      return p;
+    }
+    this._document.addParagraph(p);
     return p;
   }
 

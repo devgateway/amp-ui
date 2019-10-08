@@ -35,13 +35,14 @@ class APFundingSection extends Component {
 
   render() {
     logger.debug('render');
-    const { DateUtils, rawNumberToFormattedString, getAmountsInThousandsMessage } = this.props;
+    const { DateUtils, rawNumberToFormattedString, getAmountsInThousandsMessage,
+      buildSimpleField, activity } = this.props;
     const fundingList = [];
-    if (this.props.activity.fundings) {
-      this.props.activity.fundings.forEach((funding) => {
+    if (activity[ActivityConstants.FUNDINGS]) {
+      activity[ActivityConstants.FUNDINGS].forEach((funding) => {
         const item = (<APFundingOrganizationSection
           funding={funding} key={funding[ActivityConstants.AMP_FUNDING_ID] || UIUtils.stringToUniqueId()}
-          buildSimpleField={this.props.buildSimpleField}
+          buildSimpleField={buildSimpleField}
           DateUtils={DateUtils}
           rawNumberToFormattedString={rawNumberToFormattedString}
         />);

@@ -116,7 +116,6 @@ class APFundingOrganizationSection extends Component {
         key={idx}
         buildSimpleField={this.props.buildSimpleField}
         DateUtils={DateUtils}
-
         rawNumberToFormattedString={rawNumberToFormattedString} />)
     );
   }
