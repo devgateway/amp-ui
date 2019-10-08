@@ -55,9 +55,6 @@ export default class PreviewSection {
   }
 
   createPercentageList(paragraph, listField, valueField, percentageField, fmPath, listTitle, getItemTitle) {
-    if (!paragraph) {
-      paragraph = this._document.createParagraph();
-    }
     let items = this._props.activity[listField];
     let isListEnabled = this._context.activityFieldsManager.isFieldPathEnabled(listField) === true;
     if (fmPath) {
