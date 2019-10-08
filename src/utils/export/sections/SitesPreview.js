@@ -29,6 +29,7 @@ export default class SitesPreview extends PreviewSection {
             this.createField(desc.title, desc.value);
           });
       }
+      this.createSeparator();
     }
   }
 }

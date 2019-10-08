@@ -42,6 +42,7 @@ export default class DocumentsPreview extends PreviewSection {
           });
         this.createField(date.title, date.value);
       });
+      this.createSeparator();
     }
   }
 }

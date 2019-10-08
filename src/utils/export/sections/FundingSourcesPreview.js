@@ -12,6 +12,7 @@ export default class FundingSourcesPreview extends PreviewSection {
       if (field) {
         this.createField(field.title, field.value, null, null);
       }
+      this.createSeparator();
     }
   }
 }

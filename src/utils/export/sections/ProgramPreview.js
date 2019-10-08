@@ -13,6 +13,7 @@ export default class ProgramPreview extends PreviewSection {
         ActivityConstants.PROGRAM, ActivityConstants.PROGRAM_PERCENTAGE, null, 'Primary Program');
       this.createPercentageList(null, ActivityConstants.SECONDARY_PROGRAMS, ActivityConstants.PROGRAM,
         ActivityConstants.PROGRAM_PERCENTAGE, null, 'Secondary Program');
+      this.createSeparator();
     }
   }
 }

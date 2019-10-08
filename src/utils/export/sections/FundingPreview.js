@@ -2,7 +2,7 @@ import PreviewSection from './PreviewSection';
 import * as ExportConstants from '../ExportConstants';
 import ActivityConstants from '../../../modules/util/ActivityConstants';
 
-export default class LocationPreview extends PreviewSection {
+export default class FundingPreview extends PreviewSection {
   generateSection() {
     super.generateSection();
     if (this.checkIfEnabled()) {
@@ -26,7 +26,6 @@ export default class LocationPreview extends PreviewSection {
         this.createPercentageList(null, ActivityConstants.LOCATIONS, ActivityConstants.LOCATION,
           ActivityConstants.LOCATION_PERCENTAGE, null, null);
       }
-      this.createSeparator();
     }
   }
 }

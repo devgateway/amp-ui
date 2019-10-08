@@ -38,6 +38,7 @@ export default class IssuesPreview extends PreviewSection {
           }
         });
       }
+      this.createSeparator();
     }
   }
 }

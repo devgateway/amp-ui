@@ -36,6 +36,7 @@ export default class IdentificationPreview extends PreviewSection {
           return this.createField(field.title, field.value, null, null);
         }
       });
+      this.createSeparator();
     }
   }
 }

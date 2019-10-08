@@ -11,6 +11,7 @@ export default class SectorPreview extends PreviewSection {
         ActivityConstants.SECTOR_PERCENTAGE, null, 'Primary Sector');
       this.createPercentageList(null, ActivityConstants.SECONDARY_SECTORS, ActivityConstants.SECTOR,
         ActivityConstants.SECTOR_PERCENTAGE, null, 'Secondary Sector');
+      this.createSeparator();
     }
   }
 }

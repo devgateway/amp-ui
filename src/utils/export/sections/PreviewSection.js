@@ -123,6 +123,10 @@ export default class PreviewSection {
     return p;
   }
 
+  createSeparator() {
+    this._document.createParagraph();
+  }
+
   generateSection() {
   }
 }

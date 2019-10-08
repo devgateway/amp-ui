@@ -14,6 +14,7 @@ import RelatedOrganizationsPreview from './sections/RelatedOrganizationsPreview'
 import IssuesPreview from './sections/IssuesPreview';
 import SitesPreview from './sections/SitesPreview';
 import DocumentsPreview from './sections/DocumentsPreview';
+import FundingPreview from './sections/FundingPreview';
 
 const FileSaver = require('file-saver');
 const docx = require('docx');
@@ -28,6 +29,7 @@ let _rtl;
  * Useful resources: https://github.com/dolanmiu/docx/wiki/Styling-with-JS,
  * https://runkit.com/dolanmiu/docx-demo2
  * https://runkit.com/dolanmiu/docx-demo10
+ * https://docx.js.org/api/
  */
 export default class GenerateWordPreview {
   static _gwp = new GenerateWordPreview();
@@ -65,6 +67,7 @@ export default class GenerateWordPreview {
     new SectorPreview(document, _props, _context, _rtl, FMC.ACTIVITY_SECTORS, null).generateSection();
     new FundingSourcesPreview(document, _props, _context, _rtl, null,
       ActivityConstants.TOTAL_NUMBER_OF_FUNDING_SOURCES).generateSection();
+    new FundingPreview(document, _props, _context, _rtl, null, ActivityConstants.FUNDINGS).generateSection();
     new RelatedOrganizationsPreview(document, _props, _context, _rtl,
       FMC.ACTIVITY_ORGANIZATIONS, null).generateSection();
     new IssuesPreview(document, _props, _context, _rtl, null, ActivityConstants.ISSUES).generateSection();

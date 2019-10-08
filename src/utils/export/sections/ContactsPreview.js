@@ -42,6 +42,7 @@ export default class ContactsPreview extends PreviewSection {
             }
           });
         });
+      this.createSeparator();
     }
   }
 

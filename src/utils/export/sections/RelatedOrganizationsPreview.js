@@ -24,6 +24,7 @@ export default class RelatedOrganizationsPreview extends PreviewSection {
         ActivityConstants.PERCENTAGE, null, 'Regional Group', UIUtils.getItemTitleForOrganizations);
       this.createPercentageList(null, ActivityConstants.SECTOR_GROUP, ActivityConstants.ORGANIZATION,
         ActivityConstants.PERCENTAGE, null, 'Sector Group', UIUtils.getItemTitleForOrganizations);
+      this.createSeparator();
     }
   }
 }

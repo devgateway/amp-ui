@@ -13,5 +13,6 @@ export default class SummaryPreview extends PreviewSection {
         { stringOnly: true, context: this._context, props: this._props });
       return this.createField(field.title, field.value);
     });
+    this.createSeparator();
   }
 }

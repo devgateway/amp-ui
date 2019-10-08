@@ -27,6 +27,7 @@ export default class PlanningPreview extends PreviewSection {
           return this.createField(field.title, field.value, null, null, null);
         }
       }));
+      this.createSeparator();
     }
   }
 }
