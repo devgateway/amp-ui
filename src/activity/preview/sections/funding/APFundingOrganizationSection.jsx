@@ -30,7 +30,7 @@ class APFundingOrganizationSection extends Component {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
-      workspaceCurrency: PropTypes.string.isRequired
+      effectiveCurrency: PropTypes.string.isRequired
     }).isRequired,
   };
 
@@ -39,7 +39,7 @@ class APFundingOrganizationSection extends Component {
     const { Logger, activityContext } = this.context;
     logger = new Logger('AP funding organization section');
     logger.debug('constructor');
-    this._currency = activityContext.workspaceCurrency;
+    this._currency = activityContext.effectiveCurrency;
   }
 
   _buildDonorInfo() {

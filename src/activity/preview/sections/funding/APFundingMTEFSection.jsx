@@ -18,7 +18,7 @@ class APFundingMTEFSection extends Component {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
-      workspaceCurrency: PropTypes.string.isRequired
+      effectiveCurrency: PropTypes.string.isRequired
     }).isRequired,
   };
 
@@ -71,7 +71,7 @@ class APFundingMTEFSection extends Component {
     const { funding } = this.props;
     const { translate, activityContext } = this.context;
     const types = [ActivityConstants.PIPELINE, ActivityConstants.PROJECTION];
-    const currency = activityContext.workspaceCurrency;
+    const currency = activityContext.effectiveCurrency;
     if (FeatureManager.isFMSettingEnabled(FeatureManagerConstants.MTEF_PROJECTIONS)
       && funding[ActivityConstants.MTEF_PROJECTIONS] && funding[ActivityConstants.MTEF_PROJECTIONS].length > 0) {
       const content = [];

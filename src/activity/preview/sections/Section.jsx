@@ -45,15 +45,20 @@ const Section = (ComposedSection, params) => class extends Component {
     rawNumberToFormattedString: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
       activityStatus: PropTypes.string,
-      userTeamMember: PropTypes.number.isRequired,
-      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
-      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
-      [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
-      teamMemberRole: PropTypes.number.isRequired,
-      workspaceCurrency: PropTypes.string.isRequired,
-      [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
+      effectiveCurrency: PropTypes.string.isRequired,
+      teamMember: PropTypes.shape({
+        teamMemberRole: PropTypes.number.isRequired,
+        workspace: PropTypes.shape({
+          [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
+          [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
+          [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
+          [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
+          id: PropTypes.number.isRequired
+        }),
+      }),
+
       calendar: PropTypes.object,
-      workspaceLeadData: PropTypes.string
+      workSpaceleadData: PropTypes.string
     }).isRequired,
   };
 

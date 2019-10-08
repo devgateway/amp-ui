@@ -45,15 +45,17 @@ export default class ActivityPreviewUI extends Component {
     activity: PropTypes.object,
     activityContext: PropTypes.shape({
       activityStatus: PropTypes.string,
-      userTeamMember: PropTypes.number.isRequired,
-      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
-      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
-      [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
-      teamMemberRole: PropTypes.number.isRequired,
       workspaceCurrency: PropTypes.string,
-      [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
       calendar: PropTypes.object,
-      workspaceLeadData: PropTypes.string
+      workSpaceLeadData: PropTypes.string,
+      teamMember: PropTypes.shape({
+        teamMemberRole: PropTypes.number.isRequired,
+        workspace: PropTypes.shape({
+          [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
+          [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
+          id: PropTypes.number.isRequired
+        })
+      })
     }).isRequired,
   };
 
@@ -62,13 +64,17 @@ export default class ActivityPreviewUI extends Component {
     calendar: PropTypes.object,
     activityContext: PropTypes.shape({
       activityStatus: PropTypes.string,
-      userTeamMember: PropTypes.number.isRequired,
-      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
-      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
-      [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
+      teamMember: PropTypes.shape({
+        teamMemberRole: PropTypes.number.isRequired,
+        workspace: PropTypes.shape({
+          [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
+          [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
+          [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
+          [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
+          id: PropTypes.number.isRequired
+        })
+      }),
       workspaceCurrency: PropTypes.string,
-      teamMemberRole: PropTypes.number.isRequired,
-      [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
       calendar: PropTypes.object,
     })
   };
@@ -89,6 +95,7 @@ export default class ActivityPreviewUI extends Component {
   }
   _renderData() {
     const { activity, activityContext } = this.props;
+
     const { rtl } = this.state;
     const {
       translate, rawNumberToFormattedString, getActivityContactIds, getAmountsInThousandsMessage, IconFormatter,
@@ -108,10 +115,12 @@ export default class ActivityPreviewUI extends Component {
 
     const categoryKeys = ActivityConstants.AP_SECTION_IDS.map(category => category.key);
 
-    const teamLeadFlag = activityContext.teamMemberRole === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_MANAGER
-      || activityContext.teamMemberRole === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_APPROVER;
+    const teamLeadFlag = activityContext.teamMember.teamMemberRole === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_MANAGER
+      || activityContext.teamMember.teamMemberRole === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_APPROVER;
 
     const privateWSWarning = activityContext[WorkspaceConstants.IS_PRIVATE] ? translate('privateWorkspaceWarning') : '';
+    const edit = activity[ActivityConstants.REJECTED_ID] === undefined && activityContext.teamMember !== undefined;
+
     return (
       <div className={rtl ? styles.rtl : ''}>
         <div className={styles.preview_container}>
@@ -121,13 +130,13 @@ export default class ActivityPreviewUI extends Component {
             <span className={styles.preview_icons}>
               <ul>
                 <IconFormatter
-                  id={activity.id} edit={!activity[ActivityConstants.REJECTED_ID]} view={false}
+                  id={activity.id} edit={edit} view={false}
                   status={activityContext.activityStatus}
                   activityTeamId={activity[ActivityConstants.TEAM].id}
-                  teamId={activityContext.userTeamMember}
+                  teamId={activityContext.teamMember.workspace.id}
                   teamLeadFlag={teamLeadFlag}
-                  wsAccessType={activityContext[WorkspaceConstants.ACCESS_TYPE]}
-                  crossTeamWS={activityContext[WorkspaceConstants.CROSS_TEAM_VALIDATION]} />
+                  wsAccessType={activityContext.teamMember.workspace[WorkspaceConstants.ACCESS_TYPE]}
+                  crossTeamWS={activityContext.teamMember.workspace[WorkspaceConstants.CROSS_TEAM_VALIDATION]} />
                 <img
                   className={styles.print} onClick={() => window.print()} alt="print" src={printIcon}
                   title={translate('clickToPrint')} />

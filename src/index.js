@@ -26,6 +26,8 @@ import gotoImage from './assets/images/goto_url.svg';
 import ActivityPreviewUI from './activity/preview/ActivityPreviewUI.jsx';
 import FmManagerHelper from './utils/helpers/FmManagerHelper';
 import CommonPossibleValuesHelper from './utils/helpers/CommonPossibleValuesHelper';
+import { ApprovalStatus, AllApprovalStatuses } from './utils/constants/ApprovalStatus';
+import CommonActivityHelper from './utils/helpers/CommonActivityHelper';
 
 export {
   Constants,
@@ -55,7 +57,10 @@ export {
   gotoImage,
   ActivityPreviewUI,
   FmManagerHelper,
-  CommonPossibleValuesHelper
+  CommonPossibleValuesHelper,
+  ApprovalStatus,
+  AllApprovalStatuses,
+  CommonActivityHelper
 };
 
 export default {
@@ -86,5 +91,8 @@ export default {
   gotoImage,
   ActivityPreviewUI,
   FmManagerHelper,
-  CommonPossibleValuesHelper
+  CommonPossibleValuesHelper,
+  ApprovalStatus,
+  AllApprovalStatuses,
+  CommonActivityHelper
 };
