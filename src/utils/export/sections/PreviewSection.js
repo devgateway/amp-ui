@@ -49,7 +49,7 @@ export default class PreviewSection {
     if (!paragraph) {
       paragraph = this._document.createParagraph();
     }
-    paragraph.createTextRun(`${title}: `).bold();
+    paragraph.createTextRun(`${title}${value ? ': ' : ''}`).bold();
     paragraph.createTextRun(value);
     paragraph.setNumbering(concrete, level);
   }
@@ -90,7 +90,7 @@ export default class PreviewSection {
       paragraph = this._document.createParagraph();
     }
     if (!this._rtl) {
-      const titleText = paragraph.createTextRun(`${title}: `).bold();
+      const titleText = paragraph.createTextRun(`${title}${value ? ': ' : ''} `).bold();
       if (titleStyle) {
         titleText.style(titleText);
       }
@@ -103,7 +103,7 @@ export default class PreviewSection {
       if (valueStyle) {
         valueText.style(valueStyle);
       }
-      const titleText = paragraph.createTextRun(` :${title}`).bold();
+      const titleText = paragraph.createTextRun(`${value ? ' :' : ''}${title}`).bold();
       if (titleStyle) {
         titleText.style(titleText);
       }
