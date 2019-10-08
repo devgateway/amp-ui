@@ -103,6 +103,7 @@ export default class FundingPreview extends PreviewSection {
             });
             table.getCell(group.length, 0).addContent(this.createSimpleLabel(`Subtotal ${measure}`, null,
               { dontAddToDocument: true }));
+            table.getRow(group.length).mergeCells(0, 4);
           });
 
           this.createSeparator();
