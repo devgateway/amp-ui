@@ -74,6 +74,8 @@ export default class PreviewSection {
         items.map(({ itemTitle, percentage }) => {
           this.createField(itemTitle, (percentage ? `${percentage}%` : '')).bullet();
         });
+      } else {
+        this.createSimpleLabel('No Data').tab();
       }
     }
   }

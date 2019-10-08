@@ -11,12 +11,12 @@ export default class ContactsPreview extends PreviewSection {
       this.createSimpleLabel(this._context.translate('Contact Information'), ExportConstants.STYLE_HEADING2);
 
       const hydratedContactsByIds = this.getHydratedContacts();
-      const contactGroups = FieldPathConstants.ACTIVITY_CONTACT_PATHS
+      FieldPathConstants.ACTIVITY_CONTACT_PATHS
         .filter(acp => this._context.activityFieldsManager.isFieldPathEnabled(acp))
         .map(acp => {
           const title = this._context.activityFieldsManager.getFieldLabelTranslation(acp);
           this.createSimpleLabel(title, 'Heading3');
-          const contacts = (this._props.activity[acp] || []).map(c => {
+          (this._props.activity[acp] || []).map(c => {
             const hydratedC = hydratedContactsByIds[c[ActivityConstants.CONTACT].id];
             if (hydratedC) {
               const emails = hydratedC[ContactConstants.EMAIL].map(email => this._section.prototype.buildSimpleField(
@@ -38,7 +38,7 @@ export default class ContactsPreview extends PreviewSection {
               const name = `${hydratedC[ContactConstants.NAME]} ${hydratedC[ContactConstants.LAST_NAME]}`;
               this.createSimpleLabel(name +
                 (emails ? ` - ${emails.map(e => e.value).toString()}` : '') +
-                (phones ? ` - ${phones.map(e => e.value).toString()}` : ''));
+                (phones ? ` - ${phones.map(e => e.value).toString()}` : '')).bullet();
             }
           });
         });
