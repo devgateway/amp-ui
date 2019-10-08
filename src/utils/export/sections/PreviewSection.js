@@ -75,7 +75,7 @@ export default class PreviewSection {
           this.createField(itemTitle, (percentage ? `${percentage}%` : '')).bullet();
         });
       } else {
-        this.createSimpleLabel('No Data').tab();
+        this.createSimpleLabel('No Data', null, { tab: true });
       }
     }
   }
@@ -108,8 +108,12 @@ export default class PreviewSection {
   }
 
   createSimpleLabel(text, styleName, options) {
+    const _options = options || {};
     const p = this._document.createParagraph();
-    p.createTextRun(this._context.translate(text));
+    const textRun = p.createTextRun(this._context.translate(text));
+    if (_options.tab) {
+      textRun.tab();
+    }
     if (styleName) {
       p.style(styleName);
     }
