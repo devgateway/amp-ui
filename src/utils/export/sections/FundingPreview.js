@@ -7,7 +7,11 @@ import ValueConstants from '../../ValueConstants';
 const docx = require('docx');
 
 const { Paragraph, TextRun, WidthType, Table, TableAnchorType, RelativeHorizontalPosition,
-  RelativeVerticalPosition } = docx;
+  RelativeVerticalPosition, BorderStyle, TableBorders, TableProperties,
+  Attributes, XmlComponent } = docx;
+
+const COLOR_SUBTOTAL = '#efefef';
+const COLOR_EVEN = '#97c4f3';
 
 export default class FundingPreview extends PreviewSection {
   generateSection() {
@@ -79,6 +83,9 @@ export default class FundingPreview extends PreviewSection {
             // TODO: Implement some sort of 'tablify' in PreviewSection.
             const table = this._document.createTable(group.length + 1, 5);
             table.setWidth(WidthType.DXA, 9000);
+            /* This line removes all borders from the table, sadly the official documentation
+            doesnt work :( */
+            table.properties.root[1] = [];
 
             group.forEach((g, i) => {
               table.getCell(i, 0).addContent(this.createSimpleLabel(adjType.value, null,
@@ -100,10 +107,19 @@ export default class FundingPreview extends PreviewSection {
               table.getCell(i, 4).addContent(this.createSimpleLabel(
                 showFixedExRate ? g[ActivityConstants.FIXED_EXCHANGE_RATE] : '',
                 null, { dontAddToDocument: true }));
+
+              if (i % 2 === 0) {
+                table.getRow(i).getCell(0).CellProperties.setShading({ fill: COLOR_SUBTOTAL });
+                table.getRow(i).getCell(1).CellProperties.setShading({ fill: COLOR_SUBTOTAL });
+                table.getRow(i).getCell(2).CellProperties.setShading({ fill: COLOR_SUBTOTAL });
+                table.getRow(i).getCell(3).CellProperties.setShading({ fill: COLOR_SUBTOTAL });
+                table.getRow(i).getCell(4).CellProperties.setShading({ fill: COLOR_SUBTOTAL });
+              }
             });
             table.getCell(group.length, 0).addContent(this.createSimpleLabel(`Subtotal ${measure}`, null,
               { dontAddToDocument: true }));
             table.getRow(group.length).mergeCells(0, 4);
+            table.getRow(group.length).getCell(0).CellProperties.setShading({ fill: COLOR_EVEN });
           });
 
           this.createSeparator();
