@@ -120,7 +120,6 @@ export default class ActivityPreviewUI extends Component {
             <span className={styles.top_warning_text}>{privateWSWarning}</span>
             <span className={styles.preview_title}>{activity[ActivityConstants.PROJECT_TITLE]}</span>
             <span className={styles.preview_icons}>
-              <span onClick={() => this.wordExport()}>word</span>
               <ul>
                 <IconFormatter
                   id={activity.id} edit={!activity[ActivityConstants.REJECTED_ID]} view={false}
@@ -130,6 +129,7 @@ export default class ActivityPreviewUI extends Component {
                   teamLeadFlag={teamLeadFlag}
                   wsAccessType={activityContext[WorkspaceConstants.ACCESS_TYPE]}
                   crossTeamWS={activityContext[WorkspaceConstants.CROSS_TEAM_VALIDATION]} />
+                <span onClick={() => this.wordExport()}>Word</span>
                 <img
                   className={styles.print} onClick={() => window.print()} alt="print" src={printIcon}
                   title={translate('clickToPrint')} />
