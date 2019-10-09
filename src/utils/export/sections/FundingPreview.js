@@ -118,20 +118,7 @@ export default class FundingPreview extends PreviewSection {
     totalActualDisbursements = this._context.currencyRatesManager.convertFundingDetailsToCurrency(fdActualDisbursements,
       this._currency);
     const value = totalActualCommitments - totalActualDisbursements;
-    table.getCell(group.length + 1, !this._rtl ? 0 : 3).addContent(this.createSimpleLabel('Undisbursed Balance', null,
-      { dontAddToDocument: true }));
-    table.getCell(group.length + 1, !this._rtl ? 3 : 0)
-      .addContent(this.createSimpleLabel(!this._rtl ? `${value} ${currency}` :
-        `${currency} ${value}`, null,
-      { dontAddToDocument: true }));
-    if (!this._rtl) {
-      table.getRow(group.length + 1).mergeCells(0, 2);
-    } else {
-      table.getRow(group.length + 1).mergeCells(0, 2);
-    }
-    table.getRow(group.length + 1).getCell(0).CellProperties.setShading({ fill: COLOR_EVEN });
-    table.getRow(group.length + 1).getCell(1).CellProperties.setShading({ fill: COLOR_EVEN });
-    table.getRow(group.length + 1).getCell(2).CellProperties.setShading({ fill: COLOR_EVEN });
+    this.buildTotalItem(table, 'Undisbursed Balance', value, currency, group.length + 1);
   }
 
   buildFundingDetailItemRow(table, g, currency, i, adjType, showDisasterResponse, trnType, showFixedExRate, cols) {
@@ -166,21 +153,22 @@ export default class FundingPreview extends PreviewSection {
   buildSubTotalRow(table, group, currency, measure) {
     const subtotal = this._context.rawNumberToFormattedString(this._context.currencyRatesManager
       .convertFundingDetailsToCurrency(group, currency));
-    table.getCell(group.length, !this._rtl ? 0 : 3)
-      .addContent(this.createSimpleLabel(`Subtotal ${measure}`, null,
-        { dontAddToDocument: true }));
-    table.getCell(group.length, !this._rtl ? 3 : 0)
-      .addContent(this.createSimpleLabel(!this._rtl ? `${subtotal} ${currency}` :
-        `${currency} ${subtotal}`, null,
-      { dontAddToDocument: true }));
+    this.buildTotalItem(table, `Subtotal ${measure}`, subtotal, currency, group.length);
+  }
+
+  buildTotalItem(table, label, value, currency, row) {
+    table.getCell(row, !this._rtl ? 0 : 3)
+      .addContent(this.createSimpleLabel(label, null, { dontAddToDocument: true }));
+    table.getCell(row, !this._rtl ? 3 : 0).addContent(this.createSimpleLabel(!this._rtl ? `${value} ${currency}` :
+      `${currency} ${value}`, null, { dontAddToDocument: true }));
     if (!this._rtl) {
-      table.getRow(group.length).mergeCells(0, 2);
+      table.getRow(row).mergeCells(0, 2);
     } else {
-      table.getRow(group.length).mergeCells(0, 2);
+      table.getRow(row).mergeCells(0, 2);
     }
-    table.getRow(group.length).getCell(0).CellProperties.setShading({ fill: COLOR_EVEN });
-    table.getRow(group.length).getCell(1).CellProperties.setShading({ fill: COLOR_EVEN });
-    table.getRow(group.length).getCell(2).CellProperties.setShading({ fill: COLOR_EVEN });
+    table.getRow(row).getCell(0).CellProperties.setShading({ fill: COLOR_EVEN });
+    table.getRow(row).getCell(1).CellProperties.setShading({ fill: COLOR_EVEN });
+    table.getRow(row).getCell(2).CellProperties.setShading({ fill: COLOR_EVEN });
   }
 
   getDisasterResponse(g, showDisasterResponse, trnType) {
