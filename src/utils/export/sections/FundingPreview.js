@@ -115,21 +115,26 @@ export default class FundingPreview extends PreviewSection {
                 }
               }
             });
+
+            // Subtotal row.
             const subtotal = this._context.rawNumberToFormattedString(this._context.currencyRatesManager
               .convertFundingDetailsToCurrency(group, currency));
-            table.getCell(group.length, !this._rtl ? 0 : 0)
+            table.getCell(group.length, !this._rtl ? 0 : 3)
               .addContent(this.createSimpleLabel(`Subtotal ${measure}`, null,
                 { dontAddToDocument: true }));
-            table.getCell(group.length, !this._rtl ? 3 : 3)
+            table.getCell(group.length, !this._rtl ? 3 : 0)
               .addContent(this.createSimpleLabel(!this._rtl ? `${subtotal} ${currency}` :
                 `${currency} ${subtotal}`, null,
               { dontAddToDocument: true }));
             if (!this._rtl) {
               table.getRow(group.length).mergeCells(0, 2);
+            } else {
+              table.getRow(group.length).mergeCells(0, 2);
             }
             // table.getRow(group.length).mergeCells(3, 4);
             table.getRow(group.length).getCell(0).CellProperties.setShading({ fill: COLOR_EVEN });
             table.getRow(group.length).getCell(1).CellProperties.setShading({ fill: COLOR_EVEN });
+            table.getRow(group.length).getCell(2).CellProperties.setShading({ fill: COLOR_EVEN });
           });
 
           this.createSeparator();
