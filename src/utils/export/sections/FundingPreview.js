@@ -7,9 +7,7 @@ import ValueConstants from '../../ValueConstants';
 
 const docx = require('docx');
 
-const { Paragraph, TextRun, WidthType, Table, TableAnchorType, RelativeHorizontalPosition,
-  RelativeVerticalPosition, BorderStyle, TableBorders, TableProperties,
-  Attributes, XmlComponent, TableRow } = docx;
+const { WidthType } = docx;
 
 const COLOR_SUBTOTAL = '#efefef';
 const COLOR_EVEN = '#97c4f3';
@@ -20,6 +18,7 @@ export default class FundingPreview extends PreviewSection {
     if (this.checkIfEnabled()) {
       this.createSimpleLabel(this._context.translate('Funding'), ExportConstants.STYLE_HEADING2);
       if (this._props.activity[ActivityConstants.FUNDINGS]) {
+        const currency = this._props.activityContext.workspaceCurrency;
         this._props.activity[ActivityConstants.FUNDINGS].forEach((funding) => {
           // Header data.
           const fieldPaths = [`${[ActivityConstants.FUNDINGS]}~${[ActivityConstants.FUNDING_DONOR_ORG_ID]}`,
@@ -65,7 +64,6 @@ export default class FundingPreview extends PreviewSection {
             }
           });
           groups.map(([trnType, group], idx) => {
-            const currency = this._props.activityContext.workspaceCurrency;
             const adjType = group[0][ActivityConstants.ADJUSTMENT_TYPE];
             const measure = `${adjType.value} ${trnType}`;
             const trnPath = `${ActivityConstants.FUNDINGS}~${trnType}`;
@@ -95,8 +93,49 @@ export default class FundingPreview extends PreviewSection {
           });
           this.createSeparator();
         });
+        this.buildTotalsTable(currency);
+        this.createSeparator();
       }
     }
+  }
+
+  buildTotalsTable(currency) {
+    const { activityFieldsManager, activityFundingTotals, translate } = this._context;
+    let actualCommitments;
+    let actualDisbursements;
+    const options = [];
+    FieldPathConstants.FUNDING_TRANSACTION_TYPES.forEach(trnType => {
+      if (activityFieldsManager.isFieldPathByPartsEnabled(ActivityConstants.FUNDINGS, trnType)) {
+        const fieldPath = `${ActivityConstants.FUNDINGS}~${trnType}~${ActivityConstants.ADJUSTMENT_TYPE}`;
+        const atOptions = activityFieldsManager.getPossibleValuesOptions(fieldPath);
+        atOptions.forEach(at => {
+          const value = activityFundingTotals.getTotals(at.id, trnType);
+          options.push({ label: translate(`Total ${at.value} ${trnType}`), value });
+          actualCommitments = (trnType === ActivityConstants.COMMITMENTS && at.value === ValueConstants.ACTUAL)
+            ? value : actualCommitments;
+          actualDisbursements = (trnType === ActivityConstants.DISBURSEMENTS && at.value === ValueConstants.ACTUAL)
+            ? value : actualDisbursements;
+        });
+      }
+    });
+    if (actualDisbursements && actualCommitments) {
+      options.push({ label: 'Undisbursed Balance', value: actualCommitments - actualDisbursements });
+    }
+    if (actualDisbursements && actualCommitments) {
+      options.push({ label: 'Delivery rate',
+        value: Math.round((actualDisbursements / actualCommitments) * 100),
+        currency: '%' });
+    }
+    const cols = 5;
+    const table = this._document.createTable(options.length, cols);
+    table.setWidth(WidthType.DXA, 9000);
+    // This line removes all borders from the table, sadly the official documentation doesnt work :(
+    table.properties.root[1] = [];
+    options.forEach((g, i) => {
+      if (g.value > 0) {
+        this.buildTotalItem(table, g.label, g.value, g.currency || currency, i);
+      }
+    });
   }
 
   buildUndisbursedBalanceSection(table, group, currency) {
@@ -157,6 +196,7 @@ export default class FundingPreview extends PreviewSection {
   }
 
   buildTotalItem(table, label, value, currency, row) {
+    value = this._context.rawNumberToFormattedString(value);
     table.getCell(row, !this._rtl ? 0 : 3)
       .addContent(this.createSimpleLabel(label, null, { dontAddToDocument: true }));
     table.getCell(row, !this._rtl ? 3 : 0).addContent(this.createSimpleLabel(!this._rtl ? `${value} ${currency}` :
