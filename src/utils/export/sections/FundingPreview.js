@@ -72,6 +72,7 @@ export default class FundingPreview extends PreviewSection {
               .isFieldPathEnabled(`${trnPath}~${ActivityConstants.FIXED_EXCHANGE_RATE}`);
             const showDisasterResponse = this._context.activityFieldsManager
               .isFieldPathEnabled(`${trnPath}~${ActivityConstants.DISASTER_RESPONSE}`);
+            // eslint-disable-next-line no-unused-vars
             const showPledge = this._context.activityFieldsManager
               .isFieldPathEnabled(`${trnPath}~${ActivityConstants.PLEDGE}`);
             // Adj type header.
@@ -81,30 +82,29 @@ export default class FundingPreview extends PreviewSection {
             }
 
             // TODO: Implement some sort of 'tablify' in PreviewSection.
-            const table = this._document.createTable(group.length + 1, 5);
-            table.setWidth(WidthType.DXA, 9000);
-            /* This line removes all borders from the table, sadly the official documentation
-            doesnt work :( */
-            table.properties.root[1] = [];
             const cols = 5;
+            const table = this._document.createTable(group.length + 1, cols);
+            table.setWidth(WidthType.DXA, 9000);
+            // This line removes all borders from the table, sadly the official documentation doesnt work :(
+            table.properties.root[1] = [];
             group.forEach((g, i) => {
-              table.getCell(i, 0).addContent(this.createSimpleLabel(adjType.value, null,
+              table.getCell(i, !this._rtl ? 0 : 4).addContent(this.createSimpleLabel(adjType.value, null,
                 { dontAddToDocument: true }));
 
-              table.getCell(i, 1).addContent(this.createSimpleLabel(this.getDisasterResponse(g, showDisasterResponse,
-                trnType), null, { dontAddToDocument: true }));
+              table.getCell(i, !this._rtl ? 1 : 3).addContent(this.createSimpleLabel(this.getDisasterResponse(g,
+                showDisasterResponse, trnType), null, { dontAddToDocument: true }));
 
-              table.getCell(i, 2).addContent(this.createSimpleLabel(
+              table.getCell(i, !this._rtl ? 2 : 2).addContent(this.createSimpleLabel(
                 this._context.DateUtils.createFormattedDate(g[ActivityConstants.TRANSACTION_DATE]),
                 null, { dontAddToDocument: true }));
 
               const convertedAmount = this._context.currencyRatesManager
                 .convertTransactionAmountToCurrency(g, currency);
-              table.getCell(i, 3).addContent(this.createSimpleLabel(
+              table.getCell(i, !this._rtl ? 3 : 1).addContent(this.createSimpleLabel(
                 `${this._context.rawNumberToFormattedString(convertedAmount)} ${currency}`,
                 null, { dontAddToDocument: true }));
 
-              table.getCell(i, 4).addContent(this.createSimpleLabel(
+              table.getCell(i, !this._rtl ? 4 : 0).addContent(this.createSimpleLabel(
                 showFixedExRate ? g[ActivityConstants.FIXED_EXCHANGE_RATE] : '',
                 null, { dontAddToDocument: true }));
 
