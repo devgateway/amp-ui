@@ -1,4 +1,3 @@
-import React from 'react';
 import ActivityConstants from '../../modules/util/ActivityConstants';
 import FMC from '../../modules/util/FeatureManagerConstants';
 import SummaryPreview from './sections/SummaryPreview';
@@ -15,6 +14,7 @@ import IssuesPreview from './sections/IssuesPreview';
 import SitesPreview from './sections/SitesPreview';
 import DocumentsPreview from './sections/DocumentsPreview';
 import FundingPreview from './sections/FundingPreview';
+import AdditionalInfoPreview from './sections/AdditionalInfoPreview';
 
 const FileSaver = require('file-saver');
 const docx = require('docx');
@@ -84,11 +84,14 @@ export default class GenerateWordPreview {
     new SitesPreview(document, _props, _context, _rtl, null, ActivityConstants.STRUCTURES).generateSection();
     new DocumentsPreview(document, _props, _context, _rtl, null,
       ActivityConstants.ACTIVITY_DOCUMENTS).generateSection();
+    new AdditionalInfoPreview(document, _props, _context, _rtl, null, null).generateSection();
   }
 
   static download() {
     const packer = new Packer();
+    // eslint-disable-next-line promise/catch-or-return
     packer.toBlob(document)
+    // eslint-disable-next-line promise/always-return
       .then(blob => {
         console.log(blob);
         FileSaver.saveAs(blob, 'activity-preview.docx');
