@@ -117,12 +117,12 @@ export default class FundingPreview extends PreviewSection {
             const subtotal = this._context.currencyRatesManager.convertFundingDetailsToCurrency(group, currency);
             table.getCell(group.length, 0).addContent(this.createSimpleLabel(`Subtotal ${measure}`, null,
               { dontAddToDocument: true }));
-            table.getCell(group.length, 3).addContent(this.createSimpleLabel(subtotal, null,
+            table.getCell(group.length, 3).addContent(this.createSimpleLabel(`${subtotal} ${currency}`, null,
               { dontAddToDocument: true }));
             table.getRow(group.length).mergeCells(0, 2);
             // table.getRow(group.length).mergeCells(3, 4);
             table.getRow(group.length).getCell(0).CellProperties.setShading({ fill: COLOR_EVEN });
-           // table.getRow(group.length).getCell(1).CellProperties.setShading({ fill: COLOR_EVEN });
+            table.getRow(group.length).getCell(1).CellProperties.setShading({ fill: COLOR_EVEN });
           });
 
           this.createSeparator();
