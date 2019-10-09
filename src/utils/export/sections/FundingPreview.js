@@ -86,7 +86,7 @@ export default class FundingPreview extends PreviewSection {
             /* This line removes all borders from the table, sadly the official documentation
             doesnt work :( */
             table.properties.root[1] = [];
-
+            const cols = 5;
             group.forEach((g, i) => {
               table.getCell(i, 0).addContent(this.createSimpleLabel(adjType.value, null,
                 { dontAddToDocument: true }));
@@ -109,17 +109,20 @@ export default class FundingPreview extends PreviewSection {
                 null, { dontAddToDocument: true }));
 
               if (i % 2 === 0) {
-                table.getRow(i).getCell(0).CellProperties.setShading({ fill: COLOR_SUBTOTAL });
-                table.getRow(i).getCell(1).CellProperties.setShading({ fill: COLOR_SUBTOTAL });
-                table.getRow(i).getCell(2).CellProperties.setShading({ fill: COLOR_SUBTOTAL });
-                table.getRow(i).getCell(3).CellProperties.setShading({ fill: COLOR_SUBTOTAL });
-                table.getRow(i).getCell(4).CellProperties.setShading({ fill: COLOR_SUBTOTAL });
+                for (let c = 0; c < cols; c++) {
+                  table.getRow(i).getCell(c).CellProperties.setShading({ fill: COLOR_SUBTOTAL });
+                }
               }
             });
+            const subtotal = this._context.currencyRatesManager.convertFundingDetailsToCurrency(group, currency);
             table.getCell(group.length, 0).addContent(this.createSimpleLabel(`Subtotal ${measure}`, null,
               { dontAddToDocument: true }));
-            table.getRow(group.length).mergeCells(0, 4);
+            table.getCell(group.length, 3).addContent(this.createSimpleLabel(subtotal, null,
+              { dontAddToDocument: true }));
+            table.getRow(group.length).mergeCells(0, 2);
+            // table.getRow(group.length).mergeCells(3, 4);
             table.getRow(group.length).getCell(0).CellProperties.setShading({ fill: COLOR_EVEN });
+           // table.getRow(group.length).getCell(1).CellProperties.setShading({ fill: COLOR_EVEN });
           });
 
           this.createSeparator();
