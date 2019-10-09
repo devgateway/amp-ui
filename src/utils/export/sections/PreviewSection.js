@@ -4,6 +4,7 @@ import PossibleValuesManager from '../../../modules/field/PossibleValuesManager'
 import Section from '../../../activity/preview/sections/Section.jsx';
 
 const docx = require('docx');
+
 const { Paragraph, Packer, TextRun, Numbering, Indent } = docx;
 
 export default class PreviewSection {
@@ -37,20 +38,25 @@ export default class PreviewSection {
   createListField(title, value, level = 0, paragraph) {
     const numbering = new Numbering();
     const abstractNum = numbering.createAbstractNumbering();
-    abstractNum.createLevel(0, 'upperRoman', '%1', 'start')
-      .addParagraphProperty(new Indent(10, 3));
-    abstractNum.createLevel(1, 'decimal', '%2.', 'start')
-      .addParagraphProperty(new Indent(20, 6));
-    abstractNum.createLevel(2, 'lowerLetter', '%3)', 'start')
-      .addParagraphProperty(new Indent(30, 9));
+    abstractNum.createLevel(0, 'upperRoman', '%1', 'start');
+    abstractNum.createLevel(1, 'decimal', '%2.', 'start');
+    abstractNum.createLevel(2, 'lowerLetter', '%3)', 'start');
     const concrete = numbering.createConcreteNumbering(abstractNum);
 
     if (!paragraph) {
       paragraph = this._document.createParagraph();
     }
-    paragraph.createTextRun(`${title}${value ? ': ' : ''}`).bold();
-    paragraph.createTextRun(value);
+    if (!this._rtl) {
+      paragraph.createTextRun(title).bold();
+      paragraph.createTextRun(value);
+    } else {
+      paragraph.createTextRun(value ? `${value} ` : '');
+      paragraph.createTextRun(title).bold();
+    }
     paragraph.setNumbering(concrete, level);
+    if (this._rtl) {
+      paragraph.bidirectional();
+    }
   }
 
   createPercentageList(paragraph, listField, valueField, percentageField, fmPath, listTitle, getItemTitle) {
@@ -101,7 +107,7 @@ export default class PreviewSection {
       if (titleStyle) {
         titleText.style(titleText);
       }
-      paragraph.right();
+      paragraph.bidirectional();
     }
     return paragraph;
   }
@@ -117,9 +123,7 @@ export default class PreviewSection {
       p.style(styleName);
     }
     if (this._rtl) {
-      // Dont enable or it will also change the writing function.
-      // title.bidirectional();
-      p.right();
+      p.bidirectional();
     }
     if (_options.dontAddToDocument) {
       return p;
