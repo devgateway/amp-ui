@@ -1,3 +1,4 @@
+import React from 'react';
 import PreviewSection from './PreviewSection';
 import * as ExportConstants from '../ExportConstants';
 import ActivityConstants from '../../../modules/util/ActivityConstants';
@@ -8,7 +9,7 @@ const docx = require('docx');
 
 const { Paragraph, TextRun, WidthType, Table, TableAnchorType, RelativeHorizontalPosition,
   RelativeVerticalPosition, BorderStyle, TableBorders, TableProperties,
-  Attributes, XmlComponent } = docx;
+  Attributes, XmlComponent, TableRow } = docx;
 
 const COLOR_SUBTOTAL = '#efefef';
 const COLOR_EVEN = '#97c4f3';
@@ -80,67 +81,106 @@ export default class FundingPreview extends PreviewSection {
             if (showFixedExRate) {
               this.createSimpleLabel('Fixed Exchange Rate');
             }
-
-            // TODO: Implement some sort of 'tablify' in PreviewSection.
             const cols = 5;
-            const table = this._document.createTable(group.length + 1, cols);
+            const table = this._document.createTable(group.length + 2, cols);
             table.setWidth(WidthType.DXA, 9000);
             // This line removes all borders from the table, sadly the official documentation doesnt work :(
             table.properties.root[1] = [];
             group.forEach((g, i) => {
-              table.getCell(i, !this._rtl ? 0 : 4).addContent(this.createSimpleLabel(adjType.value, null,
-                { dontAddToDocument: true }));
-
-              table.getCell(i, !this._rtl ? 1 : 3).addContent(this.createSimpleLabel(this.getDisasterResponse(g,
-                showDisasterResponse, trnType), null, { dontAddToDocument: true }));
-
-              table.getCell(i, !this._rtl ? 2 : 2).addContent(this.createSimpleLabel(
-                this._context.DateUtils.createFormattedDate(g[ActivityConstants.TRANSACTION_DATE]),
-                null, { dontAddToDocument: true }));
-
-              const convertedAmount = this._context.currencyRatesManager
-                .convertTransactionAmountToCurrency(g, currency);
-              table.getCell(i, !this._rtl ? 3 : 1).addContent(this.createSimpleLabel(
-                !this._rtl ? `${this._context.rawNumberToFormattedString(convertedAmount)} ${currency}` :
-                  `${currency} ${this._context.rawNumberToFormattedString(convertedAmount)}`,
-                null, { dontAddToDocument: true }));
-
-              table.getCell(i, !this._rtl ? 4 : 0).addContent(this.createSimpleLabel(
-                showFixedExRate ? g[ActivityConstants.FIXED_EXCHANGE_RATE] : '',
-                null, { dontAddToDocument: true }));
-
-              if (i % 2 === 0) {
-                for (let c = 0; c < cols; c++) {
-                  table.getRow(i).getCell(c).CellProperties.setShading({ fill: COLOR_SUBTOTAL });
-                }
-              }
+              this.buildFundingDetailItemRow(table, g, currency, i, adjType, showDisasterResponse,
+                trnType, showFixedExRate, cols);
             });
-
-            // Subtotal row.
-            const subtotal = this._context.rawNumberToFormattedString(this._context.currencyRatesManager
-              .convertFundingDetailsToCurrency(group, currency));
-            table.getCell(group.length, !this._rtl ? 0 : 3)
-              .addContent(this.createSimpleLabel(`Subtotal ${measure}`, null,
-                { dontAddToDocument: true }));
-            table.getCell(group.length, !this._rtl ? 3 : 0)
-              .addContent(this.createSimpleLabel(!this._rtl ? `${subtotal} ${currency}` :
-                `${currency} ${subtotal}`, null,
-              { dontAddToDocument: true }));
-            if (!this._rtl) {
-              table.getRow(group.length).mergeCells(0, 2);
-            } else {
-              table.getRow(group.length).mergeCells(0, 2);
-            }
-            // table.getRow(group.length).mergeCells(3, 4);
-            table.getRow(group.length).getCell(0).CellProperties.setShading({ fill: COLOR_EVEN });
-            table.getRow(group.length).getCell(1).CellProperties.setShading({ fill: COLOR_EVEN });
-            table.getRow(group.length).getCell(2).CellProperties.setShading({ fill: COLOR_EVEN });
+            this.buildSubTotalRow(table, group, currency, measure);
+            this.buildUndisbursedBalanceSection(table, group, currency);
           });
-
           this.createSeparator();
         });
       }
     }
+  }
+
+  buildUndisbursedBalanceSection(table, group, currency) {
+    let totalActualDisbursements = 0;
+    let totalActualCommitments = 0;
+    const fd = group;
+    if (!fd || fd.length === 0) {
+      // Dont show this section if there are no funding details.
+      return null;
+    }
+    const fdActualCommitments = (fd[ActivityConstants.COMMITMENTS] || []).filter(item =>
+      item[ActivityConstants.ADJUSTMENT_TYPE].value === ValueConstants.ACTUAL
+    );
+    totalActualCommitments = this._context.currencyRatesManager.convertFundingDetailsToCurrency(fdActualCommitments,
+      this._currency);
+    const fdActualDisbursements = (fd[ActivityConstants.DISBURSEMENTS] || []).filter(item =>
+      item[ActivityConstants.ADJUSTMENT_TYPE].value === ValueConstants.ACTUAL
+    );
+    totalActualDisbursements = this._context.currencyRatesManager.convertFundingDetailsToCurrency(fdActualDisbursements,
+      this._currency);
+    const value = totalActualCommitments - totalActualDisbursements;
+    table.getCell(group.length + 1, !this._rtl ? 0 : 3).addContent(this.createSimpleLabel('Undisbursed Balance', null,
+      { dontAddToDocument: true }));
+    table.getCell(group.length + 1, !this._rtl ? 3 : 0)
+      .addContent(this.createSimpleLabel(!this._rtl ? `${value} ${currency}` :
+        `${currency} ${value}`, null,
+      { dontAddToDocument: true }));
+    if (!this._rtl) {
+      table.getRow(group.length + 1).mergeCells(0, 2);
+    } else {
+      table.getRow(group.length + 1).mergeCells(0, 2);
+    }
+    table.getRow(group.length + 1).getCell(0).CellProperties.setShading({ fill: COLOR_EVEN });
+    table.getRow(group.length + 1).getCell(1).CellProperties.setShading({ fill: COLOR_EVEN });
+    table.getRow(group.length + 1).getCell(2).CellProperties.setShading({ fill: COLOR_EVEN });
+  }
+
+  buildFundingDetailItemRow(table, g, currency, i, adjType, showDisasterResponse, trnType, showFixedExRate, cols) {
+    table.getCell(i, !this._rtl ? 0 : 4).addContent(this.createSimpleLabel(adjType.value, null,
+      { dontAddToDocument: true }));
+
+    table.getCell(i, !this._rtl ? 1 : 3).addContent(this.createSimpleLabel(this.getDisasterResponse(g,
+      showDisasterResponse, trnType), null, { dontAddToDocument: true }));
+
+    table.getCell(i, !this._rtl ? 2 : 2).addContent(this.createSimpleLabel(
+      this._context.DateUtils.createFormattedDate(g[ActivityConstants.TRANSACTION_DATE]),
+      null, { dontAddToDocument: true }));
+
+    const convertedAmount = this._context.currencyRatesManager
+      .convertTransactionAmountToCurrency(g, currency);
+    table.getCell(i, !this._rtl ? 3 : 1).addContent(this.createSimpleLabel(
+      !this._rtl ? `${this._context.rawNumberToFormattedString(convertedAmount)} ${currency}` :
+        `${currency} ${this._context.rawNumberToFormattedString(convertedAmount)}`,
+      null, { dontAddToDocument: true }));
+
+    table.getCell(i, !this._rtl ? 4 : 0).addContent(this.createSimpleLabel(
+      showFixedExRate ? g[ActivityConstants.FIXED_EXCHANGE_RATE] : '',
+      null, { dontAddToDocument: true }));
+
+    if (i % 2 === 0) {
+      for (let c = 0; c < cols; c++) {
+        table.getRow(i).getCell(c).CellProperties.setShading({ fill: COLOR_SUBTOTAL });
+      }
+    }
+  }
+
+  buildSubTotalRow(table, group, currency, measure) {
+    const subtotal = this._context.rawNumberToFormattedString(this._context.currencyRatesManager
+      .convertFundingDetailsToCurrency(group, currency));
+    table.getCell(group.length, !this._rtl ? 0 : 3)
+      .addContent(this.createSimpleLabel(`Subtotal ${measure}`, null,
+        { dontAddToDocument: true }));
+    table.getCell(group.length, !this._rtl ? 3 : 0)
+      .addContent(this.createSimpleLabel(!this._rtl ? `${subtotal} ${currency}` :
+        `${currency} ${subtotal}`, null,
+      { dontAddToDocument: true }));
+    if (!this._rtl) {
+      table.getRow(group.length).mergeCells(0, 2);
+    } else {
+      table.getRow(group.length).mergeCells(0, 2);
+    }
+    table.getRow(group.length).getCell(0).CellProperties.setShading({ fill: COLOR_EVEN });
+    table.getRow(group.length).getCell(1).CellProperties.setShading({ fill: COLOR_EVEN });
+    table.getRow(group.length).getCell(2).CellProperties.setShading({ fill: COLOR_EVEN });
   }
 
   getDisasterResponse(g, showDisasterResponse, trnType) {
