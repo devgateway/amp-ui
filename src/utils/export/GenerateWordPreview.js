@@ -89,9 +89,7 @@ export default class GenerateWordPreview {
     packer.toBlob(document)
     // eslint-disable-next-line promise/always-return
       .then(blob => {
-        console.log(blob);
         FileSaver.saveAs(blob, 'activity-preview.docx');
-        console.log('Document created successfully');
       });
   }
 
