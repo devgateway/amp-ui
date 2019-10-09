@@ -6,7 +6,6 @@ import Section from './Section.jsx';
 import APField from '../components/APField.jsx';
 import styles from '../ActivityPreview.css';
 import ResourceConstants from '../../../utils/constants/ResourceConstants';
-import ActivityConstants from '../../../modules/util/ActivityConstants';
 import Loading from '../../common/Loading.jsx';
 import ActionIcon from '../../common/ActionIcon.jsx';
 import docSyles from './APDocument.css';

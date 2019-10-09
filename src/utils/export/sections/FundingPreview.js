@@ -1,4 +1,3 @@
-import React from 'react';
 import PreviewSection from './PreviewSection';
 import * as ExportConstants from '../ExportConstants';
 import ActivityConstants from '../../../modules/util/ActivityConstants';
@@ -33,6 +32,7 @@ export default class FundingPreview extends PreviewSection {
             `${[ActivityConstants.FUNDINGS]}~${[ActivityConstants.AGREEMENT]}~${[ActivityConstants.AGREEMENT_CODE]}`,
             `${[ActivityConstants.FUNDINGS]}~${[ActivityConstants.DONOR_OBJECTIVE]}`,
             `${[ActivityConstants.FUNDINGS]}~${[ActivityConstants.CONDITIONS]}`];
+          // eslint-disable-next-line array-callback-return
           fieldPaths.map(i => {
             const field = this._section.prototype.buildSimpleField(i, true, null, false, funding, null,
               { stringOnly: true, context: this._context, props: this._props });
@@ -63,7 +63,8 @@ export default class FundingPreview extends PreviewSection {
               });
             }
           });
-          groups.map(([trnType, group], idx) => {
+          // eslint-disable-next-line array-callback-return
+          groups.map(([trnType, group]) => {
             const adjType = group[0][ActivityConstants.ADJUSTMENT_TYPE];
             const measure = `${adjType.value} ${trnType}`;
             const trnPath = `${ActivityConstants.FUNDINGS}~${trnType}`;

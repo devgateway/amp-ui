@@ -44,10 +44,6 @@ export default class GenerateWordPreview {
   static _gwp = new GenerateWordPreview();
 
   static generateDocument(props, context, rtl) {
-    console.error(props);
-    console.error(context);
-    console.error(rtl);
-
     _props = props;
     _context = context;
     _rtl = rtl;

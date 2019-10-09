@@ -18,6 +18,7 @@ export default class DocumentsPreview extends PreviewSection {
         return r;
       })
         .filter(r => r);
+      // eslint-disable-next-line array-callback-return
       uuids.map(uuid => {
         const name = this._section.prototype.buildSimpleField(ResourceConstants.TITLE, true,
           null, false, uuid, this._context.resourceReducer.resourceFieldsManager, {

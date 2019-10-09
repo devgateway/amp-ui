@@ -10,6 +10,7 @@ export default class LocationPreview extends PreviewSection {
 
       // Top content.
       [ActivityConstants.IMPLEMENTATION_LEVEL, ActivityConstants.IMPLEMENTATION_LOCATION]
+      // eslint-disable-next-line array-callback-return
         .map(fp => {
           const field = this._section.prototype.buildSimpleField(fp, true, new Set([0]), false,
             null, null, { stringOnly: true, context: this._context, props: this._props });

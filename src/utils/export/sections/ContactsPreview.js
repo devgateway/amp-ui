@@ -13,10 +13,12 @@ export default class ContactsPreview extends PreviewSection {
       const hydratedContactsByIds = this.getHydratedContacts();
       FieldPathConstants.ACTIVITY_CONTACT_PATHS
         .filter(acp => this._context.activityFieldsManager.isFieldPathEnabled(acp))
+        // eslint-disable-next-line array-callback-return
         .map(acp => {
           const title = this._context.activityFieldsManager.getFieldLabelTranslation(acp);
           this.createSimpleLabel(title, 'Heading3');
           let hasData = false;
+          // eslint-disable-next-line array-callback-return
           (this._props.activity[acp] || []).map(c => {
             const hydratedC = hydratedContactsByIds[c[ActivityConstants.CONTACT].id];
             if (hydratedC) {

@@ -29,6 +29,7 @@ export default class IdentificationPreview extends PreviewSection {
         fieldPaths.push(ActivityConstants.PROJECT_CODE);
       }
       fieldPaths.push(...[ActivityConstants.FINANCIAL_INSTRUMENT, ActivityConstants.IATI_IDENTIFIER]);
+      // eslint-disable-next-line array-callback-return
       fieldPaths.map(i => {
         const field = this._section.prototype.buildSimpleField(i, true, null, false, null, null,
           { stringOnly: true, context: this._context, props: this._props });

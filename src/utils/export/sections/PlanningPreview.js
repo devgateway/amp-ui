@@ -20,6 +20,7 @@ export default class PlanningPreview extends PreviewSection {
         ActivityConstants.PROPOSED_START_DATE, ActivityConstants.ACTUAL_APPROVAL_DATE,
         ActivityConstants.PROPOSED_COMPLETION_DATE, ActivityConstants.PROPOSED_APPROVAL_DATE]);
 
+      // eslint-disable-next-line array-callback-return
       content = content.concat(fieldPaths.map(fieldPath => {
         const field = this._section.prototype.buildSimpleField(fieldPath, showIfNotAvailable.has(fieldPath), null,
           false, null, null, { stringOnly: true, context: this._context, props: this._props });

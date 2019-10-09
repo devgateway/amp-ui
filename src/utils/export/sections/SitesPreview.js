@@ -10,6 +10,7 @@ export default class SitesPreview extends PreviewSection {
       if (this._props.activity[ActivityConstants.STRUCTURES]) {
         this._props.activity[ActivityConstants.STRUCTURES].sort((a, b) =>
           (a[ActivityConstants.STRUCTURES_TITLE] > b[ActivityConstants.STRUCTURES_TITLE]))
+        // eslint-disable-next-line array-callback-return
           .map(s => {
             // eslint-disable-next-line max-len
             const title = this._section.prototype.buildSimpleField(`${[ActivityConstants.STRUCTURES]}~${[ActivityConstants.STRUCTURES_TITLE]}`,
