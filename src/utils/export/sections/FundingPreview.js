@@ -101,7 +101,8 @@ export default class FundingPreview extends PreviewSection {
               const convertedAmount = this._context.currencyRatesManager
                 .convertTransactionAmountToCurrency(g, currency);
               table.getCell(i, !this._rtl ? 3 : 1).addContent(this.createSimpleLabel(
-                `${this._context.rawNumberToFormattedString(convertedAmount)} ${currency}`,
+                !this._rtl ? `${this._context.rawNumberToFormattedString(convertedAmount)} ${currency}` :
+                  `${currency} ${this._context.rawNumberToFormattedString(convertedAmount)}`,
                 null, { dontAddToDocument: true }));
 
               table.getCell(i, !this._rtl ? 4 : 0).addContent(this.createSimpleLabel(
@@ -114,12 +115,18 @@ export default class FundingPreview extends PreviewSection {
                 }
               }
             });
-            const subtotal = this._context.currencyRatesManager.convertFundingDetailsToCurrency(group, currency);
-            table.getCell(group.length, 0).addContent(this.createSimpleLabel(`Subtotal ${measure}`, null,
+            const subtotal = this._context.rawNumberToFormattedString(this._context.currencyRatesManager
+              .convertFundingDetailsToCurrency(group, currency));
+            table.getCell(group.length, !this._rtl ? 0 : 0)
+              .addContent(this.createSimpleLabel(`Subtotal ${measure}`, null,
+                { dontAddToDocument: true }));
+            table.getCell(group.length, !this._rtl ? 3 : 3)
+              .addContent(this.createSimpleLabel(!this._rtl ? `${subtotal} ${currency}` :
+                `${currency} ${subtotal}`, null,
               { dontAddToDocument: true }));
-            table.getCell(group.length, 3).addContent(this.createSimpleLabel(`${subtotal} ${currency}`, null,
-              { dontAddToDocument: true }));
-            table.getRow(group.length).mergeCells(0, 2);
+            if (!this._rtl) {
+              table.getRow(group.length).mergeCells(0, 2);
+            }
             // table.getRow(group.length).mergeCells(3, 4);
             table.getRow(group.length).getCell(0).CellProperties.setShading({ fill: COLOR_EVEN });
             table.getRow(group.length).getCell(1).CellProperties.setShading({ fill: COLOR_EVEN });
