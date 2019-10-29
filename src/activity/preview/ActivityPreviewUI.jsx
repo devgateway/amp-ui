@@ -38,7 +38,8 @@ export default class ActivityPreviewUI extends Component {
     getActivityContactIds: PropTypes.func.isRequired,
     getAmountsInThousandsMessage: PropTypes.func.isRequired,
     IconFormatter: PropTypes.func.isRequired,
-    APDocumentPage: PropTypes.func.isRequired
+    APDocumentPage: PropTypes.func.isRequired,
+    globalSettings: PropTypes.object.isRequired
   };
 
   static propTypes = {
