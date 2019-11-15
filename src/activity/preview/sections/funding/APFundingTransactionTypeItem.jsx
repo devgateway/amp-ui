@@ -15,6 +15,13 @@ let logger = null;
  * @author Gabriel Inchauspe
  */
 export default class APFundingTransactionTypeItem extends Component {
+  static propTypes = {
+    trnType: PropTypes.string.isRequired,
+    fundingDetails: PropTypes.array.isRequired,
+    buildSimpleField: PropTypes.func.isRequired,
+    DateUtils: PropTypes.func.isRequired
+  };
+
   static contextTypes = {
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
@@ -23,14 +30,6 @@ export default class APFundingTransactionTypeItem extends Component {
     activityContext: PropTypes.shape({
       effectiveCurrency: PropTypes.string.isRequired
     }).isRequired,
-  };
-
-  static propTypes = {
-    trnType: PropTypes.string.isRequired,
-    fundingDetails: PropTypes.array.isRequired,
-    buildSimpleField: PropTypes.func.isRequired,
-    DateUtils: PropTypes.func.isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
@@ -66,7 +65,7 @@ export default class APFundingTransactionTypeItem extends Component {
   }
 
   _drawDetail() {
-    const { fundingDetails, trnType, DateUtils, rawNumberToFormattedString } = this.props;
+    const { fundingDetails, trnType, DateUtils } = this.props;
     return (<table className={styles.funding_table}>
       {fundingDetails.map(item =>
         (<APFundingItem
@@ -74,17 +73,13 @@ export default class APFundingTransactionTypeItem extends Component {
           showDisasterResponse={this._showDisasterResponse} showPledge={this._showPledge}
           showFixedExchangeRate={this._showFixedExRate}
           buildSimpleField={this.props.buildSimpleField}
-
-          DateUtils={DateUtils}
-          rawNumberToFormattedString={rawNumberToFormattedString}
-
-        />))
+          DateUtils={DateUtils} />))
       }
     </table>);
   }
 
   _drawSubTotalFooter() {
-    const { fundingDetails, rawNumberToFormattedString } = this.props;
+    const { fundingDetails } = this.props;
     const { translate } = this.context;
     const subtotal = this.context.currencyRatesManager.convertFundingDetailsToCurrency(fundingDetails, this._currency);
     const labelTrn = translate(`Subtotal ${this._measure}`).toUpperCase();
@@ -94,10 +89,7 @@ export default class APFundingTransactionTypeItem extends Component {
           value={subtotal}
           label={labelTrn}
           currency={translate(this._currency)}
-          key={this._key}
-          rawNumberToFormattedString={rawNumberToFormattedString}
-
-        />
+          key={this._key} />
       </div>);
   }
 

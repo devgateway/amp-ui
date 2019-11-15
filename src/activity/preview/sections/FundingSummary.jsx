@@ -74,6 +74,7 @@ class FundingSummary extends Component {
       measuresTotals[ub] = this.props.activityFundingTotals.getTotals(ub, {});
     }
     // Other measures: "Total MTEF Projections".
+
     if (FeatureManager.isFMSettingEnabled(FeatureManagerConstants.MTEF_PROJECTIONS)) {
       measuresTotals[ValueConstants.MTEF_PROJECTIONS] = this.props.activityFundingTotals.getMTEFTotal();
     }

@@ -40,9 +40,7 @@ const Section = (ComposedSection, params) => class extends Component {
     Logger: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
-    getAmountsInThousandsMessage: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
       activityStatus: PropTypes.string,
       effectiveCurrency: PropTypes.string.isRequired,

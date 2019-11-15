@@ -8,22 +8,6 @@ let logger = null;
  * @author Nadejda Mandrescu
  */
 export default class APField extends Component {
-  static propTypes = {
-    title: PropTypes.string,
-    value: PropTypes.any,
-    inline: PropTypes.bool,
-    useInnerHTML: PropTypes.bool,
-    fieldClass: PropTypes.string,
-    fieldNameClass: PropTypes.string,
-    fieldValueClass: PropTypes.string,
-    separator: PropTypes.bool,
-  };
-
-  static contextTypes = {
-    Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func,
-  };
-
   /**
    * Gets an instance of Simple Field
    * @param trnLabel the label to translate and use as a title. This label is also used as the component key.
@@ -40,7 +24,20 @@ export default class APField extends Component {
       key={trnLabel} title={translate(trnLabel)} value={value} inline={inline} separator={separator}
       fieldNameClass={nameClass} fieldValueClass={valueClass} />);
   }
-
+  static propTypes = {
+    title: PropTypes.string,
+    value: PropTypes.any,
+    inline: PropTypes.bool,
+    useInnerHTML: PropTypes.bool,
+    fieldClass: PropTypes.string,
+    fieldNameClass: PropTypes.string,
+    fieldValueClass: PropTypes.string,
+    separator: PropTypes.bool,
+  };
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func,
+  };
   constructor(props, context) {
     super(props, context);
     const { Logger } = this.context;
