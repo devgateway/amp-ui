@@ -5,7 +5,7 @@ import ActivityConstants from '../../../modules/util/ActivityConstants';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 import Section from './Section.jsx';
 import CurrencyRatesManager from '../../../modules/util/CurrencyRatesManager';
-import FieldsManager from '../../../modules/field/FieldsManager';
+import NumberUtils from '../../../utils/NumberUtils';
 
 let logger = null;
 
@@ -16,23 +16,19 @@ let logger = null;
 const APProjectCost = (fieldName) => class extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
-    DateUtils: PropTypes.func.isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired
+    DateUtils: PropTypes.func.isRequired
   };
-
   static contextTypes = {
-    activityFundingTotals: PropTypes.object.isRequired, // PropTypes.instanceOf(ActivityFundingTotals).isRequired,
-    activityFieldsManager: PropTypes.instanceOf(FieldsManager),
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     Logger: PropTypes.func.isRequired,
+    activityFieldsManager: PropTypes.object.isRequired,
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
       effectiveCurrency: PropTypes.string.isRequired
-    }).isRequired,
-  };
-
+    }).isRequired
+  }
   constructor(props, context) {
-    super(props, context);
+    super(props);
     const { Logger } = context;
     logger = new Logger('AP project cost');
     logger.debug('constructor');
@@ -49,7 +45,7 @@ const APProjectCost = (fieldName) => class extends Component {
 
   render() {
     let content = null;
-    const { rawNumberToFormattedString, DateUtils } = this.props;
+    const { DateUtils } = this.props;
     const { translate, activityContext } = this.context;
     if (this.context.activityFieldsManager.isFieldPathEnabled(fieldName) === true) {
       const currency = activityContext.effectiveCurrency;
@@ -62,7 +58,7 @@ const APProjectCost = (fieldName) => class extends Component {
         ppcAsFunding[ActivityConstants.TRANSACTION_AMOUNT] = ppcAsFunding[ActivityConstants.AMOUNT];
         if (ppcAsFunding[ActivityConstants.CURRENCY] && ppcAsFunding[ActivityConstants.TRANSACTION_AMOUNT]) {
           amount = this.context.currencyRatesManager.convertTransactionAmountToCurrency(ppcAsFunding, currency);
-          amount = rawNumberToFormattedString(amount);
+          amount = NumberUtils.rawNumberToFormattedString(amount);
         }
       }
       if (showPPC) {

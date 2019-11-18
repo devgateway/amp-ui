@@ -13,6 +13,10 @@ import stylesMTEF from './APFundingMTEF.css';
 let logger = null;
 
 class APFundingMTEFSection extends Component {
+  static propTypes = {
+    funding: PropTypes.object.isRequired,
+    DateUtils: PropTypes.func.isRequired
+  };
   static contextTypes = {
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     Logger: PropTypes.func.isRequired,
@@ -22,23 +26,16 @@ class APFundingMTEFSection extends Component {
     }).isRequired,
   };
 
-  static propTypes = {
-    funding: PropTypes.object.isRequired,
-    DateUtils: PropTypes.func.isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired,
-  };
-
   constructor(props, context) {
     super(props, context);
     const { Logger } = this.context;
     logger = new Logger('AP Funding MTEF section');
   }
   drawTable(mtef, currency) {
-    const { rawNumberToFormattedString, DateUtils } = this.props;
+    const { DateUtils } = this.props;
     return (<table className={styles.funding_table}>
       {<APFundingMTEFItem
         item={mtef} key={UIUtils.numberRandom()} wsCurrency={currency}
-        rawNumberToFormattedString={rawNumberToFormattedString}
         DateUtils={DateUtils}
       />}
     </table>);
@@ -47,7 +44,6 @@ class APFundingMTEFSection extends Component {
   drawSubTotal(funding, currency, type) {
     const { translate } = this.context;
     let subtotal = 0;
-    const { rawNumberToFormattedString } = this.props;
     funding[ActivityConstants.MTEF_PROJECTIONS].forEach(mtef => {
       if (mtef[ActivityConstants.PROJECTION].value === type) {
         subtotal += this.context.currencyRatesManager.convertAmountToCurrency(mtef[ActivityConstants.AMOUNT],
@@ -59,10 +55,7 @@ class APFundingMTEFSection extends Component {
         value={subtotal}
         label={`${translate(`Subtotal MTEF Projections ${type}`)}`.toUpperCase()}
         currency={currency}
-        key={Math.random()}
-        rawNumberToFormattedString={rawNumberToFormattedString}
-
-      />
+        key={Math.random()} />
     </div>);
   }
 

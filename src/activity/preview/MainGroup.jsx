@@ -25,8 +25,6 @@ let logger = null;
 export default class MainGroup extends Component {
   static propTypes = {
     APDocumentPage: PropTypes.any.isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired,
-    getAmountsInThousandsMessage: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
     rtl: PropTypes.bool,
   };
@@ -44,10 +42,7 @@ export default class MainGroup extends Component {
 
   render() {
     // TODO (iteration 2+) hide sections that are not directly connected to a single field (e.g. planning, program)
-    const {
-      APDocumentPage, rawNumberToFormattedString, getAmountsInThousandsMessage,
-      getActivityContactIds, rtl
-    } = this.props;
+    const { APDocumentPage, getActivityContactIds, rtl } = this.props;
     return (<div className={rtl ? styles.main_group_container_rtl : styles.main_group_container}>
       <APIdentification fmPath={FeatureManagerConstants.ACTIVITY_IDENTIFICATION} />
       <APInternalIds
@@ -70,14 +65,11 @@ export default class MainGroup extends Component {
         fieldValueClass={styles.box_field_value} />
       <APFundingSection
         fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value}
-        sectionPath={ActivityConstants.FUNDINGS} rawNumberToFormattedString={rawNumberToFormattedString}
-        getAmountsInThousandsMessage={getAmountsInThousandsMessage} />
+        sectionPath={ActivityConstants.FUNDINGS} />
       <APRelatedOrganizations
         fieldNameClass={styles.sector_title} fieldValueClass={''}
         fmPath={FeatureManagerConstants.ACTIVITY_ORGANIZATIONS}
-        percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value}
-        getAmountsInThousandsMessage={getAmountsInThousandsMessage}
-        rawNumberToFormattedString={rawNumberToFormattedString} />
+        percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value} />
       <APIssues sectionPath={ActivityConstants.ISSUES} />
       <APContact
         fieldNameClass={styles.hidden} fieldValueClass={styles.box_field_value_tight}

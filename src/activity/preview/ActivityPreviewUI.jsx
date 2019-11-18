@@ -23,25 +23,6 @@ export default class ActivityPreviewUI extends Component {
   /* Notice we dont implement getChildContext() and childContextTypes here because thats defined in Offline's
   * ActivityPreview.jsx and thats enough to go down to any depth level here. */
 
-  static contextTypes = {
-    resourceReducer: PropTypes.object.isRequired,
-    ActivityFundingTotals: PropTypes.object,
-    currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
-    activityFieldsManager: PropTypes.instanceOf(FieldsManager),
-    activityFundingTotals: PropTypes.any,
-    contactFieldsManager: PropTypes.instanceOf(FieldsManager),
-    contactsByIds: PropTypes.object,
-    Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
-    DateUtils: PropTypes.func.isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired,
-    getActivityContactIds: PropTypes.func.isRequired,
-    getAmountsInThousandsMessage: PropTypes.func.isRequired,
-    IconFormatter: PropTypes.func.isRequired,
-    APDocumentPage: PropTypes.func.isRequired,
-    globalSettings: PropTypes.object.isRequired
-  };
-
   static propTypes = {
     activity: PropTypes.object,
     activityContext: PropTypes.shape({
@@ -58,6 +39,23 @@ export default class ActivityPreviewUI extends Component {
         })
       })
     }).isRequired,
+  };
+
+  static contextTypes = {
+    resourceReducer: PropTypes.object.isRequired,
+    ActivityFundingTotals: PropTypes.object,
+    currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
+    activityFieldsManager: PropTypes.instanceOf(FieldsManager),
+    activityFundingTotals: PropTypes.any,
+    contactFieldsManager: PropTypes.instanceOf(FieldsManager),
+    contactsByIds: PropTypes.object,
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
+    DateUtils: PropTypes.func.isRequired,
+    getActivityContactIds: PropTypes.func.isRequired,
+    IconFormatter: PropTypes.func.isRequired,
+    APDocumentPage: PropTypes.func.isRequired,
+    globalSettings: PropTypes.object.isRequired
   };
 
   static childContextTypes = {
@@ -98,10 +96,7 @@ export default class ActivityPreviewUI extends Component {
     const { activity, activityContext } = this.props;
 
     const { rtl } = this.state;
-    const {
-      translate, rawNumberToFormattedString, getActivityContactIds, getAmountsInThousandsMessage, IconFormatter,
-      APDocumentPage, activityFieldsManager
-    } = this.context;
+    const { translate, getActivityContactIds, IconFormatter, APDocumentPage, activityFieldsManager } = this.context;
 
     const categories = ActivityConstants.AP_SECTION_IDS.map((category) => {
       if (category.sectionPath
@@ -165,8 +160,6 @@ export default class ActivityPreviewUI extends Component {
                   className={rtl ? [styles.float_right].join(' ') : null}>
                   <MainGroup
                     APDocumentPage={APDocumentPage}
-                    rawNumberToFormattedString={rawNumberToFormattedString}
-                    getAmountsInThousandsMessage={getAmountsInThousandsMessage}
                     getActivityContactIds={getActivityContactIds} rtl={rtl} />
                 </Col>
                 <Col

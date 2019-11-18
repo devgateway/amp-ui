@@ -28,6 +28,8 @@ import FmManagerHelper from './utils/helpers/FmManagerHelper';
 import CommonPossibleValuesHelper from './utils/helpers/CommonPossibleValuesHelper';
 import { ApprovalStatus, AllApprovalStatuses } from './utils/constants/ApprovalStatus';
 import CommonActivityHelper from './utils/helpers/CommonActivityHelper';
+import GlobalSettingsConstants from './utils/constants/GlobalSettingsConstants';
+import NumberUtils from './utils/NumberUtils';
 
 export {
   Constants,
@@ -60,7 +62,9 @@ export {
   CommonPossibleValuesHelper,
   ApprovalStatus,
   AllApprovalStatuses,
-  CommonActivityHelper
+  CommonActivityHelper,
+  GlobalSettingsConstants,
+  NumberUtils
 };
 
 export default {
@@ -94,5 +98,7 @@ export default {
   CommonPossibleValuesHelper,
   ApprovalStatus,
   AllApprovalStatuses,
-  CommonActivityHelper
+  CommonActivityHelper,
+  GlobalSettingsConstants,
+  NumberUtils
 };
