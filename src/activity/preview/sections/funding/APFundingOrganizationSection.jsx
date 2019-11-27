@@ -21,8 +21,7 @@ class APFundingOrganizationSection extends Component {
   static propTypes = {
     funding: PropTypes.object.isRequired,
     buildSimpleField: PropTypes.func.isRequired,
-    DateUtils: PropTypes.func.isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired
+    DateUtils: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -30,7 +29,7 @@ class APFundingOrganizationSection extends Component {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
-      workspaceCurrency: PropTypes.string.isRequired
+      effectiveCurrency: PropTypes.string.isRequired
     }).isRequired,
   };
 
@@ -39,7 +38,7 @@ class APFundingOrganizationSection extends Component {
     const { Logger, activityContext } = this.context;
     logger = new Logger('AP funding organization section');
     logger.debug('constructor');
-    this._currency = activityContext.workspaceCurrency;
+    this._currency = activityContext.effectiveCurrency;
   }
 
   _buildDonorInfo() {
@@ -78,16 +77,16 @@ class APFundingOrganizationSection extends Component {
   }
 
   _buildMTEFDetailSection() {
-    const { rawNumberToFormattedString, DateUtils } = this.props;
+    const { DateUtils } = this.props;
     return (<APFundingMTEFSection
       funding={this.props.funding}
-      DateUtils={DateUtils} rawNumberToFormattedString={rawNumberToFormattedString}
+      DateUtils={DateUtils}
     />);
   }
 
   _buildFundingDetailSection() {
     // Group the list of funding details by adjustment_type and transaction_type.
-    const { rawNumberToFormattedString, DateUtils } = this.props;
+    const { DateUtils } = this.props;
     const groups = [];
     FieldPathConstants.FUNDING_TRANSACTION_TYPES.forEach(trnType => {
       const fds = this.props.funding[trnType];
@@ -116,13 +115,11 @@ class APFundingOrganizationSection extends Component {
         key={idx}
         buildSimpleField={this.props.buildSimpleField}
         DateUtils={DateUtils}
-
-        rawNumberToFormattedString={rawNumberToFormattedString} />)
+      />)
     );
   }
 
   _buildUndisbursedBalanceSection() {
-    const { rawNumberToFormattedString } = this.props;
     const { translate } = this.context;
     let totalActualDisbursements = 0;
     let totalActualCommitments = 0;
@@ -148,8 +145,6 @@ class APFundingOrganizationSection extends Component {
         value={totalActualCommitments - totalActualDisbursements}
         currency={translate(this._currency)}
         key={'undisbursed-balance-key'}
-        rawNumberToFormattedString={rawNumberToFormattedString}
-
       />
     </div>);
   }

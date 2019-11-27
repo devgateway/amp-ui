@@ -23,9 +23,14 @@ class AdditionalInfo extends Component {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
-      [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
-      [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
-      workspaceLeadData: PropTypes.string
+      teamMember: PropTypes.shape({
+        workspace: PropTypes.shape({
+          [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
+          [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
+          [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired
+        })
+      }),
+      workSpaceLeadData: PropTypes.string
     }).isRequired,
   };
 
@@ -38,21 +43,23 @@ class AdditionalInfo extends Component {
 
   _getWorkspaceLeadData() {
     const { activityContext } = this.props;
-    if (!activityContext.workspaceLeadData) {
+    if (!activityContext.workSpaceLeadData) {
       return null;
     }
-    return activityContext.workspaceLeadData;
+    return activityContext.workSpaceLeadData;
   }
 
   _buildAdditionalInfo() {
-    const { activityFieldsManager, buildSimpleField, fieldNameClass, fieldValueClass, activity, translate,
-      activityContext } = this.props;
+    const {
+      activityFieldsManager, buildSimpleField, fieldNameClass, fieldValueClass, activity, translate,
+      activityContext
+    } = this.props;
     const additionalInfo = [];
     const teamName = activityFieldsManager.getValue(activity, ActivityConstants.TEAM,
       PossibleValuesManager.getOptionTranslation);
     // no need to export repeating translation for the access type through workspaces EP
-    const accessType = translate(activityContext[WorkspaceConstants.ACCESS_TYPE]);
-    const isComputedTeam = activityContext[WorkspaceConstants.IS_COMPUTED] === true ?
+    const accessType = translate(activityContext.teamMember.workspace[WorkspaceConstants.ACCESS_TYPE]);
+    const isComputedTeam = activityContext.teamMember.workspace[WorkspaceConstants.IS_COMPUTED] === true ?
       translate('Yes') : translate('No');
 
     // TODO: the right value as defined in AMP-25403 will be shown after AMP-26295.

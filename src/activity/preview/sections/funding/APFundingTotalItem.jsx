@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import styles from './APFundingTransactionTypeItem.css';
+import NumberUtils from '../../../../utils/NumberUtils';
 
 
 let logger = null;
@@ -13,8 +14,7 @@ class APFundingTotalItem extends Component {
     label: PropTypes.string.isRequired,
     currency: PropTypes.string,
     dontFormatNumber: PropTypes.bool,
-    isPercentage: PropTypes.bool,
-    rawNumberToFormattedString: PropTypes.func.isRequired,
+    isPercentage: PropTypes.bool
   };
 
   static contextTypes = {
@@ -30,12 +30,11 @@ class APFundingTotalItem extends Component {
   }
 
   render() {
-    const { rawNumberToFormattedString } = this.props;
     logger.debug('render');
     // Note: dont translate the label because it might be a phrase composed by individually translated words.
     let val = (this.props.dontFormatNumber
       ? this.props.value
-      : rawNumberToFormattedString(this.props.value));
+      : NumberUtils.rawNumberToFormattedString(this.props.value));
     val = (this.props.isPercentage === true ? `${val}%` : val);
     return (<div className={styles.subtotal_footer}>
       <div className={styles.subtotal_footer_legend}>
