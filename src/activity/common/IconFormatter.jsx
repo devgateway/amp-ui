@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Constants from '../../utils/Constants';
+import ActivityLinks from '../../utils/helpers/ActivityLinks';
 import styles from './IconFormatter.css';
 import view from '../../assets/images/view.svg';
 import edit from '../../assets/images/edit.svg';
@@ -24,17 +25,27 @@ export default class IconFormatter extends Component {
   render() {
     const { translate } = this.props;
     // TODO: These links could be dispatch to some action too if needed.
-    const editUrl = `${Constants.ACTIVITY_EDIT_URL}/${this.props.id}`;
-    const viewUrl = `${Constants.ACTIVITY_PREVIEW_URL}/${this.props.id}`;
-    const editLink = (<Link to={editUrl} title={translate('clickToEditActivity')}>
-      <img src={edit} className={styles.edit_icon} alt="edit" />
-    </Link>);
-    const validateLink = (<Link to={editUrl} title={translate('clickToValidateActivity')}>
-      <img src={check} className={styles.validate_icon} alt="validate" />
-    </Link>);
+    const editUrl = `${ActivityLinks.getEditLink().url}/${this.props.id}`;
+    const viewUrl = `${ActivityLinks.getViewLink().url}/${this.props.id}`;
+    const editImg = <img src={edit} className={styles.edit_icon} alt="edit" />;
+    const validateImg = <img src={check} className={styles.validate_icon} alt="validate" />;
+    let editLink;
+    if (ActivityLinks.getEditLink().isExternal) {
+      editLink = (<a href={editUrl} title={translate('clickToEditActivity')}>{editImg}</a>);
+    } else {
+      editLink = (<Link to={editUrl} title={translate('clickToEditActivity')}>{editImg}</Link>);
+    }
+
+    let validateLink;
+    if (ActivityLinks.getEditLink().isExternal) {
+      validateLink = (<a href={editUrl} title={translate('clickToValidateActivity')}>{validateImg}</a>);
+    } else {
+      validateLink = (<Link to={editUrl} title={translate('clickToValidateActivity')}>{validateImg}</Link>);
+    }
     const viewLink = (<Link to={viewUrl} title={translate('clickToPreviewActivity')}>
       <img src={view} className={styles.view_icon} alt="view" />
     </Link>);
+
     let showEditValidate;
     let showView;
     if (this.props.edit) {

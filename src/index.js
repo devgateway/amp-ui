@@ -31,6 +31,7 @@ import CommonActivityHelper from './utils/helpers/CommonActivityHelper';
 import GlobalSettingsConstants from './utils/constants/GlobalSettingsConstants';
 import NumberUtils from './utils/NumberUtils';
 import IconFormatter from './activity/common/IconFormatter.jsx';
+import ActivityLinks from './utils/helpers/ActivityLinks';
 
 export {
   Constants,
@@ -66,7 +67,8 @@ export {
   CommonActivityHelper,
   GlobalSettingsConstants,
   NumberUtils,
-  IconFormatter
+  IconFormatter,
+  ActivityLinks
 };
 
 export default {
@@ -103,5 +105,6 @@ export default {
   CommonActivityHelper,
   GlobalSettingsConstants,
   NumberUtils,
-  IconFormatter
+  IconFormatter,
+  ActivityLinks
 };
