@@ -30,6 +30,8 @@ import { ApprovalStatus, AllApprovalStatuses } from './utils/constants/ApprovalS
 import CommonActivityHelper from './utils/helpers/CommonActivityHelper';
 import GlobalSettingsConstants from './utils/constants/GlobalSettingsConstants';
 import NumberUtils from './utils/NumberUtils';
+import IconFormatter from './activity/common/IconFormatter.jsx';
+import ActivityLinks from './utils/helpers/ActivityLinks';
 
 export {
   Constants,
@@ -64,7 +66,9 @@ export {
   AllApprovalStatuses,
   CommonActivityHelper,
   GlobalSettingsConstants,
-  NumberUtils
+  NumberUtils,
+  IconFormatter,
+  ActivityLinks
 };
 
 export default {
@@ -100,5 +104,7 @@ export default {
   AllApprovalStatuses,
   CommonActivityHelper,
   GlobalSettingsConstants,
-  NumberUtils
+  NumberUtils,
+  IconFormatter,
+  ActivityLinks
 };
