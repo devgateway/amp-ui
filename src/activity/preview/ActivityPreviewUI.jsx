@@ -43,7 +43,7 @@ export default class ActivityPreviewUI extends Component {
   };
 
   static contextTypes = {
-    resourceReducer: PropTypes.object.isRequired,
+    //resourceReducer: PropTypes.object.isRequired,
     ActivityFundingTotals: PropTypes.object,
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     activityFieldsManager: PropTypes.instanceOf(FieldsManager),
@@ -54,14 +54,12 @@ export default class ActivityPreviewUI extends Component {
     translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
-    IconFormatter: PropTypes.func.isRequired,
-    globalSettings: PropTypes.object.isRequired,
-    APDocumentPage: PropTypes.any.isRequired,
+    globalSettings: PropTypes.object.isRequired/*,
+    APDocumentPage: PropTypes.any.isRequired,*/
   };
 
   static childContextTypes = {
     activity: PropTypes.object,
-    calendar: PropTypes.object,
     activityContext: PropTypes.shape({
       activityStatus: PropTypes.string,
       teamMember: PropTypes.shape({
@@ -73,9 +71,7 @@ export default class ActivityPreviewUI extends Component {
           [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
           id: PropTypes.number.isRequired
         })
-      }),
-      workspaceCurrency: PropTypes.string,
-      calendar: PropTypes.object,
+      })
     })
   };
 
@@ -162,7 +158,6 @@ export default class ActivityPreviewUI extends Component {
                   md={9}
                   className={rtl ? [styles.float_right].join(' ') : null}>
                   <MainGroup
-                    APDocumentPage={APDocumentPage}
                     getActivityContactIds={getActivityContactIds} rtl={rtl} />
                 </Col>
                 <Col
