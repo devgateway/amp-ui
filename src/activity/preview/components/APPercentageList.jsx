@@ -27,7 +27,6 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     columns: PropTypes.number,
     fmPath: PropTypes.string,
     getItemTitle: PropTypes.func,
-    rawNumberToFormattedString: PropTypes.func.isRequired,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     rtl: PropTypes.bool,
@@ -49,7 +48,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
   render() {
     const {
       activityFieldsManager, percentTitleClass, fmPath, activity, columns, tablify
-      , percentValueClass, fieldNameClass, fieldValueClass, rawNumberToFormattedString, translate
+      , percentValueClass, fieldNameClass, fieldValueClass, translate
     } = this.props;
     const title = listTitle ? translate(listTitle) : null;
     let items = activity[listField];
@@ -68,8 +67,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
         content = items.map(({ itemTitle, percentage }) =>
           (<APPercentageField
             key={UIUtils.stringToUniqueId(itemTitle)} title={itemTitle} value={percentage}
-            titleClass={percentTitleClass} valueClass={percentValueClass}
-            rawNumberToFormattedString={rawNumberToFormattedString} />)
+            titleClass={percentTitleClass} valueClass={percentValueClass} />)
         );
         if (tablify) {
           content = <Tablify content={content} columns={columns} />;

@@ -20,7 +20,6 @@ class APLocation extends Component {
     activity: PropTypes.object.isRequired, // eslint-disable-line
     buildSimpleField: PropTypes.func.isRequired,
     DateUtils: PropTypes.func,
-    rawNumberToFormattedString: PropTypes.func.isRequired,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     rtl: PropTypes.bool,
@@ -34,11 +33,9 @@ class APLocation extends Component {
   }
 
   render() {
-    const { rawNumberToFormattedString } = this.props;
     let content = [<APLocationsList
       key="locations-list" {...this.props}
-      percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value} tablify={false}
-      rawNumberToFormattedString={rawNumberToFormattedString} />];
+      percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value} tablify={false} />];
     const topContent = [ActivityConstants.IMPLEMENTATION_LEVEL, ActivityConstants.IMPLEMENTATION_LOCATION]
       .map(fp => <td key={fp}>{this.props.buildSimpleField(fp, true, new Set([0]))}</td>);
     content = content.filter(el => el !== undefined);

@@ -3,6 +3,7 @@ import * as ExportConstants from '../ExportConstants';
 import ActivityConstants from '../../../modules/util/ActivityConstants';
 import FieldPathConstants from '../../FieldPathConstants';
 import ValueConstants from '../../ValueConstants';
+import NumberUtils from '../../NumberUtils';
 
 const docx = require('docx');
 
@@ -175,8 +176,8 @@ export default class FundingPreview extends PreviewSection {
     const convertedAmount = this._context.currencyRatesManager
       .convertTransactionAmountToCurrency(g, currency);
     table.getCell(i, !this._rtl ? 3 : 1).addContent(this.createSimpleLabel(
-      !this._rtl ? `${this._context.rawNumberToFormattedString(convertedAmount)} ${currency}` :
-        `${currency} ${this._context.rawNumberToFormattedString(convertedAmount)}`,
+      !this._rtl ? `${NumberUtils.rawNumberToFormattedString(convertedAmount)} ${currency}` :
+        `${currency} ${NumberUtils.rawNumberToFormattedString(convertedAmount)}`,
       null, { dontAddToDocument: true }));
 
     table.getCell(i, !this._rtl ? 4 : 0).addContent(this.createSimpleLabel(
@@ -191,13 +192,13 @@ export default class FundingPreview extends PreviewSection {
   }
 
   buildSubTotalRow(table, group, currency, measure) {
-    const subtotal = this._context.rawNumberToFormattedString(this._context.currencyRatesManager
+    const subtotal = NumberUtils.rawNumberToFormattedString(this._context.currencyRatesManager
       .convertFundingDetailsToCurrency(group, currency));
     this.buildTotalItem(table, `Subtotal ${measure}`, subtotal, currency, group.length);
   }
 
   buildTotalItem(table, label, value, currency, row) {
-    value = this._context.rawNumberToFormattedString(value);
+    value = NumberUtils.rawNumberToFormattedString(value);
     table.getCell(row, !this._rtl ? 0 : 3)
       .addContent(this.createSimpleLabel(label, null, { dontAddToDocument: true }));
     table.getCell(row, !this._rtl ? 3 : 0).addContent(this.createSimpleLabel(!this._rtl ? `${value} ${currency}` :

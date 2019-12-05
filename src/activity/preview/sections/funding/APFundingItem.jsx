@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ActivityConstants from '../../../../modules/util/ActivityConstants';
 import CurrencyRatesManager from '../../../../modules/util/CurrencyRatesManager';
 import FieldsManager from '../../../../modules/field/FieldsManager';
+import NumberUtils from '../../../../utils/NumberUtils';
 import styles from './APFundingItem.css';
 
 let logger = null;
@@ -19,8 +20,7 @@ export default class APFundingItem extends Component {
     showDisasterResponse: PropTypes.bool.isRequired,
     showPledge: PropTypes.bool.isRequired,
     showFixedExchangeRate: PropTypes.bool.isRequired,
-    DateUtils: PropTypes.func.isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired
+    DateUtils: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -90,7 +90,7 @@ export default class APFundingItem extends Component {
 
   render() {
     logger.debug('render');
-    const { DateUtils, rawNumberToFormattedString } = this.props;
+    const { DateUtils } = this.props;
     const { translate } = this.context;
     const convertedAmount = this.context.currencyRatesManager.convertTransactionAmountToCurrency(this.props.item,
       this.props.wsCurrency);
@@ -104,7 +104,7 @@ export default class APFundingItem extends Component {
           </td>
           <td
             className={styles.right_text}>
-            {`${rawNumberToFormattedString(convertedAmount)} ${this.props.wsCurrency}`}</td>
+            {`${NumberUtils.rawNumberToFormattedString(convertedAmount)} ${this.props.wsCurrency}`}</td>
           <td className={styles.exchange_rate}>{this.insertFixedExchangeRateCell()}</td>
         </tr>
         {this.insertPledgeRow()}

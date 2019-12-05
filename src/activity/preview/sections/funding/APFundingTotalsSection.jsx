@@ -21,12 +21,8 @@ class APFundingTotalsSection extends Component {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
-      workspaceCurrency: PropTypes.string.isRequired
+      effectiveCurrency: PropTypes.string.isRequired
     }).isRequired,
-  };
-
-  static propTypes = {
-    rawNumberToFormattedString: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
@@ -34,13 +30,13 @@ class APFundingTotalsSection extends Component {
     const { Logger, activityContext } = this.context;
     logger = new Logger('AP funding totals section');
     logger.debug('constructor');
-    this._wsCurrency = activityContext.workspaceCurrency;
+    this._wsCurrency = activityContext.effectiveCurrency;
   }
 
   render() {
     const content = [];
     const { activityFieldsManager, activityFundingTotals, translate } = this.context;
-    const { rawNumberToFormattedString } = this.props;
+
     let actualCommitments;
     let actualDisbursements;
     const options = [];
@@ -61,31 +57,20 @@ class APFundingTotalsSection extends Component {
     options.forEach(g => {
       if (g.value > 0) {
         content.push(<APFundingTotalItem
-          key={UIUtils.numberRandom()}
-          currency={translate(this._wsCurrency)}
-          value={g.value}
-          label={g.label}
-          rawNumberToFormattedString={rawNumberToFormattedString}
-
-        />);
+          key={UIUtils.numberRandom()} currency={translate(this._wsCurrency)}
+          value={g.value} label={g.label} />);
       }
     });
     if (actualDisbursements && actualCommitments) {
       content.push(<APFundingTotalItem
         label={translate('Undisbursed Balance')} value={actualCommitments - actualDisbursements}
-        currency={translate(this._wsCurrency)} key={UIUtils.numberRandom()}
-        rawNumberToFormattedString={rawNumberToFormattedString}
-
-      />);
+        currency={translate(this._wsCurrency)} key={UIUtils.numberRandom()} />);
     }
     if (actualDisbursements && actualCommitments) {
       content.push(<APFundingTotalItem
         currency={translate(this._wsCurrency)} key={UIUtils.numberRandom()}
         value={Math.round((actualDisbursements / actualCommitments) * 100)}
-        label={translate('Delivery rate')} isPercentage
-        rawNumberToFormattedString={rawNumberToFormattedString}
-
-      />);
+        label={translate('Delivery rate')} isPercentage />);
     }
     return (<div>{content}</div>);
   }

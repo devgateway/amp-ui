@@ -5,6 +5,7 @@ import ActivityConstants from '../../../modules/util/ActivityConstants';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 import Section from './Section.jsx';
 import CurrencyRatesManager from '../../../modules/util/CurrencyRatesManager';
+import NumberUtils from '../../../utils/NumberUtils';
 
 let logger = null;
 
@@ -15,28 +16,28 @@ let logger = null;
 const APProjectCost = (fieldName) => class extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
-    activityFieldsManager: PropTypes.object.isRequired,
-    DateUtils: PropTypes.func.isRequired,
+    DateUtils: PropTypes.func.isRequired
+  };
+  static contextTypes = {
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
-    rawNumberToFormattedString: PropTypes.func.isRequired,
     Logger: PropTypes.func.isRequired,
+    activityFieldsManager: PropTypes.object.isRequired,
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
-      workspaceCurrency: PropTypes.string.isRequired
-    }).isRequired,
-  };
-
-  constructor(props) {
+      effectiveCurrency: PropTypes.string.isRequired
+    }).isRequired
+  }
+  constructor(props, context) {
     super(props);
-    const { Logger } = this.props;
+    const { Logger } = context;
     logger = new Logger('AP project cost');
     logger.debug('constructor');
   }
 
   getFieldValue(fieldPath) {
     // apparently you can disable Amount in FM... but probably this is unrealistic to happen
-    if (this.props.activityFieldsManager.isFieldPathEnabled(fieldPath)) {
-      return this.props.activityFieldsManager.getValue(this.props.activity, fieldPath,
+    if (this.context.activityFieldsManager.isFieldPathEnabled(fieldPath)) {
+      return this.context.activityFieldsManager.getValue(this.props.activity, fieldPath,
         PossibleValuesManager.getOptionTranslation);
     }
     return null;
@@ -44,9 +45,10 @@ const APProjectCost = (fieldName) => class extends Component {
 
   render() {
     let content = null;
-    const { rawNumberToFormattedString, DateUtils, translate, activityContext } = this.props;
-    if (this.props.activityFieldsManager.isFieldPathEnabled(fieldName) === true) {
-      const currency = activityContext.workspaceCurrency;
+    const { DateUtils } = this.props;
+    const { translate, activityContext } = this.context;
+    if (this.context.activityFieldsManager.isFieldPathEnabled(fieldName) === true) {
+      const currency = activityContext.effectiveCurrency;
       let amount = 0;
       let showPPC = false;
       const ppcAsFunding = this.props.activity[ActivityConstants.PPC_AMOUNT];
@@ -55,8 +57,8 @@ const APProjectCost = (fieldName) => class extends Component {
         ppcAsFunding[ActivityConstants.CURRENCY] = ppcAsFunding[ActivityConstants.CURRENCY];
         ppcAsFunding[ActivityConstants.TRANSACTION_AMOUNT] = ppcAsFunding[ActivityConstants.AMOUNT];
         if (ppcAsFunding[ActivityConstants.CURRENCY] && ppcAsFunding[ActivityConstants.TRANSACTION_AMOUNT]) {
-          amount = this.props.currencyRatesManager.convertTransactionAmountToCurrency(ppcAsFunding, currency);
-          amount = rawNumberToFormattedString(amount);
+          amount = this.context.currencyRatesManager.convertTransactionAmountToCurrency(ppcAsFunding, currency);
+          amount = NumberUtils.rawNumberToFormattedString(amount);
         }
       }
       if (showPPC) {

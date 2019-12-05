@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import ActivityConstants from '../../../../modules/util/ActivityConstants';
 import CurrencyRatesManager from '../../../../modules/util/CurrencyRatesManager';
+import GlobalSettingsConstants from '../../../../utils/constants/GlobalSettingsConstants';
 import FieldsManager from '../../../../modules/field/FieldsManager';
 import CalendarConstants from '../../../../modules/util/CalendarConstants';
+import NumberUtils from '../../../../utils/NumberUtils';
 import styles from './APFundingItem.css';
 import stylesMTEF from './APFundingMTEF.css';
 
@@ -15,7 +17,6 @@ class APFundingMTEFItem extends Component {
   static propTypes = {
     item: PropTypes.object.isRequired,
     wsCurrency: PropTypes.string.isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
   };
 
@@ -27,6 +28,7 @@ class APFundingMTEFItem extends Component {
     activityContext: PropTypes.shape({
       calendar: PropTypes.object
     }).isRequired,
+    globalSettings: PropTypes.object.isRequired
   };
 
   constructor(props, context) {
@@ -34,14 +36,20 @@ class APFundingMTEFItem extends Component {
     const { Logger } = this.context;
     logger = new Logger('AP Funding MTEF item');
   }
+
   _formatDate(date) {
-    const isFiscalCalendar = this.context.activityContext.calendar[CalendarConstants.IS_FISCAL];
-    const year = this.props.DateUtils.createFormattedDate(date);
-    return isFiscalCalendar ? `${year} / ${year + 1}` : year;
+    const isFiscalCalendar = this.context.calendar[CalendarConstants.IS_FISCAL];
+    const showYearOnly = this.context.globalSettings[GlobalSettingsConstants.SHOW_ANNUAL_MTEF_ENTRY_FORMAT];
+    if (showYearOnly === 'true') {
+      const year = this.props.DateUtils.getYearFromDate(date);
+      return isFiscalCalendar ? `${year} / ${year + 1}` : year;
+    } else {
+      return this.props.DateUtils.createFormattedDate(date);
+    }
   }
 
   render() {
-    const { item, wsCurrency, rawNumberToFormattedString } = this.props;
+    const { item, wsCurrency } = this.props;
     const { translate } = this.context;
     logger.debug('render');
     const convertedAmount = this.context.currencyRatesManager.convertAmountToCurrency(item[ActivityConstants.AMOUNT],
@@ -53,11 +61,12 @@ class APFundingMTEFItem extends Component {
           <td className={stylesMTEF.td_20} />
           <td className={styles.right_text}>{this._formatDate(item[ActivityConstants.PROJECTION_DATE])}</td>
           <td className={styles.right_text}>
-            {`${rawNumberToFormattedString(convertedAmount)} ${wsCurrency}`}
+            {`${NumberUtils.rawNumberToFormattedString(convertedAmount)} ${wsCurrency}`}
           </td>
           <td className={stylesMTEF.td_11} />
         </tr>
       </tbody>);
   }
 }
+
 export default APFundingMTEFItem;

@@ -7,6 +7,7 @@ import Section from '../Section.jsx';
 import APFundingTotalsSection from './APFundingTotalsSection.jsx';
 import APFundingOrganizationSection from './APFundingOrganizationSection.jsx';
 import { APProposedProjectCost } from '../APProjectCost.jsx';
+import NumberUtils from '../../../../utils/NumberUtils';
 import fundingStyles from './APFundingSection.css';
 
 
@@ -20,8 +21,6 @@ class APFundingSection extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
     buildSimpleField: PropTypes.func.isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired,
-    getAmountsInThousandsMessage: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
     Logger: PropTypes.func.isRequired
   };
@@ -35,29 +34,24 @@ class APFundingSection extends Component {
 
   render() {
     logger.debug('render');
-    const { DateUtils, rawNumberToFormattedString, getAmountsInThousandsMessage,
-      buildSimpleField, activity } = this.props;
+    const { DateUtils, activity } = this.props;
     const fundingList = [];
     if (activity[ActivityConstants.FUNDINGS]) {
       activity[ActivityConstants.FUNDINGS].forEach((funding) => {
         const item = (<APFundingOrganizationSection
           funding={funding} key={funding[ActivityConstants.AMP_FUNDING_ID] || UIUtils.stringToUniqueId()}
-          buildSimpleField={buildSimpleField}
-          DateUtils={DateUtils}
-          rawNumberToFormattedString={rawNumberToFormattedString}
-        />);
+          buildSimpleField={this.props.buildSimpleField}
+          DateUtils={DateUtils} />);
         fundingList.push(item);
       });
     }
     return (<div className={fundingStyles.container}>
-      <div className={fundingStyles.byline}>{getAmountsInThousandsMessage()}</div>
+      <div className={fundingStyles.byline}>{NumberUtils.getAmountsInThousandsMessage()}</div>
       <APProposedProjectCost
         sectionPath={ActivityConstants.PPC_AMOUNT}
-        titleClass={fundingStyles.section_header}
-        rawNumberToFormattedString={rawNumberToFormattedString}
-      />
+        titleClass={fundingStyles.section_header} />
       <div>{fundingList}</div>
-      <div><APFundingTotalsSection rawNumberToFormattedString={rawNumberToFormattedString} /></div>
+      <div><APFundingTotalsSection /></div>
       <div className={fundingStyles.clear} />
     </div>);
   }

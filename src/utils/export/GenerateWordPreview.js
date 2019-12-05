@@ -78,8 +78,9 @@ export default class GenerateWordPreview {
     new IssuesPreview(document, _props, _context, _rtl, null, ActivityConstants.ISSUES).generateSection();
     new ContactsPreview(document, _props, _context, _rtl, FMC.ACTIVITY_CONTACT, null).generateSection();
     new SitesPreview(document, _props, _context, _rtl, null, ActivityConstants.STRUCTURES).generateSection();
-    new DocumentsPreview(document, _props, _context, _rtl, null,
+    /*new DocumentsPreview(document, _props, _context, _rtl, null,
       ActivityConstants.ACTIVITY_DOCUMENTS).generateSection();
+      */
     new AdditionalInfoPreview(document, _props, _context, _rtl, null, null).generateSection();
   }
 

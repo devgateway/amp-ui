@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import ActivityConstants from '../../../modules/util/ActivityConstants';
 import FieldPathConstants from '../../../utils/FieldPathConstants';
 import FieldsManager from '../../../modules/field/FieldsManager';
+import NumberUtils from '../../../utils/NumberUtils';
 import Section from './Section.jsx';
-
 import styles from './APComponents.css';
 
 let logger = null;
@@ -14,13 +14,6 @@ let logger = null;
  * @author Gabriel Inchauspe
  */
 class APComponents extends Component {
-  static propTypes = {
-    activity: PropTypes.object.isRequired,
-    activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired,
-    Logger: PropTypes.func.isRequired
-  };
-
   static _extractYear(dateString) {
     return new Date(Date.parse(dateString)).getFullYear();
   }
@@ -47,7 +40,7 @@ class APComponents extends Component {
     return groups;
   }
 
-  static _buildDetail(component, translate, rawNumberToFormattedString) {
+  static _buildDetail(component, translate) {
     const content = [];
     // TODO: Apply currency conversion to show all fundings in the same currency
     FieldPathConstants.TRANSACTION_TYPES.forEach(trnType => {
@@ -60,7 +53,7 @@ class APComponents extends Component {
           content.push(<tr>
             <td>{group.year}</td>
             <td>{translate(`${group.adjType.value} ${group.trnType}`)}</td>
-            <td>{rawNumberToFormattedString(group.amount)}</td>
+            <td>{NumberUtils.rawNumberToFormattedString(group.amount)}</td>
           </tr>);
         });
       }
@@ -72,6 +65,11 @@ class APComponents extends Component {
     </div>);
     return table;
   }
+  static propTypes = {
+    activity: PropTypes.object.isRequired,
+    activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
+    Logger: PropTypes.func.isRequired
+  };
 
   constructor(props) {
     super(props);
@@ -93,7 +91,7 @@ class APComponents extends Component {
         content.push(<div>{component.description}</div>);
       }
       content.push(<div>{this.context.translate('Finance of the component')}</div>);
-      content.push(APComponents._buildDetail(component, this.context.translate, this.props.rawNumberToFormattedString));
+      content.push(APComponents._buildDetail(component, this.context.translate));
       content.push(<hr />);
     });
     return content;
