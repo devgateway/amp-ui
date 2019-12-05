@@ -24,13 +24,14 @@ let logger = null;
  */
 export default class MainGroup extends Component {
   static propTypes = {
-    APDocumentPage: PropTypes.any.isRequired,
+    //APDocumentPage: PropTypes.any.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
     rtl: PropTypes.bool,
   };
 
   static contextTypes = {
     Logger: PropTypes.func.isRequired,
+    contactsByIds: PropTypes.object,
   };
 
   constructor(props, context) {
@@ -76,11 +77,6 @@ export default class MainGroup extends Component {
         columns={ActivityConstants.ACTIVITY_CONTACT_COLS} fmPath={FeatureManagerConstants.ACTIVITY_CONTACT}
         getActivityContactIds={getActivityContactIds} />
       <APStructures sectionPath={ActivityConstants.STRUCTURES} />
-      <APDocumentPage
-        sectionPath={ActivityConstants.ACTIVITY_DOCUMENTS}
-        fieldNameClass={[styles.section_field_name, styles.noborder].join(' ')}
-        fieldValueClass={[styles.section_field_value, styles.noborder].join(' ')}
-      />
     </div>);
   }
 }

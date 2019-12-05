@@ -26,9 +26,6 @@ class APContact extends Component {
   };
 
   getHydratedContacts() {
-    // Contacts will be hydrated and received by props
-    // Both in amp_offline and amp_online so we just need to get
-    // Activity Con
     const { activity, contactsByIds, getActivityContactIds } = this.props;
     const contactIds = getActivityContactIds(activity);
     const hydratedContactsByIds = {};
