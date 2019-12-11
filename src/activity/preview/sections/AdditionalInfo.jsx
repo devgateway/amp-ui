@@ -30,7 +30,7 @@ class AdditionalInfo extends Component {
           [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired
         })
       }),
-      workSpaceLeadData: PropTypes.string
+      workspaceLeadData: PropTypes.string
     }).isRequired,
   };
 
@@ -42,11 +42,12 @@ class AdditionalInfo extends Component {
   }
 
   _getWorkspaceLeadData() {
+    debugger;
     const { activityContext } = this.props;
-    if (!activityContext.workSpaceLeadData) {
+    if (!activityContext.workspaceLeadData) {
       return null;
     }
-    return activityContext.workSpaceLeadData;
+    return activityContext.workspaceLeadData;
   }
 
   _buildAdditionalInfo() {

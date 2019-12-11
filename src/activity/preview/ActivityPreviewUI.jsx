@@ -30,7 +30,7 @@ export default class ActivityPreviewUI extends Component {
       activityStatus: PropTypes.string,
       workspaceCurrency: PropTypes.string,
       calendar: PropTypes.object,
-      workSpaceLeadData: PropTypes.string,
+      workspaceLeadData: PropTypes.string,
       teamMember: PropTypes.shape({
         teamMemberRole: PropTypes.number.isRequired,
         workspace: PropTypes.shape({
