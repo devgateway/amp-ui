@@ -26,6 +26,9 @@
     "react-dom": "15.4.2",
     "react-bootstrap": "^0.30.6"
   },
+  "dependencies": {
+    "moment": "^2.18.1"
+  },
   "devDependencies": {
     "@svgr/rollup": "^2.4.1",
     "babel-core": "^6.26.3",

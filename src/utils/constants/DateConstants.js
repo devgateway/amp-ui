@@ -1,0 +1,6 @@
+const API_SHORT_DATE_FORMAT = 'YYYY-MM-DD';
+const API_LONG_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZZ';
+export default Object.freeze({
+  API_SHORT_DATE_FORMAT,
+  API_LONG_DATE_FORMAT
+});
