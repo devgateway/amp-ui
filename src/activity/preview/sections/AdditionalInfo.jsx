@@ -42,7 +42,6 @@ class AdditionalInfo extends Component {
   }
 
   _getWorkspaceLeadData() {
-    debugger;
     const { activityContext } = this.props;
     if (!activityContext.workspaceLeadData) {
       return null;
