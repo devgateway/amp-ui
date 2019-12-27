@@ -101,7 +101,7 @@ class APDocument extends Component {
     const resData = this.getResourceUrlData(resource);
     const isAccessible = resData.url || resData.action;
     const iconImage = (resData.url && gotoUrl) || (resData.action && download);
-    const iconElement = <img src={iconImage} alt="" className={styles.img_url}/>;
+    const iconElement = <img src={iconImage} alt="" className={styles.img_url} />;
     const tooltip = translate('ClickToDownload');
     return (
       <div key={resource.id} className={[styles.box_table, styles.table_raw].join(' ')}>
@@ -111,13 +111,13 @@ class APDocument extends Component {
             <span>&nbsp;&nbsp;-&nbsp;&nbsp;</span>
             <ActionUrl
               urlContent={resData.urlText} href={resData.url} onClick={resData.action} tooltip={tooltip}
-              openExternal={openExternal}/>
+              openExternal={openExternal} />
           </span>
           {isAccessible &&
           <span key="download" className={docSyles.downloadIconContainer}>
             <ActionIcon
               iconElement={iconElement} href={resData.url} onClick={resData.action} tooltip={tooltip}
-              openExternal={openExternal}/>
+              openExternal={openExternal} />
           </span>
           }
         </div>
@@ -136,22 +136,21 @@ class APDocument extends Component {
     const { translate, Logger } = this.props;
     if (isResourcesLoading || isResourceManagersLoading) {
       return <Loading Logger={Logger} translate={translate} />;
+    } else if (errors && errors.length > 0) {
+      return this.showErrors(errors);
     } else {
-      if (errors.length > 0) {
-        return this.showErrors(errors);
-      }
+      return (
+        <APField
+          fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}
+          value={translate('No Data')} />
+      );
     }
-    return (
-      <APField
-        fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}
-        value={translate('No Data')}/>
-    );
   }
 
   showErrors(errors) {
     const messages = [];
     errors.forEach((error, index) => {
-      messages.push(<span key={index}>{this.props.translate(error.messageKey)} <br/></span>);
+      messages.push(<span key={index}>{this.props.translate(error.messageKey)} <br /></span>);
     });
     return (errors.length > 0 && <div className="alert alert-danger" role="alert">
       {messages}
@@ -160,7 +159,7 @@ class APDocument extends Component {
 
   render() {
     const resources = this.getResources();
-  debugger;
+
     if (!resources.length) {
       return this.renderNoResources();
     }
