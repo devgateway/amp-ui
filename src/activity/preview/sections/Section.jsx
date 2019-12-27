@@ -35,7 +35,7 @@ const Section = (ComposedSection, params) => class extends Component {
     contactFieldsManager: PropTypes.instanceOf(FieldsManager),
     contactsByIds: PropTypes.object.isRequired,
     activityFundingTotals: PropTypes.object.isRequired,
-    // resourceReducer: PropTypes.object.isRequired,
+    resourceReducer: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,

@@ -43,7 +43,7 @@ export default class ActivityPreviewUI extends Component {
   };
 
   static contextTypes = {
-    //resourceReducer: PropTypes.object.isRequired,
+    resourceReducer: PropTypes.object.isRequired,
     ActivityFundingTotals: PropTypes.object,
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     activityFieldsManager: PropTypes.instanceOf(FieldsManager),
@@ -54,8 +54,7 @@ export default class ActivityPreviewUI extends Component {
     translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
-    globalSettings: PropTypes.object.isRequired/*,
-    APDocumentPage: PropTypes.any.isRequired,*/
+    APDocumentPage: PropTypes.any.isRequired
   };
 
   static childContextTypes = {
@@ -158,7 +157,9 @@ export default class ActivityPreviewUI extends Component {
                   md={9}
                   className={rtl ? [styles.float_right].join(' ') : null}>
                   <MainGroup
-                    getActivityContactIds={getActivityContactIds} rtl={rtl} />
+                    getActivityContactIds={getActivityContactIds} rtl={rtl}
+                    APDocumentPage={APDocumentPage}
+                  />
                 </Col>
                 <Col
                   md={3}

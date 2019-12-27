@@ -29,6 +29,7 @@ class APDocument extends Component {
       isResourceManagersLoaded: PropTypes.bool,
       resourceFieldsManager: PropTypes.instanceOf(FieldsManager),
       resourcesByUuids: PropTypes.object,
+      errors: PropTypes.object
     }).isRequired,
     buildSimpleField: PropTypes.func.isRequired,
     saveFileDialog: PropTypes.func.isRequired,
@@ -80,10 +81,15 @@ class APDocument extends Component {
       resData.urlText = fileName;
       resData.action = srcFile ? () => saveFileDialog(srcFile, fileName) : null;
     }
-    const url = resource[ResourceConstants.WEB_LINK];
+    let url = resource[ResourceConstants.WEB_LINK];
     if (url) {
       resData.urlText = url;
       resData.url = url;
+    } else {
+      url = resource[ResourceConstants.URL];
+      if (url) {
+        resData.url = url;
+      }
     }
     resData.urlText = resData.urlText || translate('No Data');
     return resData;
@@ -95,7 +101,7 @@ class APDocument extends Component {
     const resData = this.getResourceUrlData(resource);
     const isAccessible = resData.url || resData.action;
     const iconImage = (resData.url && gotoUrl) || (resData.action && download);
-    const iconElement = <img src={iconImage} alt="" />;
+    const iconElement = <img src={iconImage} alt="" className={styles.img_url}/>;
     const tooltip = translate('ClickToDownload');
     return (
       <div key={resource.id} className={[styles.box_table, styles.table_raw].join(' ')}>
@@ -105,13 +111,13 @@ class APDocument extends Component {
             <span>&nbsp;&nbsp;-&nbsp;&nbsp;</span>
             <ActionUrl
               urlContent={resData.urlText} href={resData.url} onClick={resData.action} tooltip={tooltip}
-              openExternal={openExternal} />
+              openExternal={openExternal}/>
           </span>
           {isAccessible &&
           <span key="download" className={docSyles.downloadIconContainer}>
             <ActionIcon
               iconElement={iconElement} href={resData.url} onClick={resData.action} tooltip={tooltip}
-              openExternal={openExternal} />
+              openExternal={openExternal}/>
           </span>
           }
         </div>
@@ -126,20 +132,35 @@ class APDocument extends Component {
   }
 
   renderNoResources() {
-    const { isResourcesLoading, isResourceManagersLoading } = this.props.resourceReducer;
+    const { isResourcesLoading, isResourceManagersLoading, errors } = this.props.resourceReducer;
     const { translate, Logger } = this.props;
     if (isResourcesLoading || isResourceManagersLoading) {
       return <Loading Logger={Logger} translate={translate} />;
+    } else {
+      if (errors.length > 0) {
+        return this.showErrors(errors);
+      }
     }
     return (
       <APField
         fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}
-        value={translate('No Data')} />
+        value={translate('No Data')}/>
     );
+  }
+
+  showErrors(errors) {
+    const messages = [];
+    errors.forEach((error, index) => {
+      messages.push(<span key={index}>{this.props.translate(error.messageKey)} <br/></span>);
+    });
+    return (errors.length > 0 && <div className="alert alert-danger" role="alert">
+      {messages}
+    </div>);
   }
 
   render() {
     const resources = this.getResources();
+  debugger;
     if (!resources.length) {
       return this.renderNoResources();
     }

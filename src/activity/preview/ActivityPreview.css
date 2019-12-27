@@ -2,6 +2,9 @@
   direction: rtl !important;
   unicode-bidi: embed !important;
 }
+.img_url {
+  width: 20px;
+}
 
 .preview_container {
   font-family: 'open_sansregular', sans-serif;
