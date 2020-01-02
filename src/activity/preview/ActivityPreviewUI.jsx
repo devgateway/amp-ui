@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Grid, Row } from 'react-bootstrap';
+import { Col, Grid, Row, Button } from 'react-bootstrap';
 import Scrollspy from 'react-scrollspy';
 import FieldsManager from '../../modules/field/FieldsManager';
 import CurrencyRatesManager from '../../modules/util/CurrencyRatesManager';
@@ -13,6 +13,7 @@ import MainGroup from './MainGroup.jsx';
 import SummaryGroup from './SummaryGroup.jsx';
 import printIcon from '../../assets/images/print.svg';
 import IconFormatter from '../common/IconFormatter.jsx';
+import APWorkspaceInfo from './sections/info/APWorkspaceInfo.jsx';
 
 let logger = null;
 
@@ -27,6 +28,8 @@ export default class ActivityPreviewUI extends Component {
   static propTypes = {
     activity: PropTypes.object,
     activityContext: PropTypes.shape({
+      showActivityWorkspaces: PropTypes.bool,
+      rtlDirection: PropTypes.bool,
       activityStatus: PropTypes.string,
       workspaceCurrency: PropTypes.string,
       calendar: PropTypes.object,
@@ -54,12 +57,14 @@ export default class ActivityPreviewUI extends Component {
     translate: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
-    APDocumentPage: PropTypes.any.isRequired
+    APDocumentPage: PropTypes.any.isRequired,
+    activityWsInfo: PropTypes.array
   };
 
   static childContextTypes = {
     activity: PropTypes.object,
     activityContext: PropTypes.shape({
+      rtlDirection: PropTypes.bool,
       activityStatus: PropTypes.string,
       teamMember: PropTypes.shape({
         teamMemberRole: PropTypes.number.isRequired,
@@ -79,7 +84,8 @@ export default class ActivityPreviewUI extends Component {
     const { Logger } = this.context;
     logger = new Logger('Activity preview');
     logger.debug('constructor');
-    this.state = { rtl: false };
+    this.state = { rtl: this.props.activityContext.rtlDirection, showViewDialog: false };
+    this.showInfoWorkspace = this.showInfoWorkspace.bind(this);
   }
 
   getChildContext() {
@@ -88,6 +94,20 @@ export default class ActivityPreviewUI extends Component {
       activityContext: this.props.activityContext
     };
   }
+
+  getAPWorkspaceInfo() {
+    const { activityContext } = this.props;
+    if (activityContext.showActivityWorkspaces) {
+      return (<APWorkspaceInfo
+        show={this.state.showViewDialog}
+        onClose={() => this.setState({ showViewDialog: false })}
+        activityWsInfo={this.context.activityWsInfo}
+      />);
+    } else {
+      return null;
+    }
+  }
+
   _renderData() {
     const { activity, activityContext } = this.props;
 
@@ -134,10 +154,11 @@ export default class ActivityPreviewUI extends Component {
                 <img
                   className={styles.print} onClick={() => window.print()} alt="print" src={printIcon}
                   title={translate('clickToPrint')} />
-                <span onClick={() => this.activateRtl()}>rtl</span>
+                {activityContext.showActivityWorkspaces && <Button
+                  bsStyle="primary"
+                  onClick={this.showInfoWorkspace.bind(this)}>{translate('View')}</Button>}
               </ul>
             </span>
-
             <div className={styles.preview_status_container}>
               <APStatusBar
                 fieldClass={styles.inline_flex}
@@ -178,15 +199,15 @@ export default class ActivityPreviewUI extends Component {
     return this.props.activity !== undefined && this.props.activity !== null;
   }
 
-  activateRtl() {
-    const rtl = this.state.rtl;
-    this.setState({ rtl: !rtl });
+  showInfoWorkspace() {
+    this.setState({ showViewDialog: true });
   }
 
   render() {
     const activityPreview = this._hasActivity() ? this._renderData() : '';
     return (
       <div>
+        {this.getAPWorkspaceInfo()}
         {activityPreview}
       </div>
     );

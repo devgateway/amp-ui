@@ -1,0 +1,70 @@
+.wsInfoHeader {
+  border-collapse: collapse;
+  display: table;
+  width: 100%;
+}
+
+.wsInfoItem{
+  font-size: 10px;
+  font-weight: bold;
+  border-right: none !important;
+  border-left: none !important;
+  color: #7f8fa4;
+}
+
+.width_20 {
+  width: 20%;
+}
+
+.width_30 {
+  width: 30%;
+}
+
+.width_50 {
+  width: 50%;
+}
+
+.thClassName_30 {
+  width: 30%;
+  font-size: 12px;
+  border-right: none !important;
+  border-left: none !important;
+}
+
+.thClassName_20 {
+  width: 20%;
+  font-size: 12px;
+  border-right: none !important;
+  border-left: none !important;
+}
+
+.thClassName_50 {
+  width: 50%;
+  font-size: 12px;
+  border-right: none !important;
+  border-left: none !important;
+}
+
+.window_50w {
+  width: 50%;
+}
+
+.close_button {
+  width: 75px;
+}
+
+.help_icon {
+  cursor: pointer;
+}
+
+:global(#info_ws_tooltip > .tooltip-inner) {
+  max-width: 430px;
+  background: white;
+  border: 1px solid black;
+
+}
+.tooltip_item{
+  color: black;
+  text-align: left;
+
+}

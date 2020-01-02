@@ -29,10 +29,10 @@ class APDocument extends Component {
       isResourceManagersLoaded: PropTypes.bool,
       resourceFieldsManager: PropTypes.instanceOf(FieldsManager),
       resourcesByUuids: PropTypes.object,
-      errors: PropTypes.object
+      errors: PropTypes.array
     }).isRequired,
     buildSimpleField: PropTypes.func.isRequired,
-    saveFileDialog: PropTypes.func.isRequired,
+    saveFileDialog: PropTypes.func,
     openExternal: PropTypes.func.isRequired,
     RepositoryManager: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
@@ -95,6 +95,16 @@ class APDocument extends Component {
     return resData;
   }
 
+  showErrors(errors) {
+    const messages = [];
+    errors.forEach((error, index) => {
+      messages.push(<span key={index}>{this.props.translate(error.messageKey)} <br /></span>);
+    });
+    return (errors.length > 0 && <div className="alert alert-danger" role="alert">
+      {messages}
+    </div>);
+  }
+
   renderResource(resource) {
     const { resourceReducer, buildSimpleField, openExternal, translate } = this.props;
     const { resourceFieldsManager } = resourceReducer;
@@ -145,16 +155,6 @@ class APDocument extends Component {
           value={translate('No Data')} />
       );
     }
-  }
-
-  showErrors(errors) {
-    const messages = [];
-    errors.forEach((error, index) => {
-      messages.push(<span key={index}>{this.props.translate(error.messageKey)} <br /></span>);
-    });
-    return (errors.length > 0 && <div className="alert alert-danger" role="alert">
-      {messages}
-    </div>);
   }
 
   render() {
