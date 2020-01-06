@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Grid, Row, Button } from 'react-bootstrap';
+import { Col, Grid, Row } from 'react-bootstrap';
 import Scrollspy from 'react-scrollspy';
 import FieldsManager from '../../modules/field/FieldsManager';
 import CurrencyRatesManager from '../../modules/util/CurrencyRatesManager';
@@ -84,8 +84,7 @@ export default class ActivityPreviewUI extends Component {
     const { Logger } = this.context;
     logger = new Logger('Activity preview');
     logger.debug('constructor');
-    this.state = { rtl: this.props.activityContext.rtlDirection, showViewDialog: false };
-    this.showInfoWorkspace = this.showInfoWorkspace.bind(this);
+    this.state = { rtl: this.props.activityContext.rtlDirection };
   }
 
   getChildContext() {
@@ -93,19 +92,6 @@ export default class ActivityPreviewUI extends Component {
       activity: this.props.activity,
       activityContext: this.props.activityContext
     };
-  }
-
-  getAPWorkspaceInfo() {
-    const { activityContext } = this.props;
-    if (activityContext.showActivityWorkspaces) {
-      return (<APWorkspaceInfo
-        show={this.state.showViewDialog}
-        onClose={() => this.setState({ showViewDialog: false })}
-        activityWsInfo={this.context.activityWsInfo}
-      />);
-    } else {
-      return null;
-    }
   }
 
   _renderData() {
@@ -151,12 +137,17 @@ export default class ActivityPreviewUI extends Component {
                   crossTeamWS={activityContext.teamMember.workspace[WorkspaceConstants.CROSS_TEAM_VALIDATION]}
                   translate={this.context.translate}
                 />
-                <img
-                  className={styles.print} onClick={() => window.print()} alt="print" src={printIcon}
-                  title={translate('clickToPrint')} />
-                {activityContext.showActivityWorkspaces && <Button
-                  bsStyle="primary"
-                  onClick={this.showInfoWorkspace.bind(this)}>{translate('View')}</Button>}
+                <li>
+                  <img
+                    className={styles.print} onClick={() => window.print()} alt="print" src={printIcon}
+                    title={translate('clickToPrint')} />
+                </li>
+                <APWorkspaceInfo
+                  show={this.state.showViewDialog}
+                  onClose={() => this.setState({ showViewDialog: false })}
+                  activityWsInfo={this.context.activityWsInfo}
+                  showActivityWorkspaces={this.props.activityContext.showActivityWorkspaces}
+                />
               </ul>
             </span>
             <div className={styles.preview_status_container}>
@@ -199,15 +190,10 @@ export default class ActivityPreviewUI extends Component {
     return this.props.activity !== undefined && this.props.activity !== null;
   }
 
-  showInfoWorkspace() {
-    this.setState({ showViewDialog: true });
-  }
-
   render() {
     const activityPreview = this._hasActivity() ? this._renderData() : '';
     return (
       <div>
-        {this.getAPWorkspaceInfo()}
         {activityPreview}
       </div>
     );

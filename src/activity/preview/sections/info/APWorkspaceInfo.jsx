@@ -3,6 +3,7 @@ import { Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import question from '../../../../assets/images/tooltip-help.png';
 import wsInfoStyles from './ApWorkspaceInfo.css';
+import history from '../../../../assets/images/history.svg';
 
 const DELAY = 40;
 
@@ -17,8 +18,8 @@ function debounce(cb, delay = 200) {
 export default class APWorkspaceInfo extends Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
-    show: PropTypes.bool.isRequired,
-    activityWsInfo: PropTypes.array
+    activityWsInfo: PropTypes.array,
+    showActivityWorkspaces: PropTypes.bool.isRequired
   };
 
   static contextTypes = {
@@ -28,21 +29,19 @@ export default class APWorkspaceInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showDialog: props.show || false,
+      showDialog: false,
       paddingTop: 0
     };
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.show) {
-      this.open();
-    }
   }
 
   onShow() {
     this.recalcPaddingTop();
     this.windowResizeListener = debounce(this.recalcPaddingTop.bind(this));
     window.addEventListener('resize', this.windowResizeListener);
+  }
+
+  showInfoWorkspace() {
+    this.setState({ showDialog: true });
   }
 
   recalcPaddingTop() {
@@ -80,7 +79,10 @@ export default class APWorkspaceInfo extends Component {
   }
 
   render() {
-    const { activityWsInfo } = this.props;
+    const { activityWsInfo, showActivityWorkspaces } = this.props;
+    if (!showActivityWorkspaces) {
+      return null;
+    }
     const { paddingTop, showDialog } = this.state;
     const { translate } = this.context;
     const tooltipContent = this.renderTooltip();
@@ -88,43 +90,51 @@ export default class APWorkspaceInfo extends Component {
       noDataText: translate('noDataText')
     };
     return (
-      <Modal
-        show={showDialog}
-        onShow={this.onShow.bind(this)}
-        onHide={this.close.bind(this)}
-        style={{ paddingTop }}
-        dialogClassName={wsInfoStyles.window_50w}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>{translate('View Workspaces')}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <BootstrapTable data={activityWsInfo} options={options} striped hover>
-            <TableHeaderColumn
-              isKey dataField="name" columnClassName={[wsInfoStyles.width_30, wsInfoStyles.wsInfoItem].join(' ')}
-              className={wsInfoStyles.thClassName_30}
-            >{translate('workspaceWhereActivityIsDisplayed')}
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="type"
-              columnClassName={[wsInfoStyles.width_20, wsInfoStyles.wsInfoItem].join(' ')}
-              className={wsInfoStyles.thClassName_20}
-            >{translate('workspaceType')}&nbsp;
-              <OverlayTrigger
-                placement="right"
-                delay={DELAY}
-                overlay={tooltipContent}
-              >
-                <img src={question} className={wsInfoStyles.help_icon} alt={'footer'} />
-              </OverlayTrigger> </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="extraInfo" columnClassName={[wsInfoStyles.width_50, wsInfoStyles.wsInfoItem].join(' ')}
-              className={wsInfoStyles.thClassName_50}
-            >{translate('howActivityIsLinked')}</TableHeaderColumn>
-          </BootstrapTable>
-        </Modal.Body>
-        <Modal.Footer />
-      </Modal>
+      <div>
+        <li>
+          <a onClick={this.showInfoWorkspace.bind(this)} title={translate('View Workspaces')}>
+            <img
+              src={history}
+              onClick={this.showInfoWorkspace.bind(this)} alt="" /></a>
+        </li>
+        <Modal
+          show={showDialog}
+          onShow={this.onShow.bind(this)}
+          onHide={this.close.bind(this)}
+          style={{ paddingTop }}
+          dialogClassName={wsInfoStyles.window_50w}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>{translate('View Workspaces')}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <BootstrapTable data={activityWsInfo} options={options} striped hover>
+              <TableHeaderColumn
+                isKey dataField="name" columnClassName={[wsInfoStyles.width_30, wsInfoStyles.wsInfoItem].join(' ')}
+                className={wsInfoStyles.thClassName_30}
+              >{translate('workspaceWhereActivityIsDisplayed')}
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="type"
+                columnClassName={[wsInfoStyles.width_20, wsInfoStyles.wsInfoItem].join(' ')}
+                className={wsInfoStyles.thClassName_20}
+              >{translate('workspaceType')}&nbsp;
+                <OverlayTrigger
+                  placement="right"
+                  delay={DELAY}
+                  overlay={tooltipContent}
+                >
+                  <img src={question} className={wsInfoStyles.help_icon} alt={'footer'} />
+                </OverlayTrigger> </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="extraInfo" columnClassName={[wsInfoStyles.width_50, wsInfoStyles.wsInfoItem].join(' ')}
+                className={wsInfoStyles.thClassName_50}
+              >{translate('howActivityIsLinked')}</TableHeaderColumn>
+            </BootstrapTable>
+          </Modal.Body>
+          <Modal.Footer />
+        </Modal>
+      </div>
     );
   }
 }
