@@ -14,6 +14,7 @@ import SummaryGroup from './SummaryGroup.jsx';
 import printIcon from '../../assets/images/print.svg';
 import IconFormatter from '../common/IconFormatter.jsx';
 import APWorkspaceInfo from './sections/info/APWorkspaceInfo.jsx';
+import APActivityVersionHistory from './sections/info/APActivityVersionHistory.jsx';
 
 let logger = null;
 
@@ -98,7 +99,7 @@ export default class ActivityPreviewUI extends Component {
     const { activity, activityContext } = this.props;
 
     const { rtl } = this.state;
-    const { translate, getActivityContactIds, APDocumentPage, activityFieldsManager } = this.context;
+    const { translate, getActivityContactIds, APDocumentPage, activityFieldsManager, DateUtils } = this.context;
 
     const categories = ActivityConstants.AP_SECTION_IDS.map((category) => {
       if (category.sectionPath
@@ -142,12 +143,17 @@ export default class ActivityPreviewUI extends Component {
                     className={styles.print} onClick={() => window.print()} alt="print" src={printIcon}
                     title={translate('clickToPrint')} />
                 </li>
+                <li>
                 <APWorkspaceInfo
                   show={this.state.showViewDialog}
                   onClose={() => this.setState({ showViewDialog: false })}
                   activityWsInfo={this.context.activityWsInfo}
                   showActivityWorkspaces={this.props.activityContext.showActivityWorkspaces}
                 />
+                <APActivityVersionHistory
+                  activityContext={activityContext} activity={activity} translate={translate}
+                  DateUtils={DateUtils} />
+                  </li>
               </ul>
             </span>
             <div className={styles.preview_status_container}>
