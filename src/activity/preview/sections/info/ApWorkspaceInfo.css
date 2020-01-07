@@ -24,25 +24,23 @@
   width: 50%;
 }
 
-.thClassName_30 {
-  width: 30%;
+.thClassName{
   font-size: 12px;
   border-right: none !important;
   border-left: none !important;
+}
+.thClassName_30 {
+  width: 30%;
+
 }
 
 .thClassName_20 {
   width: 20%;
   font-size: 12px;
-  border-right: none !important;
-  border-left: none !important;
 }
 
 .thClassName_50 {
   width: 50%;
-  font-size: 12px;
-  border-right: none !important;
-  border-left: none !important;
 }
 
 .window_50w {

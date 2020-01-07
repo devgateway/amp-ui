@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Button, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import question from '../../../../assets/images/tooltip-help.png';
 import wsInfoStyles from './ApWorkspaceInfo.css';
@@ -38,6 +38,10 @@ export default class APWorkspaceInfo extends Component {
     this.recalcPaddingTop();
     this.windowResizeListener = debounce(this.recalcPaddingTop.bind(this));
     window.addEventListener('resize', this.windowResizeListener);
+  }
+
+  handleHide() {
+    this.setState({ showDialog: false });
   }
 
   showInfoWorkspace() {
@@ -91,12 +95,10 @@ export default class APWorkspaceInfo extends Component {
     };
     return (
       <div>
-        <li>
-          <a onClick={this.showInfoWorkspace.bind(this)} title={translate('View Workspaces')}>
-            <img
-              src={history}
-              onClick={this.showInfoWorkspace.bind(this)} alt="" /></a>
-        </li>
+        <a onClick={this.showInfoWorkspace.bind(this)} title={translate('View Workspaces')}>
+          <img
+            src={history}
+            onClick={this.showInfoWorkspace.bind(this)} alt="" /></a>
         <Modal
           show={showDialog}
           onShow={this.onShow.bind(this)}
@@ -111,13 +113,13 @@ export default class APWorkspaceInfo extends Component {
             <BootstrapTable data={activityWsInfo} options={options} striped hover>
               <TableHeaderColumn
                 isKey dataField="name" columnClassName={[wsInfoStyles.width_30, wsInfoStyles.wsInfoItem].join(' ')}
-                className={wsInfoStyles.thClassName_30}
+                className={[wsInfoStyles.thClassName_30, wsInfoStyles.thClassName].join(' ')}
               >{translate('workspaceWhereActivityIsDisplayed')}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="type"
                 columnClassName={[wsInfoStyles.width_20, wsInfoStyles.wsInfoItem].join(' ')}
-                className={wsInfoStyles.thClassName_20}
+                className={[wsInfoStyles.thClassName_20, wsInfoStyles.thClassName].join(' ')}
               >{translate('workspaceType')}&nbsp;
                 <OverlayTrigger
                   placement="right"
@@ -128,11 +130,13 @@ export default class APWorkspaceInfo extends Component {
                 </OverlayTrigger> </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="extraInfo" columnClassName={[wsInfoStyles.width_50, wsInfoStyles.wsInfoItem].join(' ')}
-                className={wsInfoStyles.thClassName_50}
+                className={[wsInfoStyles.thClassName_50, wsInfoStyles.thClassName].join(' ')}
               >{translate('howActivityIsLinked')}</TableHeaderColumn>
             </BootstrapTable>
           </Modal.Body>
-          <Modal.Footer />
+          <Modal.Footer >
+            <Button onClick={this.handleHide.bind(this)}>{translate('close')}</Button>
+          </Modal.Footer>
         </Modal>
       </div>
     );

@@ -31,7 +31,7 @@ class APFundingOrganizationSection extends Component {
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
       effectiveCurrency: PropTypes.string.isRequired,
-      reorderFundingItemId: PropTypes.string.isRequired
+      reorderFundingItemId: PropTypes.number.isRequired
     }).isRequired,
   };
 
