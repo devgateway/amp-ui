@@ -16,7 +16,6 @@ export default class ActivityLinks {
     if (compareActivityLink) {
       links.compareActivity.isExternal = compareActivityLink.isExternal;
       links.compareActivity.url = compareActivityLink.url;
-
     }
     links.edit.isExternal = editLink.isExternal;
     links.edit.url = editLink.url;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Grid, Row } from 'react-bootstrap';
+import { Col, Grid, Row, Alert } from 'react-bootstrap';
 import Scrollspy from 'react-scrollspy';
 import FieldsManager from '../../modules/field/FieldsManager';
 import CurrencyRatesManager from '../../modules/util/CurrencyRatesManager';
@@ -15,6 +15,7 @@ import printIcon from '../../assets/images/print.svg';
 import IconFormatter from '../common/IconFormatter.jsx';
 import APWorkspaceInfo from './sections/info/APWorkspaceInfo.jsx';
 import APActivityVersionHistory from './sections/info/APActivityVersionHistory.jsx';
+import ActivityLinks from '../../utils/helpers/ActivityLinks';
 
 let logger = null;
 
@@ -30,11 +31,20 @@ export default class ActivityPreviewUI extends Component {
     activity: PropTypes.object,
     activityContext: PropTypes.shape({
       showActivityWorkspaces: PropTypes.bool,
+      validationStatus: PropTypes.string,
       rtlDirection: PropTypes.bool,
       activityStatus: PropTypes.string,
       workspaceCurrency: PropTypes.string,
       calendar: PropTypes.object,
       workspaceLeadData: PropTypes.string,
+      activityWorkspace: PropTypes.shape({}),
+      validation: PropTypes.shape({
+        status: PropTypes.string.isRequired,
+        daysToAutomaticValidation: PropTypes.number
+      }),
+      versionHistoryInformation: PropTypes.shape({
+        activityLastVersionId: PropTypes.number.isRequired
+      }),
       teamMember: PropTypes.shape({
         teamMemberRole: PropTypes.number.isRequired,
         workspace: PropTypes.shape({
@@ -44,6 +54,8 @@ export default class ActivityPreviewUI extends Component {
         })
       })
     }).isRequired,
+    messageInformation: PropTypes.object,
+    isOnline: PropTypes.bool
   };
 
   static contextTypes = {
@@ -116,8 +128,8 @@ export default class ActivityPreviewUI extends Component {
 
     const teamLeadFlag = activityContext.teamMember.teamMemberRole === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_MANAGER
       || activityContext.teamMember.teamMemberRole === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_APPROVER;
-
-    const privateWSWarning = activityContext[WorkspaceConstants.IS_PRIVATE] ? translate('privateWorkspaceWarning') : '';
+    const privateWSWarning = activityContext.activityWorkspace[WorkspaceConstants.IS_PRIVATE] ?
+      translate('privateWorkspaceWarning') : '';
     const edit = activity[ActivityConstants.REJECTED_ID] === undefined && activityContext.teamMember !== undefined;
 
     return (
@@ -144,18 +156,19 @@ export default class ActivityPreviewUI extends Component {
                     title={translate('clickToPrint')} />
                 </li>
                 <li>
-                <APWorkspaceInfo
-                  show={this.state.showViewDialog}
-                  onClose={() => this.setState({ showViewDialog: false })}
-                  activityWsInfo={this.context.activityWsInfo}
-                  showActivityWorkspaces={this.props.activityContext.showActivityWorkspaces}
-                />
-                <APActivityVersionHistory
-                  activityContext={activityContext} activity={activity} translate={translate}
-                  DateUtils={DateUtils} />
-                  </li>
+                  <APWorkspaceInfo
+                    show={this.state.showViewDialog}
+                    onClose={() => this.setState({ showViewDialog: false })}
+                    activityWsInfo={this.context.activityWsInfo}
+                    showActivityWorkspaces={this.props.activityContext.showActivityWorkspaces}
+                  />
+                  <APActivityVersionHistory
+                    activityContext={activityContext} activity={activity} translate={translate}
+                    DateUtils={DateUtils} />
+                </li>
               </ul>
             </span>
+            {this.props.isOnline && this._getMessages()}
             <div className={styles.preview_status_container}>
               <APStatusBar
                 fieldClass={styles.inline_flex}
@@ -192,12 +205,98 @@ export default class ActivityPreviewUI extends Component {
     );
   }
 
+  _getMessages() {
+    const messages = {};
+    messages.info = [];
+    messages.danger = [];
+    this._getAdditionalMessages(messages);
+    this._checkDraft(messages);
+    this._checkLatestVersion(messages);
+    this._getValidations(messages);
+    const retAlerts = [];
+    if (messages.info.length === 0 && messages.danger.length === 0) {
+      return null;
+    } else {
+      if (messages.danger.length > 0) {
+        retAlerts.push((<div key="danger"><Alert bsStyle="danger">{messages.danger}</Alert></div>));
+      }
+      if (messages.info.length > 0) {
+        retAlerts.push((<div key="info"><Alert bsStyle="info">{messages.info}</Alert></div>));
+      }
+    }
+    return retAlerts;
+  }
+
+  _getAdditionalMessages(messages) {
+    const { translate } = this.context;
+    if (this.props.messageInformation) {
+      if (this.props.messageInformation.editingUser) {
+        messages.danger.push(<li>{translate('editingOtherUserError') +
+        this.props.messageInformation.editingUser}</li>);
+      }
+      if (this.props.messageInformation.editPermissionError) {
+        messages.danger.push((<li>{translate('editPermissionError')}</li>));
+      }
+      if (this.props.messageInformation.sameUserEditing) {
+        messages.danger.push((<li>{translate('sameUserEditingError')}</li>));
+      }
+    }
+
+    console.log(this.props.messageInformation);
+  }
+
+  _checkDraft(messages) {
+    const { activity } = this.props;
+    const { translate } = this.context;
+    if (activity[ActivityConstants.IS_DRAFT]) {
+      messages.info.push((<li>{translate('draft_activity')}</li>));
+    }
+    return messages;
+  }
+
+  _checkLatestVersion(messages) {
+    const { activity, activityContext } = this.props;
+    const { translate } = this.context;
+
+    if (activity[ActivityConstants.INTERNAL_ID] !== activityContext.versionHistoryInformation.activityLastVersionId) {
+      messages.danger.push((
+        <li key="not_latest_version">{translate('not_latest_version')}.&nbsp;
+          <a
+            className={styles.message_link}
+            href={`${ActivityLinks.getViewLink().url}${
+              activityContext.versionHistoryInformation.activityLastVersionId}`}>
+            {translate('click_latest_version')}
+          </a></li>));
+    }
+  }
+
+  _getValidations(messages) {
+    const { activityContext } = this.props;
+    const { translate } = this.context;
+
+    switch (activityContext.validation.status) {
+      case ActivityConstants.AUTOMATIC_VALIDATION:
+        messages.info.push((<li key="automatic_validation">{translate('automatic_validation')
+          .replace('{0}', activityContext.validation.daysToAutomaticValidation)}</li>));
+        break;
+      case ActivityConstants.AWAITING_VALIDATION :
+        messages.info.push((<li key="awaiting_validation">{translate('awaiting_validation')}</li>));
+        break;
+      case ActivityConstants.CANNOT_BE_VALIDATE:
+      default:
+        messages.danger.push((<li key="cannot_be_validated">{translate('cannot_be_validated')}</li>));
+        break;
+    }
+    return messages;
+  }
+
   _hasActivity() {
     return this.props.activity !== undefined && this.props.activity !== null;
   }
 
   render() {
     const activityPreview = this._hasActivity() ? this._renderData() : '';
+
     return (
       <div>
         {activityPreview}

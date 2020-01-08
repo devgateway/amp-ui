@@ -10,7 +10,6 @@ import { COMPARE, SET_VERSION, BLANK, SELF, POST, NONE, FORM, HIDDEN, INPUT }
   from './APActivityVersionHistoryConstants.jsx';
 
 export default class APActivityVersionHistory extends Component {
-
   static submitPostForm(url, data, target) {
     const form = document.createElement(FORM);
     form.target = target;
