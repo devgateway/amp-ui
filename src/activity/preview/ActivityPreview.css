@@ -2,6 +2,7 @@
   direction: rtl !important;
   unicode-bidi: embed !important;
 }
+
 .img_url {
   width: 20px;
 }
@@ -478,7 +479,14 @@
   font-weight: bold;
 }
 
+.message_link {
+  color: #A94442;
+  font-weight: bold;
+}
+
 @media print {
+
+
   body {
     -webkit-print-color-adjust: exact !important;
   }
@@ -604,6 +612,7 @@
   }
 
   .preview_container {
+    width: 1000px;
     font-family: 'open_sansregular', sans-serif !important;
     margin-left: 0 !important;
     margin-right: 0 !important;

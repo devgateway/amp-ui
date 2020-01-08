@@ -4,6 +4,6 @@ export const BLANK = '_blank';
 export const SELF = '_self';
 export const POST = 'POST';
 export const NONE = 'none';
-export const FORM = 'form'
+export const FORM = 'form';
 export const HIDDEN = 'hidden';
 export const INPUT = 'input';
