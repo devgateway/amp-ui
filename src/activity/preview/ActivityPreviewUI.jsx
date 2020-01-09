@@ -241,8 +241,6 @@ export default class ActivityPreviewUI extends Component {
         messages.danger.push((<li>{translate('sameUserEditingError')}</li>));
       }
     }
-
-    console.log(this.props.messageInformation);
   }
 
   _checkDraft(messages) {
