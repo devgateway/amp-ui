@@ -34,6 +34,7 @@ import IconFormatter from './activity/common/IconFormatter.jsx';
 import ActivityLinks from './utils/helpers/ActivityLinks';
 import DateUtilsHelper from './utils/DateUtilsHelper';
 import DateConstants from './utils/constants/DateConstants';
+import ErrorHelper from './modules/util/ErrorHelper';
 
 export {
   Constants,
@@ -72,7 +73,8 @@ export {
   IconFormatter,
   ActivityLinks,
   DateUtilsHelper,
-  DateConstants
+  DateConstants,
+  ErrorHelper
 };
 
 export default {
@@ -112,5 +114,6 @@ export default {
   IconFormatter,
   ActivityLinks,
   DateUtilsHelper,
-  DateConstants
+  DateConstants,
+  ErrorHelper
 };

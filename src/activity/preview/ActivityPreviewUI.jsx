@@ -12,6 +12,7 @@ import APStatusBar from './sections/APStatusBar.jsx';
 import MainGroup from './MainGroup.jsx';
 import SummaryGroup from './SummaryGroup.jsx';
 import printIcon from '../../assets/images/print.svg';
+import wordIcon from '../../assets/images/word.svg';
 import IconFormatter from '../common/IconFormatter.jsx';
 import APWorkspaceInfo from './sections/info/APWorkspaceInfo.jsx';
 import APActivityVersionHistory from './sections/info/APActivityVersionHistory.jsx';
@@ -30,6 +31,7 @@ export default class ActivityPreviewUI extends Component {
   static propTypes = {
     activity: PropTypes.object,
     activityContext: PropTypes.shape({
+      hideEditableExportFormatsPublicView: PropTypes.bool,
       showActivityWorkspaces: PropTypes.bool,
       validationStatus: PropTypes.string,
       rtlDirection: PropTypes.bool,
@@ -108,7 +110,7 @@ export default class ActivityPreviewUI extends Component {
   }
 
   _renderData() {
-    const { activity, activityContext } = this.props;
+    const { activity, activityContext, isOnline } = this.props;
 
     const { rtl } = this.state;
     const { translate, getActivityContactIds, APDocumentPage, activityFieldsManager, DateUtils } = this.context;
@@ -126,12 +128,21 @@ export default class ActivityPreviewUI extends Component {
 
     const categoryKeys = ActivityConstants.AP_SECTION_IDS.map(category => category.key);
 
-    const teamLeadFlag = activityContext.teamMember.teamMemberRole === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_MANAGER
-      || activityContext.teamMember.teamMemberRole === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_APPROVER;
+    const teamLeadFlag = (activityContext.teamMember !== null
+      && (activityContext.teamMember.teamMemberRole === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_MANAGER
+        || activityContext.teamMember.teamMemberRole === WorkspaceConstants.ROLE_TEAM_MEMBER_WS_APPROVER));
     const privateWSWarning = activityContext.activityWorkspace[WorkspaceConstants.IS_PRIVATE] ?
       translate('privateWorkspaceWarning') : '';
-    const edit = activity[ActivityConstants.REJECTED_ID] === undefined && activityContext.teamMember !== undefined;
-
+    const edit = activityContext.teamMember !== null && activity[ActivityConstants.REJECTED_ID] === undefined
+      && activityContext.teamMember !== undefined;
+    const teamId = activityContext.teamMember ? activityContext.teamMember.workspace.id : undefined;
+    const wsAccessType = activityContext.teamMember ?
+      activityContext.teamMember.workspace[WorkspaceConstants.ACCESS_TYPE] : undefined;
+    const crossTeamWS = activityContext.teamMember !== null &&
+      activityContext.teamMember.workspace[WorkspaceConstants.CROSS_TEAM_VALIDATION];
+    const wordUrl = `${ActivityLinks.getWordExportLink().url}${activity[ActivityConstants.INTERNAL_ID]}`;
+    const showWordExport = isOnline && (activityContext.teamMember !== null
+      || !activityContext.hideEditableExportFormatsPublicView);
     return (
       <div className={rtl ? styles.rtl : ''}>
         <div className={styles.preview_container}>
@@ -144,17 +155,21 @@ export default class ActivityPreviewUI extends Component {
                   id={activity.id} edit={edit} view={false}
                   status={activityContext.activityStatus}
                   activityTeamId={activity[ActivityConstants.TEAM].id}
-                  teamId={activityContext.teamMember.workspace.id}
+                  teamId={teamId}
                   teamLeadFlag={teamLeadFlag}
-                  wsAccessType={activityContext.teamMember.workspace[WorkspaceConstants.ACCESS_TYPE]}
-                  crossTeamWS={activityContext.teamMember.workspace[WorkspaceConstants.CROSS_TEAM_VALIDATION]}
+                  wsAccessType={wsAccessType}
+                  crossTeamWS={crossTeamWS}
                   translate={this.context.translate}
                 />
                 <li>
                   <img
-                    className={styles.print} onClick={() => window.print()} alt="print" src={printIcon}
+                    className={styles.print_word} onClick={() => window.print()} alt="print" src={printIcon}
                     title={translate('clickToPrint')} />
                 </li>
+                {showWordExport && <li><a href={wordUrl} target="_blank" rel="noopener noreferrer"><img
+                  className={styles.print_word} alt="Export to word" src={wordIcon}
+                  title={translate('exportToWord')} /></a></li>
+                }
                 <li>
                   <APWorkspaceInfo
                     show={this.state.showViewDialog}
@@ -279,6 +294,8 @@ export default class ActivityPreviewUI extends Component {
         break;
       case ActivityConstants.AWAITING_VALIDATION :
         messages.info.push((<li key="awaiting_validation">{translate('awaiting_validation')}</li>));
+        break;
+      case ActivityConstants.UNKNOWN:
         break;
       case ActivityConstants.CANNOT_BE_VALIDATE:
       default:
