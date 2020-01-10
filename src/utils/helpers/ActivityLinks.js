@@ -1,7 +1,8 @@
 const links = {};
 export default class ActivityLinks {
-  static registerLinks({ viewLink, editLink, versionHistoryLink, compareActivityLink }) {
+  static registerLinks({ viewLink, editLink, versionHistoryLink, compareActivityLink, wordExportLink }) {
     links.view = {};
+    links.wordExport = {};
     links.edit = {};
     links.versionHistory = {};
     links.compareActivity = {};
@@ -16,6 +17,10 @@ export default class ActivityLinks {
     if (compareActivityLink) {
       links.compareActivity.isExternal = compareActivityLink.isExternal;
       links.compareActivity.url = compareActivityLink.url;
+    }
+    if (wordExportLink) {
+      links.wordExport.isExternal = wordExportLink.isExternal;
+      links.wordExport.url = wordExportLink.url;
     }
     links.edit.isExternal = editLink.isExternal;
     links.edit.url = editLink.url;
@@ -35,5 +40,9 @@ export default class ActivityLinks {
 
   static getCompareActivityLink() {
     return links.compareActivity;
+  }
+
+  static getWordExportLink() {
+    return links.wordExport;
   }
 }

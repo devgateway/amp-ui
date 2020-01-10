@@ -19,7 +19,7 @@ export default class APWorkspaceInfo extends Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     activityWsInfo: PropTypes.array,
-    showActivityWorkspaces: PropTypes.bool.isRequired
+    showActivityWorkspaces: PropTypes.bool
   };
 
   static contextTypes = {

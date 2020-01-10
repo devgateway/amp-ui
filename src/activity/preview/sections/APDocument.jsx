@@ -13,6 +13,7 @@ import docSyles from './APDocument.css';
 import ActionUrl from '../../common/ActionUrl.jsx';
 import download from '../../../assets/images/download.svg';
 import gotoUrl from '../../../assets/images/goto_url.svg';
+import ErrorHelper from '../../../modules/util/ErrorHelper';
 
 /**
  * Activity Preview Documents section
@@ -95,16 +96,6 @@ class APDocument extends Component {
     return resData;
   }
 
-  showErrors(errors) {
-    const messages = [];
-    errors.forEach((error, index) => {
-      messages.push(<span key={index}>{this.props.translate(error.messageKey)} <br /></span>);
-    });
-    return (errors.length > 0 && <div className="alert alert-danger" role="alert">
-      {messages}
-    </div>);
-  }
-
   renderResource(resource) {
     const { resourceReducer, buildSimpleField, openExternal, translate } = this.props;
     const { resourceFieldsManager } = resourceReducer;
@@ -147,7 +138,7 @@ class APDocument extends Component {
     if (isResourcesLoading || isResourceManagersLoading) {
       return <Loading Logger={Logger} translate={translate} />;
     } else if (errors && errors.length > 0) {
-      return this.showErrors(errors);
+      return ErrorHelper.showErrors(errors, this.props.translate);
     } else {
       return (
         <APField
