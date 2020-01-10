@@ -24,6 +24,17 @@ import downloadImage from './assets/images/download.svg';
 import ajaxLoader from './assets/images/ajax-loader.gif';
 import gotoImage from './assets/images/goto_url.svg';
 import ActivityPreviewUI from './activity/preview/ActivityPreviewUI.jsx';
+import FmManagerHelper from './utils/helpers/FmManagerHelper';
+import CommonPossibleValuesHelper from './utils/helpers/CommonPossibleValuesHelper';
+import { ApprovalStatus, AllApprovalStatuses } from './utils/constants/ApprovalStatus';
+import CommonActivityHelper from './utils/helpers/CommonActivityHelper';
+import GlobalSettingsConstants from './utils/constants/GlobalSettingsConstants';
+import NumberUtils from './utils/NumberUtils';
+import IconFormatter from './activity/common/IconFormatter.jsx';
+import ActivityLinks from './utils/helpers/ActivityLinks';
+import DateUtilsHelper from './utils/DateUtilsHelper';
+import DateConstants from './utils/constants/DateConstants';
+import ErrorHelper from './modules/util/ErrorHelper';
 
 export {
   Constants,
@@ -52,6 +63,18 @@ export {
   ajaxLoader,
   gotoImage,
   ActivityPreviewUI,
+  FmManagerHelper,
+  CommonPossibleValuesHelper,
+  ApprovalStatus,
+  AllApprovalStatuses,
+  CommonActivityHelper,
+  GlobalSettingsConstants,
+  NumberUtils,
+  IconFormatter,
+  ActivityLinks,
+  DateUtilsHelper,
+  DateConstants,
+  ErrorHelper
 };
 
 export default {
@@ -81,4 +104,16 @@ export default {
   ajaxLoader,
   gotoImage,
   ActivityPreviewUI,
+  FmManagerHelper,
+  CommonPossibleValuesHelper,
+  ApprovalStatus,
+  AllApprovalStatuses,
+  CommonActivityHelper,
+  GlobalSettingsConstants,
+  NumberUtils,
+  IconFormatter,
+  ActivityLinks,
+  DateUtilsHelper,
+  DateConstants,
+  ErrorHelper
 };

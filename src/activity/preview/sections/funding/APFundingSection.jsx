@@ -7,6 +7,7 @@ import Section from '../Section.jsx';
 import APFundingTotalsSection from './APFundingTotalsSection.jsx';
 import APFundingOrganizationSection from './APFundingOrganizationSection.jsx';
 import { APProposedProjectCost } from '../APProjectCost.jsx';
+import NumberUtils from '../../../../utils/NumberUtils';
 import fundingStyles from './APFundingSection.css';
 
 
@@ -20,52 +21,37 @@ class APFundingSection extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
     buildSimpleField: PropTypes.func.isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired,
-    getAmountsInThousandsMessage: PropTypes.func.isRequired,
     DateUtils: PropTypes.func.isRequired,
+    Logger: PropTypes.func.isRequired
   };
 
-  static contextTypes = {
-    Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
-  };
-
-  constructor(props, context) {
-    super(props, context);
-    const { Logger } = this.context;
+  constructor(props) {
+    super(props);
+    const { Logger } = this.props;
     logger = new Logger('AP funding section');
     logger.debug('constructor');
   }
 
   render() {
     logger.debug('render');
-    const { DateUtils, rawNumberToFormattedString, getAmountsInThousandsMessage } = this.props;
+    const { DateUtils } = this.props;
     const fundingList = [];
     if (this.props.activity.fundings) {
       this.props.activity.fundings.forEach((funding) => {
         const item = (<APFundingOrganizationSection
           funding={funding} key={funding[ActivityConstants.AMP_FUNDING_ID] || UIUtils.stringToUniqueId()}
           buildSimpleField={this.props.buildSimpleField}
-          DateUtils={DateUtils}
-
-
-          rawNumberToFormattedString={rawNumberToFormattedString}
-        />);
+          DateUtils={DateUtils} />);
         fundingList.push(item);
       });
     }
     return (<div className={fundingStyles.container}>
-      <div className={fundingStyles.byline}>{getAmountsInThousandsMessage()}</div>
+      <div className={fundingStyles.byline}>{NumberUtils.getAmountsInThousandsMessage()}</div>
       <APProposedProjectCost
         sectionPath={ActivityConstants.PPC_AMOUNT}
-        titleClass={fundingStyles.section_header}
-        rawNumberToFormattedString={rawNumberToFormattedString}
-      />
+        titleClass={fundingStyles.section_header} />
       <div>{fundingList}</div>
-      <div><APFundingTotalsSection
-
-
-        rawNumberToFormattedString={rawNumberToFormattedString} /></div>
+      <div><APFundingTotalsSection /></div>
       <div className={fundingStyles.clear} />
     </div>);
   }

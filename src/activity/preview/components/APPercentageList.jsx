@@ -28,17 +28,13 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     columns: PropTypes.number,
     fmPath: PropTypes.string,
     getItemTitle: PropTypes.func,
-    rawNumberToFormattedString: PropTypes.func.isRequired
-  };
-
-  static contextTypes = {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    rtl: PropTypes.bool,
   };
-
-  constructor(props, context) {
-    super(props, context);
-    const { Logger } = this.context;
+  constructor(props) {
+    super(props);
+    const { Logger } = this.props;
     logger = new Logger('AP percentage list');
     logger.debug('constructor');
   }
@@ -48,17 +44,24 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
       return this.props.getItemTitle(item);
     }
     const obj = item[valueField];
-    return obj[ActivityConstants.HIERARCHICAL_VALUE] ?
+    let values = obj[ActivityConstants.HIERARCHICAL_VALUE] ?
       obj[ActivityConstants.HIERARCHICAL_VALUE] :
       PossibleValuesManager.getOptionTranslation(obj);
+    if (this.props.rtl) {
+      // We need to reverse the order of a string with format "[Haiti][Artibonite][Saint-Marc Arrondissement]".
+      if (values && values.indexOf(']') > -1) {
+        values = values.replace(/[[]/gm, '').split(']').reverse().filter(i => i.length > 0);
+        values = `[${values.toString().replace(/[,]/g, '][')}]`;
+      }
+    }
+    return values;
   }
 
   render() {
     const {
       activityFieldsManager, percentTitleClass, fmPath, activity, columns, tablify
-      , percentValueClass, fieldNameClass, fieldValueClass, rawNumberToFormattedString
+      , percentValueClass, fieldNameClass, fieldValueClass, translate
     } = this.props;
-    const { translate } = this.context;
     const title = listTitle ? translate(listTitle) : null;
     let items = activity[listField];
     let content = null;
@@ -76,8 +79,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
         content = items.map(({ itemTitle, percentage }) =>
           (<APPercentageField
             key={UIUtils.stringToUniqueId(itemTitle)} title={itemTitle} value={percentage}
-            titleClass={percentTitleClass} valueClass={percentValueClass}
-            rawNumberToFormattedString={rawNumberToFormattedString} />)
+            titleClass={percentTitleClass} valueClass={percentValueClass} />)
         );
         if (tablify) {
           content = <Tablify content={content} columns={columns} />;

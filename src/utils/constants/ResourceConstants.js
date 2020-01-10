@@ -19,6 +19,7 @@ const FILE_SIZE = 'file_size';
 const TYPE = 'type';
 const PRIVATE = 'private';
 const PUBLIC = 'public';
+const URL = 'url';
 const CLIENT_ADDING_DATE = 'client_adding_date';
 const CLIENT_YEAR_OF_PUBLICATION = 'client_year_of_publication';
 /* merged field used to display either URL or file name */
@@ -66,4 +67,5 @@ export default Object.freeze({
   DEPENDENCY_RESOURCE_TYPE_LINK,
   DEPENDENCY_RESOURCE_TYPE_FILE,
   REPOSITORY_DIR,
+  URL
 });

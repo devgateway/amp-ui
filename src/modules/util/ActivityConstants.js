@@ -211,6 +211,8 @@ const MTEF_PROJECTIONS = 'mtef_projections';
 const PROJECTION = 'projection';
 const PIPELINE = 'pipeline';
 const PROJECTION_DATE = 'projection_date';
+const NATIONAL = 'National';
+const COUNTRY = 'Country';
 
 // Activity labels (usually those that don't come as part of Fields Def EP)
 const SAME_AS_PROPOSED_START_DATE_LABEL = 'Same as Proposed Start Date';
@@ -225,6 +227,12 @@ const DEPENDENCY_PROJECT_CODE_ON_BUDGET = 'project_code_on_budget';
 const DEPENDENCY_ON_BUDGET = 'on_budget';
 const DEPENDENCY_TRANSACTION_PRESENT = 'transaction_present';
 const DEPENDENCY_COMPONENT_FUNDING_ORG_VALID = 'organization_present';
+
+// Activity Validation Status
+const AUTOMATIC_VALIDATION = 'AUTOMATIC_VALIDATION';
+const AWAITING_VALIDATION = 'AWAITING_VALIDATION';
+const CANNOT_BE_VALIDATE = 'CANNOT_BE_VALIDATE';
+const UNKNOWN = 'UNKNOWN';
 
 /** IDs for AP sections **/
 const AP_SECTION_IDS =
@@ -275,7 +283,8 @@ const toFieldNames = function (listOfNames) {
  * @return {string}
  */
 const toFieldName = function (name: string) {
-  return name.toLowerCase().replace(' ', '_');
+  return name.toLowerCase()
+    .replace(' ', '_');
 };
 
 /**
@@ -493,6 +502,8 @@ export default Object.freeze({
   PROJECTION,
   PIPELINE,
   PROJECTION_DATE,
+  NATIONAL,
+  COUNTRY,
   SAME_AS_PROPOSED_START_DATE_LABEL,
   SAME_AS_PROPOSED_APPROVAL_DATE_LABEL,
   DEPENDENCY_IMPLEMENTATION_LEVEL_PRESENT,
@@ -515,4 +526,8 @@ export default Object.freeze({
   toFieldNames,
   toFieldName,
   toOriginalLabel,
+  AUTOMATIC_VALIDATION,
+  AWAITING_VALIDATION,
+  CANNOT_BE_VALIDATE,
+  UNKNOWN
 });

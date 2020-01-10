@@ -26,16 +26,13 @@ class FundingSummary extends Component {
     activityFundingTotals: PropTypes.object.isRequired, // PropTypes.instanceOf(ActivityFundingTotals).isRequired,
     fieldNameClass: PropTypes.string,
     fieldValueClass: PropTypes.string,
-  };
-
-  static contextTypes = {
     Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
   };
 
-  constructor(props, context) {
-    super(props, context);
-    const { Logger } = this.context;
+  constructor(props) {
+    super(props);
+    const { Logger } = this.props;
     logger = new Logger('Funding summary');
     logger.debug('constructor');
   }
@@ -77,6 +74,7 @@ class FundingSummary extends Component {
       measuresTotals[ub] = this.props.activityFundingTotals.getTotals(ub, {});
     }
     // Other measures: "Total MTEF Projections".
+
     if (FeatureManager.isFMSettingEnabled(FeatureManagerConstants.MTEF_PROJECTIONS)) {
       measuresTotals[ValueConstants.MTEF_PROJECTIONS] = this.props.activityFundingTotals.getMTEFTotal();
     }
@@ -95,7 +93,7 @@ class FundingSummary extends Component {
   }
 
   _buildTotalFields(measuresTotals) {
-    const { translate } = this.context;
+    const { translate } = this.props;
     const measuresOrder = [
       { trn: ValueConstants.ACTUAL_COMMITMENTS, total: true },
       { trn: ValueConstants.PLANNED_COMMITMENTS, total: true },

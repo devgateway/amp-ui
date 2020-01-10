@@ -11,6 +11,7 @@ import APFundingMTEFSection from './APFundingMTEFSection.jsx';
 import APFundingTransactionTypeItem from './APFundingTransactionTypeItem.jsx';
 import APFundingTotalItem from './APFundingTotalItem.jsx';
 import styles from './APFundingOrganizationSection.css';
+import CommonActivityHelper from '../../../../utils/helpers/CommonActivityHelper';
 
 let logger = null;
 
@@ -21,23 +22,25 @@ class APFundingOrganizationSection extends Component {
   static propTypes = {
     funding: PropTypes.object.isRequired,
     buildSimpleField: PropTypes.func.isRequired,
-    DateUtils: PropTypes.func.isRequired,
-    rawNumberToFormattedString: PropTypes.func.isRequired
+    DateUtils: PropTypes.func.isRequired
   };
 
   static contextTypes = {
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
-    currentWorkspaceSettings: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    activityContext: PropTypes.shape({
+      effectiveCurrency: PropTypes.string.isRequired,
+      reorderFundingItemId: PropTypes.number.isRequired
+    }).isRequired,
   };
 
   constructor(props, context) {
     super(props, context);
-    const { Logger } = this.context;
+    const { Logger, activityContext } = this.context;
     logger = new Logger('AP funding organization section');
     logger.debug('constructor');
-    this._currency = context.currentWorkspaceSettings.currency.code;
+    this._currency = activityContext.effectiveCurrency;
   }
 
   _buildDonorInfo() {
@@ -76,17 +79,18 @@ class APFundingOrganizationSection extends Component {
   }
 
   _buildMTEFDetailSection() {
-    const { rawNumberToFormattedString, DateUtils } = this.props;
+    const { DateUtils } = this.props;
     return (<APFundingMTEFSection
       funding={this.props.funding}
-      DateUtils={DateUtils} rawNumberToFormattedString={rawNumberToFormattedString}
+      DateUtils={DateUtils}
     />);
   }
 
   _buildFundingDetailSection() {
     // Group the list of funding details by adjustment_type and transaction_type.
-    const { rawNumberToFormattedString, DateUtils } = this.props;
+    const { DateUtils } = this.props;
     const groups = [];
+    const reorderFundingItemId = this.context.activityContext.reorderFundingItemId;
     FieldPathConstants.FUNDING_TRANSACTION_TYPES.forEach(trnType => {
       const fds = this.props.funding[trnType];
       if (fds && fds.length) {
@@ -101,6 +105,7 @@ class APFundingOrganizationSection extends Component {
         });
         ValueConstants.ADJUSTMENT_TYPES_AP_ORDER.forEach(adjType => {
           const items = fdByAT.get(adjType);
+          CommonActivityHelper.sortFundingItems(items, reorderFundingItemId);
           if (items.length) {
             groups.push([trnType, items]);
           }
@@ -114,13 +119,11 @@ class APFundingOrganizationSection extends Component {
         key={idx}
         buildSimpleField={this.props.buildSimpleField}
         DateUtils={DateUtils}
-
-        rawNumberToFormattedString={rawNumberToFormattedString} />)
+      />)
     );
   }
 
   _buildUndisbursedBalanceSection() {
-    const { rawNumberToFormattedString } = this.props;
     const { translate } = this.context;
     let totalActualDisbursements = 0;
     let totalActualCommitments = 0;
@@ -146,8 +149,6 @@ class APFundingOrganizationSection extends Component {
         value={totalActualCommitments - totalActualDisbursements}
         currency={translate(this._currency)}
         key={'undisbursed-balance-key'}
-        rawNumberToFormattedString={rawNumberToFormattedString}
-
       />
     </div>);
   }

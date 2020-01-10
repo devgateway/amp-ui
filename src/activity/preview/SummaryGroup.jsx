@@ -11,8 +11,10 @@ let logger = null;
  */
 export default class SummaryGroup extends Component {
   static contextTypes = {
-    currentWorkspaceSettings: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
+    activityContext: PropTypes.shape({
+      effectiveCurrency: PropTypes.string.isRequired
+    }).isRequired,
   };
 
   constructor(props, context) {
@@ -23,7 +25,7 @@ export default class SummaryGroup extends Component {
   }
 
   render() {
-    const currency = this.context.currentWorkspaceSettings.currency.code;
+    const currency = this.context.activityContext.effectiveCurrency;
     return (<div className={styles.summary_container}>
       <FundingSummary
         titleDetails={`(${currency})`}

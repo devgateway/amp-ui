@@ -10,15 +10,6 @@ let logger = null;
  * @author Anya Marshall
  */
 export default class Tablify extends Component {
-  static propTypes = {
-    content: PropTypes.any,
-    columns: PropTypes.number,
-  };
-
-  static contextTypes = {
-    Logger: PropTypes.func.isRequired,
-  };
-
   /**
    * Takes an array and turns it into table rows and columns.
    * @author Anya Marshall
@@ -44,6 +35,14 @@ export default class Tablify extends Component {
     }
     return tableContent;
   }
+  static propTypes = {
+    content: PropTypes.any,
+    columns: PropTypes.number,
+  };
+
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+  };
 
   constructor(props, context) {
     super(props, context);

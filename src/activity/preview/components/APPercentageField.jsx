@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import NumberUtils from '../../../utils/NumberUtils';
 import styles from '../ActivityPreview.css';
 
 let logger = null;
@@ -13,7 +14,6 @@ export default class APPercentageField extends Component {
     value: PropTypes.number,
     titleClass: PropTypes.string,
     valueClass: PropTypes.string,
-    rawNumberToFormattedString: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -28,9 +28,8 @@ export default class APPercentageField extends Component {
   }
 
   render() {
-    const { rawNumberToFormattedString } = this.props;
     const percentage = this.props.value !== undefined && this.props.value !== null
-      ? `${rawNumberToFormattedString(this.props.value, true)}%` : null;
+      ? `${NumberUtils.rawNumberToFormattedString(this.props.value, true)}%` : null;
     return (<div>
       <span className={this.props.titleClass}>{this.props.title} </span>
       <span className={`${this.props.valueClass} ${styles.alignRight}`}>{percentage}</span>

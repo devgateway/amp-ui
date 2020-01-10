@@ -76,5 +76,4 @@ export default Object.freeze({
   MSG_UNKNOWN_NETWORK_ERROR,
   MSG_AMP_UNREACHABLE,
   GENERAL_CONNECTION_ERRORS
-})
-;
+});

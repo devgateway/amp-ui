@@ -13,6 +13,7 @@ import docSyles from './APDocument.css';
 import ActionUrl from '../../common/ActionUrl.jsx';
 import download from '../../../assets/images/download.svg';
 import gotoUrl from '../../../assets/images/goto_url.svg';
+import ErrorHelper from '../../../modules/util/ErrorHelper';
 
 /**
  * Activity Preview Documents section
@@ -29,16 +30,14 @@ class APDocument extends Component {
       isResourceManagersLoaded: PropTypes.bool,
       resourceFieldsManager: PropTypes.instanceOf(FieldsManager),
       resourcesByUuids: PropTypes.object,
+      errors: PropTypes.array
     }).isRequired,
     buildSimpleField: PropTypes.func.isRequired,
-    saveFileDialog: PropTypes.func.isRequired,
+    saveFileDialog: PropTypes.func,
     openExternal: PropTypes.func.isRequired,
     RepositoryManager: PropTypes.object.isRequired,
-  };
-
-  static contextTypes = {
     Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
   };
 
   getResources() {
@@ -75,8 +74,7 @@ class APDocument extends Component {
    * @return {{urlText, url, action}}
    */
   getResourceUrlData(resource) {
-    const { saveFileDialog, RepositoryManager } = this.props;
-    const { translate } = this.context;
+    const { saveFileDialog, RepositoryManager, translate } = this.props;
     const resData = {};
     const fileName = resource[ResourceConstants.FILE_NAME];
     if (fileName) {
@@ -84,23 +82,27 @@ class APDocument extends Component {
       resData.urlText = fileName;
       resData.action = srcFile ? () => saveFileDialog(srcFile, fileName) : null;
     }
-    const url = resource[ResourceConstants.WEB_LINK];
+    let url = resource[ResourceConstants.WEB_LINK];
     if (url) {
       resData.urlText = url;
       resData.url = url;
+    } else {
+      url = resource[ResourceConstants.URL];
+      if (url) {
+        resData.url = url;
+      }
     }
     resData.urlText = resData.urlText || translate('No Data');
     return resData;
   }
 
   renderResource(resource) {
-    const { resourceReducer, buildSimpleField, openExternal } = this.props;
-    const { translate } = this.context;
+    const { resourceReducer, buildSimpleField, openExternal, translate } = this.props;
     const { resourceFieldsManager } = resourceReducer;
     const resData = this.getResourceUrlData(resource);
     const isAccessible = resData.url || resData.action;
     const iconImage = (resData.url && gotoUrl) || (resData.action && download);
-    const iconElement = <img src={iconImage} alt="" />;
+    const iconElement = <img src={iconImage} alt="" className={styles.img_url} />;
     const tooltip = translate('ClickToDownload');
     return (
       <div key={resource.id} className={[styles.box_table, styles.table_raw].join(' ')}>
@@ -131,20 +133,24 @@ class APDocument extends Component {
   }
 
   renderNoResources() {
-    const { isResourcesLoading, isResourceManagersLoading } = this.props.resourceReducer;
-    const { translate, Logger } = this.context;
+    const { isResourcesLoading, isResourceManagersLoading, errors } = this.props.resourceReducer;
+    const { translate, Logger } = this.props;
     if (isResourcesLoading || isResourceManagersLoading) {
       return <Loading Logger={Logger} translate={translate} />;
+    } else if (errors && errors.length > 0) {
+      return ErrorHelper.showErrors(errors, this.props.translate);
+    } else {
+      return (
+        <APField
+          fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}
+          value={translate('No Data')} />
+      );
     }
-    return (
-      <APField
-        fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}
-        value={translate('No Data')} />
-    );
   }
 
   render() {
     const resources = this.getResources();
+
     if (!resources.length) {
       return this.renderNoResources();
     }
