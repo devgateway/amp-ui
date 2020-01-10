@@ -1,0 +1,35 @@
+.preview_icons img {
+  height: 32px;
+  width: 32px;
+  padding: 5px;
+}
+.link_version {
+  padding: 1px 0px;
+  font-size: 14px;
+}
+.width_10 {
+  width: 10%;
+}
+.width_30 {
+  width: 30%;
+}
+.thClassName_10 {
+  width: 10%;
+}
+
+.thClassName_30 {
+  width: 30%;
+}
+.thClassNameItem{
+  font-size: 12px;
+  font-weight: bold;
+  color: #7f8fa4;
+}
+.thClassName{
+  font-size: 12px;
+  font-weight: bold;
+  border-right: none !important;
+  border-left: none !important;
+
+
+}

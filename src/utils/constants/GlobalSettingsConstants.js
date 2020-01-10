@@ -1,0 +1,52 @@
+const SHOW_WORKSPACE_FILTER_KEY = 'Show workspace filter';
+const BASE_CURRENCY_KEY = 'Base Currency';
+const FILTER_BY_DATE_HIDE_PROJECTS = 'Filter by date hides projects';
+const DEFAULT_DATE_FORMAT = 'Default Date Format';
+const GS_DEFAULT_DECIMAL_SEPARATOR = 'Default Decimal Separator';
+const GS_AMOUNTS_IN_THOUSANDS = 'Amounts in Thousands';
+const GS_DEFAULT_NUMBER_FORMAT = 'Default Number Format';
+const GS_DEFAULT_GROUPING_SEPARATOR = 'Default Grouping Separator';
+const GS_AMOUNT_OPTION_IN_UNITS = '0';
+const GS_AMOUNT_OPTION_IN_THOUSANDS = '1';
+const GS_AMOUNT_OPTION_IN_MILLIONS = '2';
+const GS_AMOUNT_OPTION_IN_BILLIONS = '3';
+const DEFAULT_COUNTRY = 'Default Country';
+const PROJECTS_VALIDATION = 'Projects Validation';
+const GS_ON = 'On';
+const GS_LATITUDE = 'Country Latitude';
+const GS_LONGITUDE = 'Country Longitude';
+const GS_MAXIMUM_FILE_SIZE_MB = 'Maximum file size (MB)';
+const GS_YEARS_IN_RANGE = 'Number of Years in Range';
+const GS_YEAR_RANGE_START = 'Year Range Start';
+const GS_DEFAULT_CALENDAR = 'Default Calendar';
+const GS_CURRENT_FISCAL_YEAR = 'Current Fiscal Year';
+const GS_FUNDING_SECTION_TAB_VIEW = 'Activity Form - Funding Section - Tab View';
+const SHOW_ANNUAL_MTEF_ENTRY_FORMAT = 'Show annual MTEF entry date format';
+const REORDER_FUNDING_ITEMS = 'Reorder funding items';
+
+export default Object.freeze({ SHOW_WORKSPACE_FILTER_KEY,
+  BASE_CURRENCY_KEY,
+  FILTER_BY_DATE_HIDE_PROJECTS,
+  DEFAULT_DATE_FORMAT,
+  GS_DEFAULT_DECIMAL_SEPARATOR,
+  GS_AMOUNTS_IN_THOUSANDS,
+  GS_DEFAULT_NUMBER_FORMAT,
+  GS_DEFAULT_GROUPING_SEPARATOR,
+  GS_AMOUNT_OPTION_IN_UNITS,
+  GS_AMOUNT_OPTION_IN_THOUSANDS,
+  GS_AMOUNT_OPTION_IN_MILLIONS,
+  GS_AMOUNT_OPTION_IN_BILLIONS,
+  DEFAULT_COUNTRY,
+  PROJECTS_VALIDATION,
+  GS_ON,
+  GS_LATITUDE,
+  GS_LONGITUDE,
+  GS_MAXIMUM_FILE_SIZE_MB,
+  GS_YEARS_IN_RANGE,
+  GS_YEAR_RANGE_START,
+  GS_DEFAULT_CALENDAR,
+  GS_CURRENT_FISCAL_YEAR,
+  GS_FUNDING_SECTION_TAB_VIEW,
+  SHOW_ANNUAL_MTEF_ENTRY_FORMAT,
+  REORDER_FUNDING_ITEMS
+});
