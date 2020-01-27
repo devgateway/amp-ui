@@ -130,7 +130,7 @@ export default class APActivityVersionHistory extends Component {
   render() {
     const { activityContext, translate } = this.props;
     const { versionHistoryInformation } = activityContext;
-    if (!versionHistoryInformation.showVersionHistory) {
+    if (!versionHistoryInformation.showVersionHistory || activityContext.teamMember === null) {
       return null;
     }
     const { versionHistory } = versionHistoryInformation;
