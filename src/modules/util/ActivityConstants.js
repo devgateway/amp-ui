@@ -228,6 +228,12 @@ const DEPENDENCY_ON_BUDGET = 'on_budget';
 const DEPENDENCY_TRANSACTION_PRESENT = 'transaction_present';
 const DEPENDENCY_COMPONENT_FUNDING_ORG_VALID = 'organization_present';
 
+// Activity Validation Status
+const AUTOMATIC_VALIDATION = 'AUTOMATIC_VALIDATION';
+const AWAITING_VALIDATION = 'AWAITING_VALIDATION';
+const CANNOT_BE_VALIDATE = 'CANNOT_BE_VALIDATE';
+const UNKNOWN = 'UNKNOWN';
+
 /** IDs for AP sections **/
 const AP_SECTION_IDS =
   [{ key: 'APIdentification', hash: '#APIdentification', value: 'Identification', fmPath: FMC.ACTIVITY_IDENTIFICATION },
@@ -277,7 +283,8 @@ const toFieldNames = function (listOfNames) {
  * @return {string}
  */
 const toFieldName = function (name: string) {
-  return name.toLowerCase().replace(' ', '_');
+  return name.toLowerCase()
+    .replace(' ', '_');
 };
 
 /**
@@ -519,4 +526,8 @@ export default Object.freeze({
   toFieldNames,
   toFieldName,
   toOriginalLabel,
+  AUTOMATIC_VALIDATION,
+  AWAITING_VALIDATION,
+  CANNOT_BE_VALIDATE,
+  UNKNOWN
 });

@@ -32,6 +32,9 @@ import GlobalSettingsConstants from './utils/constants/GlobalSettingsConstants';
 import NumberUtils from './utils/NumberUtils';
 import IconFormatter from './activity/common/IconFormatter.jsx';
 import ActivityLinks from './utils/helpers/ActivityLinks';
+import DateUtilsHelper from './utils/DateUtilsHelper';
+import DateConstants from './utils/constants/DateConstants';
+import ErrorHelper from './modules/util/ErrorHelper';
 
 export {
   Constants,
@@ -68,7 +71,10 @@ export {
   GlobalSettingsConstants,
   NumberUtils,
   IconFormatter,
-  ActivityLinks
+  ActivityLinks,
+  DateUtilsHelper,
+  DateConstants,
+  ErrorHelper
 };
 
 export default {
@@ -106,5 +112,8 @@ export default {
   GlobalSettingsConstants,
   NumberUtils,
   IconFormatter,
-  ActivityLinks
+  ActivityLinks,
+  DateUtilsHelper,
+  DateConstants,
+  ErrorHelper
 };

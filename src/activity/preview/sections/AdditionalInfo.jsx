@@ -23,6 +23,10 @@ class AdditionalInfo extends Component {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
+      activityWorkspace: PropTypes.shape({
+        [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
+        [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired
+      }),
       teamMember: PropTypes.shape({
         workspace: PropTypes.shape({
           [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
@@ -30,7 +34,7 @@ class AdditionalInfo extends Component {
           [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired
         })
       }),
-      workSpaceLeadData: PropTypes.string
+      workspaceLeadData: PropTypes.string
     }).isRequired,
   };
 
@@ -43,10 +47,10 @@ class AdditionalInfo extends Component {
 
   _getWorkspaceLeadData() {
     const { activityContext } = this.props;
-    if (!activityContext.workSpaceLeadData) {
+    if (!activityContext.workspaceLeadData) {
       return null;
     }
-    return activityContext.workSpaceLeadData;
+    return activityContext.workspaceLeadData;
   }
 
   _buildAdditionalInfo() {
@@ -58,8 +62,8 @@ class AdditionalInfo extends Component {
     const teamName = activityFieldsManager.getValue(activity, ActivityConstants.TEAM,
       PossibleValuesManager.getOptionTranslation);
     // no need to export repeating translation for the access type through workspaces EP
-    const accessType = translate(activityContext.teamMember.workspace[WorkspaceConstants.ACCESS_TYPE]);
-    const isComputedTeam = activityContext.teamMember.workspace[WorkspaceConstants.IS_COMPUTED] === true ?
+    const accessType = translate(activityContext.activityWorkspace[WorkspaceConstants.ACCESS_TYPE]);
+    const isComputedTeam = activityContext.activityWorkspace[WorkspaceConstants.IS_COMPUTED] === true ?
       translate('Yes') : translate('No');
 
     // TODO: the right value as defined in AMP-25403 will be shown after AMP-26295.

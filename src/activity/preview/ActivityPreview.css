@@ -3,6 +3,10 @@
   unicode-bidi: embed !important;
 }
 
+.img_url {
+  width: 20px;
+}
+
 .preview_container {
   font-family: 'open_sansregular', sans-serif;
   margin-left: 30px;
@@ -49,7 +53,7 @@
   cursor: pointer;
 }
 
-.print {
+.print_word {
   cursor: pointer;
 }
 
@@ -475,9 +479,17 @@
   font-weight: bold;
 }
 
+.message_link {
+  color: #A94442;
+  font-weight: bold;
+}
+
 @media print {
+
+
   body {
     -webkit-print-color-adjust: exact !important;
+    font-size: 12px;
   }
 
   a {
@@ -601,8 +613,12 @@
   }
 
   .preview_container {
+    width: 1000px;
     font-family: 'open_sansregular', sans-serif !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
+  }
+  .message_link{
+    display: none;
   }
 }

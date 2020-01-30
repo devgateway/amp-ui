@@ -11,6 +11,7 @@ import APFundingMTEFSection from './APFundingMTEFSection.jsx';
 import APFundingTransactionTypeItem from './APFundingTransactionTypeItem.jsx';
 import APFundingTotalItem from './APFundingTotalItem.jsx';
 import styles from './APFundingOrganizationSection.css';
+import CommonActivityHelper from '../../../../utils/helpers/CommonActivityHelper';
 
 let logger = null;
 
@@ -29,7 +30,8 @@ class APFundingOrganizationSection extends Component {
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     activityContext: PropTypes.shape({
-      effectiveCurrency: PropTypes.string.isRequired
+      effectiveCurrency: PropTypes.string.isRequired,
+      reorderFundingItemId: PropTypes.number.isRequired
     }).isRequired,
   };
 
@@ -88,6 +90,7 @@ class APFundingOrganizationSection extends Component {
     // Group the list of funding details by adjustment_type and transaction_type.
     const { DateUtils } = this.props;
     const groups = [];
+    const reorderFundingItemId = this.context.activityContext.reorderFundingItemId;
     FieldPathConstants.FUNDING_TRANSACTION_TYPES.forEach(trnType => {
       const fds = this.props.funding[trnType];
       if (fds && fds.length) {
@@ -102,6 +105,7 @@ class APFundingOrganizationSection extends Component {
         });
         ValueConstants.ADJUSTMENT_TYPES_AP_ORDER.forEach(adjType => {
           const items = fdByAT.get(adjType);
+          CommonActivityHelper.sortFundingItems(items, reorderFundingItemId);
           if (items.length) {
             groups.push([trnType, items]);
           }

@@ -7,7 +7,9 @@ import FieldsManager from '../../../modules/field/FieldsManager';
 import styles from '../ActivityPreview.css';
 import FeatureManager from '../../../modules/util/FeatureManager';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
+import ResourceUtils from '../../../utils/ResourceUtils';
 import UIUtils from '../../../utils/UIUtils';
+
 
 let logger = null;
 
@@ -42,7 +44,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     if (this.props.getItemTitle) {
       return this.props.getItemTitle(item);
     }
-    return UIUtils.getItemTitle(item, valueField, PossibleValuesManager, this.props.rtl);
+    return ResourceUtils.getItemTitle(item, valueField, PossibleValuesManager, this.props.rtl);
   }
 
   render() {

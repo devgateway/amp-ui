@@ -1,5 +1,5 @@
 import FeatureManager from '../../../modules/util/FeatureManager';
-import UIUtils from '../../UIUtils';
+import ResourceUtils from '../../ResourceUtils';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 import Section from '../../../activity/preview/sections/Section.jsx';
 
@@ -72,7 +72,7 @@ export default class PreviewSection {
       if (items && items.length) {
         items = items.map(item => ({
           itemTitle: !getItemTitle ?
-            UIUtils.getItemTitle(item, valueField, PossibleValuesManager, this._rtl) :
+            ResourceUtils.getItemTitle(item, valueField, PossibleValuesManager, this._rtl) :
             getItemTitle(item),
           percentage: item[percentageField]
         })).sort((a, b) => a.itemTitle.localeCompare(b.itemTitle));

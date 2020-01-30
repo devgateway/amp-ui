@@ -1,7 +1,7 @@
 import PreviewSection from './PreviewSection';
 import * as ExportConstants from '../ExportConstants';
 import ResourceConstants from '../../constants/ResourceConstants';
-import UIUtils from '../../UIUtils';
+import ResourceUtils from '../../ResourceUtils';
 
 export default class DocumentsPreview extends PreviewSection {
   generateSection() {
@@ -9,7 +9,7 @@ export default class DocumentsPreview extends PreviewSection {
     if (this.checkIfEnabled()) {
       this.createSimpleLabel(this._context.translate('Related Documents'), ExportConstants.STYLE_HEADING2);
       const { resourcesByUuids } = this._context.resourceReducer;
-      const resourcesUuids = UIUtils.getActivityResourceUuids(this._props.activity);
+      const resourcesUuids = ResourceUtils.getActivityResourceUuids(this._props.activity);
       const uuids = resourcesUuids.map(uuid => {
         const r = { ...resourcesByUuids[uuid] };
         r[ResourceConstants.ADDING_DATE] = r[ResourceConstants.ADDING_DATE] || r[ResourceConstants.CLIENT_ADDING_DATE];

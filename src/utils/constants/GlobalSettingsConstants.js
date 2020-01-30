@@ -22,6 +22,7 @@ const GS_DEFAULT_CALENDAR = 'Default Calendar';
 const GS_CURRENT_FISCAL_YEAR = 'Current Fiscal Year';
 const GS_FUNDING_SECTION_TAB_VIEW = 'Activity Form - Funding Section - Tab View';
 const SHOW_ANNUAL_MTEF_ENTRY_FORMAT = 'Show annual MTEF entry date format';
+const REORDER_FUNDING_ITEMS = 'Reorder funding items';
 
 export default Object.freeze({ SHOW_WORKSPACE_FILTER_KEY,
   BASE_CURRENCY_KEY,
@@ -46,5 +47,6 @@ export default Object.freeze({ SHOW_WORKSPACE_FILTER_KEY,
   GS_DEFAULT_CALENDAR,
   GS_CURRENT_FISCAL_YEAR,
   GS_FUNDING_SECTION_TAB_VIEW,
-  SHOW_ANNUAL_MTEF_ENTRY_FORMAT
+  SHOW_ANNUAL_MTEF_ENTRY_FORMAT,
+  REORDER_FUNDING_ITEMS
 });

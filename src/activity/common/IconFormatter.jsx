@@ -16,10 +16,10 @@ export default class IconFormatter extends Component {
     view: PropTypes.bool.isRequired,
     teamLeadFlag: PropTypes.bool.isRequired,
     crossTeamWS: PropTypes.bool.isRequired,
-    wsAccessType: PropTypes.string.isRequired,
-    teamId: PropTypes.number.isRequired,
+    wsAccessType: PropTypes.string,
+    teamId: PropTypes.number,
     activityTeamId: PropTypes.number.isRequired,
-    translate: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
   };
 
   render() {

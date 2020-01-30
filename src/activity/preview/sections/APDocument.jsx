@@ -12,7 +12,8 @@ import docSyles from './APDocument.css';
 import ActionUrl from '../../common/ActionUrl.jsx';
 import download from '../../../assets/images/download.svg';
 import gotoUrl from '../../../assets/images/goto_url.svg';
-import UIUtils from '../../../utils/UIUtils';
+import ResourceUtils from '../../../utils/ResourceUtils';
+import ErrorHelper from '../../../modules/util/ErrorHelper';
 
 /**
  * Activity Preview Documents section
@@ -29,9 +30,10 @@ class APDocument extends Component {
       isResourceManagersLoaded: PropTypes.bool,
       resourceFieldsManager: PropTypes.instanceOf(FieldsManager),
       resourcesByUuids: PropTypes.object,
+      errors: PropTypes.array
     }).isRequired,
     buildSimpleField: PropTypes.func.isRequired,
-    saveFileDialog: PropTypes.func.isRequired,
+    saveFileDialog: PropTypes.func,
     openExternal: PropTypes.func.isRequired,
     RepositoryManager: PropTypes.object.isRequired,
     Logger: PropTypes.func.isRequired,
@@ -42,7 +44,7 @@ class APDocument extends Component {
     const { isResourcesLoaded, isResourceManagersLoaded, resourcesByUuids } = this.props.resourceReducer;
     const { activity } = this.props;
     if (isResourcesLoaded && isResourceManagersLoaded) {
-      const resourcesUuids = UIUtils.getActivityResourceUuids(activity);
+      const resourcesUuids = ResourceUtils.getActivityResourceUuids(activity);
       return resourcesUuids.map(uuid => {
         const r = { ...resourcesByUuids[uuid] };
         r[ResourceConstants.ADDING_DATE] = r[ResourceConstants.ADDING_DATE] || r[ResourceConstants.CLIENT_ADDING_DATE];
@@ -69,10 +71,15 @@ class APDocument extends Component {
       resData.urlText = fileName;
       resData.action = srcFile ? () => saveFileDialog(srcFile, fileName) : null;
     }
-    const url = resource[ResourceConstants.WEB_LINK];
+    let url = resource[ResourceConstants.WEB_LINK];
     if (url) {
       resData.urlText = url;
       resData.url = url;
+    } else {
+      url = resource[ResourceConstants.URL];
+      if (url) {
+        resData.url = url;
+      }
     }
     resData.urlText = resData.urlText || translate('No Data');
     return resData;
@@ -84,7 +91,7 @@ class APDocument extends Component {
     const resData = this.getResourceUrlData(resource);
     const isAccessible = resData.url || resData.action;
     const iconImage = (resData.url && gotoUrl) || (resData.action && download);
-    const iconElement = <img src={iconImage} alt="" />;
+    const iconElement = <img src={iconImage} alt="" className={styles.img_url} />;
     const tooltip = translate('ClickToDownload');
     return (
       <div key={resource.id} className={[styles.box_table, styles.table_raw].join(' ')}>
@@ -115,20 +122,24 @@ class APDocument extends Component {
   }
 
   renderNoResources() {
-    const { isResourcesLoading, isResourceManagersLoading } = this.props.resourceReducer;
+    const { isResourcesLoading, isResourceManagersLoading, errors } = this.props.resourceReducer;
     const { translate, Logger } = this.props;
     if (isResourcesLoading || isResourceManagersLoading) {
       return <Loading Logger={Logger} translate={translate} />;
+    } else if (errors && errors.length > 0) {
+      return ErrorHelper.showErrors(errors, this.props.translate);
+    } else {
+      return (
+        <APField
+          fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}
+          value={translate('No Data')} />
+      );
     }
-    return (
-      <APField
-        fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}
-        value={translate('No Data')} />
-    );
   }
 
   render() {
     const resources = this.getResources();
+
     if (!resources.length) {
       return this.renderNoResources();
     }

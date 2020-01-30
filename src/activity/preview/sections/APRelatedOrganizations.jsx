@@ -6,7 +6,7 @@ import ActivityConstants from '../../../modules/util/ActivityConstants';
 import APPercentageList from '../components/APPercentageList.jsx';
 import FieldsManager from '../../../modules/field/FieldsManager';
 import FeatureManagerConstants from '../../../modules/util/FeatureManagerConstants';
-import UIUtils from '../../../utils/UIUtils';
+import ResourceUtils from '../../../utils/ResourceUtils';
 
 const DO = APPercentageList(ActivityConstants.DONOR_ORGANIZATION, ActivityConstants.ORGANIZATION,
   ActivityConstants.PERCENTAGE, 'Donor Organization');
@@ -35,7 +35,7 @@ class APRelatedOrganizations extends Component {
   };
 
   render() {
-    const props = { ...this.props, getItemTitle: UIUtils.getItemTitleForOrganizations };
+    const props = { ...this.props, getItemTitle: ResourceUtils.getItemTitleForOrganizations };
     return (<div>
       <DO key="do-org-list" {...props} fmPath={FeatureManagerConstants.ACTIVITY_ORGANIZATIONS_DONOR_ORGANIZATION} />
       <RO key="ro-org-list" {...props} />
