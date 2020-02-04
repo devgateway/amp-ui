@@ -29,9 +29,10 @@
     "react-bootstrap-table": "^3.4.1"
   },
   "dependencies": {
-    "fs": "0.0.1-security",
     "docx": "^4.7.1",
     "file-saver": "git+ssh://github.com/devgateway/FileSaver.js#task/AMPUI-86/fix-tests-execution",
+    "fs": "0.0.1-security",
+    "he": "^1.2.0",
     "moment": "^2.18.1"
   },
   "devDependencies": {
