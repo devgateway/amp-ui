@@ -27,9 +27,9 @@ export default class AdditionalInfoPreview extends PreviewSection {
     const accessType = translate(activityContext[WorkspaceConstants.ACCESS_TYPE]);
     const isComputedTeam = activityContext[WorkspaceConstants.IS_COMPUTED] === true ?
       translate('Yes') : translate('No');
-    this.createField('createdInWorkspace', `${teamName} - ${accessType}`);
-    this.createField('workspaceManager', activityContext.workspaceLeadData);
-    this.createField('computation', isComputedTeam);
+    this.createField(this._context.translate('createdInWorkspace'), `${teamName} - ${accessType}`);
+    this.createField(this._context.translate('workspaceManager'), activityContext.workspaceLeadData);
+    this.createField(this._context.translate('computation'), isComputedTeam);
     this.createSeparator();
   }
 }
