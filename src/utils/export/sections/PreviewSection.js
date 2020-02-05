@@ -1,3 +1,4 @@
+import he from 'he';
 import FeatureManager from '../../../modules/util/FeatureManager';
 import ResourceUtils from '../../ResourceUtils';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
@@ -47,11 +48,13 @@ export default class PreviewSection {
       paragraph = this._document.createParagraph();
     }
     if (!this._rtl) {
-      paragraph.createTextRun(title).bold();
+      paragraph.createTextRun(title)
+        .bold();
       paragraph.createTextRun(value);
     } else {
       paragraph.createTextRun(value ? `${value} ` : '');
-      paragraph.createTextRun(title).bold();
+      paragraph.createTextRun(title)
+        .bold();
     }
     paragraph.setNumbering(concrete, level);
     if (this._rtl) {
@@ -75,9 +78,11 @@ export default class PreviewSection {
             ResourceUtils.getItemTitle(item, valueField, PossibleValuesManager, this._rtl) :
             getItemTitle(item),
           percentage: item[percentageField]
-        })).sort((a, b) => a.itemTitle.localeCompare(b.itemTitle));
+        }))
+          .sort((a, b) => a.itemTitle.localeCompare(b.itemTitle));
         items.map(({ itemTitle, percentage }) => (
-          this.createField(itemTitle, (percentage ? `${percentage}%` : '')).bullet()
+          this.createField(itemTitle, (percentage ? `${percentage}%` : ''))
+            .bullet()
         ));
       } else {
         this.createSimpleLabel('No Data', null, { tab: true });
@@ -86,11 +91,15 @@ export default class PreviewSection {
   }
 
   createField(title, value, paragraph, titleStyle, valueStyle) {
+    if (value) {
+      value = he.decode(value.replace(/(<([^>]+)>)/ig, ''));// .replace('&nbsp;',' ');
+    }
     if (!paragraph) {
       paragraph = this._document.createParagraph();
     }
     if (!this._rtl) {
-      const titleText = paragraph.createTextRun(`${title}${value ? ': ' : ''} `).bold();
+      const titleText = paragraph.createTextRun(`${title}${value ? ': ' : ''} `)
+        .bold();
       if (titleStyle) {
         titleText.style(titleText);
       }
@@ -103,7 +112,8 @@ export default class PreviewSection {
       if (valueStyle) {
         valueText.style(valueStyle);
       }
-      const titleText = paragraph.createTextRun(`${value ? ' :' : ''}${title}`).bold();
+      const titleText = paragraph.createTextRun(`${value ? ' :' : ''}${title}`)
+        .bold();
       if (titleStyle) {
         titleText.style(titleText);
       }
