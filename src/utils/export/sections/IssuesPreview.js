@@ -15,7 +15,7 @@ export default class IssuesPreview extends PreviewSection {
           if (this._context.activityFieldsManager.isFieldPathEnabled(`${ActivityConstants.ISSUES}~${ActivityConstants.ISSUE_DATE}`)) {
             date = ` ${this._context.DateUtils.createFormattedDate(issue[ActivityConstants.ISSUE_DATE])}`;
           }
-          this.createListField(issue.name, date, 0);
+          this.createListField(issue.name, date, 0, null, true);
           hasData = true;
           issue[ActivityConstants.MEASURES].forEach((measure) => {
             date = '';
@@ -25,11 +25,11 @@ export default class IssuesPreview extends PreviewSection {
             }
             /* eslint-enable max-len */
             //  TODO: use createListItem con el lvl.
-            this.createListField(measure.name || '', date, 1);
+            this.createListField(measure.name || '', date, 1, null, true);
             measure[ActivityConstants.ACTORS].forEach((actor) => {
               // eslint-disable-next-line max-len
               if (this._context.activityFieldsManager.isFieldPathEnabled(`${ActivityConstants.ISSUES}~${ActivityConstants.MEASURES}~${ActivityConstants.ACTORS}`)) {
-                this.createListField(actor.name || '', null, 2);
+                this.createListField(actor.name || '', null, 2, null, true);
               }
             });
           });

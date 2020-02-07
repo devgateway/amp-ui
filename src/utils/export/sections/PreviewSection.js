@@ -36,7 +36,7 @@ export default class PreviewSection {
     }
   }
 
-  createListField(title, value, level = 0, paragraph) {
+  createListField(title, value, level = 0, paragraph, bullet) {
     const numbering = new Numbering();
     const abstractNum = numbering.createAbstractNumbering();
     abstractNum.createLevel(0, 'upperRoman', '%1', 'start');
@@ -56,7 +56,11 @@ export default class PreviewSection {
       paragraph.createTextRun(title)
         .bold();
     }
-    paragraph.setNumbering(concrete, level);
+    if (bullet) {
+      paragraph.bullet(level);
+    } else {
+      paragraph.setNumbering(concrete, level);
+    }
     if (this._rtl) {
       paragraph.bidirectional();
     }
