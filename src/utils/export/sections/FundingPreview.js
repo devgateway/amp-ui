@@ -4,6 +4,7 @@ import ActivityConstants from '../../../modules/util/ActivityConstants';
 import FieldPathConstants from '../../FieldPathConstants';
 import ValueConstants from '../../ValueConstants';
 import NumberUtils from '../../NumberUtils';
+import CommonActivityHelper from '../../helpers/CommonActivityHelper';
 
 const docx = require('docx');
 
@@ -16,9 +17,11 @@ export default class FundingPreview extends PreviewSection {
   generateSection() {
     super.generateSection();
     if (this.checkIfEnabled()) {
+      const { activity } = this._props;
       this.createSimpleLabel(this._context.translate('Funding'), ExportConstants.STYLE_HEADING2);
-      if (this._props.activity[ActivityConstants.FUNDINGS]) {
-        const currency = this._props.activityContext.workspaceCurrency;
+      if (activity[ActivityConstants.FUNDINGS]) {
+        this.buildProposedProjectCostTable();
+        const currency = this._props.activityContext.effectiveCurrency;
         this._props.activity[ActivityConstants.FUNDINGS].forEach((funding) => {
           // Header data.
           const fieldPaths = [`${[ActivityConstants.FUNDINGS]}~${[ActivityConstants.FUNDING_DONOR_ORG_ID]}`,
@@ -74,30 +77,52 @@ export default class FundingPreview extends PreviewSection {
             const showDisasterResponse = this._context.activityFieldsManager
               .isFieldPathEnabled(`${trnPath}~${ActivityConstants.DISASTER_RESPONSE}`);
             // eslint-disable-next-line no-unused-vars
+
             const showPledge = this._context.activityFieldsManager
               .isFieldPathEnabled(`${trnPath}~${ActivityConstants.PLEDGE}`);
             // Adj type header.
             this.createSimpleLabel(measure, ExportConstants.STYLE_HEADING3);
             if (showFixedExRate) {
-              this.createSimpleLabel('Fixed Exchange Rate');
+              this.createSimpleLabel('Fixed Exchange Rate', null, { alignRight: true });
             }
             const cols = 5;
-            const table = this._document.createTable(group.length + 2, cols);
+            const pCount = group.filter(g => g.pledge).length;
+            const table = this._document.createTable(group.length + pCount + 2, cols);
             table.setWidth(WidthType.DXA, 9000);
             // This line removes all borders from the table, sadly the official documentation doesnt work :(
             table.properties.root[1] = [];
+            const pledgeCount = { count: 0 };
+            CommonActivityHelper.sortFundingItems(group, this._props.activityContext.reorderFundingItemId);
             group.forEach((g, i) => {
               this.buildFundingDetailItemRow(table, g, currency, i, adjType, showDisasterResponse,
-                trnType, showFixedExRate, cols);
+                trnType, showFixedExRate, cols, this._context.translate, showPledge, pledgeCount);
             });
-            this.buildSubTotalRow(table, group, currency, measure);
-            this.buildUndisbursedBalanceSection(table, group, currency);
+            this.buildSubTotalRow(table, group, currency, measure, pCount);
           });
           this.createSeparator();
         });
         this.buildTotalsTable(currency);
         this.createSeparator();
       }
+    }
+  }
+
+  buildProposedProjectCostTable() {
+    const { activityFieldsManager, translate, activity } = this._context;
+    if (activityFieldsManager.isFieldPathEnabled(ActivityConstants.PPC_AMOUNT)) {
+      this.createSimpleLabel(translate('Proposed Project Cost'), ExportConstants.STYLE_HEADING3);
+      if (activityFieldsManager
+        .isFieldPathEnabled(`${ActivityConstants.PPC_AMOUNT}~${ActivityConstants.AMOUNT}`)) {
+        const ppc = activity[ActivityConstants.PPC_AMOUNT];
+        const convertedAmount = ppc.amount;
+        const currency = ppc.currency.value;
+        const date = this._context.DateUtils.createFormattedDate(ppc.funding_date);
+        this.createField(translate('Cost'),
+          !this._rtl ? `${NumberUtils.rawNumberToFormattedString(convertedAmount)} ${currency}` :
+            `${currency} ${NumberUtils.rawNumberToFormattedString(convertedAmount)}`, null, null);
+        this.createField(translate('Date'), `${date}`, null, null);
+      }
+      this.createSeparator(true);
     }
   }
 
@@ -124,9 +149,11 @@ export default class FundingPreview extends PreviewSection {
       options.push({ label: 'Undisbursed Balance', value: actualCommitments - actualDisbursements });
     }
     if (actualDisbursements && actualCommitments) {
-      options.push({ label: 'Delivery rate',
+      options.push({
+        label: 'Delivery rate',
         value: Math.round((actualDisbursements / actualCommitments) * 100),
-        currency: '%' });
+        currency: '%'
+      });
     }
     const cols = 5;
     const table = this._document.createTable(options.length, cols);
@@ -140,84 +167,111 @@ export default class FundingPreview extends PreviewSection {
     });
   }
 
-  buildUndisbursedBalanceSection(table, group, currency) {
-    let totalActualDisbursements = 0;
-    let totalActualCommitments = 0;
-    const fd = group;
-    if (!fd || fd.length === 0) {
-      // Dont show this section if there are no funding details.
-      return null;
-    }
-    const fdActualCommitments = (fd[ActivityConstants.COMMITMENTS] || []).filter(item =>
-      item[ActivityConstants.ADJUSTMENT_TYPE].value === ValueConstants.ACTUAL
-    );
-    totalActualCommitments = this._context.currencyRatesManager.convertFundingDetailsToCurrency(fdActualCommitments,
-      this._currency);
-    const fdActualDisbursements = (fd[ActivityConstants.DISBURSEMENTS] || []).filter(item =>
-      item[ActivityConstants.ADJUSTMENT_TYPE].value === ValueConstants.ACTUAL
-    );
-    totalActualDisbursements = this._context.currencyRatesManager.convertFundingDetailsToCurrency(fdActualDisbursements,
-      this._currency);
-    const value = totalActualCommitments - totalActualDisbursements;
-    this.buildTotalItem(table, 'Undisbursed Balance', value, currency, group.length + 1);
-  }
+  buildFundingDetailItemRow(table, g, currency, i, adjType, showDisasterResponse, trnType, showFixedExRate, cols,
+    translate, showPledge, pledge) {
+    const noPledgeIndex = i + pledge.count ;
+    table.getCell(noPledgeIndex, !this._rtl ? 0 : 4)
+      .addContent(this.createSimpleLabel(adjType.value, null,
+        { dontAddToDocument: true }));
 
-  buildFundingDetailItemRow(table, g, currency, i, adjType, showDisasterResponse, trnType, showFixedExRate, cols) {
-    table.getCell(i, !this._rtl ? 0 : 4).addContent(this.createSimpleLabel(adjType.value, null,
-      { dontAddToDocument: true }));
+    table.getCell(noPledgeIndex, !this._rtl ? 1 : 3)
+      .addContent(this.createSimpleLabel(this.getDisasterResponse(g,
+        showDisasterResponse, trnType), 'FundingSmall', { dontAddToDocument: true }));
 
-    table.getCell(i, !this._rtl ? 1 : 3).addContent(this.createSimpleLabel(this.getDisasterResponse(g,
-      showDisasterResponse, trnType), null, { dontAddToDocument: true }));
-
-    table.getCell(i, !this._rtl ? 2 : 2).addContent(this.createSimpleLabel(
-      this._context.DateUtils.createFormattedDate(g[ActivityConstants.TRANSACTION_DATE]),
-      null, { dontAddToDocument: true }));
+    table.getCell(noPledgeIndex, !this._rtl ? 2 : 2)
+      .addContent(this.createSimpleLabel(
+        this._context.DateUtils.createFormattedDate(g[ActivityConstants.TRANSACTION_DATE]),
+        null, { dontAddToDocument: true }));
 
     const convertedAmount = this._context.currencyRatesManager
       .convertTransactionAmountToCurrency(g, currency);
-    table.getCell(i, !this._rtl ? 3 : 1).addContent(this.createSimpleLabel(
-      !this._rtl ? `${NumberUtils.rawNumberToFormattedString(convertedAmount)} ${currency}` :
-        `${currency} ${NumberUtils.rawNumberToFormattedString(convertedAmount)}`,
-      null, { dontAddToDocument: true }));
+    table.getCell(noPledgeIndex, !this._rtl ? 3 : 1)
+      .addContent(this.createSimpleLabel(
+        !this._rtl ? `${NumberUtils.rawNumberToFormattedString(convertedAmount)} ${currency}` :
+          `${currency} ${NumberUtils.rawNumberToFormattedString(convertedAmount)}`,
+        null, { dontAddToDocument: true }));
 
-    table.getCell(i, !this._rtl ? 4 : 0).addContent(this.createSimpleLabel(
-      showFixedExRate ? g[ActivityConstants.FIXED_EXCHANGE_RATE] : '',
-      null, { dontAddToDocument: true }));
+    table.getCell(noPledgeIndex, !this._rtl ? 4 : 0)
+      .addContent(this.createSimpleLabel(
+        showFixedExRate ? g[ActivityConstants.FIXED_EXCHANGE_RATE] : '',
+        null, { dontAddToDocument: true }));
 
-    if (i % 2 === 0) {
+    if (showPledge && g[ActivityConstants.PLEDGE]) {
+      pledge.count += 1;
+      const pledgeIndex = i + pledge.count;
+      table.getCell(pledgeIndex, !this._rtl ? 0 : 4)
+        .addContent(this.createSimpleLabel(
+          translate('Source Pledge'),
+          'FundingSmall', { dontAddToDocument: true }));
+      table.getCell(pledgeIndex, !this._rtl ? 1 : 3)
+        .addContent(this.createSimpleLabel(
+          g[ActivityConstants.PLEDGE].value,
+          'FundingSmall', { dontAddToDocument: true }));
+      table.getCell(pledgeIndex, !this._rtl ? 2 : 2)
+        .addContent(this.createSimpleLabel('',
+          'FundingSmall', { dontAddToDocument: true }));
+      table.getCell(pledgeIndex, !this._rtl ? 3 : 1)
+        .addContent(this.createSimpleLabel('',
+          'FundingSmall', { dontAddToDocument: true }));
+      table.getCell(pledgeIndex, !this._rtl ? 4 : 0)
+        .addContent(this.createSimpleLabel('',
+          'FundingSmall', { dontAddToDocument: true }));
+    }
+    if ((i) % 2 === 0) {
       for (let c = 0; c < cols; c++) {
-        table.getRow(i).getCell(c).CellProperties.setShading({ fill: COLOR_SUBTOTAL });
+        if (pledge.count > 0) {
+          table.getRow((i + pledge.count) - 1)
+            .getCell(c)
+            .CellProperties
+            .setShading({ fill: COLOR_SUBTOTAL });
+        }
+        table.getRow(i + pledge.count)
+          .getCell(c)
+          .CellProperties
+          .setShading({ fill: COLOR_SUBTOTAL });
       }
     }
   }
 
-  buildSubTotalRow(table, group, currency, measure) {
+  buildSubTotalRow(table, group, currency, measure, pCount) {
     const subtotal = NumberUtils.rawNumberToFormattedString(this._context.currencyRatesManager
       .convertFundingDetailsToCurrency(group, currency));
-    this.buildTotalItem(table, `Subtotal ${measure}`, subtotal, currency, group.length);
+    this.buildTotalItem(table, `Subtotal ${measure}`, subtotal, currency, group.length + pCount);
   }
 
   buildTotalItem(table, label, value, currency, row) {
     value = NumberUtils.rawNumberToFormattedString(value);
     table.getCell(row, !this._rtl ? 0 : 3)
       .addContent(this.createSimpleLabel(label, null, { dontAddToDocument: true }));
-    table.getCell(row, !this._rtl ? 3 : 0).addContent(this.createSimpleLabel(!this._rtl ? `${value} ${currency}` :
-      `${currency} ${value}`, null, { dontAddToDocument: true }));
+    table.getCell(row, !this._rtl ? 3 : 0)
+      .addContent(this.createSimpleLabel(!this._rtl ? `${value} ${currency}` :
+        `${currency} ${value}`, null, { dontAddToDocument: true }));
     if (!this._rtl) {
-      table.getRow(row).mergeCells(0, 2);
+      table.getRow(row)
+        .mergeCells(0, 2);
     } else {
-      table.getRow(row).mergeCells(0, 2);
+      table.getRow(row)
+        .mergeCells(0, 2);
     }
-    table.getRow(row).getCell(0).CellProperties.setShading({ fill: COLOR_EVEN });
-    table.getRow(row).getCell(1).CellProperties.setShading({ fill: COLOR_EVEN });
-    table.getRow(row).getCell(2).CellProperties.setShading({ fill: COLOR_EVEN });
+    table.getRow(row)
+      .getCell(0)
+      .CellProperties
+      .setShading({ fill: COLOR_EVEN });
+    table.getRow(row)
+      .getCell(1)
+      .CellProperties
+      .setShading({ fill: COLOR_EVEN });
+    table.getRow(row)
+      .getCell(2)
+      .CellProperties
+      .setShading({ fill: COLOR_EVEN });
   }
 
   getDisasterResponse(g, showDisasterResponse, trnType) {
     if (showDisasterResponse && g[ActivityConstants.DISASTER_RESPONSE] === true) {
       const { activityFieldsManager } = this._context;
-      return activityFieldsManager.getFieldLabelTranslation(ActivityConstants.FUNDINGS, trnType,
-        ActivityConstants.DISASTER_RESPONSE);
+      return activityFieldsManager.getFieldLabelTranslation(
+        `${ActivityConstants.FUNDINGS}~${trnType}~${ActivityConstants.DISASTER_RESPONSE}`);
     }
     return '';
   }

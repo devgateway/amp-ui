@@ -15,7 +15,7 @@ let logger = null;
  */
 class APFundingTotalsSection extends Component {
   static contextTypes = {
-    activityFundingTotals: PropTypes.object.isRequired, // PropTypes.instanceOf(ActivityFundingTotals).isRequired,
+    activityFundingTotals: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager),
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     Logger: PropTypes.func.isRequired,

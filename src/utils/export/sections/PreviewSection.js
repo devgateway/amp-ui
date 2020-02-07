@@ -91,7 +91,7 @@ export default class PreviewSection {
   }
 
   createField(title, value, paragraph, titleStyle, valueStyle) {
-    if (value) {
+    if (value && value.replace) {
       value = he.decode(value.replace(/(<([^>]+)>)/ig, ''));// .replace('&nbsp;',' ');
     }
     if (!paragraph) {
@@ -134,7 +134,10 @@ export default class PreviewSection {
     }
     if (this._rtl) {
       p.bidirectional();
+    } else if (_options.alignRight) {
+      p.right();
     }
+
     if (_options.dontAddToDocument) {
       return p;
     }

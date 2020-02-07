@@ -111,6 +111,13 @@ export default class GenerateWordPreview {
       .color('black')
       .spacing({ after: 120 });
 
+    document.Styles.createParagraphStyle('FundingSmall', 'Project Title')
+      .basedOn('Normal')
+      .next('Normal')
+      .quickFormat()
+      .size(14)
+      .color('black');
+
     document.Styles.createParagraphStyle('RTL', 'RTL')
       .right();
   }

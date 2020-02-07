@@ -23,7 +23,7 @@ let logger = null;
 class FundingSummary extends Component {
   static propTypes = {
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
-    activityFundingTotals: PropTypes.object.isRequired, // PropTypes.instanceOf(ActivityFundingTotals).isRequired,
+    activityFundingTotals: PropTypes.object.isRequired,
     fieldNameClass: PropTypes.string,
     fieldValueClass: PropTypes.string,
     Logger: PropTypes.func.isRequired,
