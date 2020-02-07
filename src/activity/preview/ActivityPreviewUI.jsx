@@ -37,7 +37,7 @@ export default class ActivityPreviewUI extends Component {
       validationStatus: PropTypes.string,
       rtlDirection: PropTypes.bool,
       activityStatus: PropTypes.string,
-      workspaceCurrency: PropTypes.string,
+      effectiveCurrency: PropTypes.string,
       calendar: PropTypes.object,
       workspaceLeadData: PropTypes.string,
       activityWorkspace: PropTypes.shape({}),
@@ -63,7 +63,6 @@ export default class ActivityPreviewUI extends Component {
 
   static contextTypes = {
     resourceReducer: PropTypes.object.isRequired,
-    ActivityFundingTotals: PropTypes.object,
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     activityFieldsManager: PropTypes.instanceOf(FieldsManager),
     activityFundingTotals: PropTypes.any,
