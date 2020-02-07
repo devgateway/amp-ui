@@ -5,6 +5,7 @@ import FieldPathConstants from '../../FieldPathConstants';
 import ValueConstants from '../../ValueConstants';
 import NumberUtils from '../../NumberUtils';
 import CommonActivityHelper from '../../helpers/CommonActivityHelper';
+import APFundingTotalsSection from '../../../activity/preview/sections/funding/APFundingTotalsSection.jsx';
 
 const docx = require('docx');
 
@@ -128,23 +129,10 @@ export default class FundingPreview extends PreviewSection {
 
   buildTotalsTable(currency) {
     const { activityFieldsManager, activityFundingTotals, translate } = this._context;
-    let actualCommitments;
-    let actualDisbursements;
-    const options = [];
-    FieldPathConstants.FUNDING_TRANSACTION_TYPES.forEach(trnType => {
-      if (activityFieldsManager.isFieldPathByPartsEnabled(ActivityConstants.FUNDINGS, trnType)) {
-        const fieldPath = `${ActivityConstants.FUNDINGS}~${trnType}~${ActivityConstants.ADJUSTMENT_TYPE}`;
-        const atOptions = activityFieldsManager.getPossibleValuesOptions(fieldPath);
-        atOptions.forEach(at => {
-          const value = activityFundingTotals.getTotals(at.id, trnType);
-          options.push({ label: translate(`Total ${at.value} ${trnType}`), value });
-          actualCommitments = (trnType === ActivityConstants.COMMITMENTS && at.value === ValueConstants.ACTUAL)
-            ? value : actualCommitments;
-          actualDisbursements = (trnType === ActivityConstants.DISBURSEMENTS && at.value === ValueConstants.ACTUAL)
-            ? value : actualDisbursements;
-        });
-      }
-    });
+
+    const { actualCommitments, actualDisbursements, options } =
+      APFundingTotalsSection.calculateTotalActualCommitmentsDisbursements(
+        activityFieldsManager, activityFundingTotals, translate);
     if (actualDisbursements && actualCommitments) {
       options.push({ label: 'Undisbursed Balance', value: actualCommitments - actualDisbursements });
     }
@@ -169,7 +157,7 @@ export default class FundingPreview extends PreviewSection {
 
   buildFundingDetailItemRow(table, g, currency, i, adjType, showDisasterResponse, trnType, showFixedExRate, cols,
     translate, showPledge, pledge) {
-    const noPledgeIndex = i + pledge.count ;
+    const noPledgeIndex = i + pledge.count;
     table.getCell(noPledgeIndex, !this._rtl ? 0 : 4)
       .addContent(this.createSimpleLabel(adjType.value, null,
         { dontAddToDocument: true }));
