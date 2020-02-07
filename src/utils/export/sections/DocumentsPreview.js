@@ -42,6 +42,7 @@ export default class DocumentsPreview extends PreviewSection {
             props: this._props
           });
         this.createField(date.title, date.value);
+        this.createSeparator();
       });
       this.createSeparator();
     }
