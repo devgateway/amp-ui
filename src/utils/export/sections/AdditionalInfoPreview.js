@@ -24,7 +24,7 @@ export default class AdditionalInfoPreview extends PreviewSection {
     const teamName = activityFieldsManager.getValue(this._props.activity, ActivityConstants.TEAM,
       PossibleValuesManager.getOptionTranslation);
     // no need to export repeating translation for the access type through workspaces EP
-    const accessType = translate(activityContext[WorkspaceConstants.ACCESS_TYPE]);
+    const accessType = translate(activityContext.activityWorkspace[WorkspaceConstants.ACCESS_TYPE]);
     const isComputedTeam = activityContext[WorkspaceConstants.IS_COMPUTED] === true ?
       translate('Yes') : translate('No');
     this.createField(this._context.translate('createdInWorkspace'), `${teamName} - ${accessType}`);
