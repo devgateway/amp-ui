@@ -45,6 +45,7 @@ export default class SitesPreview extends PreviewSection {
               this.createField('Latitude', s[ActivityConstants.STRUCTURES_LATITUDE]);
               this.createField('Longitude', s[ActivityConstants.STRUCTURES_LONGITUDE]);
             }
+            this.createSeparator();
           });
       }
       this.createSeparator();
