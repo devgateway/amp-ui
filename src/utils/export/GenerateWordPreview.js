@@ -15,6 +15,7 @@ import SitesPreview from './sections/SitesPreview';
 import DocumentsPreview from './sections/DocumentsPreview';
 import FundingPreview from './sections/FundingPreview';
 import AdditionalInfoPreview from './sections/AdditionalInfoPreview';
+import InternalIdPreview from './sections/InternalIdPreview';
 
 const FileSaver = require('file-saver');
 const docx = require('docx');
@@ -66,6 +67,8 @@ export default class GenerateWordPreview {
     new TitlePreview(document, _props, _context, _rtl).generateSection();
     new SummaryPreview(document, _props, _context, _rtl).generateSection();
     new IdentificationPreview(document, _props, _context, _rtl, FMC.ACTIVITY_IDENTIFICATION, null).generateSection();
+    new InternalIdPreview(document, _props, _context, _rtl, null,
+      ActivityConstants.ACTIVITY_INTERNAL_IDS).generateSection();
     new PlanningPreview(document, _props, _context, _rtl, FMC.ACTIVITY_PLANNING, null).generateSection();
     new LocationPreview(document, _props, _context, _rtl, null, ActivityConstants.LOCATIONS).generateSection();
     new ProgramPreview(document, _props, _context, _rtl, FMC.ACTIVITY_PROGRAM, null).generateSection();
