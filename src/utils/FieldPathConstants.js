@@ -42,7 +42,7 @@ const RELATED_ORGS_ORGANIZATION_PATHS = ValueConstants.ORG_ROLE_NAMES.map(
 const RICH_TEXT_FIELDS = new Set([ActivityConstants.STATUS_REASON, ActivityConstants.OBJECTIVE,
   ActivityConstants.DESCRIPTION, ActivityConstants.PROJECT_COMMENTS, ActivityConstants.LESSONS_LEARNED,
   ActivityConstants.PROJECT_IMPACT, ActivityConstants.ACTIVITY_SUMMARY, ActivityConstants.CONDITIONALITIES,
-  ActivityConstants.PROJECT_MANAGEMENT, ActivityConstants.RESULTS,
+  ActivityConstants.PROJECT_MANAGEMENT, ActivityConstants.RESULTS, ActivityConstants.PROGRAM_DESCRIPTION
 ]);
 
 const PATHS_WITH_TREE_STRUCTURE = new Set([NATIONAL_PLAN_OBJECTIVE_PATH, PRIMARY_PROGRAM_PATH,

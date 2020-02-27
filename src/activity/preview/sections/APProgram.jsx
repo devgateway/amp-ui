@@ -24,7 +24,8 @@ class APProgram extends Component {
     activity: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
     rtl: PropTypes.bool,
-    Logger: PropTypes.func.isRequired
+    Logger: PropTypes.func.isRequired,
+    buildSimpleField: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
@@ -34,6 +35,8 @@ class APProgram extends Component {
   }
 
   render() {
+    const { buildSimpleField } = this.props;
+    const options = { fieldNameClass: styles.section_field_name };
     return (<div>
       <div className={styles.primary_sector}>
         <APNationalPlanList key="national-plan-list" {...this.props} />
@@ -44,11 +47,15 @@ class APProgram extends Component {
       <div className={styles.secondary_sector}>
         <SecondaryProgramList key="secondary-programs-list" {...this.props} />
       </div>
+      <div>
+        {buildSimpleField('program_description', true, null, false, null, null, options)}
+      </div>
     </div>);
   }
 }
 
-export default Section(APProgram, { SectionTitle: 'Program',
+export default Section(APProgram, {
+  SectionTitle: 'Program',
   useEncapsulateHeader: true,
   sID: 'APProgram'
 });

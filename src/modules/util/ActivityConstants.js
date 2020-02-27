@@ -93,6 +93,7 @@ const LAST_AUDIT_DATE = 'last_audit_date';
 const SIGNATURE_DATE = 'signature_date';
 const HUMANITARIAN_AID = 'humanitarian_aid';
 const DISASTER_RESPONSE = 'disaster_response';
+const PROGRAM_DESCRIPTION = 'program_description';
 const PROGRAM = 'program';
 const PROGRAM_PERCENTAGE = 'program_percentage';
 const PROGRAM_SETTINGS = 'program_settings';
@@ -529,5 +530,6 @@ export default Object.freeze({
   AUTOMATIC_VALIDATION,
   AWAITING_VALIDATION,
   CANNOT_BE_VALIDATE,
+  PROGRAM_DESCRIPTION,
   UNKNOWN
 });
