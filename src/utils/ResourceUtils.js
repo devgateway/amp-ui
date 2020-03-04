@@ -23,10 +23,14 @@ export default class ResourceUtils {
 
   static getItemTitleForOrganizations(item) {
     const org = item[ActivityConstants.ORGANIZATION];
-    const orgTitle = org[ActivityConstants.HIERARCHICAL_VALUE] ? org[ActivityConstants.HIERARCHICAL_VALUE] : org.value;
+    let orgTitle = org[ActivityConstants.HIERARCHICAL_VALUE] ? org[ActivityConstants.HIERARCHICAL_VALUE] : org.value;
     const additionalInfo = item[ActivityConstants.ADDITIONAL_INFO];
     if (additionalInfo) {
-      return `${orgTitle} (${additionalInfo})`;
+      orgTitle = `${orgTitle} (${additionalInfo})`;
+    }
+    if (item[ActivityConstants.BUDGETS] && item[ActivityConstants.BUDGETS].length > 0) {
+      orgTitle = ` ${orgTitle} (${item[ActivityConstants.BUDGETS].map(b => b[ActivityConstants.BUDGET_CODE])
+        .join('-')})`;
     }
     return orgTitle;
   }

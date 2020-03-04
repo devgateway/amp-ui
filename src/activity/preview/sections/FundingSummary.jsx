@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Moment from 'moment';
 import PropTypes from 'prop-types';
 import ActivityConstants from '../../../modules/util/ActivityConstants';
 import FeatureManager from '../../../modules/util/FeatureManager';
@@ -7,7 +8,6 @@ import FeatureManagerConstants from '../../../modules/util/FeatureManagerConstan
 import FieldPathConstants from '../../../utils/FieldPathConstants';
 
 import FieldsManager from '../../../modules/field/FieldsManager';
-import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 import APField from '../components/APField.jsx';
 import Section from './Section.jsx';
 
@@ -27,7 +27,8 @@ class FundingSummary extends Component {
     fieldNameClass: PropTypes.string,
     fieldValueClass: PropTypes.string,
     Logger: PropTypes.func.isRequired,
-    translate: PropTypes.func.isRequired
+    translate: PropTypes.func.isRequired,
+    activity: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -44,7 +45,7 @@ class FundingSummary extends Component {
    */
   _buildFundingInformation() {
     const measuresTotals = {};
-    const { activityFieldsManager } = this.props;
+    const { activityFieldsManager, translate } = this.props;
     let acEnabled = false;
     let adEnabled = false;
     // Commitments, Disbursements, Expenditures
@@ -63,13 +64,11 @@ class FundingSummary extends Component {
         });
       }
     });
-    // Other measures: "Unallocated Disbursements".
-    const adjTypeActualTrn = this.props.activityFieldsManager.getValue(FieldPathConstants.DISBURSEMENTS_PATH,
-      ValueConstants.ACTUAL,
-      PossibleValuesManager.getOptionTranslation);
+    // Other measures: "Unallocated Disbursements" According to online preview should show if actual Commitments
+    // and actual disbursements are enabled and if expenditures are enabled.
     const expendituresAreEnabled = activityFieldsManager.isFieldPathByPartsEnabled(ActivityConstants.FUNDINGS,
       ActivityConstants.EXPENDITURES);
-    if (adjTypeActualTrn && expendituresAreEnabled) {
+    if (acEnabled && adEnabled && expendituresAreEnabled) {
       const ub = ValueConstants.UNALLOCATED_DISBURSEMENTS;
       measuresTotals[ub] = this.props.activityFundingTotals.getTotals(ub, {});
     }
@@ -78,7 +77,17 @@ class FundingSummary extends Component {
     if (FeatureManager.isFMSettingEnabled(FeatureManagerConstants.MTEF_PROJECTIONS)) {
       measuresTotals[ValueConstants.MTEF_PROJECTIONS] = this.props.activityFundingTotals.getMTEFTotal();
     }
-    // Other measures: "Delivery rate".
+    // Other measures: "DURATION OF PROJECT" "Delivery rate".
+    if (FeatureManager.isFMSettingEnabled(FeatureManagerConstants.ACTIVITY_DURATION_OF_PROJECT)) {
+      let value = null;
+      if (this.props.activity[ActivityConstants.ACTUAL_COMPLETION_DATE]
+        && this.props.activity[ActivityConstants.ACTUAL_START_DATE]) {
+        value = Moment(this.props.activity[ActivityConstants.ACTUAL_COMPLETION_DATE])
+          .diff(Moment(this.props.activity[ActivityConstants.ACTUAL_START_DATE]), 'months', false);
+        value = `${value} ${translate(`month${value > 1 ? 's' : ''}`)}`;
+      }
+      measuresTotals[ValueConstants.DURATION_OF_PROJECT] = value;
+    }
     if (FeatureManager.isFMSettingEnabled(FeatureManagerConstants.ACTIVITY_DELIVERY_RATE)) {
       const actualCommitments = measuresTotals[`${ValueConstants.ACTUAL} ${ActivityConstants.COMMITMENTS}`];
       const actualDisbursements = measuresTotals[`${ValueConstants.ACTUAL} ${ActivityConstants.DISBURSEMENTS}`];
@@ -103,12 +112,15 @@ class FundingSummary extends Component {
       { trn: ValueConstants.UNALLOCATED_DISBURSEMENTS, total: false },
       { trn: ValueConstants.PLANNED_EXPENDITURES, total: true },
       { trn: ValueConstants.MTEF_PROJECTIONS, total: true },
+      { trn: ValueConstants.DURATION_OF_PROJECT, total: false, isText: true },
       { trn: ValueConstants.DELIVERY_RATE, total: false, isPercentage: true }];
     const fundingInfoSummary = [];
     measuresOrder.forEach(measure => {
       let value = measuresTotals[measure.trn];
       if (value !== undefined) {
-        value = this.props.activityFundingTotals.formatAmount(value, measure.isPercentage);
+        if (!measure.isText) {
+          value = this.props.activityFundingTotals.formatAmount(value, measure.isPercentage);
+        }
         let title = measure.trn;
         if (measure.total) {
           title = `Total ${title}`;

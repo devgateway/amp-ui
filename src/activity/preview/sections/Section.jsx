@@ -145,7 +145,7 @@ const Section = (ComposedSection, params) => class extends Component {
             inline={inline}
             separator={false}
             fieldClass={options_.fieldClass || this.props.fieldClass}
-            fieldNameClass={this.props.fieldNameClass}
+            fieldNameClass={options_.fieldNameClass || this.props.fieldNameClass}
             fieldValueClass={options_.fieldValueClass || this.props.fieldValueClass}
             translate={params.translate} />);
         }

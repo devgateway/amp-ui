@@ -49,7 +49,8 @@ class APRelatedOrganizations extends Component {
   }
 }
 
-export default Section(APRelatedOrganizations, { SectionTitle: 'Related Organizations',
+export default Section(APRelatedOrganizations, {
+  SectionTitle: 'Related Organizations',
   useEncapsulateHeader: true,
   sID: 'APRelatedOrganizations'
 });
