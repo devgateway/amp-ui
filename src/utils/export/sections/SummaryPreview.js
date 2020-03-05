@@ -8,10 +8,13 @@ export default class SummaryPreview extends PreviewSection {
     if (this._rtl) {
       items = items.reverse();
     }
+    // eslint-disable-next-line array-callback-return
     items.map(i => {
       const field = this._section.prototype.buildSimpleField(i, true, null, false, null, null,
         { stringOnly: true, context: this._context, props: this._props });
-      return this.createField(field.title, field.value);
+      if (field) {
+        return this.createField(field.title, field.value);
+      }
     });
     this.createSeparator();
   }
