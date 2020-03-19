@@ -257,7 +257,11 @@ const AP_SECTION_IDS =
       fmPath: FMC.ACTIVITY_ORGANIZATIONS
     },
     { key: 'APIssues', hash: '#APIssues', value: 'Issues', sectionPath: ISSUES },
-    { key: 'APContact', hash: '#APContact', value: 'Contact Information', fmPath: FMC.ACTIVITY_CONTACT },
+    { key: 'APContact',
+      hash: '#APContact',
+      value: 'Contact Information',
+      fmPath: FMC.ACTIVITY_CONTACT,
+      showhide(ac) { return ac.hideContacts; } },
     { key: 'APStructures', hash: '#APStructures', value: 'Structures', sectionPath: STRUCTURES },
     { key: 'APDocument', hash: '#APDocument', value: 'Related Documents', sectionPath: ACTIVITY_DOCUMENTS },
   ];

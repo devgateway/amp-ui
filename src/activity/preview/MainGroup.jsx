@@ -32,6 +32,7 @@ export default class MainGroup extends Component {
   static contextTypes = {
     Logger: PropTypes.func.isRequired,
     contactsByIds: PropTypes.object,
+    activityContext: PropTypes.object
   };
 
   constructor(props, context) {
@@ -44,6 +45,7 @@ export default class MainGroup extends Component {
   render() {
     // TODO (iteration 2+) hide sections that are not directly connected to a single field (e.g. planning, program)
     const { APDocumentPage, getActivityContactIds, rtl } = this.props;
+    const { activityContext } = this.context;
     return (<div className={rtl ? styles.main_group_container_rtl : styles.main_group_container}>
       <APIdentification fmPath={FeatureManagerConstants.ACTIVITY_IDENTIFICATION} />
       <APInternalIds
@@ -75,7 +77,9 @@ export default class MainGroup extends Component {
       <APContact
         fieldNameClass={styles.hidden} fieldValueClass={styles.box_field_value_tight}
         columns={ActivityConstants.ACTIVITY_CONTACT_COLS} fmPath={FeatureManagerConstants.ACTIVITY_CONTACT}
-        getActivityContactIds={getActivityContactIds} />
+        getActivityContactIds={getActivityContactIds}
+        hideSection={activityContext.hideContacts}
+      />
       <APStructures sectionPath={ActivityConstants.STRUCTURES} />
       <APDocumentPage
         sectionPath={ActivityConstants.ACTIVITY_DOCUMENTS}
