@@ -6,13 +6,13 @@ import Section from './Section.jsx';
 import APField from '../components/APField.jsx';
 import styles from '../ActivityPreview.css';
 import ResourceConstants from '../../../utils/constants/ResourceConstants';
-import ActivityConstants from '../../../modules/util/ActivityConstants';
 import Loading from '../../common/Loading.jsx';
 import ActionIcon from '../../common/ActionIcon.jsx';
 import docSyles from './APDocument.css';
 import ActionUrl from '../../common/ActionUrl.jsx';
 import download from '../../../assets/images/download.svg';
 import gotoUrl from '../../../assets/images/goto_url.svg';
+import ResourceUtils from '../../../utils/ResourceUtils';
 import ErrorHelper from '../../../modules/util/ErrorHelper';
 
 /**
@@ -44,7 +44,7 @@ class APDocument extends Component {
     const { isResourcesLoaded, isResourceManagersLoaded, resourcesByUuids } = this.props.resourceReducer;
     const { activity } = this.props;
     if (isResourcesLoaded && isResourceManagersLoaded) {
-      const resourcesUuids = this.getActivityResourceUuids(activity);
+      const resourcesUuids = ResourceUtils.getActivityResourceUuids(activity);
       return resourcesUuids.map(uuid => {
         const r = { ...resourcesByUuids[uuid] };
         r[ResourceConstants.ADDING_DATE] = r[ResourceConstants.ADDING_DATE] || r[ResourceConstants.CLIENT_ADDING_DATE];
@@ -55,17 +55,6 @@ class APDocument extends Component {
         .filter(r => r);
     }
     return [];
-  }
-
-  // TODO: move to an utils class.
-  getActivityResourceUuids(activity) {
-    const resources = new Set();
-    const docs = activity[ActivityConstants.ACTIVITY_DOCUMENTS];
-    if (docs && docs.length) {
-      docs.forEach(d => resources.add((d[ResourceConstants.UUID] &&
-        d[ResourceConstants.UUID][ResourceConstants.UUID]) || d[ResourceConstants.UUID]));
-    }
-    return Array.from(resources);
   }
 
   /**

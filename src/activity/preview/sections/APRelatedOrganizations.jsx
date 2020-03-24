@@ -6,6 +6,7 @@ import ActivityConstants from '../../../modules/util/ActivityConstants';
 import APPercentageList from '../components/APPercentageList.jsx';
 import FieldsManager from '../../../modules/field/FieldsManager';
 import FeatureManagerConstants from '../../../modules/util/FeatureManagerConstants';
+import ResourceUtils from '../../../utils/ResourceUtils';
 
 const DO = APPercentageList(ActivityConstants.DONOR_ORGANIZATION, ActivityConstants.ORGANIZATION,
   ActivityConstants.PERCENTAGE, 'Donor Organization');
@@ -33,22 +34,8 @@ class APRelatedOrganizations extends Component {
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired
   };
 
-  getItemTitle(item) {
-    const org = item[ActivityConstants.ORGANIZATION];
-    let orgTitle = org[ActivityConstants.HIERARCHICAL_VALUE] ? org[ActivityConstants.HIERARCHICAL_VALUE] : org.value;
-    const additionalInfo = item[ActivityConstants.ADDITIONAL_INFO];
-    if (additionalInfo) {
-      orgTitle = `${orgTitle} (${additionalInfo})`;
-    }
-    if (item[ActivityConstants.BUDGETS] && item[ActivityConstants.BUDGETS].length > 0) {
-      orgTitle = ` ${orgTitle} (${item[ActivityConstants.BUDGETS].map(b => b[ActivityConstants.BUDGET_CODE])
-        .join('-')})`;
-    }
-    return orgTitle;
-  }
-
   render() {
-    const props = { ...this.props, getItemTitle: this.getItemTitle };
+    const props = { ...this.props, getItemTitle: ResourceUtils.getItemTitleForOrganizations };
     return (<div>
       <DO key="do-org-list" {...props} fmPath={FeatureManagerConstants.ACTIVITY_ORGANIZATIONS_DONOR_ORGANIZATION} />
       <RO key="ro-org-list" {...props} />
