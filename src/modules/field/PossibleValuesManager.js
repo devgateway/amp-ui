@@ -101,7 +101,7 @@ export default class PossibleValuesManager {
       const langState = PossibleValuesManager._langState;
       resVal = translations[langState.lang] || translations[langState.defaultLang] || resVal;
     }
-    return resVal;
+    return resVal ? resVal.trim() : resVal;
   }
 
   static setVisibility(options, fieldPath, currencyRatesManager: CurrencyRatesManager, filters, isORFilter = false,
