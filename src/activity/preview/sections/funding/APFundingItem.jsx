@@ -40,8 +40,8 @@ export default class APFundingItem extends Component {
   getDisasterResponse() {
     if (this.props.showDisasterResponse && this.props.item[ActivityConstants.DISASTER_RESPONSE] === true) {
       const { activityFieldsManager } = this.context;
-      return activityFieldsManager.getFieldLabelTranslation(ActivityConstants.FUNDINGS, this.props.trnType,
-        ActivityConstants.DISASTER_RESPONSE);
+      return activityFieldsManager.getFieldLabelTranslation(
+        `${ActivityConstants.FUNDINGS}~${this.props.trnType}~${ActivityConstants.DISASTER_RESPONSE}`);
     }
     return '';
   }

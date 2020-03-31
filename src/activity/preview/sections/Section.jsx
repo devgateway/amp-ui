@@ -26,7 +26,8 @@ const Section = (ComposedSection, params) => class extends Component {
     fieldNameClass: PropTypes.string,
     fieldValueClass: PropTypes.string,
     fmPath: PropTypes.string,
-    fieldClass: PropTypes.string
+    fieldClass: PropTypes.string,
+    hideSection: PropTypes.bool
   };
 
   static contextTypes = {
@@ -64,6 +65,7 @@ const Section = (ComposedSection, params) => class extends Component {
     groupClass: styles.section_group_class,
     fieldNameClass: styles.section_field_name,
     fieldValueClass: styles.section_field_value,
+    hideSection: false
   };
 
   constructor(props, context) {
@@ -154,7 +156,9 @@ const Section = (ComposedSection, params) => class extends Component {
   }
 
   render() {
-    if (this.props.sectionPath && !this.context.activityFieldsManager.isFieldPathEnabled(this.props.sectionPath)) {
+    debugger;
+    if ((this.props.sectionPath && !this.context.activityFieldsManager.isFieldPathEnabled(this.props.sectionPath)) ||
+    this.props.hideSection) {
       return null;
     }
     if (this.props.fmPath && !FeatureManager.isFMSettingEnabled(this.props.fmPath)) {
