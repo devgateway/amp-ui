@@ -156,7 +156,6 @@ const Section = (ComposedSection, params) => class extends Component {
   }
 
   render() {
-    debugger;
     if ((this.props.sectionPath && !this.context.activityFieldsManager.isFieldPathEnabled(this.props.sectionPath)) ||
     this.props.hideSection) {
       return null;
