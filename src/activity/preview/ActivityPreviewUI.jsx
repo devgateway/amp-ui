@@ -184,7 +184,7 @@ export default class ActivityPreviewUI extends Component {
                 </li>
               </ul>
             </span>
-            {this.props.isOnline && this._getMessages()}
+            {this._getMessages()}
             <div className={styles.preview_status_container}>
               <APStatusBar
                 fieldClass={styles.inline_flex}
@@ -225,10 +225,12 @@ export default class ActivityPreviewUI extends Component {
     const messages = {};
     messages.info = [];
     messages.danger = [];
-    this._getAdditionalMessages(messages);
     this._checkDraft(messages);
-    this._checkLatestVersion(messages);
-    this._getValidations(messages);
+    if (this.props.isOnline) {
+      this._getAdditionalMessages(messages);
+      this._checkLatestVersion(messages);
+      this._getValidations(messages);
+    }
     const retAlerts = [];
     if (messages.info.length === 0 && messages.danger.length === 0) {
       return null;
