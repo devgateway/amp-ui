@@ -123,6 +123,9 @@ export default class ActivityPreviewUI extends Component {
       if (category.fmPath && !FeatureManager.isFMSettingEnabled(category.fmPath)) {
         return null;
       }
+      if (category.showhide && category.showhide(activityContext)) {
+        return null;
+      }
       return <li key={category.value}><a href={category.hash}> {translate(category.value)} </a></li>;
     });
 
