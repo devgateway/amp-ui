@@ -269,6 +269,10 @@ const AP_SECTION_IDS =
       showhide(ac) { return ac.hideContacts; } },
     { key: 'APStructures', hash: '#APStructures', value: 'Structures', sectionPath: STRUCTURES },
     { key: 'APDocument', hash: '#APDocument', value: 'Related Documents', sectionPath: ACTIVITY_DOCUMENTS },
+    { key: 'APLineMinistryObservations',
+      hash: '#APLineMinistryObservations',
+      value: 'Line Ministry Observations',
+      sectionPath: LINE_MINISTRY_OBSERVATIONS },
   ];
 
 /** Column counts for each section **/
