@@ -17,6 +17,7 @@ const BUDGET_CODE_PROJECT_ID = 'budget_code_project_id';
 const ACTUAL_APPROVAL_DATE = 'actual_approval_date';
 const FUNDINGS = 'fundings';
 const REGION_LOCATION = 'region_location';
+const REGION = 'Region';
 const REGIONAL_FUNDINGS_COMMITMENTS = 'regional_commitments';
 const REGIONAL_FUNDINGS_DISBURSEMENTS = 'regional_disbursements';
 const REGIONAL_FUNDINGS_EXPENDITURES = 'regional_expenditures';
@@ -318,6 +319,7 @@ export default Object.freeze({
   FUNDINGS,
   FUNDING_DONOR_ORG_ID,
   REGION_LOCATION,
+  REGION,
   REGIONAL_FUNDINGS_COMMITMENTS,
   REGIONAL_FUNDINGS_DISBURSEMENTS,
   REGIONAL_FUNDINGS_EXPENDITURES,
