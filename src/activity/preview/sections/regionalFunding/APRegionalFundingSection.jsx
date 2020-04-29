@@ -2,12 +2,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ActivityConstants from '../../../../modules/util/ActivityConstants';
-import UIUtils from '../../../../utils/UIUtils';
 import Section from '../Section.jsx';
-import APFundingTotalsSection from './APFundingTotalsSection.jsx';
-import APRegionalFundingOrganizationSection from './APRegionalFundingOrganizationSection.jsx';
+import APRegionalFundingLocationSection from './APRegionalFundingLocationSection.jsx';
 import NumberUtils from '../../../../utils/NumberUtils';
-import fundingStyles from './APFundingSection.css';
+import fundingStyles from './APRRegionalFundingSection.css';
 
 
 let logger = null;
@@ -24,8 +22,17 @@ class APRegionalFundingSection extends Component {
     Logger: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
+  static contextTypes = {
+    Logger: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
+    activityContext: PropTypes.shape({
+      effectiveCurrency: PropTypes.string.isRequired,
+      reorderFundingItemId: PropTypes.number.isRequired
+    }).isRequired,
+  };
+
+  constructor(props, context) {
+    super(props, context);
     const { Logger } = this.props;
     logger = new Logger('AP regional funding section');
     logger.debug('constructor');
@@ -34,24 +41,29 @@ class APRegionalFundingSection extends Component {
   render() {
     logger.debug('render');
     const { DateUtils, activity } = this.props;
+    const { activityContext } = this.context;
     const fundingList = [];
-    if (activity[ActivityConstants.FUNDINGS]) {
-      activity[ActivityConstants.FUNDINGS].forEach((funding) => {
-        const item = (<APRegionalFundingOrganizationSection
-          funding={funding} key={funding[ActivityConstants.AMP_FUNDING_ID] || UIUtils.stringToUniqueId()}
-          buildSimpleField={this.props.buildSimpleField}
-          DateUtils={DateUtils} />);
-        fundingList.push(item);
-      });
+    if (activity[ActivityConstants.LOCATIONS]) {
+      activity[ActivityConstants.LOCATIONS].filter(l =>
+        l.location.extra_info[ActivityConstants.IMPLEMENTATION_LOCATION_EXTRA_INFO] === ActivityConstants.REGION)
+        .forEach((region) => {
+          const item = (<APRegionalFundingLocationSection
+            activity={activity}
+            region={region} key={region.id}
+            buildSimpleField={this.props.buildSimpleField}
+            wsCurrency={activityContext.effectiveCurrency}
+            DateUtils={DateUtils} />);
+          fundingList.push(item);
+        });
     }
     return (<div className={fundingStyles.container}>
       <div className={fundingStyles.byline}>{NumberUtils.getAmountsInThousandsMessage()}</div>
       <div>{fundingList}</div>
-      <div><APFundingTotalsSection /></div>
       <div className={fundingStyles.clear} />
     </div>);
   }
 }
+
 export default Section(APRegionalFundingSection, { SectionTitle: 'Regional Funding',
   useEncapsulateHeader: true,
   sID: 'APRegionalFunding'
