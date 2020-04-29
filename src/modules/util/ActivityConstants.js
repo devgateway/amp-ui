@@ -255,6 +255,10 @@ const AP_SECTION_IDS =
       sectionPath: TOTAL_NUMBER_OF_FUNDING_SOURCES
     },
     { key: 'APFunding', hash: '#APFunding', value: 'Funding', sectionPath: FUNDINGS },
+    { key: 'APRegionalFunding',
+      hash: '#APRegionalFunding',
+      value: 'Regional Funding',
+      fmPath: FMC.ACTIVITY_REGIONAL_FUNDING },
     {
       key: 'APRelatedOrganizations',
       hash: '#APRelatedOrganizations',

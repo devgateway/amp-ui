@@ -15,6 +15,7 @@ import APRelatedOrganizations from './sections/APRelatedOrganizations.jsx';
 import APIssues from './sections/issues/APIssues.jsx';
 import APContact from './sections/APContact.jsx';
 import APStructures from './sections/APStructures.jsx';
+import APRegionalFundingSection from './sections/regionalFunding/APRegionalFundingSection.jsx';
 
 let logger = null;
 
@@ -69,6 +70,9 @@ export default class MainGroup extends Component {
       <APFundingSection
         fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value}
         sectionPath={ActivityConstants.FUNDINGS} />
+      <APRegionalFundingSection
+        fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value}
+        fmPath={FeatureManagerConstants.ACTIVITY_REGIONAL_FUNDING} />
       <APRelatedOrganizations
         fieldNameClass={styles.sector_title} fieldValueClass={''}
         fmPath={FeatureManagerConstants.ACTIVITY_ORGANIZATIONS}
