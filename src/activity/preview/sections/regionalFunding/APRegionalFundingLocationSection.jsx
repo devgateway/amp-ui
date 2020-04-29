@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+/* eslint-disable no-plusplus */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -55,23 +56,24 @@ class APRegionalFundingLocationSection extends Component {
     const transactions = [];
     const path = 'regional_';
     FieldPathConstants.TRANSACTION_TYPES.forEach(tt => {
+      let row = 0;
       if (activityFieldsManager.isFieldPathEnabled(path + tt) && activity[path + tt]) {
-        activity[path + tt].filter(rf => rf[ActivityConstants.REGION_LOCATION].id === region.location.id)
-          .sort((i, j) => (i[ActivityConstants.ADJUSTMENT_TYPE].value > j[ActivityConstants.ADJUSTMENT_TYPE].value ? 1 : 0))
+        const fundings = activity[path + tt].filter(rf => rf[ActivityConstants.REGION_LOCATION].id === region.location.id);
+        fundings.sort((i, j) => (i[ActivityConstants.ADJUSTMENT_TYPE].value > j[ActivityConstants.ADJUSTMENT_TYPE].value ? 1 : 0))
           .forEach(i => {
             const convertedAmount = currencyRatesManager.convertTransactionAmountToCurrency(i, wsCurrency);
             transactions.push(
-              <tbody>
-                <tr className={styles.row}>
-                  <td className={styles.left_text}>{translate(`${i[ActivityConstants.ADJUSTMENT_TYPE].value} ${tt}`)}</td>
-                  <td className={styles.right_text}>
-                    {DateUtils.createFormattedDate(i[ActivityConstants.TRANSACTION_DATE])}
-                  </td>
-                  <td
-                    className={styles.right_text}>
-                    {`${NumberUtils.rawNumberToFormattedString(convertedAmount)} ${wsCurrency}`}</td>
-                </tr>
-              </tbody>);
+              <tr className={styles.row}>
+                {(row === 0) ? <td rowSpan={fundings.length} className={styles.left_text}>{translate(tt).toUpperCase()}</td> : null}
+                <td className={styles.left_text}>{translate(i[ActivityConstants.ADJUSTMENT_TYPE].value)}</td>
+                <td className={styles.right_text}>
+                  {DateUtils.createFormattedDate(i[ActivityConstants.TRANSACTION_DATE])}
+                </td>
+                <td className={styles.right_text}>
+                  {`${NumberUtils.rawNumberToFormattedString(convertedAmount)} ${wsCurrency}`}
+                </td>
+              </tr>);
+            row++;
           });
       }
     });
@@ -85,7 +87,9 @@ class APRegionalFundingLocationSection extends Component {
       <div className={styles.section_header}>{region.location.value}</div>
       <div className={styles.funding_detail}>
         <table className={styles.funding_table}>
-          {this._buildFundingDetailSection()}
+          <tbody>
+            {this._buildFundingDetailSection()}
+          </tbody>
         </table>
       </div>
     </div>);
