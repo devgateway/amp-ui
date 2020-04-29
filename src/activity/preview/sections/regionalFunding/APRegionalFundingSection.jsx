@@ -7,7 +7,6 @@ import APRegionalFundingLocationSection from './APRegionalFundingLocationSection
 import NumberUtils from '../../../../utils/NumberUtils';
 import fundingStyles from './APRRegionalFundingSection.css';
 
-
 let logger = null;
 
 /**

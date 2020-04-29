@@ -56,22 +56,23 @@ class APRegionalFundingLocationSection extends Component {
     const path = 'regional_';
     FieldPathConstants.TRANSACTION_TYPES.forEach(tt => {
       if (activityFieldsManager.isFieldPathEnabled(path + tt) && activity[path + tt]) {
-        activity[path + tt].filter(rf => rf[ActivityConstants.REGION_LOCATION].id === region.location.id).forEach(i => {
-          console.error(i);
-          const convertedAmount = currencyRatesManager.convertTransactionAmountToCurrency(i, wsCurrency);
-          transactions.push(
-            <tbody>
-              <tr className={styles.row}>
-                <td className={styles.left_text}>{translate(i[ActivityConstants.ADJUSTMENT_TYPE].value)}</td>
-                <td className={styles.right_text}>
-                  {DateUtils.createFormattedDate(i[ActivityConstants.TRANSACTION_DATE])}
-                </td>
-                <td
-                  className={styles.right_text}>
-                  {`${NumberUtils.rawNumberToFormattedString(convertedAmount)} ${wsCurrency}`}</td>
-              </tr>
-            </tbody>);
-        });
+        activity[path + tt].filter(rf => rf[ActivityConstants.REGION_LOCATION].id === region.location.id)
+          .sort((i, j) => (i[ActivityConstants.ADJUSTMENT_TYPE].value > j[ActivityConstants.ADJUSTMENT_TYPE].value ? 1 : 0))
+          .forEach(i => {
+            const convertedAmount = currencyRatesManager.convertTransactionAmountToCurrency(i, wsCurrency);
+            transactions.push(
+              <tbody>
+                <tr className={styles.row}>
+                  <td className={styles.left_text}>{translate(`${i[ActivityConstants.ADJUSTMENT_TYPE].value} ${tt}`)}</td>
+                  <td className={styles.right_text}>
+                    {DateUtils.createFormattedDate(i[ActivityConstants.TRANSACTION_DATE])}
+                  </td>
+                  <td
+                    className={styles.right_text}>
+                    {`${NumberUtils.rawNumberToFormattedString(convertedAmount)} ${wsCurrency}`}</td>
+                </tr>
+              </tbody>);
+          });
       }
     });
     return transactions;
@@ -81,8 +82,7 @@ class APRegionalFundingLocationSection extends Component {
     logger.debug('render');
     const { region } = this.props;
     return (<div>
-      <div className={styles.section_header} />
-      {region.location.value}
+      <div className={styles.section_header}>{region.location.value}</div>
       <div className={styles.funding_detail}>
         <table className={styles.funding_table}>
           {this._buildFundingDetailSection()}
