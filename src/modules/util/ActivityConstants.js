@@ -164,6 +164,17 @@ const STRUCTURES_POINT = 'Point';
 const STRUCTURES_POLYGON = 'Polygon';
 const STRUCTURES_POLYLINE = 'Polyline';
 const STRUCTURES_COORDINATES = 'coordinates';
+const INDICATORS = 'indicators';
+const RISK = 'risk';
+const LOG_FRAME = 'log_frame';
+const INDICATOR = 'indicator';
+const BASE = 'base';
+const INDICATOR_COMMENT = 'comment';
+const INDICATOR_DATE = 'date';
+const INDICATOR_VALUE = 'value';
+const TARGET = 'target';
+const REVISED = 'revised';
+const CURRENT = 'current';
 const COMPONENT_TYPE = 'component_type';
 const COMPONENT_TITLE = 'component_title';
 const COMPONENT_FUNDING = 'funding';
@@ -459,6 +470,17 @@ export default Object.freeze({
   STRUCTURES_POLYGON,
   STRUCTURES_POLYLINE,
   STRUCTURES_COORDINATES,
+  INDICATORS,
+  RISK,
+  LOG_FRAME,
+  INDICATOR,
+  INDICATOR_COMMENT,
+  INDICATOR_DATE,
+  INDICATOR_VALUE,
+  BASE,
+  TARGET,
+  REVISED,
+  CURRENT,
   COMPONENT_TYPE,
   COMPONENT_TITLE,
   COMPONENT_FUNDING,
