@@ -175,6 +175,7 @@ const INDICATOR_VALUE = 'value';
 const TARGET = 'target';
 const REVISED = 'revised';
 const CURRENT = 'actual';
+const ME_SECTIONS = [BASE, TARGET, REVISED, CURRENT];
 const COMPONENT_TYPE = 'component_type';
 const COMPONENT_TITLE = 'component_title';
 const COMPONENT_FUNDING = 'funding';
@@ -275,6 +276,7 @@ const AP_SECTION_IDS =
       showhide(ac) { return ac.hideContacts; } },
     { key: 'APStructures', hash: '#APStructures', value: 'Structures', sectionPath: STRUCTURES },
     { key: 'APDocument', hash: '#APDocument', value: 'Related Documents', sectionPath: ACTIVITY_DOCUMENTS },
+    { key: 'APME', hash: '#APME', value: 'M&E', sectionPath: INDICATORS },
   ];
 
 /** Column counts for each section **/
@@ -481,6 +483,7 @@ export default Object.freeze({
   TARGET,
   REVISED,
   CURRENT,
+  ME_SECTIONS,
   COMPONENT_TYPE,
   COMPONENT_TITLE,
   COMPONENT_FUNDING,
