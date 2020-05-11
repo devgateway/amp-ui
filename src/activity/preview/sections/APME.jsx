@@ -24,27 +24,44 @@ class APME extends Component {
     logger.debug('constructor');
   }
 
+  _generateTable(indicator) {
+    const { buildSimpleField, translate } = this.props;
+    return (<div key={Math.random()}>
+      {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.INDICATOR}`, true, null, false, indicator)}
+      {ActivityConstants.ME_SECTIONS.map(s => (<table key={Math.random()} className={styles.box_table}>
+        <tbody>
+          <tr key={Math.random()}>
+            <td>
+              <APField
+                key={Math.random()} title={translate(`${s} ${ActivityConstants.INDICATOR_VALUE}: `)}
+                value={indicator[s][ActivityConstants.INDICATOR_VALUE]} inline={false} separator={false}
+                fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} />
+            </td>
+            <td>
+              <APField
+                key={Math.random()} title={translate(`${s} ${ActivityConstants.INDICATOR_DATE}: `)}
+                value={indicator[s][ActivityConstants.INDICATOR_DATE]} inline={false} separator={false}
+                fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} />
+            </td>
+          </tr>
+          <tr key={Math.random()}>
+            <td>
+              <APField
+                key={Math.random()} title={translate(`${s} ${ActivityConstants.INDICATOR_COMMENT}: `)}
+                value={indicator[s][ActivityConstants.INDICATOR_COMMENT]} inline={false} separator={false}
+                fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} />
+            </td>
+          </tr>
+        </tbody>
+      </table>))}
+    </div>);
+  }
+
   render() {
-    const { activity, buildSimpleField, translate } = this.props;
-    console.error(activity.indicators);
-    const indicators = [];
-    activity[ActivityConstants.INDICATORS].forEach(i => {
-      console.error(i);
-      indicators.push(buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.INDICATOR}`,
-        true, null, false, i));
-      ActivityConstants.ME_SECTIONS.forEach(s => {
-        indicators.push(<APField
-          key={Math.random()} title={translate(`${s} ${ActivityConstants.INDICATOR_VALUE}:`)}
-          value={i[s][ActivityConstants.INDICATOR_VALUE]} inline />);
-        indicators.push(<APField
-          key={Math.random()} title={translate(`${s} ${ActivityConstants.INDICATOR_DATE}:`)}
-          value={i[s][ActivityConstants.INDICATOR_DATE]} inline />);
-        indicators.push(<APField
-          key={Math.random()} title={translate(`${s} ${ActivityConstants.INDICATOR_COMMENT}:`)}
-          value={i[s][ActivityConstants.INDICATOR_COMMENT]} inline />);
-      });
-    });
-    return <div>{indicators}</div>;
+    const { activity } = this.props;
+    return (<div>
+      {activity[ActivityConstants.INDICATORS].map(indicator => (this._generateTable(indicator)))}
+    </div>);
   }
 }
 
