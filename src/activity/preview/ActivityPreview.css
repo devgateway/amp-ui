@@ -623,4 +623,8 @@
   .message_link{
     display: none;
   }
+
+  .m_e_table {
+    margin-bottom: 10px;
+  }
 }

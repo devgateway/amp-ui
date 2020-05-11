@@ -27,8 +27,11 @@ class APME extends Component {
   _generateTable(indicator) {
     const { buildSimpleField, translate } = this.props;
     return (<div key={Math.random()}>
-      {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.INDICATOR}`, true, null, false, indicator)}
-      {ActivityConstants.ME_SECTIONS.map(s => (<table key={Math.random()} className={styles.box_table}>
+      {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.INDICATOR}`, true, null, false, indicator,
+        null, { noTitle: true, fieldClass: styles.noborder })}
+      {ActivityConstants.ME_SECTIONS.map(s => (<table
+        key={Math.random()}
+        className={[styles.box_table, styles.section_group_class].join(' ')}>
         <tbody>
           <tr key={Math.random()}>
             <td>
@@ -45,7 +48,7 @@ class APME extends Component {
             </td>
           </tr>
           <tr key={Math.random()}>
-            <td>
+            <td colSpan={2}>
               <APField
                 key={Math.random()} title={translate(`${s} ${ActivityConstants.INDICATOR_COMMENT}: `)}
                 value={indicator[s][ActivityConstants.INDICATOR_COMMENT]} inline={false} separator={false}
