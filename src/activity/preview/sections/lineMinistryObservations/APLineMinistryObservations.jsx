@@ -4,7 +4,7 @@ import Section from '../Section.jsx';
 import styles from './APLineMinistryObservations.css';
 import FieldsManager from '../../../../modules/field/FieldsManager';
 import ActivityConstants from '../../../../modules/util/ActivityConstants';
-import APMeasure from './APMeasure.jsx';
+import APMeasure from '../issues/APMeasure.jsx';
 import UIUtils from '../../../../../src/utils/UIUtils';
 
 let logger = null;
