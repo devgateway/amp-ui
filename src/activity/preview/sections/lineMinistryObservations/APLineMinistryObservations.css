@@ -1,0 +1,10 @@
+.lmo {
+  font-weight: bold;
+  display: list-item;
+  list-style-position: inside;
+}
+
+.nodata {
+  margin-left: 10px;
+  font-weight: bold;
+}
