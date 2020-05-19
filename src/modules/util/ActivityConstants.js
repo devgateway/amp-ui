@@ -169,6 +169,18 @@ const STRUCTURES_POINT = 'Point';
 const STRUCTURES_POLYGON = 'Polygon';
 const STRUCTURES_POLYLINE = 'Polyline';
 const STRUCTURES_COORDINATES = 'coordinates';
+const INDICATORS = 'indicators';
+const RISK = 'risk';
+const LOG_FRAME = 'log_frame';
+const INDICATOR = 'indicator';
+const BASE = 'base';
+const INDICATOR_COMMENT = 'comment';
+const INDICATOR_DATE = 'date';
+const INDICATOR_VALUE = 'value';
+const TARGET = 'target';
+const REVISED = 'revised';
+const CURRENT = 'actual';
+const ME_SECTIONS = [BASE, TARGET, REVISED, CURRENT];
 const COMPONENT_TYPE = 'component_type';
 const COMPONENT_TITLE = 'component_title';
 const COMPONENT_FUNDING = 'funding';
@@ -269,6 +281,7 @@ const AP_SECTION_IDS =
       showhide(ac) { return ac.hideContacts; } },
     { key: 'APStructures', hash: '#APStructures', value: 'Structures', sectionPath: STRUCTURES },
     { key: 'APDocument', hash: '#APDocument', value: 'Related Documents', sectionPath: ACTIVITY_DOCUMENTS },
+    { key: 'APME', hash: '#APME', value: 'M&E', sectionPath: INDICATORS },
     { key: 'APLineMinistryObservations',
       hash: '#APLineMinistryObservations',
       value: 'Line Ministry Observations',
@@ -471,6 +484,18 @@ export default Object.freeze({
   STRUCTURES_POLYGON,
   STRUCTURES_POLYLINE,
   STRUCTURES_COORDINATES,
+  INDICATORS,
+  RISK,
+  LOG_FRAME,
+  INDICATOR,
+  INDICATOR_COMMENT,
+  INDICATOR_DATE,
+  INDICATOR_VALUE,
+  BASE,
+  TARGET,
+  REVISED,
+  CURRENT,
+  ME_SECTIONS,
   COMPONENT_TYPE,
   COMPONENT_TITLE,
   COMPONENT_FUNDING,
