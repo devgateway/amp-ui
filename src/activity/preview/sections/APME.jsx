@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import Section from './Section.jsx';
 import ActivityConstants from '../../../modules/util/ActivityConstants';
 import styles from '../ActivityPreview.css';
-import UIUtils from '../../../utils/UIUtils';
-import { FeatureManagerConstants } from '../../../index';
 import APField from '../components/APField.jsx';
 
 let logger = null;
