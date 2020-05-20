@@ -16,6 +16,11 @@ const RESULTS = 'results';
 const BUDGET_CODE_PROJECT_ID = 'budget_code_project_id';
 const ACTUAL_APPROVAL_DATE = 'actual_approval_date';
 const FUNDINGS = 'fundings';
+const REGION_LOCATION = 'region_location';
+const REGION = 'Region';
+const REGIONAL_FUNDINGS_COMMITMENTS = 'regional_commitments';
+const REGIONAL_FUNDINGS_DISBURSEMENTS = 'regional_disbursements';
+const REGIONAL_FUNDINGS_EXPENDITURES = 'regional_expenditures';
 const FUNDING_DONOR_ORG_ID = 'donor_organization_id';
 const IS_DRAFT = 'is_draft';
 const ORG_ROLE_ORG_ID = 'organization';
@@ -267,6 +272,10 @@ const AP_SECTION_IDS =
       sectionPath: TOTAL_NUMBER_OF_FUNDING_SOURCES
     },
     { key: 'APFunding', hash: '#APFunding', value: 'Funding', sectionPath: FUNDINGS },
+    { key: 'APRegionalFunding',
+      hash: '#APRegionalFunding',
+      value: 'Regional Funding',
+      fmPath: FMC.ACTIVITY_REGIONAL_FUNDING },
     {
       key: 'APRelatedOrganizations',
       hash: '#APRelatedOrganizations',
@@ -335,6 +344,11 @@ export default Object.freeze({
   ACTUAL_APPROVAL_DATE,
   FUNDINGS,
   FUNDING_DONOR_ORG_ID,
+  REGION_LOCATION,
+  REGION,
+  REGIONAL_FUNDINGS_COMMITMENTS,
+  REGIONAL_FUNDINGS_DISBURSEMENTS,
+  REGIONAL_FUNDINGS_EXPENDITURES,
   IS_DRAFT,
   ORG_ROLE_ORG_ID,
   ADDITIONAL_INFO,
