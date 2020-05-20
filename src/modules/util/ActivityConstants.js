@@ -34,6 +34,18 @@ const SECTOR_PERCENTAGE = 'sector_percentage';
 const FINANCING_INSTRUMENT = 'financing_instrument';
 const MODALITIES = 'modalities';
 const LINE_MINISTRY_RANK = 'line_ministry_rank';
+const LINE_MINISTRY_OBSERVATIONS = 'line_ministry_observations';
+const LINE_MINISTRY_OBSERVATIONS_DATE = 'date';
+const LINE_MINISTRY_OBSERVATIONS_NAME = 'name';
+const ISSUE_DATE = 'issue_date';
+const ISSUE_NAME = 'name';
+const MEASURES = 'measures';
+const MEASURE_NAME = 'name';
+const MEASURE_DATE = 'measure_date';
+const ACTORS = 'actors';
+const ACTOR_NAME = 'name';
+
+
 const GOVERNMENT_AGREEMENT_NUMBER = 'government_agreement_number';
 const FUNDING_STATUS = 'funding_status';
 const LOCATIONS = 'locations';
@@ -149,13 +161,6 @@ const TOTAL_NUMBER_OF_FUNDING_SOURCES = 'total_number_of_funding_sources';
 const SOURCE_ROLE = 'source_role';
 const AMP_FUNDING_ID = 'funding_id';
 const ISSUES = 'issues';
-const ISSUE_DATE = 'issue_date';
-const ISSUE_NAME = 'name';
-const MEASURES = 'measures';
-const MEASURE_NAME = 'name';
-const MEASURE_DATE = 'measure_date';
-const ACTORS = 'actors';
-const ACTOR_NAME = 'name';
 const STRUCTURES = 'structures';
 const STRUCTURES_TITLE = 'title';
 const STRUCTURES_DESCRIPTION = 'description';
@@ -169,6 +174,18 @@ const STRUCTURES_POINT = 'Point';
 const STRUCTURES_POLYGON = 'Polygon';
 const STRUCTURES_POLYLINE = 'Polyline';
 const STRUCTURES_COORDINATES = 'coordinates';
+const INDICATORS = 'indicators';
+const RISK = 'risk';
+const LOG_FRAME = 'log_frame';
+const INDICATOR = 'indicator';
+const BASE = 'base';
+const INDICATOR_COMMENT = 'comment';
+const INDICATOR_DATE = 'date';
+const INDICATOR_VALUE = 'value';
+const TARGET = 'target';
+const REVISED = 'revised';
+const CURRENT = 'actual';
+const ME_SECTIONS = [BASE, TARGET, REVISED, CURRENT];
 const COMPONENT_TYPE = 'component_type';
 const COMPONENT_TITLE = 'component_title';
 const COMPONENT_FUNDING = 'funding';
@@ -273,6 +290,11 @@ const AP_SECTION_IDS =
       showhide(ac) { return ac.hideContacts; } },
     { key: 'APStructures', hash: '#APStructures', value: 'Structures', sectionPath: STRUCTURES },
     { key: 'APDocument', hash: '#APDocument', value: 'Related Documents', sectionPath: ACTIVITY_DOCUMENTS },
+    { key: 'APME', hash: '#APME', value: 'M&E', sectionPath: INDICATORS },
+    { key: 'APLineMinistryObservations',
+      hash: '#APLineMinistryObservations',
+      value: 'Line Ministry Observations',
+      sectionPath: LINE_MINISTRY_OBSERVATIONS },
   ];
 
 /** Column counts for each section **/
@@ -339,6 +361,9 @@ export default Object.freeze({
   FINANCING_INSTRUMENT,
   MODALITIES,
   LINE_MINISTRY_RANK,
+  LINE_MINISTRY_OBSERVATIONS,
+  LINE_MINISTRY_OBSERVATIONS_DATE,
+  LINE_MINISTRY_OBSERVATIONS_NAME,
   GOVERNMENT_AGREEMENT_NUMBER,
   FUNDING_STATUS,
   LOCATIONS,
@@ -473,6 +498,18 @@ export default Object.freeze({
   STRUCTURES_POLYGON,
   STRUCTURES_POLYLINE,
   STRUCTURES_COORDINATES,
+  INDICATORS,
+  RISK,
+  LOG_FRAME,
+  INDICATOR,
+  INDICATOR_COMMENT,
+  INDICATOR_DATE,
+  INDICATOR_VALUE,
+  BASE,
+  TARGET,
+  REVISED,
+  CURRENT,
+  ME_SECTIONS,
   COMPONENT_TYPE,
   COMPONENT_TITLE,
   COMPONENT_FUNDING,

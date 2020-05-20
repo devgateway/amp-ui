@@ -16,6 +16,8 @@ import APIssues from './sections/issues/APIssues.jsx';
 import APContact from './sections/APContact.jsx';
 import APStructures from './sections/APStructures.jsx';
 import APRegionalFundingSection from './sections/regionalFunding/APRegionalFundingSection.jsx';
+import APME from './sections/APME.jsx';
+import APLineMinistryObservations from './sections/lineMinistryObservations/APLineMinistryObservations.jsx';
 
 let logger = null;
 
@@ -90,6 +92,8 @@ export default class MainGroup extends Component {
         fieldNameClass={[styles.section_field_name, styles.noborder].join(' ')}
         fieldValueClass={[styles.section_field_value, styles.noborder].join(' ')}
       />
+      <APME sectionPath={ActivityConstants.INDICATORS} />
+      <APLineMinistryObservations sectionPath={ActivityConstants.LINE_MINISTRY_OBSERVATIONS} />
     </div>);
   }
 }
