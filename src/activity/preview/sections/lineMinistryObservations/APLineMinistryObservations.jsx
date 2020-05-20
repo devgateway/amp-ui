@@ -50,6 +50,7 @@ class APLineMinistryObservations extends Component {
             <APMeasure
               key={UIUtils.stringToUniqueId()} activityFieldsManager={activityFieldsManager}
               measure={measure}
+              path={ActivityConstants.LINE_MINISTRY_OBSERVATIONS}
               DateUtils={DateUtils} />);
         });
       });

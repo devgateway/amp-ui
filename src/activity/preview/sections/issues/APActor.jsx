@@ -12,6 +12,7 @@ export default class APActors extends Component {
   static propTypes = {
     actor: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
+    path: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -27,8 +28,9 @@ export default class APActors extends Component {
   }
 
   render() {
+    const { path } = this.props;
     /* eslint-disable max-len */
-    if (this.props.activityFieldsManager.isFieldPathEnabled(`${ActivityConstants.ISSUES}~${ActivityConstants.MEASURES}~${ActivityConstants.ACTORS}`)) {
+    if (this.props.activityFieldsManager.isFieldPathEnabled(`${path}~${ActivityConstants.MEASURES}~${ActivityConstants.ACTORS}`)) {
       return (<div className={styles.actors}>{this.props.actor.name || ''}</div>);
     } else {
       return null;

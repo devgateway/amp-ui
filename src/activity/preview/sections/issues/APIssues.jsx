@@ -50,6 +50,7 @@ class APIssues extends Component {
             <APMeasure
               key={UIUtils.stringToUniqueId()} activityFieldsManager={activityFieldsManager}
               measure={measure}
+              path={ActivityConstants.ISSUES}
               DateUtils={DateUtils} />);
         });
       });
