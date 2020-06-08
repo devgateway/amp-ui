@@ -44,7 +44,8 @@ class APRegionalFundingSection extends Component {
     const fundingList = [];
     if (activity[ActivityConstants.LOCATIONS]) {
       activity[ActivityConstants.LOCATIONS].filter(l =>
-        l.location.extra_info[ActivityConstants.IMPLEMENTATION_LOCATION_EXTRA_INFO] === ActivityConstants.REGION)
+        l.location.extra_info
+        && l.location.extra_info[ActivityConstants.IMPLEMENTATION_LOCATION_EXTRA_INFO] === ActivityConstants.REGION)
         .forEach((region) => {
           const item = (<APRegionalFundingLocationSection
             activity={activity}
@@ -63,7 +64,8 @@ class APRegionalFundingSection extends Component {
   }
 }
 
-export default Section(APRegionalFundingSection, { SectionTitle: 'Regional Funding',
+export default Section(APRegionalFundingSection, {
+  SectionTitle: 'Regional Funding',
   useEncapsulateHeader: true,
   sID: 'APRegionalFunding'
 });
