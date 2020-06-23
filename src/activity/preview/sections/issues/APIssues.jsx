@@ -40,7 +40,9 @@ class APIssues extends Component {
         let date = '';
         /* eslint-disable max-len */
         if (activityFieldsManager.isFieldPathEnabled(`${ActivityConstants.ISSUES}~${ActivityConstants.ISSUE_DATE}`)) {
-          date = ` ${DateUtils.createFormattedDate(issue[ActivityConstants.ISSUE_DATE])}`;
+          if (issue[ActivityConstants.ISSUE_DATE]) {
+            date = ` ${DateUtils.createFormattedDate(issue[ActivityConstants.ISSUE_DATE])}`;
+          }
         }
         /* eslint-enable max-len */
         content.push(
