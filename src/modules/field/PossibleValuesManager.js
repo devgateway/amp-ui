@@ -96,10 +96,7 @@ export default class PossibleValuesManager {
 
   static getOptionTranslation(option) {
     let resVal = option.value;
-    let translations = option['translated-value'];
-    if (translations === undefined) {
-      translations = option['translatedValue'];
-    }
+    const translations = option['translated-value'];
     if (translations !== undefined) {
       const langState = PossibleValuesManager._langState;
       resVal = translations[langState.lang] || translations[langState.defaultLang] || resVal;
