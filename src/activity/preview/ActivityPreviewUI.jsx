@@ -53,7 +53,8 @@ export default class ActivityPreviewUI extends Component {
         workspace: PropTypes.shape({
           [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
           [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
-          id: PropTypes.number.isRequired
+          id: PropTypes.number.isRequired,
+          prefix: PropTypes.string.isRequired
         })
       })
     }).isRequired,
@@ -88,7 +89,8 @@ export default class ActivityPreviewUI extends Component {
           [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
           [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
           [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
-          id: PropTypes.number.isRequired
+          id: PropTypes.number.isRequired,
+          prefix: PropTypes.string.isRequired
         })
       })
     })

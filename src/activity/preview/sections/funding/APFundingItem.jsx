@@ -28,6 +28,7 @@ export default class APFundingItem extends Component {
     activityFieldsManager: PropTypes.instanceOf(FieldsManager),
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
+    activityContext: PropTypes.object.isRequired
   };
 
   constructor(props, context) {
@@ -41,7 +42,8 @@ export default class APFundingItem extends Component {
     if (this.props.showDisasterResponse && this.props.item[ActivityConstants.DISASTER_RESPONSE] === true) {
       const { activityFieldsManager } = this.context;
       return activityFieldsManager.getFieldLabelTranslation(
-        `${ActivityConstants.FUNDINGS}~${this.props.trnType}~${ActivityConstants.DISASTER_RESPONSE}`);
+        `${ActivityConstants.FUNDINGS}~${this.props.trnType}~${ActivityConstants.DISASTER_RESPONSE}`,
+        this.context.activityContext.teamMember.workspace.prefix);
     }
     return '';
   }
