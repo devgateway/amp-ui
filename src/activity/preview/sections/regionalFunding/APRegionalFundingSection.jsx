@@ -6,6 +6,7 @@ import Section from '../Section.jsx';
 import APRegionalFundingLocationSection from './APRegionalFundingLocationSection.jsx';
 import NumberUtils from '../../../../utils/NumberUtils';
 import fundingStyles from './APRRegionalFundingSection.css';
+import UIUtils from '../../../../utils/UIUtils';
 
 let logger = null;
 
@@ -49,7 +50,7 @@ class APRegionalFundingSection extends Component {
         .forEach((region) => {
           const item = (<APRegionalFundingLocationSection
             activity={activity}
-            region={region} key={region.id}
+            region={region} key={UIUtils.stringToUniqueId(region.id)}
             buildSimpleField={this.props.buildSimpleField}
             wsCurrency={activityContext.effectiveCurrency}
             DateUtils={DateUtils} />);
