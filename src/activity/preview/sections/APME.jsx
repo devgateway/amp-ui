@@ -34,7 +34,7 @@ class APME extends Component {
         null, { fieldClass: styles.noborder })}
       {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.RISK}`, true, null, false, indicator,
         null, { fieldClass: styles.noborder })}
-      {ActivityConstants.ME_SECTIONS.map(s => (<table
+      {ActivityConstants.ME_SECTIONS ? ActivityConstants.ME_SECTIONS.map(s => (<table
         key={Math.random()}
         className={[styles.box_table, styles.section_group_class].join(' ')}>
         <tbody>
@@ -64,14 +64,16 @@ class APME extends Component {
             </td>
           </tr>
         </tbody>
-      </table>))}
+      </table>)) : null}
     </div>);
   }
 
   render() {
     const { activity } = this.props;
     return (<div>
-      {activity[ActivityConstants.INDICATORS].map(indicator => (this._generateTable(indicator)))}
+      {activity[ActivityConstants.INDICATORS] ?
+        activity[ActivityConstants.INDICATORS].map(indicator => (this._generateTable(indicator))) :
+        null}
     </div>);
   }
 }
