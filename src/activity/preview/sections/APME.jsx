@@ -29,7 +29,7 @@ class APME extends Component {
     const { buildSimpleField, translate } = this.props;
     return (<div key={Math.random()}>
       {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.INDICATOR}`, true, null, false, indicator,
-        null, { noTitle: true, fieldClass: styles.sector_title })}
+        null, { noTitle: true, fieldValueClass: styles.sector_title })}
       {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.LOG_FRAME}`, true, null, false, indicator,
         null, { fieldClass: styles.noborder })}
       {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.RISK}`, true, null, false, indicator,
