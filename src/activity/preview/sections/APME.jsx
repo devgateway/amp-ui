@@ -29,7 +29,7 @@ class APME extends Component {
     const { buildSimpleField, translate } = this.props;
     return (<div key={Math.random()}>
       {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.INDICATOR}`, true, null, false, indicator,
-        null, { noTitle: true, fieldClass: styles.noborder })}
+        null, { noTitle: true, fieldValueClass: styles.sector_title })}
       {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.LOG_FRAME}`, true, null, false, indicator,
         null, { fieldClass: styles.noborder })}
       {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.RISK}`, true, null, false, indicator,
@@ -42,14 +42,14 @@ class APME extends Component {
             <td>
               {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${s.toUpperCase()}_VALUE_BASE_VALUE`])
                 ? <APField
-                  key={Math.random()} title={translate(`${s} ${ActivityConstants.INDICATOR_VALUE}: `)}
+                  key={Math.random()} title={translate(`${s} ${ActivityConstants.INDICATOR_VALUE}`)}
                   value={indicator[s][ActivityConstants.INDICATOR_VALUE]} inline={false} separator={false}
                   fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} /> : null}
             </td>
             <td>
               {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${s.toUpperCase()}_VALUE_BASE_DATE`]) ?
                 <APField
-                  key={Math.random()} title={translate(`${s} ${ActivityConstants.INDICATOR_DATE}: `)}
+                  key={Math.random()} title={translate(`${s} ${ActivityConstants.INDICATOR_DATE}`)}
                   value={indicator[s][ActivityConstants.INDICATOR_DATE]} inline={false} separator={false}
                   fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} /> : null}
             </td>
@@ -58,7 +58,7 @@ class APME extends Component {
             <td colSpan={2}>
               {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${s.toUpperCase()}_VALUE_BASE_COMMENTS`]) ?
                 <APField
-                  key={Math.random()} title={translate(`${s} ${ActivityConstants.INDICATOR_COMMENT}: `)}
+                  key={Math.random()} title={translate(`${s} ${ActivityConstants.INDICATOR_COMMENT}`)}
                   value={indicator[s][ActivityConstants.INDICATOR_COMMENT]} inline={false} separator={false}
                   fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} /> : null}
             </td>
