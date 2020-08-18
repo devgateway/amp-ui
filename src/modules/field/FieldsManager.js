@@ -124,11 +124,18 @@ export default class FieldsManager {
     return trnValue;
   }
 
-  getFieldLabelTranslation(fieldPath) {
+  getFieldLabelTranslation(fieldPath, prefix) {
     let trnLabel = null;
     const fieldsDef = this.getFieldDef(fieldPath);
     if (fieldsDef !== undefined) {
-      trnLabel = fieldsDef.field_label[this._lang] || fieldsDef.field_label[this._defaultLang] || null;
+      if (prefix === null || prefix === undefined || prefix === '') {
+        prefix = Constants.DEFAULT_WORKSPACE_PREFIX;
+      }
+      if (fieldsDef && fieldsDef.field_label && fieldsDef.field_label[prefix]) {
+        trnLabel = fieldsDef.field_label[prefix][this._lang] ||
+          fieldsDef.field_label[prefix][this._defaultLang] ||
+          null;
+      }
     }
     return trnLabel;
   }

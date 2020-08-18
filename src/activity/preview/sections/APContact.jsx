@@ -22,7 +22,8 @@ class APContact extends Component {
     contactsByIds: PropTypes.object,
     buildSimpleField: PropTypes.func.isRequired,
     getActivityContactIds: PropTypes.func.isRequired,
-    translate: PropTypes.func
+    translate: PropTypes.func,
+    activityContext: PropTypes.object.isRequired
   };
 
   getHydratedContacts() {
@@ -68,7 +69,8 @@ class APContact extends Component {
     const contactGroups = FieldPathConstants.ACTIVITY_CONTACT_PATHS
       .filter(acp => activityFieldsManager.isFieldPathEnabled(acp))
       .map(acp => {
-        const title = activityFieldsManager.getFieldLabelTranslation(acp);
+        const title = activityFieldsManager.getFieldLabelTranslation(acp,
+          this.props.activityContext.teamMember.workspace.prefix);
         const contacts = (activity[acp] || []).map(c => {
           const hydratedC = hydratedContactsByIds[c[ActivityConstants.CONTACT].id];
           return hydratedC ? this.renderContact(hydratedC) : null;
