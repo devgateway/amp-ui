@@ -22,7 +22,7 @@ export default class FieldsManager {
     return newFieldsManager;
   }
 
-  constructor(fieldsDef, possibleValuesCollection, currentLanguage, LoggerManager) {
+  constructor(fieldsDef, possibleValuesCollection, currentLanguage, LoggerManager, prefix) {
     // TODO remove cache
     logger = new LoggerManager('Fields manager');
     logger.debug('constructor');
@@ -32,6 +32,7 @@ export default class FieldsManager {
       this._possibleValuesMap[pv.id] = pv[FieldPathConstants.FIELD_OPTIONS];
     });
     this._fieldPathsEnabledStatusMap = {};
+    this._prefix = prefix || '';
     this._lang = currentLanguage || Constants.LANGUAGE_ENGLISH;
     this._defaultLang = Constants.LANGUAGE_ENGLISH;
     this.cleanup(fieldsDef);
