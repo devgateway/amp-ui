@@ -64,13 +64,15 @@ class APContact extends Component {
   }
 
   render() {
-    const { activity, activityFieldsManager } = this.props;
+    const { activity, activityFieldsManager, activityContext } = this.props;
     const hydratedContactsByIds = this.getHydratedContacts();
     const contactGroups = FieldPathConstants.ACTIVITY_CONTACT_PATHS
       .filter(acp => activityFieldsManager.isFieldPathEnabled(acp))
       .map(acp => {
-        const title = activityFieldsManager.getFieldLabelTranslation(acp,
-          this.props.activityContext.teamMember.workspace.prefix);
+        const prefix = (activityContext.teamMember && activityContext.teamMember.workspace &&
+          activityContext.teamMember.workspace.prefix) ?
+          activityContext.teamMember.workspace.prefix : null;
+        const title = activityFieldsManager.getFieldLabelTranslation(acp, prefix);
         const contacts = (activity[acp] || []).map(c => {
           const hydratedC = hydratedContactsByIds[c[ActivityConstants.CONTACT].id];
           return hydratedC ? this.renderContact(hydratedC) : null;
