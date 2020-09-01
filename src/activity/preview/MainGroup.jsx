@@ -15,6 +15,9 @@ import APRelatedOrganizations from './sections/APRelatedOrganizations.jsx';
 import APIssues from './sections/issues/APIssues.jsx';
 import APContact from './sections/APContact.jsx';
 import APStructures from './sections/APStructures.jsx';
+import APRegionalFundingSection from './sections/regionalFunding/APRegionalFundingSection.jsx';
+import APME from './sections/APME.jsx';
+import APLineMinistryObservations from './sections/lineMinistryObservations/APLineMinistryObservations.jsx';
 
 let logger = null;
 
@@ -69,10 +72,14 @@ export default class MainGroup extends Component {
       <APFundingSection
         fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value}
         sectionPath={ActivityConstants.FUNDINGS} />
+      <APRegionalFundingSection
+        fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value}
+        fmPath={FeatureManagerConstants.ACTIVITY_REGIONAL_FUNDING} />
       <APRelatedOrganizations
         fieldNameClass={styles.sector_title} fieldValueClass={''}
         fmPath={FeatureManagerConstants.ACTIVITY_ORGANIZATIONS}
         percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value} />
+      <APStructures sectionPath={ActivityConstants.STRUCTURES} />
       <APIssues sectionPath={ActivityConstants.ISSUES} />
       <APContact
         fieldNameClass={styles.hidden} fieldValueClass={styles.box_field_value_tight}
@@ -80,12 +87,13 @@ export default class MainGroup extends Component {
         getActivityContactIds={getActivityContactIds}
         hideSection={activityContext.hideContacts}
       />
-      <APStructures sectionPath={ActivityConstants.STRUCTURES} />
+      <APME sectionPath={ActivityConstants.INDICATORS} />
       <APDocumentPage
         sectionPath={ActivityConstants.ACTIVITY_DOCUMENTS}
         fieldNameClass={[styles.section_field_name, styles.noborder].join(' ')}
         fieldValueClass={[styles.section_field_value, styles.noborder].join(' ')}
       />
+      <APLineMinistryObservations sectionPath={ActivityConstants.LINE_MINISTRY_OBSERVATIONS} />
     </div>);
   }
 }

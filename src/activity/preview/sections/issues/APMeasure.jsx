@@ -16,6 +16,7 @@ export default class APMeasures extends Component {
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
     measure: PropTypes.object.isRequired,
     DateUtils: PropTypes.func,
+    path: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -31,11 +32,11 @@ export default class APMeasures extends Component {
   }
 
   _buildMeasure() {
-    const { DateUtils } = this.props;
+    const { DateUtils, path } = this.props;
     const content = [];
     let date = '';
     /* eslint-disable max-len */
-    if (this.props.activityFieldsManager.isFieldPathEnabled(`${ActivityConstants.ISSUES}~${ActivityConstants.MEASURES}~${ActivityConstants.MEASURE_DATE}`)) {
+    if (this.props.activityFieldsManager.isFieldPathEnabled(`${path}~${ActivityConstants.MEASURES}~${ActivityConstants.MEASURE_DATE}`)) {
       date = ` ${DateUtils.createFormattedDate(this.props.measure[ActivityConstants.MEASURE_DATE])}`;
     }
     /* eslint-enable max-len */
@@ -45,14 +46,15 @@ export default class APMeasures extends Component {
       content.push(
         <APActor
           key={UIUtils.stringToUniqueId()} activityFieldsManager={this.props.activityFieldsManager} actor={actor}
-          measure={measure} />);
+          measure={measure} path={path} />);
     });
     return content;
   }
 
   render() {
+    const { path } = this.props;
     /* eslint-disable max-len */
-    if (this.props.activityFieldsManager.isFieldPathEnabled(`${ActivityConstants.ISSUES}~${ActivityConstants.MEASURES}`)) {
+    if (this.props.activityFieldsManager.isFieldPathEnabled(`${path}~${ActivityConstants.MEASURES}`)) {
       return <div>{this._buildMeasure()}</div>;
     } else {
       return null;
