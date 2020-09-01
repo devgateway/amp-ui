@@ -45,8 +45,8 @@ const MEASURE_DATE = 'measure_date';
 const ACTORS = 'actors';
 const ACTOR_NAME = 'name';
 
-
 const GOVERNMENT_AGREEMENT_NUMBER = 'government_agreement_number';
+const MULTI_STAKEHOLDER_PARTNERSHIP = 'multi_stakeholder_partnership';
 const FUNDING_STATUS = 'funding_status';
 const LOCATIONS = 'locations';
 const LOCATION = 'location';
@@ -365,6 +365,7 @@ export default Object.freeze({
   LINE_MINISTRY_OBSERVATIONS_DATE,
   LINE_MINISTRY_OBSERVATIONS_NAME,
   GOVERNMENT_AGREEMENT_NUMBER,
+  MULTI_STAKEHOLDER_PARTNERSHIP,
   FUNDING_STATUS,
   LOCATIONS,
   LOCATION,
