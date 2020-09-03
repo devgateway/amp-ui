@@ -124,6 +124,7 @@ const TEAM = 'team';
 const REJECTED_ID = 'rejectedId';
 const INTERNAL_ID = 'internal_id';
 const AMP_ID = 'amp_id';
+const AMP_ACTIVITY_ID = 'amp-activity-id';
 const PROJECT_TITLE = 'project_title';
 const DESCRIPTION = 'description';
 const MODIFIED_BY = 'modified_by';
@@ -586,5 +587,6 @@ export default Object.freeze({
   AWAITING_VALIDATION,
   CANNOT_BE_VALIDATE,
   PROGRAM_DESCRIPTION,
-  UNKNOWN
+  UNKNOWN,
+  AMP_ACTIVITY_ID
 });
