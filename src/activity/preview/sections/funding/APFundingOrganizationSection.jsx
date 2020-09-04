@@ -46,6 +46,20 @@ class APFundingOrganizationSection extends Component {
   _buildDonorInfo() {
     const content = [];
     const { buildSimpleField, funding } = this.props;
+
+    content.push(buildSimpleField(`${[ActivityConstants.FUNDINGS]}~${[ActivityConstants.PROJECT_PROBLEMS]}`,
+      true, null, false, funding));
+    content.push(buildSimpleField(`${[ActivityConstants.FUNDINGS]}~${[ActivityConstants.PROJECT_SUSTAINABILITY]}`,
+      true, null, false, funding));
+    content.push(buildSimpleField(`${[ActivityConstants.FUNDINGS]}~${[ActivityConstants.PROJECT_MONITORING]}`,
+      true, null, false, funding));
+    content.push(buildSimpleField(`${[ActivityConstants.FUNDINGS]}~${[ActivityConstants.PROJECT_JOINT_DECISION]}`,
+      true, null, false, funding));
+    content.push(buildSimpleField(`${[ActivityConstants.FUNDINGS]}~${[ActivityConstants.PROJECT_RESULTS_AVAILABLE]}`,
+      true, null, false, funding));
+    content.push(buildSimpleField(`${[ActivityConstants.FUNDINGS]}~${[ActivityConstants.VULNERABLE_GROUP]}`,
+      true, null, false, funding));
+
     content.push(buildSimpleField(`${[ActivityConstants.FUNDINGS]}~${[ActivityConstants.FUNDING_DONOR_ORG_ID]}`, true,
       null, false, funding));
     content.push(buildSimpleField(`${[ActivityConstants.FUNDINGS]}~${[ActivityConstants.SOURCE_ROLE]}`, true, null,

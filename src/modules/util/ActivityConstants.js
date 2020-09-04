@@ -45,8 +45,8 @@ const MEASURE_DATE = 'measure_date';
 const ACTORS = 'actors';
 const ACTOR_NAME = 'name';
 
-
 const GOVERNMENT_AGREEMENT_NUMBER = 'government_agreement_number';
+const MULTI_STAKEHOLDER_PARTNERSHIP = 'multi_stakeholder_partnership';
 const FUNDING_STATUS = 'funding_status';
 const LOCATIONS = 'locations';
 const LOCATION = 'location';
@@ -66,6 +66,12 @@ const DONOR_OBJECTIVE = 'donor_objective';
 const CONDITIONS = 'conditions';
 const AGREEMENT_CODE = 'code';
 const AGREEMENT_TITLE = 'title';
+const VULNERABLE_GROUP = 'vulnerable_group';
+const PROJECT_RESULTS_AVAILABLE = 'project_results_available';
+const PROJECT_JOINT_DECISION = 'project_joint_decision';
+const PROJECT_MONITORING = 'project_monitoring';
+const PROJECT_SUSTAINABILITY = 'project_sustainability';
+const PROJECT_PROBLEMS = 'project_problems';
 const PROJECT_CATEGORY = 'project_category';
 const PROJECT_IMPLEMENTING_UNIT = 'project_implementing_unit';
 const ORGANIZATION = 'organization';
@@ -343,6 +349,12 @@ export default Object.freeze({
   BUDGET_CODE_PROJECT_ID,
   ACTUAL_APPROVAL_DATE,
   FUNDINGS,
+  VULNERABLE_GROUP,
+  PROJECT_RESULTS_AVAILABLE,
+  PROJECT_JOINT_DECISION,
+  PROJECT_MONITORING,
+  PROJECT_SUSTAINABILITY,
+  PROJECT_PROBLEMS,
   FUNDING_DONOR_ORG_ID,
   REGION_LOCATION,
   REGION,
@@ -365,6 +377,7 @@ export default Object.freeze({
   LINE_MINISTRY_OBSERVATIONS_DATE,
   LINE_MINISTRY_OBSERVATIONS_NAME,
   GOVERNMENT_AGREEMENT_NUMBER,
+  MULTI_STAKEHOLDER_PARTNERSHIP,
   FUNDING_STATUS,
   LOCATIONS,
   LOCATION,
