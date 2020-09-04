@@ -107,16 +107,17 @@ export default class APActivityVersionHistory extends Component {
   }
 
   addButton(cell, row) {
+
     const { translate } = this.props;
     const { versionHistoryInformation } = this.props.activityContext;
     let actionLabel;
-    if (row.activityId === versionHistoryInformation.activityLastVersionId) {
+    if (row[ActivityConstants.AMP_ACTIVITY_ID] === versionHistoryInformation.activityLastVersionId) {
       actionLabel = translate('Current version');
     } else if (versionHistoryInformation.updateCurrentVersion) {
       actionLabel = (
         <Button
           className={ahStyles.link_version} bsStyle="link" bsSize="xsmall"
-          onClick={(evt) => this.handleUpdateVersion(evt, row.activityId)}>
+          onClick={(evt) => this.handleUpdateVersion(evt, row[ActivityConstants.AMP_ACTIVITY_ID])}>
           {translate('makeCurrentVersion')}</Button>);
     }
     return actionLabel;
@@ -155,13 +156,13 @@ export default class APActivityVersionHistory extends Component {
                 className={[ahStyles.thClassName, ahStyles.thClassName_10].join(' ')}
               >#</TableHeaderColumn>
               <TableHeaderColumn
-                isKey dataField="modifiedBy"
+                isKey dataField={ActivityConstants.MODIFIED_BY.replace('_', '-')}
                 columnClassName={[ahStyles.width_30, ahStyles.thClassNameItem].join(' ')}
                 className={[ahStyles.thClassName, ahStyles.thClassName_30].join(' ')}
               >{translate('LastModifiedBy')}
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField="modifiedDate"
+                dataField={ActivityConstants.MODIFIED_DATE}
                 columnClassName={[ahStyles.width_30, ahStyles.thClassNameItem].join(' ')}
                 className={[ahStyles.thClassName, ahStyles.thClassName_30].join(' ')}
                 dataFormat={this.dateFormatter.bind(this)}

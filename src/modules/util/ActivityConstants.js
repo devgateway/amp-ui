@@ -124,9 +124,11 @@ const TEAM = 'team';
 const REJECTED_ID = 'rejectedId';
 const INTERNAL_ID = 'internal_id';
 const AMP_ID = 'amp_id';
+const AMP_ACTIVITY_ID = 'amp-activity-id';
 const PROJECT_TITLE = 'project_title';
 const DESCRIPTION = 'description';
 const MODIFIED_BY = 'modified_by';
+const MODIFIED_DATE = 'modified-date';
 const MODIFIED_ON = 'update_date';
 const CREATED_BY = 'created_by';
 const CREATED_ON = 'creation_date';
@@ -445,6 +447,7 @@ export default Object.freeze({
   DESCRIPTION,
   MODIFIED_BY,
   MODIFIED_ON,
+  MODIFIED_DATE,
   CREATED_BY,
   CREATED_ON,
   LAST_IMPORTED_BY,
@@ -586,5 +589,6 @@ export default Object.freeze({
   AWAITING_VALIDATION,
   CANNOT_BE_VALIDATE,
   PROGRAM_DESCRIPTION,
-  UNKNOWN
+  UNKNOWN,
+  AMP_ACTIVITY_ID
 });
