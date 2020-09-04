@@ -47,6 +47,7 @@ const ACTOR_NAME = 'name';
 
 const GOVERNMENT_AGREEMENT_NUMBER = 'government_agreement_number';
 const MULTI_STAKEHOLDER_PARTNERSHIP = 'multi_stakeholder_partnership';
+const MULTI_STAKEHOLDER_PARTNERS = 'multi_stakeholder_partners';
 const FUNDING_STATUS = 'funding_status';
 const LOCATIONS = 'locations';
 const LOCATION = 'location';
@@ -378,6 +379,7 @@ export default Object.freeze({
   LINE_MINISTRY_OBSERVATIONS_NAME,
   GOVERNMENT_AGREEMENT_NUMBER,
   MULTI_STAKEHOLDER_PARTNERSHIP,
+  MULTI_STAKEHOLDER_PARTNERS,
   FUNDING_STATUS,
   LOCATIONS,
   LOCATION,
