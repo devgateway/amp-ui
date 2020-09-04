@@ -156,13 +156,13 @@ export default class APActivityVersionHistory extends Component {
                 className={[ahStyles.thClassName, ahStyles.thClassName_10].join(' ')}
               >#</TableHeaderColumn>
               <TableHeaderColumn
-                isKey dataField="modified-by"
+                isKey dataField={ActivityConstants.MODIFIED_BY.replace('_', '-')}
                 columnClassName={[ahStyles.width_30, ahStyles.thClassNameItem].join(' ')}
                 className={[ahStyles.thClassName, ahStyles.thClassName_30].join(' ')}
               >{translate('LastModifiedBy')}
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField="modified-date"
+                dataField={ActivityConstants.MODIFIED_DATE}
                 columnClassName={[ahStyles.width_30, ahStyles.thClassNameItem].join(' ')}
                 className={[ahStyles.thClassName, ahStyles.thClassName_30].join(' ')}
                 dataFormat={this.dateFormatter.bind(this)}

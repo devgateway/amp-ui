@@ -128,6 +128,7 @@ const AMP_ACTIVITY_ID = 'amp-activity-id';
 const PROJECT_TITLE = 'project_title';
 const DESCRIPTION = 'description';
 const MODIFIED_BY = 'modified_by';
+const MODIFIED_DATE = 'modified-date';
 const MODIFIED_ON = 'update_date';
 const CREATED_BY = 'created_by';
 const CREATED_ON = 'creation_date';
@@ -446,6 +447,7 @@ export default Object.freeze({
   DESCRIPTION,
   MODIFIED_BY,
   MODIFIED_ON,
+  MODIFIED_DATE,
   CREATED_BY,
   CREATED_ON,
   LAST_IMPORTED_BY,
