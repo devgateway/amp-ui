@@ -48,6 +48,7 @@ const ACTOR_NAME = 'name';
 const GOVERNMENT_AGREEMENT_NUMBER = 'government_agreement_number';
 const MULTI_STAKEHOLDER_PARTNERSHIP = 'multi_stakeholder_partnership';
 const MULTI_STAKEHOLDER_PARTNERS = 'multi_stakeholder_partners';
+const PROJECT_RESULTS_LINK = 'project_results_link';
 const FUNDING_STATUS = 'funding_status';
 const LOCATIONS = 'locations';
 const LOCATION = 'location';
@@ -380,6 +381,7 @@ export default Object.freeze({
   GOVERNMENT_AGREEMENT_NUMBER,
   MULTI_STAKEHOLDER_PARTNERSHIP,
   MULTI_STAKEHOLDER_PARTNERS,
+  PROJECT_RESULTS_LINK,
   FUNDING_STATUS,
   LOCATIONS,
   LOCATION,
