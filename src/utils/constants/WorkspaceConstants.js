@@ -20,6 +20,7 @@ const ACCESS_TYPE = 'access-type';
 const IS_COMPUTED = 'is-computed';
 const IS_PRIVATE = 'is-private';
 const PREFIX_FIELD = 'workspace-prefix';
+const TEMPLATE_ID = 'fm-template-id';
 
 export default Object.freeze({
   WS_VALIDATION_OFF,
@@ -38,5 +39,6 @@ export default Object.freeze({
   ACCESS_TYPE,
   IS_COMPUTED,
   IS_PRIVATE,
-  PREFIX_FIELD
+  PREFIX_FIELD,
+  TEMPLATE_ID
 });
