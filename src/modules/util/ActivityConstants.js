@@ -44,6 +44,7 @@ const MEASURE_NAME = 'name';
 const MEASURE_DATE = 'measure_date';
 const ACTORS = 'actors';
 const ACTOR_NAME = 'name';
+const TEMPLATE = 'template';
 
 const GOVERNMENT_AGREEMENT_NUMBER = 'government_agreement_number';
 const MULTI_STAKEHOLDER_PARTNERSHIP = 'multi_stakeholder_partnership';
@@ -502,6 +503,7 @@ export default Object.freeze({
   MEASURE_DATE,
   ACTORS,
   ACTOR_NAME,
+  TEMPLATE,
   STRUCTURES,
   STRUCTURES_TITLE,
   STRUCTURES_DESCRIPTION,
