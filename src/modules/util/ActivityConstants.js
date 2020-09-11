@@ -16,6 +16,11 @@ const RESULTS = 'results';
 const BUDGET_CODE_PROJECT_ID = 'budget_code_project_id';
 const ACTUAL_APPROVAL_DATE = 'actual_approval_date';
 const FUNDINGS = 'fundings';
+const REGION_LOCATION = 'region_location';
+const REGION = 'Region';
+const REGIONAL_FUNDINGS_COMMITMENTS = 'regional_commitments';
+const REGIONAL_FUNDINGS_DISBURSEMENTS = 'regional_disbursements';
+const REGIONAL_FUNDINGS_EXPENDITURES = 'regional_expenditures';
 const FUNDING_DONOR_ORG_ID = 'donor_organization_id';
 const IS_DRAFT = 'is_draft';
 const ORG_ROLE_ORG_ID = 'organization';
@@ -29,6 +34,18 @@ const SECTOR_PERCENTAGE = 'sector_percentage';
 const FINANCING_INSTRUMENT = 'financing_instrument';
 const MODALITIES = 'modalities';
 const LINE_MINISTRY_RANK = 'line_ministry_rank';
+const LINE_MINISTRY_OBSERVATIONS = 'line_ministry_observations';
+const LINE_MINISTRY_OBSERVATIONS_DATE = 'date';
+const LINE_MINISTRY_OBSERVATIONS_NAME = 'name';
+const ISSUE_DATE = 'issue_date';
+const ISSUE_NAME = 'name';
+const MEASURES = 'measures';
+const MEASURE_NAME = 'name';
+const MEASURE_DATE = 'measure_date';
+const ACTORS = 'actors';
+const ACTOR_NAME = 'name';
+
+
 const GOVERNMENT_AGREEMENT_NUMBER = 'government_agreement_number';
 const FUNDING_STATUS = 'funding_status';
 const LOCATIONS = 'locations';
@@ -93,6 +110,7 @@ const LAST_AUDIT_DATE = 'last_audit_date';
 const SIGNATURE_DATE = 'signature_date';
 const HUMANITARIAN_AID = 'humanitarian_aid';
 const DISASTER_RESPONSE = 'disaster_response';
+const PROGRAM_DESCRIPTION = 'program_description';
 const PROGRAM = 'program';
 const PROGRAM_PERCENTAGE = 'program_percentage';
 const PROGRAM_SETTINGS = 'program_settings';
@@ -106,9 +124,11 @@ const TEAM = 'team';
 const REJECTED_ID = 'rejectedId';
 const INTERNAL_ID = 'internal_id';
 const AMP_ID = 'amp_id';
+const AMP_ACTIVITY_ID = 'amp-activity-id';
 const PROJECT_TITLE = 'project_title';
 const DESCRIPTION = 'description';
 const MODIFIED_BY = 'modified_by';
+const MODIFIED_DATE = 'modified-date';
 const MODIFIED_ON = 'update_date';
 const CREATED_BY = 'created_by';
 const CREATED_ON = 'creation_date';
@@ -143,13 +163,6 @@ const TOTAL_NUMBER_OF_FUNDING_SOURCES = 'total_number_of_funding_sources';
 const SOURCE_ROLE = 'source_role';
 const AMP_FUNDING_ID = 'funding_id';
 const ISSUES = 'issues';
-const ISSUE_DATE = 'issue_date';
-const ISSUE_NAME = 'name';
-const MEASURES = 'measures';
-const MEASURE_NAME = 'name';
-const MEASURE_DATE = 'measure_date';
-const ACTORS = 'actors';
-const ACTOR_NAME = 'name';
 const STRUCTURES = 'structures';
 const STRUCTURES_TITLE = 'title';
 const STRUCTURES_DESCRIPTION = 'description';
@@ -163,6 +176,18 @@ const STRUCTURES_POINT = 'Point';
 const STRUCTURES_POLYGON = 'Polygon';
 const STRUCTURES_POLYLINE = 'Polyline';
 const STRUCTURES_COORDINATES = 'coordinates';
+const INDICATORS = 'indicators';
+const RISK = 'risk';
+const LOG_FRAME = 'log_frame';
+const INDICATOR = 'indicator';
+const BASE = 'base';
+const INDICATOR_COMMENT = 'comment';
+const INDICATOR_DATE = 'date';
+const INDICATOR_VALUE = 'value';
+const TARGET = 'target';
+const REVISED = 'revised';
+const CURRENT = 'actual';
+const ME_SECTIONS = [BASE, TARGET, REVISED, CURRENT];
 const COMPONENT_TYPE = 'component_type';
 const COMPONENT_TITLE = 'component_title';
 const COMPONENT_FUNDING = 'funding';
@@ -249,16 +274,29 @@ const AP_SECTION_IDS =
       sectionPath: TOTAL_NUMBER_OF_FUNDING_SOURCES
     },
     { key: 'APFunding', hash: '#APFunding', value: 'Funding', sectionPath: FUNDINGS },
+    { key: 'APRegionalFunding',
+      hash: '#APRegionalFunding',
+      value: 'Regional Funding',
+      fmPath: FMC.ACTIVITY_REGIONAL_FUNDING },
     {
       key: 'APRelatedOrganizations',
       hash: '#APRelatedOrganizations',
       value: 'Related Organizations',
       fmPath: FMC.ACTIVITY_ORGANIZATIONS
     },
-    { key: 'APIssues', hash: '#APIssues', value: 'Issues', sectionPath: ISSUES },
-    { key: 'APContact', hash: '#APContact', value: 'Contact Information', fmPath: FMC.ACTIVITY_CONTACT },
     { key: 'APStructures', hash: '#APStructures', value: 'Structures', sectionPath: STRUCTURES },
+    { key: 'APIssues', hash: '#APIssues', value: 'Issues', sectionPath: ISSUES },
+    { key: 'APContact',
+      hash: '#APContact',
+      value: 'Contact Information',
+      fmPath: FMC.ACTIVITY_CONTACT,
+      showhide(ac) { return ac.hideContacts; } },
+    { key: 'APME', hash: '#APME', value: 'M&E', sectionPath: INDICATORS },
     { key: 'APDocument', hash: '#APDocument', value: 'Related Documents', sectionPath: ACTIVITY_DOCUMENTS },
+    { key: 'APLineMinistryObservations',
+      hash: '#APLineMinistryObservations',
+      value: 'Line Ministry Observations',
+      sectionPath: LINE_MINISTRY_OBSERVATIONS },
   ];
 
 /** Column counts for each section **/
@@ -308,6 +346,11 @@ export default Object.freeze({
   ACTUAL_APPROVAL_DATE,
   FUNDINGS,
   FUNDING_DONOR_ORG_ID,
+  REGION_LOCATION,
+  REGION,
+  REGIONAL_FUNDINGS_COMMITMENTS,
+  REGIONAL_FUNDINGS_DISBURSEMENTS,
+  REGIONAL_FUNDINGS_EXPENDITURES,
   IS_DRAFT,
   ORG_ROLE_ORG_ID,
   ADDITIONAL_INFO,
@@ -320,6 +363,9 @@ export default Object.freeze({
   FINANCING_INSTRUMENT,
   MODALITIES,
   LINE_MINISTRY_RANK,
+  LINE_MINISTRY_OBSERVATIONS,
+  LINE_MINISTRY_OBSERVATIONS_DATE,
+  LINE_MINISTRY_OBSERVATIONS_NAME,
   GOVERNMENT_AGREEMENT_NUMBER,
   FUNDING_STATUS,
   LOCATIONS,
@@ -401,6 +447,7 @@ export default Object.freeze({
   DESCRIPTION,
   MODIFIED_BY,
   MODIFIED_ON,
+  MODIFIED_DATE,
   CREATED_BY,
   CREATED_ON,
   LAST_IMPORTED_BY,
@@ -454,6 +501,18 @@ export default Object.freeze({
   STRUCTURES_POLYGON,
   STRUCTURES_POLYLINE,
   STRUCTURES_COORDINATES,
+  INDICATORS,
+  RISK,
+  LOG_FRAME,
+  INDICATOR,
+  INDICATOR_COMMENT,
+  INDICATOR_DATE,
+  INDICATOR_VALUE,
+  BASE,
+  TARGET,
+  REVISED,
+  CURRENT,
+  ME_SECTIONS,
   COMPONENT_TYPE,
   COMPONENT_TITLE,
   COMPONENT_FUNDING,
@@ -529,5 +588,7 @@ export default Object.freeze({
   AUTOMATIC_VALIDATION,
   AWAITING_VALIDATION,
   CANNOT_BE_VALIDATE,
-  UNKNOWN
+  PROGRAM_DESCRIPTION,
+  UNKNOWN,
+  AMP_ACTIVITY_ID
 });

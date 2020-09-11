@@ -8,11 +8,15 @@ export default class ErrorHelper {
         messages.push(<span key={index}>{translate(error.messageKey)} <br /></span>);
       });
     } else {
-      messages.push(<span key={1}>{errors} <br /></span>);
+      let message = '';
+      if (errors && errors.message) {
+        message = errors.message;
+      } else {
+        message = translate('unexpectedError');
+      }
+      messages.push(<span key={1}>{message} <br /></span>);
     }
-
-
-    return (errors.length > 0 && <div className="alert alert-danger" role="alert">
+    return (messages.length > 0 && <div className="alert alert-danger" role="alert">
       {messages}
     </div>);
   }

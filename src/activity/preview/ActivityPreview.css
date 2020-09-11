@@ -24,10 +24,12 @@
   padding: 5px;
   height: auto;
   display: inline-block;
+  width: 800px;
 }
 
 .preview_icons {
   display: inline-block;
+  vertical-align: top;
 }
 
 .preview_icons img {
@@ -620,5 +622,9 @@
   }
   .message_link{
     display: none;
+  }
+
+  .m_e_table {
+    margin-bottom: 10px;
   }
 }

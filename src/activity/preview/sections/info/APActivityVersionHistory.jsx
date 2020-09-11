@@ -41,30 +41,33 @@ export default class APActivityVersionHistory extends Component {
   constructor(props) {
     super(props);
     this.handleUpdateVersion = this.handleUpdateVersion.bind(this);
-    this.currentValues = [];
     this.state = {
       show: false,
-      compareVersionEnabled: false
+      compareVersionEnabled: false,
+      currentValues: []
     };
   }
 
   handleChangeCheckbox(event) {
-    if (event.target.checked) {
-      this.currentValues.push(event.target.name);
-    } else {
-      this.currentValues.splice(this.currentValues.indexOf(event.target.name), 1);
-    }
-    this.setState({
-      compareVersionEnabled: this.currentValues.length === 2
+    this.setState(previousState => {
+      const currentValuestemp = [...previousState.currentValues];
+      if (event.target.checked) {
+        currentValuestemp.push(event.target.value);
+      } else {
+        currentValuestemp.splice(currentValuestemp.indexOf(event.target.value), 1);
+      }
+      const compareVersionEnabled = currentValuestemp.length === 2;
+      return { compareVersionEnabled, currentValues: currentValuestemp };
     });
   }
 
   handleCompare(event) {
     event.preventDefault();
+    const { currentValues } = this.state;
     const data = {
       action: COMPARE,
-      activityOneId: this.currentValues[0],
-      activityTwoId: this.currentValues[1],
+      activityOneId: currentValues[0],
+      activityTwoId: currentValues[1],
       showMergeColumn: false,
       method: COMPARE,
       activityId: this.props.activity[ActivityConstants.INTERNAL_ID]
@@ -100,7 +103,7 @@ export default class APActivityVersionHistory extends Component {
   addCheckbox(cell, row) {
     return (
       <Checkbox
-        name={`${row.activityId}`}
+        value={`${row[ActivityConstants.AMP_ACTIVITY_ID]}`}
         onChange={this.handleChangeCheckbox.bind(this)}
       />
     );
@@ -110,13 +113,13 @@ export default class APActivityVersionHistory extends Component {
     const { translate } = this.props;
     const { versionHistoryInformation } = this.props.activityContext;
     let actionLabel;
-    if (row.activityId === versionHistoryInformation.activityLastVersionId) {
+    if (row[ActivityConstants.AMP_ACTIVITY_ID] === versionHistoryInformation.activityLastVersionId) {
       actionLabel = translate('Current version');
     } else if (versionHistoryInformation.updateCurrentVersion) {
       actionLabel = (
         <Button
           className={ahStyles.link_version} bsStyle="link" bsSize="xsmall"
-          onClick={(evt) => this.handleUpdateVersion(evt, row.activityId)}>
+          onClick={(evt) => this.handleUpdateVersion(evt, row[ActivityConstants.AMP_ACTIVITY_ID])}>
           {translate('makeCurrentVersion')}</Button>);
     }
     return actionLabel;
@@ -130,7 +133,7 @@ export default class APActivityVersionHistory extends Component {
   render() {
     const { activityContext, translate } = this.props;
     const { versionHistoryInformation } = activityContext;
-    if (!versionHistoryInformation.showVersionHistory) {
+    if (!versionHistoryInformation.showVersionHistory || activityContext.teamMember === null) {
       return null;
     }
     const { versionHistory } = versionHistoryInformation;
@@ -155,13 +158,13 @@ export default class APActivityVersionHistory extends Component {
                 className={[ahStyles.thClassName, ahStyles.thClassName_10].join(' ')}
               >#</TableHeaderColumn>
               <TableHeaderColumn
-                isKey dataField="modifiedBy"
+                isKey dataField={ActivityConstants.MODIFIED_BY.replace('_', '-')}
                 columnClassName={[ahStyles.width_30, ahStyles.thClassNameItem].join(' ')}
                 className={[ahStyles.thClassName, ahStyles.thClassName_30].join(' ')}
               >{translate('LastModifiedBy')}
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField="modifiedDate"
+                dataField={ActivityConstants.MODIFIED_DATE}
                 columnClassName={[ahStyles.width_30, ahStyles.thClassNameItem].join(' ')}
                 className={[ahStyles.thClassName, ahStyles.thClassName_30].join(' ')}
                 dataFormat={this.dateFormatter.bind(this)}

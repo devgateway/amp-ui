@@ -12,6 +12,7 @@ import APStatusBar from './sections/APStatusBar.jsx';
 import MainGroup from './MainGroup.jsx';
 import SummaryGroup from './SummaryGroup.jsx';
 import printIcon from '../../assets/images/print.svg';
+import GenerateWordPreview from '../../utils/export/GenerateWordPreview';
 import wordIcon from '../../assets/images/word.svg';
 import IconFormatter from '../common/IconFormatter.jsx';
 import APWorkspaceInfo from './sections/info/APWorkspaceInfo.jsx';
@@ -36,7 +37,7 @@ export default class ActivityPreviewUI extends Component {
       validationStatus: PropTypes.string,
       rtlDirection: PropTypes.bool,
       activityStatus: PropTypes.string,
-      workspaceCurrency: PropTypes.string,
+      effectiveCurrency: PropTypes.string,
       calendar: PropTypes.object,
       workspaceLeadData: PropTypes.string,
       activityWorkspace: PropTypes.shape({}),
@@ -62,7 +63,6 @@ export default class ActivityPreviewUI extends Component {
 
   static contextTypes = {
     resourceReducer: PropTypes.object.isRequired,
-    ActivityFundingTotals: PropTypes.object,
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
     activityFieldsManager: PropTypes.instanceOf(FieldsManager),
     activityFundingTotals: PropTypes.any,
@@ -110,7 +110,7 @@ export default class ActivityPreviewUI extends Component {
   }
 
   _renderData() {
-    const { activity, activityContext, isOnline } = this.props;
+    const { activity, activityContext } = this.props;
 
     const { rtl } = this.state;
     const { translate, getActivityContactIds, APDocumentPage, activityFieldsManager, DateUtils } = this.context;
@@ -121,6 +121,9 @@ export default class ActivityPreviewUI extends Component {
         return null;
       }
       if (category.fmPath && !FeatureManager.isFMSettingEnabled(category.fmPath)) {
+        return null;
+      }
+      if (category.showhide && category.showhide(activityContext)) {
         return null;
       }
       return <li key={category.value}><a href={category.hash}> {translate(category.value)} </a></li>;
@@ -140,9 +143,7 @@ export default class ActivityPreviewUI extends Component {
       activityContext.teamMember.workspace[WorkspaceConstants.ACCESS_TYPE] : undefined;
     const crossTeamWS = activityContext.teamMember !== null &&
       activityContext.teamMember.workspace[WorkspaceConstants.CROSS_TEAM_VALIDATION];
-    const wordUrl = `${ActivityLinks.getWordExportLink().url}${activity[ActivityConstants.INTERNAL_ID]}`;
-    const showWordExport = isOnline && (activityContext.teamMember !== null
-      || !activityContext.hideEditableExportFormatsPublicView);
+    const showWordExport = activityContext.teamMember !== null || !activityContext.hideEditableExportFormatsPublicView;
     return (
       <div className={rtl ? styles.rtl : ''}>
         <div className={styles.preview_container}>
@@ -166,9 +167,9 @@ export default class ActivityPreviewUI extends Component {
                     className={styles.print_word} onClick={() => window.print()} alt="print" src={printIcon}
                     title={translate('clickToPrint')} />
                 </li>
-                {showWordExport && <li><a href={wordUrl} target="_blank" rel="noopener noreferrer"><img
+                {showWordExport && <li><img
                   className={styles.print_word} alt="Export to word" src={wordIcon}
-                  title={translate('exportToWord')} /></a></li>
+                  title={translate('exportToWord')} onClick={() => this.wordExport()} /></li>
                 }
                 <li>
                   <APWorkspaceInfo
@@ -183,7 +184,7 @@ export default class ActivityPreviewUI extends Component {
                 </li>
               </ul>
             </span>
-            {this.props.isOnline && this._getMessages()}
+            {this._getMessages()}
             <div className={styles.preview_status_container}>
               <APStatusBar
                 fieldClass={styles.inline_flex}
@@ -224,10 +225,12 @@ export default class ActivityPreviewUI extends Component {
     const messages = {};
     messages.info = [];
     messages.danger = [];
-    this._getAdditionalMessages(messages);
     this._checkDraft(messages);
-    this._checkLatestVersion(messages);
-    this._getValidations(messages);
+    if (this.props.isOnline) {
+      this._getAdditionalMessages(messages);
+      this._checkLatestVersion(messages);
+      this._getValidations(messages);
+    }
     const retAlerts = [];
     if (messages.info.length === 0 && messages.danger.length === 0) {
       return null;
@@ -307,6 +310,10 @@ export default class ActivityPreviewUI extends Component {
 
   _hasActivity() {
     return this.props.activity !== undefined && this.props.activity !== null;
+  }
+
+  wordExport() {
+    GenerateWordPreview.generateDocument(this.props, this.context, this.state.rtl);
   }
 
   render() {
