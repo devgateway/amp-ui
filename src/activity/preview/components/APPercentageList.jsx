@@ -50,11 +50,11 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
 
   // eslint-disable-next-line class-methods-use-this
   getSubItemTitle(item) {
+    const { activityFieldsManager } = this.props;
     let trnValue = '';
     const translations = item['translated-value'];
     if (translations) {
-      // TODO: find current lang.
-      trnValue = translations['this._lang'] || translations[Constants.LANGUAGE_ENGLISH] || trnValue;
+      trnValue = translations[activityFieldsManager._lang] || translations[Constants.LANGUAGE_ENGLISH] || trnValue;
     }
     return trnValue;
   }
