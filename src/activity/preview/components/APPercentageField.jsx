@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import NumberUtils from '../../../utils/NumberUtils';
 import styles from '../ActivityPreview.css';
 import UIUtils from '../../../utils/UIUtils';
+import styles_ from './styles.css';
 
 let logger = null;
 
@@ -15,7 +16,7 @@ export default class APPercentageField extends Component {
     value: PropTypes.number,
     titleClass: PropTypes.string,
     valueClass: PropTypes.string,
-    subList: PropTypes.object
+    subList: PropTypes.array
   };
 
   static contextTypes = {
@@ -36,7 +37,7 @@ export default class APPercentageField extends Component {
     subList.forEach(i => {
       content.push(<APPercentageField
         key={UIUtils.stringToUniqueId(i.title)} title={i.title} value={i.percentage}
-        titleClass={this.props.titleClass} valueClass={this.props.valueClass} />);
+        titleClass={`${this.props.titleClass} ${styles_.sub_list}`} valueClass={this.props.valueClass} />);
     });
     return <div>{content}</div>;
   }
