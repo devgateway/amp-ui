@@ -9,6 +9,7 @@ import FeatureManager from '../../../modules/util/FeatureManager';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 import ResourceUtils from '../../../utils/ResourceUtils';
 import UIUtils from '../../../utils/UIUtils';
+import Constants from '../../../utils/Constants';
 
 
 let logger = null;
@@ -17,7 +18,7 @@ let logger = null;
  * Activity Preview Percentage List type section
  * @author Nadejda Mandrescu
  */
-const APPercentageList = (listField, valueField, percentageField, listTitle = null) => class extends Component {
+const APPercentageList = (listField, valueField, percentageField, listTitle = null, subList = null) => class extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
@@ -47,6 +48,30 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     return ResourceUtils.getItemTitle(item, valueField, PossibleValuesManager, this.props.rtl);
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  getSubItemTitle(item) {
+    const { activityFieldsManager } = this.props;
+    let trnValue = '';
+    const translations = item['translated-value'];
+    if (translations) {
+      trnValue = translations[activityFieldsManager._lang] || translations[Constants.LANGUAGE_ENGLISH] || trnValue;
+    }
+    return trnValue;
+  }
+
+  getSubListItems(i) {
+    const subListItems = [];
+    if (i.subList && i.subList.length > 0) {
+      i.subList.forEach(si => {
+        subListItems.push({
+          title: `(${this.getSubItemTitle(si[subList.value])})`,
+          percentage: si[subList.percentage]
+        });
+      });
+    }
+    return subListItems;
+  }
+
   render() {
     const {
       activityFieldsManager, percentTitleClass, fmPath, activity, columns, tablify
@@ -63,13 +88,15 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
       if (items && items.length) {
         items = items.map(item => ({
           itemTitle: this.getItemTitle(item),
-          percentage: item[percentageField]
+          percentage: item[percentageField],
+          subList: item[subList ? subList.field : '']
         }))
           .sort((a, b) => a.itemTitle.localeCompare(b.itemTitle));
-        content = items.map(({ itemTitle, percentage }) =>
+        content = items.map(item =>
           (<APPercentageField
-            key={UIUtils.stringToUniqueId(itemTitle)} title={itemTitle} value={percentage}
-            titleClass={percentTitleClass} valueClass={percentValueClass} />)
+            key={UIUtils.stringToUniqueId(item.itemTitle)} title={item.itemTitle} value={item.percentage}
+            titleClass={percentTitleClass} valueClass={percentValueClass}
+            subList={this.getSubListItems(item)} />)
         );
         if (tablify) {
           content = <Tablify content={content} columns={columns} />;
