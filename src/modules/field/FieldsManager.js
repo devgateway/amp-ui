@@ -32,7 +32,7 @@ export default class FieldsManager {
       this._possibleValuesMap[pv.id] = pv[FieldPathConstants.FIELD_OPTIONS];
     });
     this._fieldPathsEnabledStatusMap = {};
-    this._prefix = prefix || '';
+    this._prefix = prefix || null;
     this._lang = currentLanguage || Constants.LANGUAGE_ENGLISH;
     this._defaultLang = Constants.LANGUAGE_ENGLISH;
     this.cleanup(fieldsDef);
@@ -130,12 +130,18 @@ export default class FieldsManager {
     const fieldsDef = this.getFieldDef(fieldPath);
     if (fieldsDef !== undefined) {
       if (prefix === null || prefix === undefined || prefix === '') {
-        prefix = Constants.DEFAULT_WORKSPACE_PREFIX;
+        prefix = this._prefix || Constants.DEFAULT_WORKSPACE_PREFIX;
       }
-      if (fieldsDef && fieldsDef.field_label && fieldsDef.field_label[prefix]) {
-        trnLabel = fieldsDef.field_label[prefix][this._lang] ||
-          fieldsDef.field_label[prefix][this._defaultLang] ||
-          null;
+      if (fieldsDef && fieldsDef.field_label) {
+        if (fieldsDef.field_label[prefix]) {
+          trnLabel = fieldsDef.field_label[prefix][this._lang] ||
+            fieldsDef.field_label[prefix][this._defaultLang] ||
+            null;
+        } else {
+          trnLabel = fieldsDef.field_label[Constants.DEFAULT_WORKSPACE_PREFIX][this._lang] ||
+            fieldsDef.field_label[Constants.DEFAULT_WORKSPACE_PREFIX][this._defaultLang] ||
+            null;
+        }
       }
     }
     return trnLabel;
