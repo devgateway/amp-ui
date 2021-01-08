@@ -33,6 +33,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     translate: PropTypes.func.isRequired,
     rtl: PropTypes.bool,
   };
+
   constructor(props) {
     super(props);
     const { Logger } = this.props;
@@ -65,7 +66,17 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
           itemTitle: this.getItemTitle(item),
           percentage: item[percentageField]
         }))
-          .sort((a, b) => a.itemTitle.localeCompare(b.itemTitle));
+          .sort((a, b) => {
+            if (a.itemTitle === null && b.itemTitle === null) {
+              return 0;
+            } else if (a.itemTitle === null) {
+              return 1;
+            } else if (b.itemTitle === null) {
+              return -1;
+            } else {
+              return a.itemTitle.localeCompare(b.itemTitle);
+            }
+          });
         content = items.map(({ itemTitle, percentage }) =>
           (<APPercentageField
             key={UIUtils.stringToUniqueId(itemTitle)} title={itemTitle} value={percentage}
