@@ -133,9 +133,11 @@ const TEAM = 'team';
 const REJECTED_ID = 'rejectedId';
 const INTERNAL_ID = 'internal_id';
 const AMP_ID = 'amp_id';
+const AMP_ACTIVITY_ID = 'amp-activity-id';
 const PROJECT_TITLE = 'project_title';
 const DESCRIPTION = 'description';
 const MODIFIED_BY = 'modified_by';
+const MODIFIED_DATE = 'modified-date';
 const MODIFIED_ON = 'update_date';
 const CREATED_BY = 'created_by';
 const CREATED_ON = 'creation_date';
@@ -295,15 +297,15 @@ const AP_SECTION_IDS =
       value: 'Related Organizations',
       fmPath: FMC.ACTIVITY_ORGANIZATIONS
     },
+    { key: 'APStructures', hash: '#APStructures', value: 'Structures', sectionPath: STRUCTURES },
     { key: 'APIssues', hash: '#APIssues', value: 'Issues', sectionPath: ISSUES },
     { key: 'APContact',
       hash: '#APContact',
       value: 'Contact Information',
       fmPath: FMC.ACTIVITY_CONTACT,
       showhide(ac) { return ac.hideContacts; } },
-    { key: 'APStructures', hash: '#APStructures', value: 'Structures', sectionPath: STRUCTURES },
-    { key: 'APDocument', hash: '#APDocument', value: 'Related Documents', sectionPath: ACTIVITY_DOCUMENTS },
     { key: 'APME', hash: '#APME', value: 'M&E', sectionPath: INDICATORS },
+    { key: 'APDocument', hash: '#APDocument', value: 'Related Documents', sectionPath: ACTIVITY_DOCUMENTS },
     { key: 'APLineMinistryObservations',
       hash: '#APLineMinistryObservations',
       value: 'Line Ministry Observations',
@@ -467,6 +469,7 @@ export default Object.freeze({
   DESCRIPTION,
   MODIFIED_BY,
   MODIFIED_ON,
+  MODIFIED_DATE,
   CREATED_BY,
   CREATED_ON,
   LAST_IMPORTED_BY,
@@ -612,5 +615,6 @@ export default Object.freeze({
   AWAITING_VALIDATION,
   CANNOT_BE_VALIDATE,
   PROGRAM_DESCRIPTION,
-  UNKNOWN
+  UNKNOWN,
+  AMP_ACTIVITY_ID
 });
