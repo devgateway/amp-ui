@@ -47,6 +47,7 @@ class APIdentification extends Component {
       fieldPaths.push(ActivityConstants.PROJECT_CODE);
     }
     fieldPaths.push(...[ActivityConstants.FINANCIAL_INSTRUMENT, ActivityConstants.IATI_IDENTIFIER]);
+    fieldPaths.push(...[ActivityConstants.MULTI_STAKEHOLDER_PARTNERSHIP, ActivityConstants.MULTI_STAKEHOLDER_PARTNERS]);
     return (
       <div>
         {fieldPaths.map(fieldPath => buildSimpleField(fieldPath, true))}
