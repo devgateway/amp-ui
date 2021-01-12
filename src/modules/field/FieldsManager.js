@@ -2,8 +2,6 @@
 import Constants from '../../utils/Constants';
 import FieldPathConstants from '../../utils/FieldPathConstants';
 
-let logger = null;
-
 /**
  * This is a helper class for checking fields status, getting field options translations and the like.
  *
@@ -24,8 +22,6 @@ export default class FieldsManager {
 
   constructor(fieldsDef, possibleValuesCollection, currentLanguage, LoggerManager, prefix) {
     // TODO remove cache
-    logger = new LoggerManager('Fields manager');
-    logger.debug('constructor');
     this._fieldsDef = fieldsDef;
     this._possibleValuesMap = {};
     possibleValuesCollection.forEach(pv => {

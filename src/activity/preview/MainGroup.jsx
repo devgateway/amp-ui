@@ -79,6 +79,7 @@ export default class MainGroup extends Component {
         fieldNameClass={styles.sector_title} fieldValueClass={''}
         fmPath={FeatureManagerConstants.ACTIVITY_ORGANIZATIONS}
         percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value} />
+      <APStructures sectionPath={ActivityConstants.STRUCTURES} />
       <APIssues sectionPath={ActivityConstants.ISSUES} />
       <APContact
         fieldNameClass={styles.hidden} fieldValueClass={styles.box_field_value_tight}
@@ -86,13 +87,12 @@ export default class MainGroup extends Component {
         getActivityContactIds={getActivityContactIds}
         hideSection={activityContext.hideContacts}
       />
-      <APStructures sectionPath={ActivityConstants.STRUCTURES} />
+      <APME sectionPath={ActivityConstants.INDICATORS} />
       <APDocumentPage
         sectionPath={ActivityConstants.ACTIVITY_DOCUMENTS}
         fieldNameClass={[styles.section_field_name, styles.noborder].join(' ')}
         fieldValueClass={[styles.section_field_value, styles.noborder].join(' ')}
       />
-      <APME sectionPath={ActivityConstants.INDICATORS} />
       <APLineMinistryObservations sectionPath={ActivityConstants.LINE_MINISTRY_OBSERVATIONS} />
     </div>);
   }
