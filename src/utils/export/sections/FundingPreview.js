@@ -117,7 +117,12 @@ export default class FundingPreview extends PreviewSection {
         const ppc = activity[ActivityConstants.PPC_AMOUNT];
         const convertedAmount = ppc.amount;
         const currency = ppc.currency.value;
-        const date = this._context.DateUtils.createFormattedDate(ppc.funding_date);
+        let date;
+        if (ppc.funding_date !== undefined && ppc.funding_date !== null) {
+          date = this._context.DateUtils.createFormattedDate(ppc.funding_date);
+        } else {
+          date = translate('No Data');
+        }
         this.createField(translate('Cost'),
           !this._rtl ? `${NumberUtils.rawNumberToFormattedString(convertedAmount)} ${currency}` :
             `${currency} ${NumberUtils.rawNumberToFormattedString(convertedAmount)}`, null, null);
@@ -156,7 +161,7 @@ export default class FundingPreview extends PreviewSection {
   }
 
   buildFundingDetailItemRow(table, g, currency, i, adjType, showDisasterResponse, trnType, showFixedExRate, cols,
-    translate, showPledge, pledge) {
+                            translate, showPledge, pledge) {
     const noPledgeIndex = i + pledge.count;
     table.getCell(noPledgeIndex, !this._rtl ? 0 : 4)
       .addContent(this.createSimpleLabel(adjType.value, null,
@@ -258,8 +263,12 @@ export default class FundingPreview extends PreviewSection {
   getDisasterResponse(g, showDisasterResponse, trnType) {
     if (showDisasterResponse && g[ActivityConstants.DISASTER_RESPONSE] === true) {
       const { activityFieldsManager } = this._context;
+      const { activityContext } = this._props;
+      const prefix = (activityContext.teamMember && activityContext.teamMember.workspace &&
+        activityContext.teamMember.workspace.prefix) ?
+        activityContext.teamMember.workspace.prefix : null;
       return activityFieldsManager.getFieldLabelTranslation(
-        `${ActivityConstants.FUNDINGS}~${trnType}~${ActivityConstants.DISASTER_RESPONSE}`);
+        `${ActivityConstants.FUNDINGS}~${trnType}~${ActivityConstants.DISASTER_RESPONSE}`, prefix);
     }
     return '';
   }

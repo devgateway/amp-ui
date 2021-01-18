@@ -97,7 +97,7 @@ export default class PossibleValuesManager {
   static getOptionTranslation(option) {
     let resVal = option.value;
     const translations = option['translated-value'];
-    if (translations !== undefined) {
+    if (translations !== undefined && translations !== null) {
       const langState = PossibleValuesManager._langState;
       resVal = translations[langState.lang] || translations[langState.defaultLang] || resVal;
     }
@@ -156,7 +156,7 @@ export default class PossibleValuesManager {
       const id = idsStack.pop();
       if (!added.has(id)) {
         const option = optionsObj[id];
-        if (option.reverseSortedChildren) {
+        if (option && option.reverseSortedChildren) {
           idsStack.push(...option.reverseSortedChildren);
         }
         added.add(id);

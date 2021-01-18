@@ -15,7 +15,11 @@ export default class ContactsPreview extends PreviewSection {
         .filter(acp => this._context.activityFieldsManager.isFieldPathEnabled(acp))
         // eslint-disable-next-line array-callback-return
         .map(acp => {
-          const title = this._context.activityFieldsManager.getFieldLabelTranslation(acp);
+          const prefix = (this._context.activityContext.teamMember &&
+            this._context.activityContext.teamMember.workspace &&
+            this._context.activityContext.teamMember.workspace.prefix) ?
+            this._context.activityContext.teamMember.workspace.prefix : null;
+          const title = this._context.activityFieldsManager.getFieldLabelTranslation(acp, prefix);
           this.createSimpleLabel(title, 'Heading3');
           let hasData = false;
           // eslint-disable-next-line array-callback-return

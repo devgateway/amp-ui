@@ -44,9 +44,12 @@ const MEASURE_NAME = 'name';
 const MEASURE_DATE = 'measure_date';
 const ACTORS = 'actors';
 const ACTOR_NAME = 'name';
-
+const TEMPLATE = 'template';
 
 const GOVERNMENT_AGREEMENT_NUMBER = 'government_agreement_number';
+const MULTI_STAKEHOLDER_PARTNERSHIP = 'multi_stakeholder_partnership';
+const MULTI_STAKEHOLDER_PARTNERS = 'multi_stakeholder_partners';
+const PROJECT_RESULTS_LINK = 'project_results_link';
 const FUNDING_STATUS = 'funding_status';
 const LOCATIONS = 'locations';
 const LOCATION = 'location';
@@ -66,6 +69,12 @@ const DONOR_OBJECTIVE = 'donor_objective';
 const CONDITIONS = 'conditions';
 const AGREEMENT_CODE = 'code';
 const AGREEMENT_TITLE = 'title';
+const VULNERABLE_GROUP = 'vulnerable_group';
+const PROJECT_RESULTS_AVAILABLE = 'project_results_available';
+const PROJECT_JOINT_DECISION = 'project_joint_decision';
+const PROJECT_MONITORING = 'project_monitoring';
+const PROJECT_SUSTAINABILITY = 'project_sustainability';
+const PROJECT_PROBLEMS = 'project_problems';
 const PROJECT_CATEGORY = 'project_category';
 const PROJECT_IMPLEMENTING_UNIT = 'project_implementing_unit';
 const ORGANIZATION = 'organization';
@@ -236,8 +245,12 @@ const MTEF_PROJECTIONS = 'mtef_projections';
 const PROJECTION = 'projection';
 const PIPELINE = 'pipeline';
 const PROJECTION_DATE = 'projection_date';
+const ACTIVITY_TYPE = 'activity_type';
 const NATIONAL = 'National';
 const COUNTRY = 'Country';
+
+const ACTIVITY_TYPE_PROJECT = 0;
+const ACTIVITY_TYPE_SSC = 1;
 
 // Activity labels (usually those that don't come as part of Fields Def EP)
 const SAME_AS_PROPOSED_START_DATE_LABEL = 'Same as Proposed Start Date';
@@ -345,6 +358,12 @@ export default Object.freeze({
   BUDGET_CODE_PROJECT_ID,
   ACTUAL_APPROVAL_DATE,
   FUNDINGS,
+  VULNERABLE_GROUP,
+  PROJECT_RESULTS_AVAILABLE,
+  PROJECT_JOINT_DECISION,
+  PROJECT_MONITORING,
+  PROJECT_SUSTAINABILITY,
+  PROJECT_PROBLEMS,
   FUNDING_DONOR_ORG_ID,
   REGION_LOCATION,
   REGION,
@@ -367,6 +386,9 @@ export default Object.freeze({
   LINE_MINISTRY_OBSERVATIONS_DATE,
   LINE_MINISTRY_OBSERVATIONS_NAME,
   GOVERNMENT_AGREEMENT_NUMBER,
+  MULTI_STAKEHOLDER_PARTNERSHIP,
+  MULTI_STAKEHOLDER_PARTNERS,
+  PROJECT_RESULTS_LINK,
   FUNDING_STATUS,
   LOCATIONS,
   LOCATION,
@@ -488,6 +510,7 @@ export default Object.freeze({
   MEASURE_DATE,
   ACTORS,
   ACTOR_NAME,
+  TEMPLATE,
   STRUCTURES,
   STRUCTURES_TITLE,
   STRUCTURES_DESCRIPTION,
@@ -561,6 +584,9 @@ export default Object.freeze({
   PROJECTION,
   PIPELINE,
   PROJECTION_DATE,
+  ACTIVITY_TYPE,
+  ACTIVITY_TYPE_PROJECT,
+  ACTIVITY_TYPE_SSC,
   NATIONAL,
   COUNTRY,
   SAME_AS_PROPOSED_START_DATE_LABEL,

@@ -34,6 +34,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     translate: PropTypes.func.isRequired,
     rtl: PropTypes.bool,
   };
+
   constructor(props) {
     super(props);
     const { Logger } = this.props;
@@ -88,15 +89,25 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
       if (items && items.length) {
         items = items.map(item => ({
           itemTitle: this.getItemTitle(item),
-          percentage: item[percentageField],
-          subList: item[subList ? subList.field : '']
+          percentage: item[percentageField]
         }))
-          .sort((a, b) => a.itemTitle.localeCompare(b.itemTitle));
-        content = items.map(item =>
+          .sort((a, b) => {
+            if (a.itemTitle === null && b.itemTitle === null) {
+              return 0;
+            } else if (a.itemTitle === null) {
+              return 1;
+            } else if (b.itemTitle === null) {
+              return -1;
+            } else {
+              return a.itemTitle.localeCompare(b.itemTitle);
+            }
+          });
+        content = items.map(({ itemTitle, percentage }) =>
           (<APPercentageField
-            key={UIUtils.stringToUniqueId(item.itemTitle)} title={item.itemTitle} value={item.percentage}
+            key={UIUtils.stringToUniqueId(itemTitle)} title={itemTitle} value={percentage}
             titleClass={percentTitleClass} valueClass={percentValueClass}
-            subList={this.getSubListItems(item)} />)
+	    subList={this.getSubListItems(item)}
+	     />)
         );
         if (tablify) {
           content = <Tablify content={content} columns={columns} />;
