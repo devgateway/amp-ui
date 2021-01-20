@@ -6,7 +6,7 @@ import FieldsManager from '../../../modules/field/FieldsManager';
 import NumberUtils from '../../../utils/NumberUtils';
 import Section from './Section.jsx';
 import styles from './APComponents.css';
-import CurrencyRatesManager from "../../../modules/util/CurrencyRatesManager";
+import CurrencyRatesManager from '../../../modules/util/CurrencyRatesManager';
 
 let logger = null;
 
@@ -19,7 +19,6 @@ class APComponents extends Component {
   }
 
   static _extractGroups(funding, trnType, currencyRatesManager, currency) {
-    console.log(currencyRatesManager);
     const groups = [];
     funding.forEach(f => {
       const auxFd = {
