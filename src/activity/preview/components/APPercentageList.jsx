@@ -102,12 +102,12 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
               return a.itemTitle.localeCompare(b.itemTitle);
             }
           });
-        content = items.map(({ itemTitle, percentage }) =>
+        content = items.map((item) =>
           (<APPercentageField
-            key={UIUtils.stringToUniqueId(itemTitle)} title={itemTitle} value={percentage}
+            key={UIUtils.stringToUniqueId(item.itemTitle)} title={item.itemTitle} value={item.percentage}
             titleClass={percentTitleClass} valueClass={percentValueClass}
-	    subList={this.getSubListItems(item)}
-	     />)
+            subList={this.getSubListItems(item)}
+          />)
         );
         if (tablify) {
           content = <Tablify content={content} columns={columns} />;

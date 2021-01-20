@@ -199,7 +199,6 @@ export default class NumberUtils {
 
   static getAmountsInThousandsMessage() {
     logger.debug('getAmountsInThousandsMessage');
-    debugger;
     switch (settings.gsAmountInThousands) {
       case GlobalSettingsConstants.GS_AMOUNT_OPTION_IN_UNITS:
         return translate('Amounts in Units');
