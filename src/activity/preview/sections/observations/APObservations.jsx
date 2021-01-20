@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Section from '../Section.jsx';
-import styles from './APLineMinistryObservations.css';
+import styles from './APObservations.css';
 import FieldsManager from '../../../../modules/field/FieldsManager';
 import ActivityConstants from '../../../../modules/util/ActivityConstants';
 import APMeasure from '../issues/APMeasure.jsx';
@@ -12,7 +12,7 @@ let logger = null;
 /**
  * @author Gabriel Inchauspe
  */
-class APLineMinistryObservations extends Component {
+const APObservations = (fieldName) => class extends Component {
   static propTypes = {
     activity: PropTypes.object.isRequired,
     activityFieldsManager: PropTypes.instanceOf(FieldsManager).isRequired,
@@ -27,30 +27,32 @@ class APLineMinistryObservations extends Component {
   constructor(props, context) {
     super(props, context);
     const { Logger } = this.context;
-    logger = new Logger('AP LineMinistryObservations');
+    logger = new Logger('AP Observations');
     logger.debug('constructor');
   }
 
-  _buildLineMinistryObservations() {
+  _buildObservations() {
     const { DateUtils, activity, activityFieldsManager } = this.props;
     const { translate } = this.context;
     let content = [];
-    if (activity[ActivityConstants.LINE_MINISTRY_OBSERVATIONS]) {
-      activity[ActivityConstants.LINE_MINISTRY_OBSERVATIONS].forEach((lmo) => {
+    if (activity[fieldName]) {
+      activity[fieldName].forEach((o) => {
         let date = '';
-        /* eslint-disable max-len */
-        if (activityFieldsManager.isFieldPathEnabled(`${ActivityConstants.LINE_MINISTRY_OBSERVATIONS}~${ActivityConstants.LINE_MINISTRY_OBSERVATIONS_DATE}`)) {
-          date = ` ${DateUtils.createFormattedDate(lmo[ActivityConstants.LINE_MINISTRY_OBSERVATIONS_DATE])}`;
+        if (activityFieldsManager.isFieldPathEnabled(
+          `${fieldName}~${ActivityConstants.OBSERVATIONS_DATE}`)) {
+          date = ` ${DateUtils.createFormattedDate(o[ActivityConstants.OBSERVATIONS_DATE])}`;
         }
-        /* eslint-enable max-len */
         content.push(
-          <div className={styles.lmo} key={UIUtils.stringToUniqueId()}>{`${lmo.name || ''}${date}`}</div>);
-        lmo[ActivityConstants.MEASURES].forEach((measure) => {
+          <div
+            className={styles.lmo}
+            key={UIUtils.stringToUniqueId()}>{`${o.name || ''}${date}`}
+          </div>);
+        o[ActivityConstants.MEASURES].forEach((measure) => {
           content.push(
             <APMeasure
               key={UIUtils.stringToUniqueId()} activityFieldsManager={activityFieldsManager}
               measure={measure}
-              path={ActivityConstants.LINE_MINISTRY_OBSERVATIONS}
+              path={fieldName}
               DateUtils={DateUtils} />);
         });
       });
@@ -64,15 +66,25 @@ class APLineMinistryObservations extends Component {
   render() {
     const { activityFieldsManager } = this.props;
     const { translate } = this.context;
-    if (activityFieldsManager.isFieldPathEnabled(ActivityConstants.LINE_MINISTRY_OBSERVATIONS)) {
-      return <div>{this._buildLineMinistryObservations()}</div>;
+    if (activityFieldsManager.isFieldPathEnabled(fieldName)) {
+      return <div>{this._buildObservations()}</div>;
     } else {
       return <div className={styles.nodata}>{translate('No Data')}</div>;
     }
   }
-}
+};
 
-export default Section(APLineMinistryObservations, { SectionTitle: 'Line Ministry Observations',
-  useEncapsulateHeader: true,
-  sID: 'APLineMinistryObservations'
-});
+export const APLineMinistryObservations = Section(APObservations(ActivityConstants.LINE_MINISTRY_OBSERVATIONS),
+  {
+    SectionTitle: 'Line Ministry Observations',
+    useEncapsulateHeader: true,
+    sID: 'APLineMinistryObservations'
+  });
+
+export const APRegionalObservations = Section(APObservations(ActivityConstants.REGIONAL_OBSERVATIONS),
+  {
+    SectionTitle: 'Regional Observations',
+    useEncapsulateHeader: true,
+    sID: 'APRegionalObservations'
+  });
+

@@ -35,8 +35,9 @@ const FINANCING_INSTRUMENT = 'financing_instrument';
 const MODALITIES = 'modalities';
 const LINE_MINISTRY_RANK = 'line_ministry_rank';
 const LINE_MINISTRY_OBSERVATIONS = 'line_ministry_observations';
-const LINE_MINISTRY_OBSERVATIONS_DATE = 'date';
-const LINE_MINISTRY_OBSERVATIONS_NAME = 'name';
+const REGIONAL_OBSERVATIONS = 'regional_observations';
+const OBSERVATIONS_DATE = 'date';
+const OBSERVATIONS_NAME = 'name';
 const ISSUE_DATE = 'issue_date';
 const ISSUE_NAME = 'name';
 const MEASURES = 'measures';
@@ -287,10 +288,13 @@ const AP_SECTION_IDS =
       sectionPath: TOTAL_NUMBER_OF_FUNDING_SOURCES
     },
     { key: 'APFunding', hash: '#APFunding', value: 'Funding', sectionPath: FUNDINGS },
-    { key: 'APRegionalFunding',
+    { key: 'APComponents', hash: '#APComponents', value: 'Components', sectionPath: COMPONENTS },
+    {
+      key: 'APRegionalFunding',
       hash: '#APRegionalFunding',
       value: 'Regional Funding',
-      fmPath: FMC.ACTIVITY_REGIONAL_FUNDING },
+      fmPath: FMC.ACTIVITY_REGIONAL_FUNDING
+    },
     {
       key: 'APRelatedOrganizations',
       hash: '#APRelatedOrganizations',
@@ -299,17 +303,29 @@ const AP_SECTION_IDS =
     },
     { key: 'APStructures', hash: '#APStructures', value: 'Structures', sectionPath: STRUCTURES },
     { key: 'APIssues', hash: '#APIssues', value: 'Issues', sectionPath: ISSUES },
-    { key: 'APContact',
+    {
+      key: 'APContact',
       hash: '#APContact',
       value: 'Contact Information',
       fmPath: FMC.ACTIVITY_CONTACT,
-      showhide(ac) { return ac.hideContacts; } },
+      showhide(ac) {
+        return ac.hideContacts;
+      }
+    },
     { key: 'APME', hash: '#APME', value: 'M&E', sectionPath: INDICATORS },
     { key: 'APDocument', hash: '#APDocument', value: 'Related Documents', sectionPath: ACTIVITY_DOCUMENTS },
-    { key: 'APLineMinistryObservations',
+    {
+      key: 'APRegionalObservations',
+      hash: '#APRegionalObservations',
+      value: 'Regional Observations',
+      sectionPath: REGIONAL_OBSERVATIONS
+    },
+    {
+      key: 'APLineMinistryObservations',
       hash: '#APLineMinistryObservations',
       value: 'Line Ministry Observations',
-      sectionPath: LINE_MINISTRY_OBSERVATIONS },
+      sectionPath: LINE_MINISTRY_OBSERVATIONS
+    },
   ];
 
 /** Column counts for each section **/
@@ -383,8 +399,9 @@ export default Object.freeze({
   MODALITIES,
   LINE_MINISTRY_RANK,
   LINE_MINISTRY_OBSERVATIONS,
-  LINE_MINISTRY_OBSERVATIONS_DATE,
-  LINE_MINISTRY_OBSERVATIONS_NAME,
+  REGIONAL_OBSERVATIONS,
+  OBSERVATIONS_DATE,
+  OBSERVATIONS_NAME,
   GOVERNMENT_AGREEMENT_NUMBER,
   MULTI_STAKEHOLDER_PARTNERSHIP,
   MULTI_STAKEHOLDER_PARTNERS,
