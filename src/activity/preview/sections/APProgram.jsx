@@ -9,7 +9,8 @@ import FieldsManager from '../../../modules/field/FieldsManager';
 const APNationalPlanList = APPercentageList(ActivityConstants.NATIONAL_PLAN_OBJECTIVE,
   ActivityConstants.PROGRAM, ActivityConstants.PROGRAM_PERCENTAGE, 'National Plan Objective');
 const PrimaryProgramList = APPercentageList(ActivityConstants.PRIMARY_PROGRAMS,
-  ActivityConstants.PROGRAM, ActivityConstants.PROGRAM_PERCENTAGE, 'Primary Program');
+  ActivityConstants.PROGRAM, ActivityConstants.PROGRAM_PERCENTAGE, 'Primary Program',
+  { field: 'indirect_programs', value: 'program', percentage: 'percentage' });
 const SecondaryProgramList = APPercentageList(ActivityConstants.SECONDARY_PROGRAMS, ActivityConstants.PROGRAM,
   ActivityConstants.PROGRAM_PERCENTAGE, 'Secondary Program');
 

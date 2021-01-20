@@ -45,6 +45,7 @@ class APRegionalFundingSection extends Component {
     const fundingList = [];
     if (activity[ActivityConstants.LOCATIONS]) {
       activity[ActivityConstants.LOCATIONS].filter(l =>
+        l.location &&
         l.location.extra_info
         && l.location.extra_info[ActivityConstants.IMPLEMENTATION_LOCATION_EXTRA_INFO] === ActivityConstants.REGION)
         .forEach((region) => {
