@@ -80,6 +80,7 @@ export default class ActivityPreviewUI extends Component {
   static childContextTypes = {
     activity: PropTypes.object,
     activityContext: PropTypes.shape({
+      canEditActivities: PropTypes.bool.isRequired,
       rtlDirection: PropTypes.bool,
       activityStatus: PropTypes.string,
       teamMember: PropTypes.shape({
@@ -139,7 +140,7 @@ export default class ActivityPreviewUI extends Component {
     const privateWSWarning = activityContext.activityWorkspace[WorkspaceConstants.IS_PRIVATE] ?
       translate('privateWorkspaceWarning') : '';
     const edit = activityContext.teamMember !== null && activity[ActivityConstants.REJECTED_ID] === undefined
-      && activityContext.teamMember !== undefined;
+      && activityContext.teamMember !== undefined && activityContext.canEditActivities;
     const teamId = activityContext.teamMember ? activityContext.teamMember.workspace.id : undefined;
     const wsAccessType = activityContext.teamMember ?
       activityContext.teamMember.workspace[WorkspaceConstants.ACCESS_TYPE] : undefined;
