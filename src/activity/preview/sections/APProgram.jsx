@@ -8,12 +8,14 @@ import FieldsManager from '../../../modules/field/FieldsManager';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 
 const APNationalPlanList = APPercentageList(ActivityConstants.NATIONAL_PLAN_OBJECTIVE,
-  ActivityConstants.PROGRAM, ActivityConstants.PROGRAM_PERCENTAGE, 'National Plan Objective');
+  ActivityConstants.PROGRAM, ActivityConstants.PROGRAM_PERCENTAGE, 'National Plan Objective',
+  { field: 'indirect_programs', value: 'program', percentage: 'percentage' });
 const PrimaryProgramList = APPercentageList(ActivityConstants.PRIMARY_PROGRAMS,
   ActivityConstants.PROGRAM, ActivityConstants.PROGRAM_PERCENTAGE, 'Primary Program',
   { field: 'indirect_programs', value: 'program', percentage: 'percentage' });
 const SecondaryProgramList = APPercentageList(ActivityConstants.SECONDARY_PROGRAMS, ActivityConstants.PROGRAM,
-  ActivityConstants.PROGRAM_PERCENTAGE, 'Secondary Program');
+  ActivityConstants.PROGRAM_PERCENTAGE, 'Secondary Program',
+  { field: 'indirect_programs', value: 'program', percentage: 'percentage' });
 
 let logger = null;
 
@@ -37,15 +39,6 @@ class APProgram extends Component {
     logger.debug('constructor');
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  getAdditionalTitle(item) {
-    if (item.indirect_programs && item.indirect_programs.length > 0) {
-      return `(${item.indirect_programs.map(ip =>
-        PossibleValuesManager.getOptionTranslation(ip.program)
-      ).join(', ')})`;
-    }
-  }
-
   render() {
     const { buildSimpleField } = this.props;
     const options = { fieldNameClass: styles.section_field_name };
@@ -53,17 +46,15 @@ class APProgram extends Component {
       <div className={styles.primary_sector}>
         <APNationalPlanList
           key="national-plan-list" {...this.props}
-          getAdditionalTitle={this.getAdditionalTitle.bind(this)} />
+        />
       </div>
       <div className={styles.primary_sector}>
         <PrimaryProgramList
-          key="primary-programs-list" {...this.props}
-          getAdditionalTitle={this.getAdditionalTitle.bind(this)} />
+          key="primary-programs-list" {...this.props} />
       </div>
       <div className={styles.secondary_sector}>
         <SecondaryProgramList
-          key="secondary-programs-list" {...this.props}
-          getAdditionalTitle={this.getAdditionalTitle.bind(this)} />
+          key="secondary-programs-list" {...this.props} />
       </div>
       <div>
         {buildSimpleField('program_description', true, null, false, null, null, options)}
