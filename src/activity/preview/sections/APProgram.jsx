@@ -5,6 +5,7 @@ import APPercentageList from '../components/APPercentageList.jsx';
 import ActivityConstants from '../../../modules/util/ActivityConstants';
 import styles from '../ActivityPreview.css';
 import FieldsManager from '../../../modules/field/FieldsManager';
+import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 
 const APNationalPlanList = APPercentageList(ActivityConstants.NATIONAL_PLAN_OBJECTIVE,
   ActivityConstants.PROGRAM, ActivityConstants.PROGRAM_PERCENTAGE, 'National Plan Objective');
@@ -28,6 +29,7 @@ class APProgram extends Component {
     Logger: PropTypes.func.isRequired,
     buildSimpleField: PropTypes.func.isRequired,
   };
+
   constructor(props) {
     super(props);
     const { Logger } = this.props;
@@ -35,18 +37,33 @@ class APProgram extends Component {
     logger.debug('constructor');
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  getAdditionalTitle(item) {
+    if (item.indirect_programs && item.indirect_programs.length > 0) {
+      return `(${item.indirect_programs.map(ip =>
+        PossibleValuesManager.getOptionTranslation(ip.program)
+      ).join(', ')})`;
+    }
+  }
+
   render() {
     const { buildSimpleField } = this.props;
     const options = { fieldNameClass: styles.section_field_name };
     return (<div>
       <div className={styles.primary_sector}>
-        <APNationalPlanList key="national-plan-list" {...this.props} />
+        <APNationalPlanList
+          key="national-plan-list" {...this.props}
+          getAdditionalTitle={this.getAdditionalTitle.bind(this)} />
       </div>
       <div className={styles.primary_sector}>
-        <PrimaryProgramList key="primary-programs-list" {...this.props} />
+        <PrimaryProgramList
+          key="primary-programs-list" {...this.props}
+          getAdditionalTitle={this.getAdditionalTitle.bind(this)} />
       </div>
       <div className={styles.secondary_sector}>
-        <SecondaryProgramList key="secondary-programs-list" {...this.props} />
+        <SecondaryProgramList
+          key="secondary-programs-list" {...this.props}
+          getAdditionalTitle={this.getAdditionalTitle.bind(this)} />
       </div>
       <div>
         {buildSimpleField('program_description', true, null, false, null, null, options)}

@@ -10,6 +10,7 @@ import PossibleValuesManager from '../../../modules/field/PossibleValuesManager'
 import ResourceUtils from '../../../utils/ResourceUtils';
 import UIUtils from '../../../utils/UIUtils';
 import Constants from '../../../utils/Constants';
+import ActivityConstants from "../../../modules/util/ActivityConstants";
 
 
 let logger = null;
@@ -33,6 +34,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
     rtl: PropTypes.bool,
+    getAdditionalTitle: PropTypes.func
   };
 
   constructor(props) {
@@ -43,10 +45,17 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
   }
 
   getItemTitle(item) {
+    let title;
+    const { getAdditionalTitle } = this.props;
     if (this.props.getItemTitle) {
-      return this.props.getItemTitle(item);
+      title = this.props.getItemTitle(item);
+    } else {
+      title = ResourceUtils.getItemTitle(item, valueField, PossibleValuesManager, this.props.rtl);
     }
-    return ResourceUtils.getItemTitle(item, valueField, PossibleValuesManager, this.props.rtl);
+    if (getAdditionalTitle) {
+      title += ` ${getAdditionalTitle(item)}`;
+    }
+    return title;
   }
 
   // eslint-disable-next-line class-methods-use-this
