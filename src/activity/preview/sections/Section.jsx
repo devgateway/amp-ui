@@ -99,6 +99,7 @@ const Section = (ComposedSection, params) => class extends Component {
     if (options_.stringOnly) {
       params = {};
       this.context = options_.context;
+      this.context.activityContext = options_.props.activityContext;
       this.context.activity = options_.props.activity;
       params.DateUtils = options_.context.DateUtils;
       params.translate = options_.context.translate;

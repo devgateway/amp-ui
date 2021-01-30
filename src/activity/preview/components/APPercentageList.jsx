@@ -32,7 +32,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     getItemTitle: PropTypes.func,
     Logger: PropTypes.func.isRequired,
     translate: PropTypes.func.isRequired,
-    rtl: PropTypes.bool,
+    rtl: PropTypes.bool
   };
 
   constructor(props) {
@@ -50,22 +50,12 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
   }
 
   // eslint-disable-next-line class-methods-use-this
-  getSubItemTitle(item) {
-    const { activityFieldsManager } = this.props;
-    let trnValue = '';
-    const translations = item['translated-value'];
-    if (translations) {
-      trnValue = translations[activityFieldsManager._lang] || translations[Constants.LANGUAGE_ENGLISH] || trnValue;
-    }
-    return trnValue;
-  }
-
   getSubListItems(i) {
     const subListItems = [];
     if (i.subList && i.subList.length > 0) {
       i.subList.forEach(si => {
         subListItems.push({
-          title: `(${this.getSubItemTitle(si[subList.value])})`,
+          title: `(${PossibleValuesManager.getOptionTranslation(si[subList.value])})`,
           percentage: si[subList.percentage]
         });
       });
@@ -87,10 +77,14 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     }
     if (isListEnabled) {
       if (items && items.length) {
-        items = items.map(item => ({
-          itemTitle: this.getItemTitle(item),
-          percentage: item[percentageField]
-        }))
+        items = items.map(item => {
+
+          return ({
+            itemTitle: this.getItemTitle(item),
+            percentage: item[percentageField],
+            subList: subList ? item[subList.field] : null
+          });
+        })
           .sort((a, b) => {
             if (a.itemTitle === null && b.itemTitle === null) {
               return 0;
