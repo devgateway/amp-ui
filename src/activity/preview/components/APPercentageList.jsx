@@ -85,17 +85,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
             subList: subList ? item[subList.field] : null
           });
         })
-          .sort((a, b) => {
-            if (a.itemTitle === null && b.itemTitle === null) {
-              return 0;
-            } else if (a.itemTitle === null) {
-              return 1;
-            } else if (b.itemTitle === null) {
-              return -1;
-            } else {
-              return a.itemTitle.localeCompare(b.itemTitle);
-            }
-          });
+          .sort((a, b) => UIUtils.sortByLocalCompare(a.itemTitle, b.itemTitle));
         content = items.map((item) =>
           (<APPercentageField
             key={UIUtils.stringToUniqueId(item.itemTitle)} title={item.itemTitle} value={item.percentage}
