@@ -118,9 +118,7 @@ class APComponents extends Component {
   renderNoComponents() {
     const { translate } = this.props;
     return (
-      <APField
-        fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}
-        value={translate('No Data')} />
+      <div className={styles.nodata}>{translate('No Data')}</div>
     );
   }
 
