@@ -7,6 +7,7 @@ import NumberUtils from '../../../utils/NumberUtils';
 import Section from './Section.jsx';
 import styles from './APComponents.css';
 import CurrencyRatesManager from '../../../modules/util/CurrencyRatesManager';
+import APField from '../components/APField.jsx';
 
 let logger = null;
 
@@ -90,22 +91,37 @@ class APComponents extends Component {
   _buildComponents() {
     const content = [];
     const currency = this.context.activityContext.effectiveCurrency;
-    this.props.activity[ActivityConstants.COMPONENTS].forEach((component) => {
-      if (this.props.activityFieldsManager.isFieldPathEnabled(ActivityConstants.COMPONENT_TITLE)) {
-        content.push(<div className={styles.title}>{component[ActivityConstants.COMPONENT_TITLE]}</div>);
-      }
-      if (this.props.activityFieldsManager.isFieldPathEnabled(ActivityConstants.COMPONENT_TYPE)) {
-        content.push(<div className={styles.title}>{component[ActivityConstants.COMPONENT_TYPE].value}</div>);
-      }
-      if (this.props.activityFieldsManager.isFieldPathEnabled(ActivityConstants.COMPONENT_DESCRIPTION)) {
-        content.push(<div>{component.description}</div>);
-      }
-      content.push(<div className={styles.title}>{this.props.translate('Finance of the component')}</div>);
-      content.push(APComponents._buildDetail(component, this.props.translate, this.context.currencyRatesManager
-        , currency));
-      content.push(<hr />);
-    });
+
+    if (this.props.activity[ActivityConstants.COMPONENTS]
+      && this.props.activity[ActivityConstants.COMPONENTS].length > 0) {
+      this.props.activity[ActivityConstants.COMPONENTS].forEach((component) => {
+        if (this.props.activityFieldsManager.isFieldPathEnabled(ActivityConstants.COMPONENT_TITLE)) {
+          content.push(<div className={styles.title}>{component[ActivityConstants.COMPONENT_TITLE]}</div>);
+        }
+        if (this.props.activityFieldsManager.isFieldPathEnabled(ActivityConstants.COMPONENT_TYPE)) {
+          content.push(<div className={styles.title}>{component[ActivityConstants.COMPONENT_TYPE].value}</div>);
+        }
+        if (this.props.activityFieldsManager.isFieldPathEnabled(ActivityConstants.COMPONENT_DESCRIPTION)) {
+          content.push(<div>{component.description}</div>);
+        }
+        content.push(<div className={styles.title}>{this.props.translate('Finance of the component')}</div>);
+        content.push(APComponents._buildDetail(component, this.props.translate, this.context.currencyRatesManager
+          , currency));
+        content.push(<hr />);
+      });
+    } else {
+      content.push(this.renderNoComponents());
+    }
     return content;
+  }
+
+  renderNoComponents() {
+    const { translate } = this.props;
+    return (
+      <APField
+        fieldNameClass={styles.hidden} fieldValueClass={styles.nodata} fieldClass={styles.flex} separator={false}
+        value={translate('No Data')} />
+    );
   }
 
   render() {
