@@ -46,7 +46,11 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     if (this.props.getItemTitle) {
       return this.props.getItemTitle(item);
     }
-    return ResourceUtils.getItemTitle(item, valueField, PossibleValuesManager, this.props.rtl);
+    let itemTitle = ResourceUtils.getItemTitle(item, valueField, PossibleValuesManager, this.props.rtl);
+    if (!itemTitle) {
+      itemTitle = '';
+    }
+    return itemTitle;
   }
 
   // eslint-disable-next-line class-methods-use-this

@@ -54,7 +54,7 @@ export default class ActivityPreviewUI extends Component {
           [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
           [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
           id: PropTypes.number.isRequired,
-          prefix: PropTypes.string.isRequired
+          prefix: PropTypes.string
         })
       })
     }).isRequired,
@@ -91,7 +91,7 @@ export default class ActivityPreviewUI extends Component {
           [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
           [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
           id: PropTypes.number.isRequired,
-          prefix: PropTypes.string.isRequired
+          prefix: PropTypes.string
         })
       })
     })
@@ -140,7 +140,7 @@ export default class ActivityPreviewUI extends Component {
     const privateWSWarning = activityContext.activityWorkspace[WorkspaceConstants.IS_PRIVATE] ?
       translate('privateWorkspaceWarning') : '';
     const edit = activityContext.teamMember !== null && activity[ActivityConstants.REJECTED_ID] === undefined
-      && activityContext.teamMember !== undefined && activityContext.canEditActivities;
+        && activityContext.teamMember !== undefined && activityContext.canEditActivities;
     const teamId = activityContext.teamMember ? activityContext.teamMember.workspace.id : undefined;
     const wsAccessType = activityContext.teamMember ?
       activityContext.teamMember.workspace[WorkspaceConstants.ACCESS_TYPE] : undefined;
