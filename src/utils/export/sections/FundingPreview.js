@@ -263,8 +263,12 @@ export default class FundingPreview extends PreviewSection {
   getDisasterResponse(g, showDisasterResponse, trnType) {
     if (showDisasterResponse && g[ActivityConstants.DISASTER_RESPONSE] === true) {
       const { activityFieldsManager } = this._context;
+      const { activityContext } = this._props;
+      const prefix = (activityContext.teamMember && activityContext.teamMember.workspace &&
+        activityContext.teamMember.workspace.prefix) ?
+        activityContext.teamMember.workspace.prefix : null;
       return activityFieldsManager.getFieldLabelTranslation(
-        `${ActivityConstants.FUNDINGS}~${trnType}~${ActivityConstants.DISASTER_RESPONSE}`);
+        `${ActivityConstants.FUNDINGS}~${trnType}~${ActivityConstants.DISASTER_RESPONSE}`, prefix);
     }
     return '';
   }

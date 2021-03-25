@@ -17,7 +17,12 @@ import APContact from './sections/APContact.jsx';
 import APStructures from './sections/APStructures.jsx';
 import APRegionalFundingSection from './sections/regionalFunding/APRegionalFundingSection.jsx';
 import APME from './sections/APME.jsx';
-import APLineMinistryObservations from './sections/lineMinistryObservations/APLineMinistryObservations.jsx';
+import {
+  APLineMinistryObservations,
+  APRegionalObservations
+} from './sections/observations/APObservations.jsx';
+
+import APComponents from './sections/APComponents.jsx';
 
 let logger = null;
 
@@ -75,6 +80,9 @@ export default class MainGroup extends Component {
       <APRegionalFundingSection
         fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value}
         fmPath={FeatureManagerConstants.ACTIVITY_REGIONAL_FUNDING} />
+      <APComponents
+        fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value}
+        fmPath={FeatureManagerConstants.ACTIVITY_COMPONENTS} />
       <APRelatedOrganizations
         fieldNameClass={styles.sector_title} fieldValueClass={''}
         fmPath={FeatureManagerConstants.ACTIVITY_ORGANIZATIONS}
@@ -93,6 +101,7 @@ export default class MainGroup extends Component {
         fieldNameClass={[styles.section_field_name, styles.noborder].join(' ')}
         fieldValueClass={[styles.section_field_value, styles.noborder].join(' ')}
       />
+      <APRegionalObservations sectionPath={ActivityConstants.REGIONAL_OBSERVATIONS} />
       <APLineMinistryObservations sectionPath={ActivityConstants.LINE_MINISTRY_OBSERVATIONS} />
     </div>);
   }

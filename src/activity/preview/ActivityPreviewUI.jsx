@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Grid, Row, Alert } from 'react-bootstrap';
 import Scrollspy from 'react-scrollspy';
+import { Link } from 'react-router';
 import FieldsManager from '../../modules/field/FieldsManager';
 import CurrencyRatesManager from '../../modules/util/CurrencyRatesManager';
 import FeatureManager from '../../modules/util/FeatureManager';
@@ -53,7 +54,8 @@ export default class ActivityPreviewUI extends Component {
         workspace: PropTypes.shape({
           [WorkspaceConstants.ACCESS_TYPE]: PropTypes.string.isRequired,
           [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
-          id: PropTypes.number.isRequired
+          id: PropTypes.number.isRequired,
+          prefix: PropTypes.string
         })
       })
     }).isRequired,
@@ -79,6 +81,7 @@ export default class ActivityPreviewUI extends Component {
   static childContextTypes = {
     activity: PropTypes.object,
     activityContext: PropTypes.shape({
+      canEditActivities: PropTypes.bool.isRequired,
       rtlDirection: PropTypes.bool,
       activityStatus: PropTypes.string,
       teamMember: PropTypes.shape({
@@ -88,7 +91,8 @@ export default class ActivityPreviewUI extends Component {
           [WorkspaceConstants.IS_COMPUTED]: PropTypes.bool.isRequired,
           [WorkspaceConstants.CROSS_TEAM_VALIDATION]: PropTypes.bool.isRequired,
           [WorkspaceConstants.IS_PRIVATE]: PropTypes.bool.isRequired,
-          id: PropTypes.number.isRequired
+          id: PropTypes.number.isRequired,
+          prefix: PropTypes.string
         })
       })
     })
@@ -126,7 +130,7 @@ export default class ActivityPreviewUI extends Component {
       if (category.showhide && category.showhide(activityContext)) {
         return null;
       }
-      return <li key={category.value}><a href={category.hash}> {translate(category.value)} </a></li>;
+      return <li key={category.value}><Link to={category.hash}>{translate(category.value)}</Link></li>;
     });
 
     const categoryKeys = ActivityConstants.AP_SECTION_IDS.map(category => category.key);
@@ -137,7 +141,7 @@ export default class ActivityPreviewUI extends Component {
     const privateWSWarning = activityContext.activityWorkspace[WorkspaceConstants.IS_PRIVATE] ?
       translate('privateWorkspaceWarning') : '';
     const edit = activityContext.teamMember !== null && activity[ActivityConstants.REJECTED_ID] === undefined
-      && activityContext.teamMember !== undefined;
+      && activityContext.teamMember !== undefined && activityContext.canEditActivities;
     const teamId = activityContext.teamMember ? activityContext.teamMember.workspace.id : undefined;
     const wsAccessType = activityContext.teamMember ?
       activityContext.teamMember.workspace[WorkspaceConstants.ACCESS_TYPE] : undefined;

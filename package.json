@@ -1,6 +1,6 @@
 {
   "name": "amp-ui",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "description": "",
   "author": "devgateway",
   "license": "MIT",
@@ -33,7 +33,8 @@
     "file-saver": "git+ssh://github.com/devgateway/FileSaver.js#task/AMPUI-86/fix-tests-execution",
     "fs": "0.0.1-security",
     "he": "^1.2.0",
-    "moment": "^2.18.1"
+    "moment": "^2.18.1",
+    "react-router-hash-link": "^2.4.0"
   },
   "devDependencies": {
     "@svgr/rollup": "^2.4.1",

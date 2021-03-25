@@ -99,6 +99,7 @@ const Section = (ComposedSection, params) => class extends Component {
     if (options_.stringOnly) {
       params = {};
       this.context = options_.context;
+      this.context.activityContext = options_.props.activityContext;
       this.context.activity = options_.props.activity;
       params.DateUtils = options_.context.DateUtils;
       params.translate = options_.context.translate;
@@ -108,7 +109,10 @@ const Section = (ComposedSection, params) => class extends Component {
     fieldsManager = fieldsManager || this.context.activityFieldsManager;
     if (fieldsManager.isFieldPathEnabled(path)
       && (!fmPath || FeatureManager.isFMSettingEnabled(fmPath, false))) {
-      const title = (options_.noTitle ? '' : fieldsManager.getFieldLabelTranslation(path));
+      const prefix = (this.context.activityContext.teamMember && this.context.activityContext.teamMember.workspace &&
+      this.context.activityContext.teamMember.workspace.prefix) ?
+        this.context.activityContext.teamMember.workspace.prefix : null;
+      const title = (options_.noTitle ? '' : fieldsManager.getFieldLabelTranslation(path, prefix));
       let valuePath = path;
       if (parent) {
         const fieldPathParts = path.split('~');

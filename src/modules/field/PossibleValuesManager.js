@@ -156,7 +156,7 @@ export default class PossibleValuesManager {
       const id = idsStack.pop();
       if (!added.has(id)) {
         const option = optionsObj[id];
-        if (option.reverseSortedChildren) {
+        if (option && option.reverseSortedChildren) {
           idsStack.push(...option.reverseSortedChildren);
         }
         added.add(id);

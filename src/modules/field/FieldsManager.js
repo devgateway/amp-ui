@@ -2,8 +2,6 @@
 import Constants from '../../utils/Constants';
 import FieldPathConstants from '../../utils/FieldPathConstants';
 
-let logger = null;
-
 /**
  * This is a helper class for checking fields status, getting field options translations and the like.
  *
@@ -22,16 +20,15 @@ export default class FieldsManager {
     return newFieldsManager;
   }
 
-  constructor(fieldsDef, possibleValuesCollection, currentLanguage, LoggerManager) {
+  constructor(fieldsDef, possibleValuesCollection, currentLanguage, LoggerManager, prefix) {
     // TODO remove cache
-    logger = new LoggerManager('Fields manager');
-    logger.debug('constructor');
     this._fieldsDef = fieldsDef;
     this._possibleValuesMap = {};
     possibleValuesCollection.forEach(pv => {
       this._possibleValuesMap[pv.id] = pv[FieldPathConstants.FIELD_OPTIONS];
     });
     this._fieldPathsEnabledStatusMap = {};
+    this._prefix = prefix || null;
     this._lang = currentLanguage || Constants.LANGUAGE_ENGLISH;
     this._defaultLang = Constants.LANGUAGE_ENGLISH;
     this.cleanup(fieldsDef);
@@ -124,11 +121,24 @@ export default class FieldsManager {
     return trnValue;
   }
 
-  getFieldLabelTranslation(fieldPath) {
+  getFieldLabelTranslation(fieldPath, prefix) {
     let trnLabel = null;
     const fieldsDef = this.getFieldDef(fieldPath);
     if (fieldsDef !== undefined) {
-      trnLabel = fieldsDef.field_label[this._lang] || fieldsDef.field_label[this._defaultLang] || null;
+      if (prefix === null || prefix === undefined || prefix === '') {
+        prefix = this._prefix || Constants.DEFAULT_WORKSPACE_PREFIX;
+      }
+      if (fieldsDef && fieldsDef.field_label) {
+        if (fieldsDef.field_label[prefix]) {
+          trnLabel = fieldsDef.field_label[prefix][this._lang] ||
+            fieldsDef.field_label[prefix][this._defaultLang] ||
+            null;
+        } else {
+          trnLabel = fieldsDef.field_label[Constants.DEFAULT_WORKSPACE_PREFIX][this._lang] ||
+            fieldsDef.field_label[Constants.DEFAULT_WORKSPACE_PREFIX][this._defaultLang] ||
+            null;
+        }
+      }
     }
     return trnLabel;
   }

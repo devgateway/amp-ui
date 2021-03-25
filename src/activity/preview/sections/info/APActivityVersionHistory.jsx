@@ -6,7 +6,7 @@ import ActivityConstants from '../../../../modules/util/ActivityConstants';
 import history from '../../../../assets/images/ws_view.svg';
 import ActivityLinks from '../../../../utils/helpers/ActivityLinks';
 import ahStyles from './APActivityVersionHistory.css';
-import { COMPARE, SET_VERSION, BLANK, SELF, POST, NONE, FORM, HIDDEN, INPUT }
+import { COMPARE, SET_VERSION, SELF, POST, NONE, FORM, HIDDEN, INPUT }
   from './APActivityVersionHistoryConstants.jsx';
 
 export default class APActivityVersionHistory extends Component {
@@ -73,7 +73,7 @@ export default class APActivityVersionHistory extends Component {
       activityId: this.props.activity[ActivityConstants.INTERNAL_ID]
     };
 
-    APActivityVersionHistory.submitPostForm(ActivityLinks.getCompareActivityLink().url, data, BLANK);
+    APActivityVersionHistory.submitPostForm(ActivityLinks.getCompareActivityLink().url, data, SELF);
   }
 
   handleHide() {
@@ -86,7 +86,7 @@ export default class APActivityVersionHistory extends Component {
       actionMethod: 'changesSummary',
       activityId: this.props.activity[ActivityConstants.INTERNAL_ID]
     };
-    APActivityVersionHistory.submitPostForm(ActivityLinks.getVersionHistoryLink().url, data, BLANK);
+    APActivityVersionHistory.submitPostForm(ActivityLinks.getVersionHistoryLink().url, data, SELF);
   }
 
   handleUpdateVersion(event, newVersionId) {

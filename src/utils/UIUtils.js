@@ -32,4 +32,16 @@ export default class UIUtils {
   static cloneDeep(obj) {
     return JSON.parse(JSON.stringify(obj));
   }
+
+  static sortByLocalCompare(a, b) {
+    if (!a && !b) {
+      return 0;
+    } else if (!a) {
+      return 1;
+    } else if (!b) {
+      return -1;
+    } else {
+      return a.localeCompare(b);
+    }
+  }
 }
