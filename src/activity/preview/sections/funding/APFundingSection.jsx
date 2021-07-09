@@ -9,6 +9,7 @@ import APFundingOrganizationSection from './APFundingOrganizationSection.jsx';
 import { APProposedProjectCost } from '../APProjectCost.jsx';
 import NumberUtils from '../../../../utils/NumberUtils';
 import fundingStyles from './APFundingSection.css';
+import APFundingHeader from './APFundingHeader.jsx';
 
 
 let logger = null;
@@ -34,13 +35,13 @@ class APFundingSection extends Component {
 
   render() {
     logger.debug('render');
-    const { DateUtils, activity } = this.props;
+    const { DateUtils, activity, buildSimpleField, Logger } = this.props;
     const fundingList = [];
     if (activity[ActivityConstants.FUNDINGS]) {
       activity[ActivityConstants.FUNDINGS].forEach((funding) => {
         const item = (<APFundingOrganizationSection
           funding={funding} key={funding[ActivityConstants.AMP_FUNDING_ID] || UIUtils.stringToUniqueId()}
-          buildSimpleField={this.props.buildSimpleField}
+          buildSimpleField={buildSimpleField}
           DateUtils={DateUtils} />);
         fundingList.push(item);
       });
@@ -50,6 +51,7 @@ class APFundingSection extends Component {
       <APProposedProjectCost
         sectionPath={ActivityConstants.PPC_AMOUNT}
         titleClass={fundingStyles.section_header} />
+      <APFundingHeader activity={activity} buildSimpleField={buildSimpleField} Logger={Logger} />
       <div>{fundingList}</div>
       <div><APFundingTotalsSection /></div>
       <div className={fundingStyles.clear} />
