@@ -29,7 +29,7 @@ class APIdentification extends Component {
   render() {
     const { buildSimpleField } = this.props;
     const fieldPaths = [ActivityConstants.STATUS_REASON, ActivityConstants.TYPE_OF_COOPERATION,
-      ActivityConstants.TYPE_OF_IMPLEMENTATION, ActivityConstants.MODALITIES, ActivityConstants.OBJECTIVE,
+      ActivityConstants.TYPE_OF_IMPLEMENTATION, ActivityConstants.OBJECTIVE,
       ActivityConstants.DESCRIPTION, ActivityConstants.PROJECT_COMMENTS, ActivityConstants.RESULTS,
       ActivityConstants.LESSONS_LEARNED, ActivityConstants.PROJECT_IMPACT, ActivityConstants.ACTIVITY_SUMMARY,
       ActivityConstants.CONDITIONALITIES, ActivityConstants.PROJECT_MANAGEMENT,

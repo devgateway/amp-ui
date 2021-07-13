@@ -10,7 +10,7 @@ export default class IdentificationPreview extends PreviewSection {
       this.createSimpleLabel(this._context.translate('Identification'), ExportConstants.STYLE_HEADING2);
       // TODO: This is a copy from APIdentification.jsx, try to find a way to have it in one place.
       const fieldPaths = [ActivityConstants.STATUS_REASON, ActivityConstants.TYPE_OF_COOPERATION,
-        ActivityConstants.TYPE_OF_IMPLEMENTATION, ActivityConstants.MODALITIES, ActivityConstants.OBJECTIVE,
+        ActivityConstants.TYPE_OF_IMPLEMENTATION, ActivityConstants.OBJECTIVE,
         ActivityConstants.DESCRIPTION, ActivityConstants.PROJECT_COMMENTS, ActivityConstants.RESULTS,
         ActivityConstants.LESSONS_LEARNED, ActivityConstants.PROJECT_IMPACT, ActivityConstants.ACTIVITY_SUMMARY,
         ActivityConstants.CONDITIONALITIES, ActivityConstants.PROJECT_MANAGEMENT,
