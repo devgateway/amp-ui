@@ -22,6 +22,7 @@ export default class FundingPreview extends PreviewSection {
       this.createSimpleLabel(this._context.translate('Funding'), ExportConstants.STYLE_HEADING2);
       if (activity[ActivityConstants.FUNDINGS]) {
         this.buildProposedProjectCostTable();
+        this.buildHeaderSection();
         const currency = this._props.activityContext.effectiveCurrency;
         this._props.activity[ActivityConstants.FUNDINGS].forEach((funding) => {
           // Header data.
@@ -108,6 +109,19 @@ export default class FundingPreview extends PreviewSection {
     }
   }
 
+  buildHeaderSection = () => {
+    const { activityFieldsManager } = this._context;
+    if (activityFieldsManager.isFieldPathEnabled(ActivityConstants.MODALITIES)) {
+      const field = this._section.prototype.buildSimpleField(ActivityConstants.MODALITIES, true, null,
+        false, null, null,
+        { stringOnly: true, context: this._context, props: this._props });
+      if (field) {
+        this.createField(field.title, field.value, null, null);
+        this.createSeparator(true);
+      }
+    }
+  }
+
   buildProposedProjectCostTable() {
     const { activityFieldsManager, translate, activity } = this._context;
     if (activityFieldsManager.isFieldPathEnabled(ActivityConstants.PPC_AMOUNT)) {
@@ -161,7 +175,7 @@ export default class FundingPreview extends PreviewSection {
   }
 
   buildFundingDetailItemRow(table, g, currency, i, adjType, showDisasterResponse, trnType, showFixedExRate, cols,
-                            translate, showPledge, pledge) {
+    translate, showPledge, pledge) {
     const noPledgeIndex = i + pledge.count;
     table.getCell(noPledgeIndex, !this._rtl ? 0 : 4)
       .addContent(this.createSimpleLabel(adjType.value, null,
