@@ -113,6 +113,14 @@ export default class ActivityPreviewUI extends Component {
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  handleMenuClick(hash, event) {
+    const id = hash.replace('#', '');
+    const element = document.getElementById(id);
+    if (element) element.scrollIntoView();
+    event.preventDefault();
+  }
+
   _renderData() {
     const { activity, activityContext } = this.props;
 
@@ -130,7 +138,9 @@ export default class ActivityPreviewUI extends Component {
       if (category.showhide && category.showhide(activityContext)) {
         return null;
       }
-      return <li key={category.value}><Link to={category.hash}>{translate(category.value)}</Link></li>;
+      return (<li key={category.value}>
+        <a onClick={this.handleMenuClick.bind(null, category.hash)}>{translate(category.value)}</a>
+      </li>);
     });
 
     const categoryKeys = ActivityConstants.AP_SECTION_IDS.map(category => category.key);
