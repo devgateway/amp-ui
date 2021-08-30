@@ -20,7 +20,8 @@ export default class APFundingItem extends Component {
     showDisasterResponse: PropTypes.bool.isRequired,
     showPledge: PropTypes.bool.isRequired,
     showFixedExchangeRate: PropTypes.bool.isRequired,
-    DateUtils: PropTypes.func.isRequired
+    DateUtils: PropTypes.func.isRequired,
+    additionalFields: PropTypes.array
   };
 
   static contextTypes = {
@@ -50,8 +51,27 @@ export default class APFundingItem extends Component {
     return '';
   }
 
+  insertAdditionalFieldsRow() {
+    const { additionalFields, trnType } = this.props;
+    const { activityFieldsManager } = this.context;
+    const trnPath = `${ActivityConstants.FUNDINGS}~${trnType}`;
+    if (additionalFields && additionalFields.length > 0) {
+      return additionalFields.map(af =>
+        activityFieldsManager
+          .isFieldPathEnabled(`${trnPath}~${af.fmId}`) && (<tr className={styles.row}>
+            <td colSpan={ActivityConstants.AP_FUNDINGS_TABLE_COLS} className={styles.left_text}>
+            <span className={styles.pledge_row}>
+                <span>{`${af.label}: `}</span>
+                <span className={styles.value}>{`${this.props.item[af.fmId]}`}</span>
+              </span>
+          </td>
+        </tr>));
+    }
+  }
+
   insertPledgeRow() {
     const { translate } = this.context;
+
     if (this.props.item.pledge && this.props.showPledge) {
       return (<tr className={styles.row}>
         <td colSpan={ActivityConstants.AP_FUNDINGS_TABLE_COLS} className={styles.left_text}>
@@ -112,6 +132,7 @@ export default class APFundingItem extends Component {
           <td className={styles.exchange_rate}>{this.insertFixedExchangeRateCell()}</td>
         </tr>
         {this.insertPledgeRow()}
+        {this.insertAdditionalFieldsRow()}
         {this.insertRecipientOrgRow()}
       </tbody>);
   }

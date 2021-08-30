@@ -218,6 +218,7 @@ const DELEGATED_COOPERATION = 'delegated_cooperation';
 const DELEGATED_PARTNER = 'delegated_partner';
 const FINANCING_ID = 'financing_id';
 const DISBURSEMENT_ORDER_ID = 'disbursement_order_id';
+const DISBURSEMENT_ID = 'disbursement_id';
 const PLEDGE = 'pledge';
 const CAPITAL_SPENDING_PERCENTAGE = 'capital_spending_percentage';
 const REPORTING_DATE = 'reporting_date';
@@ -573,6 +574,7 @@ export default Object.freeze({
   DELEGATED_PARTNER,
   FINANCING_ID,
   DISBURSEMENT_ORDER_ID,
+  DISBURSEMENT_ID,
   PLEDGE,
   CAPITAL_SPENDING_PERCENTAGE,
   REPORTING_DATE,
