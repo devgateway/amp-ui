@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "docx": "^4.7.1",
-    "file-saver": "git+ssh://github.com/devgateway/FileSaver.js",
+    "file-saver": "devgateway/FileSaver.js",
     "fs": "0.0.1-security",
     "he": "^1.2.0",
     "moment": "^2.18.1"
