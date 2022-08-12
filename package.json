@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "docx": "^4.7.1",
-    "file-saver": "devgateway/FileSaver.js",
+    "file-saver": "^2.0.5",
     "fs": "0.0.1-security",
     "he": "^1.2.0",
     "moment": "^2.18.1"
