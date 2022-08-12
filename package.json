@@ -33,8 +33,7 @@
     "file-saver": "git+ssh://github.com/devgateway/FileSaver.js",
     "fs": "0.0.1-security",
     "he": "^1.2.0",
-    "moment": "^2.18.1",
-    "react-router-hash-link": "git+ssh://github.com/rafgraph/react-router-hash-link.git#react-router-v2/3"
+    "moment": "^2.18.1"
   },
   "devDependencies": {
     "@svgr/rollup": "^2.4.1",
