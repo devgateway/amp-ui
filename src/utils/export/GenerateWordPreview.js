@@ -17,7 +17,6 @@ import FundingPreview from './sections/FundingPreview';
 import AdditionalInfoPreview from './sections/AdditionalInfoPreview';
 import InternalIdPreview from './sections/InternalIdPreview';
 
-const FileSaver = require('file-saver');
 const docx = require('docx');
 
 const { Document, Packer } = docx;
@@ -87,13 +86,6 @@ export default class GenerateWordPreview {
   }
 
   static download() {
-    const packer = new Packer();
-    // eslint-disable-next-line promise/catch-or-return
-    packer.toBlob(document)
-    // eslint-disable-next-line promise/always-return
-      .then(blob => {
-        FileSaver.saveAs(blob, 'activity-preview.docx');
-      });
   }
 
   static createStyles() {
