@@ -89,17 +89,21 @@ export default class FundingPreview extends PreviewSection {
             }
             const cols = 5;
             const pCount = group.filter(g => g.pledge).length;
-            const table = this._document.createTable(group.length + pCount + 2, cols);
+            const pDisbursementsIdCount = group.filter(g => g[ActivityConstants.DISBURSEMENT_ID]).length;
+            const table = this._document.createTable(group.length + pCount + pDisbursementsIdCount + 2, cols);
             table.setWidth(WidthType.DXA, 9000);
             // This line removes all borders from the table, sadly the official documentation doesnt work :(
             table.properties.root[1] = [];
             const pledgeCount = { count: 0 };
             CommonActivityHelper.sortFundingItems(group, this._props.activityContext.reorderFundingItemId);
+            const disbursementId = { count: 0 };
             group.forEach((g, i) => {
+              const showDisbursementId = trnType === ActivityConstants.DISBURSEMENTS;
               this.buildFundingDetailItemRow(table, g, currency, i, adjType, showDisasterResponse,
-                trnType, showFixedExRate, cols, this._context.translate, showPledge, pledgeCount);
+                trnType, showFixedExRate, cols, this._context.translate, showPledge, pledgeCount,
+                showDisbursementId, disbursementId);
             });
-            this.buildSubTotalRow(table, group, currency, measure, pCount);
+            this.buildSubTotalRow(table, group, currency, measure, pCount, pDisbursementsIdCount);
           });
           this.createSeparator();
         });
@@ -175,12 +179,11 @@ export default class FundingPreview extends PreviewSection {
   }
 
   buildFundingDetailItemRow(table, g, currency, i, adjType, showDisasterResponse, trnType, showFixedExRate, cols,
-    translate, showPledge, pledge) {
-    const noPledgeIndex = i + pledge.count;
+    translate, showPledge, pledge, showDisbursementId, disbursementId) {
+    const noPledgeIndex = i + pledge.count + disbursementId.count;
     table.getCell(noPledgeIndex, !this._rtl ? 0 : 4)
       .addContent(this.createSimpleLabel(adjType.value, null,
         { dontAddToDocument: true }));
-
     table.getCell(noPledgeIndex, !this._rtl ? 1 : 3)
       .addContent(this.createSimpleLabel(this.getDisasterResponse(g,
         showDisasterResponse, trnType), 'FundingSmall', { dontAddToDocument: true }));
@@ -203,26 +206,16 @@ export default class FundingPreview extends PreviewSection {
         showFixedExRate ? g[ActivityConstants.FIXED_EXCHANGE_RATE] : '',
         null, { dontAddToDocument: true }));
 
+    if (showDisbursementId && g[ActivityConstants.DISBURSEMENT_ID]) {
+      disbursementId.count += 1;
+      const noDisbursementIdIndex = i + disbursementId.count + pledge.count;
+      this.buildAdditionalIfoRow(table, noDisbursementIdIndex,
+        `${translate('disbursementId')}: ${g[ActivityConstants.DISBURSEMENT_ID]}`, '');
+    }
     if (showPledge && g[ActivityConstants.PLEDGE]) {
       pledge.count += 1;
-      const pledgeIndex = i + pledge.count;
-      table.getCell(pledgeIndex, !this._rtl ? 0 : 4)
-        .addContent(this.createSimpleLabel(
-          translate('Source Pledge'),
-          'FundingSmall', { dontAddToDocument: true }));
-      table.getCell(pledgeIndex, !this._rtl ? 1 : 3)
-        .addContent(this.createSimpleLabel(
-          g[ActivityConstants.PLEDGE].value,
-          'FundingSmall', { dontAddToDocument: true }));
-      table.getCell(pledgeIndex, !this._rtl ? 2 : 2)
-        .addContent(this.createSimpleLabel('',
-          'FundingSmall', { dontAddToDocument: true }));
-      table.getCell(pledgeIndex, !this._rtl ? 3 : 1)
-        .addContent(this.createSimpleLabel('',
-          'FundingSmall', { dontAddToDocument: true }));
-      table.getCell(pledgeIndex, !this._rtl ? 4 : 0)
-        .addContent(this.createSimpleLabel('',
-          'FundingSmall', { dontAddToDocument: true }));
+      const pledgeIndex = i + pledge.count + disbursementId.count;
+      this.buildAdditionalIfoRow(table, pledgeIndex, translate('Source Pledge'), g[ActivityConstants.PLEDGE].value);
     }
     if ((i) % 2 === 0) {
       for (let c = 0; c < cols; c++) {
@@ -232,7 +225,13 @@ export default class FundingPreview extends PreviewSection {
             .CellProperties
             .setShading({ fill: COLOR_SUBTOTAL });
         }
-        table.getRow(i + pledge.count)
+        if (disbursementId.count > 0) {
+          table.getRow((i + disbursementId.count) - 1)
+            .getCell(c)
+            .CellProperties
+            .setShading({ fill: COLOR_SUBTOTAL });
+        }
+        table.getRow(i + pledge.count + disbursementId.count)
           .getCell(c)
           .CellProperties
           .setShading({ fill: COLOR_SUBTOTAL });
@@ -240,10 +239,27 @@ export default class FundingPreview extends PreviewSection {
     }
   }
 
-  buildSubTotalRow(table, group, currency, measure, pCount) {
+  buildAdditionalIfoRow(table, index, label, value) {
+    table.getCell(index, !this._rtl ? 0 : 4)
+      .addContent(this.createSimpleLabel(label, 'FundingSmall', { dontAddToDocument: true }));
+    table.getCell(index, !this._rtl ? 1 : 3)
+      .addContent(this.createSimpleLabel(value, 'FundingSmall', { dontAddToDocument: true }));
+    table.getCell(index, !this._rtl ? 2 : 2)
+      .addContent(this.createSimpleLabel('',
+        'FundingSmall', { dontAddToDocument: true }));
+    table.getCell(index, !this._rtl ? 3 : 1)
+      .addContent(this.createSimpleLabel('',
+        'FundingSmall', { dontAddToDocument: true }));
+    table.getCell(index, !this._rtl ? 4 : 0)
+      .addContent(this.createSimpleLabel('',
+        'FundingSmall', { dontAddToDocument: true }));
+  }
+
+  buildSubTotalRow(table, group, currency, measure, pCount, pDisbursementsIdCount) {
     const subtotal = NumberUtils.rawNumberToFormattedString(this._context.currencyRatesManager
       .convertFundingDetailsToCurrency(group, currency));
-    this.buildTotalItem(table, `Subtotal ${measure}`, subtotal, currency, group.length + pCount);
+    this.buildTotalItem(table, `Subtotal ${measure}`, subtotal, currency, group.length + pCount + pDisbursementsIdCount)
+    ;
   }
 
   buildTotalItem(table, label, value, currency, row) {

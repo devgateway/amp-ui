@@ -66,6 +66,11 @@ export default class APFundingTransactionTypeItem extends Component {
 
   _drawDetail() {
     const { fundingDetails, trnType, DateUtils } = this.props;
+    const { translate } = this.context;
+    const additionalFields = [];
+    if (trnType === ActivityConstants.DISBURSEMENTS) {
+      additionalFields.push({ fmId: 'disbursement_id', label: translate('disbursementId') });
+    }
     return (<table className={styles.funding_table}>
       {fundingDetails.map(item =>
         (<APFundingItem
@@ -73,7 +78,8 @@ export default class APFundingTransactionTypeItem extends Component {
           showDisasterResponse={this._showDisasterResponse} showPledge={this._showPledge}
           showFixedExchangeRate={this._showFixedExRate}
           buildSimpleField={this.props.buildSimpleField}
-          DateUtils={DateUtils} />))
+          DateUtils={DateUtils}
+          additionalFields={additionalFields} />))
       }
     </table>);
   }
