@@ -46,7 +46,11 @@ class APLocation extends Component {
         && this.props.activity[ActivityConstants.IMPLEMENTATION_LOCATION].value !== ActivityConstants.COUNTRY)) {
       table = (<table className={styles.box_table2}>
         <tbody>
-          {content}
+          <tr>
+            <td>
+              {content}
+            </td>
+          </tr>
         </tbody>
       </table>);
     }
