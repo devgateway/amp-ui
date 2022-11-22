@@ -35,7 +35,7 @@ class APFundingMTEFSection extends Component {
     const { DateUtils } = this.props;
     return (<table className={styles.funding_table}>
       {<APFundingMTEFItem
-        item={mtef} key={UIUtils.numberRandom()} wsCurrency={currency}
+        item={mtef} wsCurrency={currency}
         DateUtils={DateUtils}
       />}
     </table>);
@@ -50,7 +50,7 @@ class APFundingMTEFSection extends Component {
           mtef[ActivityConstants.CURRENCY].value, mtef[ActivityConstants.PROJECTION_DATE], null, currency);
       }
     });
-    return (<div>
+    return (<div key="subtotal">
       <APFundingTotalItem
         value={subtotal}
         label={`${translate(`Subtotal MTEF Projections ${type}`)}`.toUpperCase()}
@@ -70,11 +70,11 @@ class APFundingMTEFSection extends Component {
       const content = [];
       types.forEach(type => {
         let show = false;
-        funding[ActivityConstants.MTEF_PROJECTIONS].forEach(mtef => {
+        funding[ActivityConstants.MTEF_PROJECTIONS].forEach((mtef, idx) => {
           if (mtef[ActivityConstants.PROJECTION].value === type) {
             show = true;
 
-            content.push(<div>
+            content.push(<div key={idx}>
               {this.drawTable(mtef, currency)}
             </div>);
           }
@@ -86,7 +86,7 @@ class APFundingMTEFSection extends Component {
       return (<div>
         <div className={stylesMTEF.header}>
           <APLabel
-            label={translate('MTEF Projections')} labelClass={styles.header} key={Math.random()}
+            label={translate('MTEF Projections')} labelClass={styles.header}
           />
         </div>
         {content}
