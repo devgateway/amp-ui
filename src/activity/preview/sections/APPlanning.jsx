@@ -29,7 +29,8 @@ class APPlanning extends Component {
     const fieldPaths = [ActivityConstants.ORIGINAL_COMPLETION_DATE, ActivityConstants.ACTUAL_START_DATE,
       ActivityConstants.ACTUAL_COMPLETION_DATE, ActivityConstants.PROPOSED_START_DATE,
       ActivityConstants.ACTUAL_APPROVAL_DATE, ActivityConstants.PROPOSED_COMPLETION_DATE,
-      ActivityConstants.PROPOSED_APPROVAL_DATE];
+      ActivityConstants.PROPOSED_APPROVAL_DATE,
+      ActivityConstants.CONTRACTING_DATE, ActivityConstants.DISBURSEMENT_DATE];
     const showIfNotAvailable = new Set([ActivityConstants.ORIGINAL_COMPLETION_DATE,
       ActivityConstants.ACTUAL_START_DATE, ActivityConstants.ACTUAL_COMPLETION_DATE,
       ActivityConstants.PROPOSED_START_DATE, ActivityConstants.ACTUAL_APPROVAL_DATE,
