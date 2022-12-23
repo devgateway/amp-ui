@@ -51,7 +51,9 @@ export default class APField extends Component {
     const { translate } = this.context;
     const classNames = `${this.props.fieldValueClass} ${this.displayClass}`;
     // To handle boolean fields we dont want to show 'false' as 'No Data'.
-    const value = (this.props.value || this.props.value === false) ? this.props.value : translate('No Data');
+    const value = (this.props.value || typeof this.props.value === 'number' || this.props.value === false)
+      ? this.props.value
+      : translate('No Data');
     let displayValue;
     if (Array.isArray(value)) {
       if (value[0] instanceof Object) {
