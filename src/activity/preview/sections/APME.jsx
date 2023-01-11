@@ -73,6 +73,7 @@ class APME extends Component {
               fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} /> : null}
         </td>
       </tr>
+      {this._generateTaggedValuesRows(sectionName, value[ActivityConstants.INDICATOR_TAGGED_VALUES])}
       <tr key={Math.random()}>
         <td colSpan={2}>
           {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_COMMENTS`]) ?
@@ -84,6 +85,40 @@ class APME extends Component {
       </tr>
       </tbody>
     </table>);
+  }
+
+  _generateTaggedValuesRows(sectionName, value) {
+    if (Array.isArray(value)) {
+      const arr = [];
+      for (let i = 0; i < value.length; i += 2) {
+        arr.push((
+          <tr key={Math.random()}>
+            {this._generateTaggedValueDataCell(sectionName, value[i])}
+            {this._generateTaggedValueDataCell(sectionName, (i + 1 < value.length) ? value[i + 1] : null)}
+          </tr>
+        ));
+      }
+      return arr;
+    } else {
+      return null;
+    }
+  }
+
+  _generateTaggedValueDataCell(sectionName, value) {
+    if (!value) {
+      return null;
+    }
+    const { translate } = this.props;
+    const titlePrefix = translate(`${sectionName} ${ActivityConstants.INDICATOR_VALUE}`);
+    const titleSuffix = translate(value[ActivityConstants.INDICATOR_TAGGED_VALUE_TAG]);
+    return (
+      <td>
+        <APField
+          key={Math.random()} title={`${titlePrefix} - ${titleSuffix}`}
+          value={value[ActivityConstants.INDICATOR_TAGGED_VALUE]} inline={false} separator={false}
+          fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} />
+      </td>
+    );
   }
 
   render() {

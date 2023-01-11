@@ -194,6 +194,9 @@ const BASE = 'base';
 const INDICATOR_COMMENT = 'comment';
 const INDICATOR_DATE = 'date';
 const INDICATOR_VALUE = 'value';
+const INDICATOR_TAGGED_VALUES = 'tagged_values';
+const INDICATOR_TAGGED_VALUE = 'value';
+const INDICATOR_TAGGED_VALUE_TAG = 'tag';
 const TARGET = 'target';
 const REVISED = 'revised';
 const CURRENT = 'actual';
@@ -549,6 +552,9 @@ export default Object.freeze({
   INDICATOR_COMMENT,
   INDICATOR_DATE,
   INDICATOR_VALUE,
+  INDICATOR_TAGGED_VALUES,
+  INDICATOR_TAGGED_VALUE,
+  INDICATOR_TAGGED_VALUE_TAG,
   BASE,
   TARGET,
   REVISED,
