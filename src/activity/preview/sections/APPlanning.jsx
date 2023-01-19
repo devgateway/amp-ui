@@ -27,10 +27,22 @@ class APPlanning extends Component {
     let content = [];
     content.push(this.props.buildSimpleField(ActivityConstants.LINE_MINISTRY_RANK, true, new Set([-1]), false));
     const fieldPaths = [ActivityConstants.ORIGINAL_COMPLETION_DATE, ActivityConstants.ACTUAL_START_DATE,
-      ActivityConstants.ACTUAL_COMPLETION_DATE, ActivityConstants.PROPOSED_START_DATE,
+      ActivityConstants.ACTUAL_COMPLETION_DATE,
+      ActivityConstants.REF_DECISION_CA,
+      ActivityConstants.PROPOSED_START_DATE,
       ActivityConstants.ACTUAL_APPROVAL_DATE, ActivityConstants.PROPOSED_COMPLETION_DATE,
       ActivityConstants.PROPOSED_APPROVAL_DATE,
-      ActivityConstants.CONTRACTING_DATE, ActivityConstants.DISBURSEMENT_DATE];
+      ActivityConstants.CONTRACTING_DATE, ActivityConstants.DISBURSEMENT_DATE,
+      ActivityConstants.DATE_APPROBATION_RFE,
+      ActivityConstants.METHODOLOGICAL_NOTE_DATE,
+      ActivityConstants.START_DATE_OF_RETROSPECTIVE_EVALUATION_MISSION,
+      ActivityConstants.END_DATE_OF_RETROSPECTIVE_EVALUATION_MISSION,
+      ActivityConstants.DATE_OF_TRANSMISSION_TO_THE_D_O,
+      ActivityConstants.DATE_OF_TRANSMISSION_OF_THE_INTERIM_REPORT_TO_THE_BORROWER,
+      ActivityConstants.FINAL_REPORT_DATE,
+      ActivityConstants.FINAL_ARCHIVING_DATE,
+      ActivityConstants.AGREEMENT_SIGNATURE_DATE,
+    ];
     const showIfNotAvailable = new Set([ActivityConstants.ORIGINAL_COMPLETION_DATE,
       ActivityConstants.ACTUAL_START_DATE, ActivityConstants.ACTUAL_COMPLETION_DATE,
       ActivityConstants.PROPOSED_START_DATE, ActivityConstants.ACTUAL_APPROVAL_DATE,

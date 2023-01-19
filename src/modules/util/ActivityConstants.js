@@ -107,6 +107,15 @@ const PROPOSED_START_DATE = 'proposed_start_date';
 const ACTUAL_COMPLETION_DATE = 'actual_completion_date';
 const CONTRACTING_DATE = 'contracting_date';
 const DISBURSEMENT_DATE = 'disbursement_date';
+const DATE_APPROBATION_RFE = 'date_approbation_rfe';
+const METHODOLOGICAL_NOTE_DATE = 'methodological_note_date';
+const START_DATE_OF_RETROSPECTIVE_EVALUATION_MISSION = 'start_date_of_retrospective_evaluation_mission';
+const END_DATE_OF_RETROSPECTIVE_EVALUATION_MISSION = 'end_date_of_retrospective_evaluation_mission';
+const DATE_OF_TRANSMISSION_TO_THE_D_O = 'date_of_transmission_to_the_d_o';
+const DATE_OF_TRANSMISSION_OF_THE_INTERIM_REPORT_TO_THE_BORROWER = 'date_of_transmission_of_the_interim_report_to_the_borrower';
+const FINAL_REPORT_DATE = 'final_report_date';
+const FINAL_ARCHIVING_DATE = 'final_archiving_date';
+const AGREEMENT_SIGNATURE_DATE = 'agreement_signature_date';
 const PROPOSED_APPROVAL_DATE = 'proposed_approval_date';
 const ORIGINAL_COMPLETION_DATE = 'original_completion_date';
 const PROPOSED_COMPLETION_DATE = 'proposed_completion_date';
@@ -119,6 +128,7 @@ const MATURITY = 'maturity';
 const LAST_AUDIT_DATE = 'last_audit_date';
 const SIGNATURE_DATE = 'signature_date';
 const HUMANITARIAN_AID = 'humanitarian_aid';
+const PROPOSED_PROJECT_LIFE = 'proposed_project_life';
 const DISASTER_RESPONSE = 'disaster_response';
 const PROGRAM_DESCRIPTION = 'program_description';
 const PROGRAM = 'program';
@@ -157,6 +167,7 @@ const CONDITIONALITIES = 'conditionalities';
 const PROJECT_MANAGEMENT = 'project_management';
 const A_C_CHAPTER = 'a_c_chapter';
 const CRIS_NUMBER = 'cris_number';
+const REF_DECISION_CA = 'ref_decision_ca';
 const IATI_IDENTIFIER = 'iati_identifier';
 const ACTIVITY_INTERNAL_IDS = 'activity_internal_ids';
 const HIERARCHICAL_VALUE = 'hierarchical_value';
@@ -280,7 +291,6 @@ const UNKNOWN = 'UNKNOWN';
 /** IDs for AP sections **/
 const AP_SECTION_IDS =
   [{ key: 'APIdentification', hash: '#APIdentification', value: 'Identification', fmPath: FMC.ACTIVITY_IDENTIFICATION },
-    { key: 'APInternalIds', hash: '#APInternalIds', value: 'Agency Internal IDs', sectionPath: ACTIVITY_INTERNAL_IDS },
     { key: 'APPlanning', hash: '#APPlanning', value: 'Planning', fmPath: FMC.ACTIVITY_PLANNING },
     { key: 'APLocation', hash: '#APLocation', value: 'Location', sectionPath: LOCATIONS },
     { key: 'APProgram', hash: '#APProgram', value: 'Program', fmPath: FMC.ACTIVITY_PROGRAM },
@@ -460,6 +470,15 @@ export default Object.freeze({
   ACTUAL_COMPLETION_DATE,
   CONTRACTING_DATE,
   DISBURSEMENT_DATE,
+  DATE_APPROBATION_RFE,
+  METHODOLOGICAL_NOTE_DATE,
+  START_DATE_OF_RETROSPECTIVE_EVALUATION_MISSION,
+  END_DATE_OF_RETROSPECTIVE_EVALUATION_MISSION,
+  DATE_OF_TRANSMISSION_TO_THE_D_O,
+  DATE_OF_TRANSMISSION_OF_THE_INTERIM_REPORT_TO_THE_BORROWER,
+  FINAL_REPORT_DATE,
+  FINAL_ARCHIVING_DATE,
+  AGREEMENT_SIGNATURE_DATE,
   PROPOSED_APPROVAL_DATE,
   ORIGINAL_COMPLETION_DATE,
   PROPOSED_COMPLETION_DATE,
@@ -472,6 +491,7 @@ export default Object.freeze({
   LAST_AUDIT_DATE,
   SIGNATURE_DATE,
   HUMANITARIAN_AID,
+  PROPOSED_PROJECT_LIFE,
   DISASTER_RESPONSE,
   PROGRAM,
   PROGRAM_PERCENTAGE,
@@ -508,6 +528,7 @@ export default Object.freeze({
   PROJECT_MANAGEMENT,
   A_C_CHAPTER,
   CRIS_NUMBER,
+  REF_DECISION_CA,
   IATI_IDENTIFIER,
   ACTIVITY_INTERNAL_IDS,
   HIERARCHICAL_VALUE,
