@@ -56,8 +56,6 @@ export default class MainGroup extends Component {
     const { activityContext } = this.context;
     return (<div className={rtl ? styles.main_group_container_rtl : styles.main_group_container}>
       <APIdentification fmPath={FeatureManagerConstants.ACTIVITY_IDENTIFICATION} />
-      <APInternalIds
-        sectionPath={ActivityConstants.ACTIVITY_INTERNAL_IDS} />
       <APPlanning
         fmPath={FeatureManagerConstants.ACTIVITY_PLANNING}
         inline={false}

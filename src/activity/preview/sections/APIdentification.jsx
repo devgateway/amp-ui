@@ -29,14 +29,19 @@ class APIdentification extends Component {
   render() {
     const { buildSimpleField } = this.props;
     const fieldPaths = [ActivityConstants.STATUS_REASON, ActivityConstants.TYPE_OF_COOPERATION,
-      ActivityConstants.TYPE_OF_IMPLEMENTATION, ActivityConstants.OBJECTIVE,
-      ActivityConstants.DESCRIPTION, ActivityConstants.PROJECT_COMMENTS, ActivityConstants.RESULTS,
+      ActivityConstants.TYPE_OF_IMPLEMENTATION,
+      ActivityConstants.DESCRIPTION,
+      ActivityConstants.OBJECTIVE,
+      ActivityConstants.PROJECT_COMMENTS, ActivityConstants.RESULTS,
       ActivityConstants.LESSONS_LEARNED, ActivityConstants.PROJECT_IMPACT, ActivityConstants.ACTIVITY_SUMMARY,
       ActivityConstants.CONDITIONALITIES, ActivityConstants.PROJECT_MANAGEMENT,
       ActivityConstants.BUDGET_CODE_PROJECT_ID, ActivityConstants.A_C_CHAPTER, ActivityConstants.CRIS_NUMBER,
       ActivityConstants.ACTIVITY_BUDGET, ActivityConstants.GOVERNMENT_AGREEMENT_NUMBER,
       ActivityConstants.GOVERNMENT_APPROVAL_PROCEDURES, ActivityConstants.JOINT_CRITERIA,
-      ActivityConstants.HUMANITARIAN_AID];
+      ActivityConstants.HUMANITARIAN_AID,
+      ActivityConstants.PROPOSED_PROJECT_LIFE,
+      ActivityConstants.PROJECT_IMPLEMENTING_UNIT,
+    ];
     // Show budget extras fields like ministry_code, etc only when activity_budget is enabled and has value 'On Budget'.
     if (this.props.activityFieldsManager.isFieldPathEnabled(ActivityConstants.ACTIVITY_BUDGET)
       && this.props.activity[ActivityConstants.ACTIVITY_BUDGET]
@@ -47,6 +52,7 @@ class APIdentification extends Component {
       fieldPaths.push(ActivityConstants.PROJECT_CODE);
     }
     fieldPaths.push(...[ActivityConstants.FINANCIAL_INSTRUMENT, ActivityConstants.IATI_IDENTIFIER]);
+    fieldPaths.push(...[ActivityConstants.PROJECT_CATEGORY]);
     fieldPaths.push(...[ActivityConstants.MULTI_STAKEHOLDER_PARTNERSHIP, ActivityConstants.MULTI_STAKEHOLDER_PARTNERS]);
     return (
       <div>
