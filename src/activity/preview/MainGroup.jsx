@@ -4,7 +4,6 @@ import styles from './ActivityPreview.css';
 import ActivityConstants from '../../modules/util/ActivityConstants';
 import FeatureManagerConstants from '../../modules/util/FeatureManagerConstants';
 import APIdentification from './sections/APIdentification.jsx';
-import APInternalIds from './sections/APInternalIds.jsx';
 import APPlanning from './sections/APPlanning.jsx';
 import APLocation from './sections/APLocation.jsx';
 import APProgram from './sections/APProgram.jsx';
@@ -14,7 +13,6 @@ import APFundingSection from './sections/funding/APFundingSection.jsx';
 import APRelatedOrganizations from './sections/APRelatedOrganizations.jsx';
 import APIssues from './sections/issues/APIssues.jsx';
 import APContact from './sections/APContact.jsx';
-import APStructures from './sections/APStructures.jsx';
 import APRegionalFundingSection from './sections/regionalFunding/APRegionalFundingSection.jsx';
 import APME from './sections/APME.jsx';
 import {
@@ -85,7 +83,6 @@ export default class MainGroup extends Component {
         fieldNameClass={styles.sector_title} fieldValueClass={''}
         fmPath={FeatureManagerConstants.ACTIVITY_ORGANIZATIONS}
         percentTitleClass={styles.percent_field_name} percentValueClass={styles.percent_field_value} />
-      <APStructures sectionPath={ActivityConstants.STRUCTURES} />
       <APIssues sectionPath={ActivityConstants.ISSUES} />
       <APContact
         fieldNameClass={styles.hidden} fieldValueClass={styles.box_field_value_tight}
