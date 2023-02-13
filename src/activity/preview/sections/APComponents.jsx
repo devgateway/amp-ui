@@ -118,7 +118,7 @@ class APComponents extends Component {
   renderNoComponents() {
     const { translate } = this.props;
     return (
-      <div className={styles.nodata}>{translate('No Data')}</div>
+      <div className={styles.nodata} key="cp-no-data">{translate('No Data')}</div>
     );
   }
 
