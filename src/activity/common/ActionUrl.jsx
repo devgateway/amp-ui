@@ -16,12 +16,28 @@ export default class ActionUrl extends Component {
     navUrl: PropTypes.string, // navigation link
     onClick: PropTypes.func, // a custom onClick action
     tooltip: PropTypes.string,
-    openExternal: PropTypes.func.isRequired
+    openExternal: PropTypes.func.isRequired,
   };
+  static contextTypes = {
+    urlUtils: PropTypes.object.isRequired,
+  }
 
   renderExternalLink() {
     const { href, urlContent, openExternal } = this.props;
-    return <a className={styles.url} onClick={() => openExternal(href)}>{urlContent}</a>;
+    const { urlUtils } = this.context;
+    return (<a
+      className={styles.url}
+      onClick={() => {
+        if (urlUtils && href && href.indexOf('?') > 0) {
+          const splitUrl = href.split('?');
+          const params = splitUrl[1].split('=');
+          const paramsMap = {};
+          paramsMap[params[0]] = params[1];
+          urlUtils.redirectExternalLink('GET', splitUrl[0], paramsMap);
+        } else {
+          return openExternal(href);
+        }
+      }}>{urlContent}</a>);
   }
 
   renderCustomAction() {

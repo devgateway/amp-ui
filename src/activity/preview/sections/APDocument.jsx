@@ -100,11 +100,14 @@ class APDocument extends Component {
             <span>{resource[ResourceConstants.TITLE]}</span>
             <span>&nbsp;&nbsp;-&nbsp;&nbsp;</span>
             <ActionUrl
-              urlContent={resData.urlText} href={resData.url} onClick={resData.action} tooltip={tooltip}
+              urlContent={resData.urlText}
+              href={resData.url}
+              onClick={resData.action}
+              tooltip={tooltip}
               openExternal={openExternal} />
           </span>
           {isAccessible &&
-          <span key="download" className={docSyles.downloadIconContainer}>
+            <span key="download" className={docSyles.downloadIconContainer}>
             <ActionIcon
               iconElement={iconElement} href={resData.url} onClick={resData.action} tooltip={tooltip}
               openExternal={openExternal} />
@@ -139,7 +142,6 @@ class APDocument extends Component {
 
   render() {
     const resources = this.getResources();
-
     if (!resources.length) {
       return this.renderNoResources();
     }
