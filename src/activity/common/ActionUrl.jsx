@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import styles from './CommonStyles.css';
 
+let logger = null;
 /**
  * Action Url
  *
@@ -20,11 +21,19 @@ export default class ActionUrl extends Component {
   };
   static contextTypes = {
     urlUtils: PropTypes.object.isRequired,
+    Logger: PropTypes.func.isRequired
+  }
+
+  constructor(props, context) {
+    super(props, context);
+    const { Logger } = this.context;
+    logger = new Logger('AP ActionUrl');
   }
 
   renderExternalLink() {
     const { href, urlContent, openExternal } = this.props;
     const { urlUtils } = this.context;
+    logger.debug(`renderExternalLink ${href}`);
     return (<a
       className={styles.url}
       onClick={() => {
