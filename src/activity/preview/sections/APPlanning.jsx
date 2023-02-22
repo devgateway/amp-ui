@@ -26,13 +26,17 @@ class APPlanning extends Component {
   render() {
     let content = [];
     content.push(this.props.buildSimpleField(ActivityConstants.LINE_MINISTRY_RANK, true, new Set([-1]), false));
-    const fieldPaths = [ActivityConstants.ORIGINAL_COMPLETION_DATE, ActivityConstants.ACTUAL_START_DATE,
+    const fieldPaths = [
+      ActivityConstants.ORIGINAL_COMPLETION_DATE,
+      ActivityConstants.ACTUAL_START_DATE,
       ActivityConstants.ACTUAL_COMPLETION_DATE,
       ActivityConstants.REF_DECISION_CA,
       ActivityConstants.PROPOSED_START_DATE,
-      ActivityConstants.ACTUAL_APPROVAL_DATE, ActivityConstants.PROPOSED_COMPLETION_DATE,
+      ActivityConstants.ACTUAL_APPROVAL_DATE,
+      ActivityConstants.PROPOSED_COMPLETION_DATE,
       ActivityConstants.PROPOSED_APPROVAL_DATE,
-      ActivityConstants.CONTRACTING_DATE, ActivityConstants.DISBURSEMENT_DATE,
+      ActivityConstants.CONTRACTING_DATE,
+      ActivityConstants.DISBURSEMENT_DATE,
       ActivityConstants.DATE_APPROBATION_RFE,
       ActivityConstants.METHODOLOGICAL_NOTE_DATE,
       ActivityConstants.START_DATE_OF_RETROSPECTIVE_EVALUATION_MISSION,
@@ -43,10 +47,7 @@ class APPlanning extends Component {
       ActivityConstants.FINAL_ARCHIVING_DATE,
       ActivityConstants.AGREEMENT_SIGNATURE_DATE,
     ];
-    const showIfNotAvailable = new Set([ActivityConstants.ORIGINAL_COMPLETION_DATE,
-      ActivityConstants.ACTUAL_START_DATE, ActivityConstants.ACTUAL_COMPLETION_DATE,
-      ActivityConstants.PROPOSED_START_DATE, ActivityConstants.ACTUAL_APPROVAL_DATE,
-      ActivityConstants.PROPOSED_COMPLETION_DATE, ActivityConstants.PROPOSED_APPROVAL_DATE]);
+    const showIfNotAvailable = new Set(fieldPaths); // show all fields
     content = content.concat(fieldPaths.map(fieldPath =>
       this.props.buildSimpleField(fieldPath, showIfNotAvailable.has(fieldPath), null, false)
     ).filter(data => data !== undefined));

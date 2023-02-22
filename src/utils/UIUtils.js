@@ -33,6 +33,12 @@ export default class UIUtils {
     return JSON.parse(JSON.stringify(obj));
   }
 
+  static padNumbers(str) {
+    return (typeof str === 'string')
+      ? str.replace(/[0-9]+/g, v => v.padStart(10, '0'))
+      : str;
+  }
+
   static sortByLocalCompare(a, b) {
     if (!a && !b) {
       return 0;
@@ -43,5 +49,9 @@ export default class UIUtils {
     } else {
       return a.localeCompare(b);
     }
+  }
+
+  static sortByAlphaNumLocalCompare(a, b) {
+    return this.sortByLocalCompare(this.padNumbers(a), this.padNumbers(b));
   }
 }
