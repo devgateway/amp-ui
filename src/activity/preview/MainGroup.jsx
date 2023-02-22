@@ -94,6 +94,7 @@ export default class MainGroup extends Component {
       <APDocumentPage
         sectionPath={ActivityConstants.ACTIVITY_DOCUMENTS}
         fieldNameClass={[styles.section_field_name, styles.noborder].join(' ')}
+        fmPath={FeatureManagerConstants.ACTIVITY_DOCUMENTS}
         fieldValueClass={[styles.section_field_value, styles.noborder].join(' ')}
       />
       <APRegionalObservations sectionPath={ActivityConstants.REGIONAL_OBSERVATIONS} />

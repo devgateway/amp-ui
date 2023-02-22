@@ -39,22 +39,26 @@ class APProgram extends Component {
     logger.debug('constructor');
   }
 
+  getItemTitle(item) {
+    return item[ActivityConstants.PROGRAM].value;
+  }
+
   render() {
     const { buildSimpleField } = this.props;
     const options = { fieldNameClass: styles.section_field_name };
     return (<div>
       <div className={styles.primary_sector}>
         <APNationalPlanList
-          key="national-plan-list" {...this.props}
+          key="national-plan-list" getItemTitle={this.getItemTitle} {...this.props}
         />
       </div>
       <div className={styles.primary_sector}>
         <PrimaryProgramList
-          key="primary-programs-list" {...this.props} />
+          key="primary-programs-list" getItemTitle={this.getItemTitle} {...this.props} />
       </div>
       <div className={styles.secondary_sector}>
         <SecondaryProgramList
-          key="secondary-programs-list" {...this.props} />
+          key="secondary-programs-list" getItemTitle={this.getItemTitle} {...this.props} />
       </div>
       <div>
         {buildSimpleField('program_description', true, null, false, null, null, options)}
