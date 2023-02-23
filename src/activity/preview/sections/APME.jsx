@@ -41,15 +41,25 @@ class APME extends Component {
   }
 
   _generateValueOrValuesTable(sectionName, value) {
-    return (<div>
-      {Array.isArray(value)
-        ? value.map(v => this._generateValueTable(sectionName, v))
-        : this._generateValueTable(sectionName, value)}
-    </div>);
+    let content;
+    if (Array.isArray(value)) {
+      if (value.length > 0) {
+        content = value.map(v => this._generateValueTable(sectionName, v));
+      } else {
+        content = this._generateValueTable(sectionName, {});
+      }
+    } else {
+      content = this._generateValueTable(sectionName, value);
+    }
+    return (
+      <div>
+        {content}
+      </div>
+    );
   }
 
   _generateValueTable(sectionName, value) {
-    if (!value) {
+    if (!value && (sectionName === ActivityConstants.BASE || sectionName === ActivityConstants.REVISED)) {
       return null;
     }
     const { translate } = this.props;

@@ -82,6 +82,7 @@ const ACTIVITY_PROGRAM = '/Activity Form/Program';
 const ACTIVITY_PLANNING = '/Activity Form/Planning';
 
 const ACTIVITY_CONTACT = '/Activity Form/Contacts';
+const ACTIVITY_DOCUMENTS = '/Activity Form/Related Documents';
 const ACTIVITY_DOCUMENTS_ADD_DOCUMENT = '/Activity Form/Related Documents/Add New Document';
 const ACTIVITY_DOCUMENTS_ADD_WEBLINK = '/Activity Form/Related Documents/Add New Web Link';
 
@@ -257,6 +258,7 @@ export default Object.freeze({
   ACTIVITY_PROGRAM,
   ACTIVITY_PLANNING,
   ACTIVITY_CONTACT,
+  ACTIVITY_DOCUMENTS,
   ACTIVITY_DOCUMENTS_ADD_DOCUMENT,
   ACTIVITY_DOCUMENTS_ADD_WEBLINK,
   ACTIVITY_ISSUES,

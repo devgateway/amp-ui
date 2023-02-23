@@ -9,7 +9,6 @@ import FeatureManager from '../../../modules/util/FeatureManager';
 import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 import ResourceUtils from '../../../utils/ResourceUtils';
 import UIUtils from '../../../utils/UIUtils';
-import Constants from '../../../utils/Constants';
 
 
 let logger = null;
@@ -89,7 +88,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
             subList: subList ? item[subList.field] : null
           });
         })
-          .sort((a, b) => UIUtils.sortByLocalCompare(a.itemTitle, b.itemTitle));
+          .sort((a, b) => UIUtils.sortByAlphaNumLocalCompare(a.itemTitle, b.itemTitle));
         content = items.map((item) =>
           (<APPercentageField
             key={UIUtils.stringToUniqueId(item.itemTitle)} title={item.itemTitle} value={item.percentage}
