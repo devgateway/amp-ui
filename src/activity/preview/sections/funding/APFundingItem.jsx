@@ -133,7 +133,6 @@ export default class APFundingItem extends Component {
         </tr>
         {this.insertPledgeRow()}
         {this.insertAdditionalFieldsRow()}
-        {this.insertRecipientOrgRow()}
       </tbody>);
   }
 }
