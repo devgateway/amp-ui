@@ -61,7 +61,7 @@
 
 .preview_status_container {
   margin-left: 10px;
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 10px;
   background-color: #f5faff;
   -webkit-print-color-adjust: exact;
@@ -91,7 +91,7 @@
 }
 
 .preview_categories {
-  margin-top: 20px;
+  margin-top: 10px;
   margin-left: 15px;
   border-bottom: 1px solid #ebebeb;
 }
@@ -178,8 +178,8 @@
 .summary_section_group {
   background-color: #f5faff;
   -webkit-print-color-adjust: exact;
-  margin-top: 15px;
-  padding-bottom: 10px;
+  margin-top: 7px;
+  padding-bottom: 5px;
 }
 
 .summary_field_name {
@@ -189,7 +189,7 @@
 .summary_field_value {
   padding-left: 15px;
   font-family: 'open_sansextrabold', sans-serif;
-  margin-bottom: 15px;
+  margin-bottom: 7px;
 }
 
 .main_group_container {
@@ -199,13 +199,13 @@
 .section_title_class {
   font-size: 1.3em;
   font-weight: bold;
-  margin-bottom: 15px;
-  margin-top: 30px;
+  margin-bottom: 7px;
+  margin-top: 15px;
 }
 
 .section_group_class {
   margin-right: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .section_subtitle_class {
