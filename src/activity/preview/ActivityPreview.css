@@ -270,13 +270,13 @@
   font-size: 0.85em;
   color: #767676;
   font-weight: bold;
-  padding-top: 1px;
-  padding-bottom: 1px;
+  padding-top: 10px;
+  padding-bottom: 5px;
 }
 
 .box_field_value {
   font-weight: bold;
-  padding-bottom: 1px;
+  padding-bottom: 10px;
 }
 
 .box_field_value_tight {
