@@ -42,7 +42,7 @@ class FundingSummary extends Component {
     logger.debug('constructor');
   }
 
-  static shouldDisplayTotal(s, reportingTotals) {
+  static hideTotal(s, reportingTotals) {
     const textToFind = s.replace(/\w+/g,
       (w) => w[0].toUpperCase() + w.slice(1).toLowerCase()
     );
@@ -76,7 +76,7 @@ class FundingSummary extends Component {
         // Actual, Planned
         atOptions.forEach(adjType => {
           const title = `${adjType.value} ${trnType}`;
-          if (FundingSummary.shouldDisplayTotal(title, this.context.reportingTotals)) {
+          if (!FundingSummary.hideTotal(title, this.context.reportingTotals)) {
             const value = this.props.activityFundingTotals.getTotals(adjType.id, trnType, {});
             measuresTotals[`${adjType.value} ${trnType}`] = value;
           }
