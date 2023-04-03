@@ -43,6 +43,7 @@ class APFundingTotalsSection extends Component {
     activityContext: PropTypes.shape({
       effectiveCurrency: PropTypes.string.isRequired
     }).isRequired,
+    reportingTotals: PropTypes.object
   };
 
   constructor(props, context) {
@@ -55,7 +56,7 @@ class APFundingTotalsSection extends Component {
 
   render() {
     const content = [];
-    const { activityFieldsManager, activityFundingTotals, translate } = this.context;
+    const { activityFieldsManager, activityFundingTotals, translate, reportingTotals } = this.context;
     const { actualCommitments, actualDisbursements, options } =
       APFundingTotalsSection.calculateTotalActualCommitmentsDisbursements(
         activityFieldsManager, activityFundingTotals, translate);

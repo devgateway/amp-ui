@@ -15,6 +15,7 @@ export default class SummaryGroup extends Component {
     activityContext: PropTypes.shape({
       effectiveCurrency: PropTypes.string.isRequired
     }).isRequired,
+    reportingTotals: PropTypes.object
   };
 
   constructor(props, context) {
