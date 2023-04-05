@@ -31,11 +31,26 @@ class FundingSummary extends Component {
     activity: PropTypes.object.isRequired
   };
 
+  static contextTypes = {
+    reportingTotals: PropTypes.object
+  }
+
   constructor(props) {
     super(props);
     const { Logger } = this.props;
     logger = new Logger('Funding summary');
     logger.debug('constructor');
+  }
+
+  static hideTotal(s, reportingTotals) {
+    const textToFind = s.replace(/\w+/g,
+      (w) => w[0].toUpperCase() + w.slice(1).toLowerCase()
+    );
+    if (reportingTotals.hasOwnProperty(`Hide Total ${textToFind}`)) {
+      return reportingTotals[[`Hide Total ${textToFind}`]].__enabled;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -49,6 +64,7 @@ class FundingSummary extends Component {
     let acEnabled = false;
     let adEnabled = false;
     // Commitments, Disbursements, Expenditures
+    debugger;
     FieldPathConstants.TRANSACTION_TYPES.forEach(trnType => {
       if (activityFieldsManager.isFieldPathByPartsEnabled(ActivityConstants.FUNDINGS, trnType)) {
         const trnAdjOptPath = `${ActivityConstants.FUNDINGS}~${trnType}~${ActivityConstants.ADJUSTMENT_TYPE}`;
@@ -59,11 +75,15 @@ class FundingSummary extends Component {
           (trnType === ActivityConstants.DISBURSEMENTS && !!atOptions.find(o => o.value === ValueConstants.ACTUAL));
         // Actual, Planned
         atOptions.forEach(adjType => {
-          const value = this.props.activityFundingTotals.getTotals(adjType.id, trnType, {});
-          measuresTotals[`${adjType.value} ${trnType}`] = value;
+          const title = `${adjType.value} ${trnType}`;
+          if (!FundingSummary.hideTotal(title, this.context.reportingTotals)) {
+            const value = this.props.activityFundingTotals.getTotals(adjType.id, trnType, {});
+            measuresTotals[`${adjType.value} ${trnType}`] = value;
+          }
         });
       }
     });
+
     // Other measures: "Unallocated Disbursements" According to online preview should show if actual Commitments
     // and actual disbursements are enabled and if expenditures are enabled.
     const expendituresAreEnabled = activityFieldsManager.isFieldPathByPartsEnabled(ActivityConstants.FUNDINGS,
