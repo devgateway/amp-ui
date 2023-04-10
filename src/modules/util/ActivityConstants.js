@@ -253,6 +253,9 @@ const PROJECTION_DATE = 'projection_date';
 const ACTIVITY_TYPE = 'activity_type';
 const NATIONAL = 'National';
 const COUNTRY = 'Country';
+const VOTE = 'vote';
+const SUB_VOTE = 'sub_vote';
+const SUB_PROGRAM = 'sub_program';
 
 const ACTIVITY_TYPE_PROJECT = 0;
 const ACTIVITY_TYPE_SSC = 1;
@@ -641,5 +644,8 @@ export default Object.freeze({
   CANNOT_BE_VALIDATE,
   PROGRAM_DESCRIPTION,
   UNKNOWN,
-  AMP_ACTIVITY_ID
+  AMP_ACTIVITY_ID,
+  VOTE,
+  SUB_VOTE,
+  SUB_PROGRAM
 });
