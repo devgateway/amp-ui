@@ -19,6 +19,7 @@ import IconFormatter from '../common/IconFormatter.jsx';
 import APWorkspaceInfo from './sections/info/APWorkspaceInfo.jsx';
 import APActivityVersionHistory from './sections/info/APActivityVersionHistory.jsx';
 import ActivityLinks from '../../utils/helpers/ActivityLinks';
+import UIUtils from "../../utils/UIUtils";
 
 let logger = null;
 
@@ -176,16 +177,16 @@ export default class ActivityPreviewUI extends Component {
                   crossTeamWS={crossTeamWS}
                   translate={this.context.translate}
                 />
-                <li>
+                <li key="clickToPrint">
                   <img
                     className={styles.print_word} onClick={() => window.print()} alt="print" src={printIcon}
                     title={translate('clickToPrint')} />
                 </li>
-                {showWordExport && <li><img
+                {showWordExport && <li key="exportToWord"><img
                   className={styles.print_word} alt="Export to word" src={wordIcon}
                   title={translate('exportToWord')} onClick={() => this.wordExport()} /></li>
                 }
-                <li>
+                <li key={UIUtils.stringToUniqueId()}>
                   <APWorkspaceInfo
                     show={this.state.showViewDialog}
                     onClose={() => this.setState({ showViewDialog: false })}
@@ -263,14 +264,14 @@ export default class ActivityPreviewUI extends Component {
     const { translate } = this.context;
     if (this.props.messageInformation) {
       if (this.props.messageInformation.editingUser) {
-        messages.danger.push(<li>{translate('editingOtherUserError') +
+        messages.danger.push(<li key="editingOtherUserError">{translate('editingOtherUserError') +
         this.props.messageInformation.editingUser}</li>);
       }
       if (this.props.messageInformation.editPermissionError) {
-        messages.danger.push((<li>{translate('editPermissionError')}</li>));
+        messages.danger.push((<li key="editPermissionError">{translate('editPermissionError')}</li>));
       }
       if (this.props.messageInformation.sameUserEditing) {
-        messages.danger.push((<li>{translate('sameUserEditingError')}</li>));
+        messages.danger.push((<li key="sameUserEditingError">{translate('sameUserEditingError')}</li>));
       }
     }
   }
@@ -279,7 +280,7 @@ export default class ActivityPreviewUI extends Component {
     const { activity } = this.props;
     const { translate } = this.context;
     if (activity[ActivityConstants.IS_DRAFT]) {
-      messages.info.push((<li>{translate('draft_activity')}</li>));
+      messages.info.push((<li key="draft_activity">{translate('draft_activity')}</li>));
     }
     return messages;
   }
