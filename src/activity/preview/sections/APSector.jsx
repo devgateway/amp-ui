@@ -12,6 +12,16 @@ const SecondarySectorList = APPercentageList(ActivityConstants.SECONDARY_SECTORS
 
 let logger = null;
 
+const getItemTitle = (item) => item[ActivityConstants.SECTOR][ActivityConstants.ANCESTOR_VALUES]
+  .reverse()
+  .reduce((acc, name) => (
+    <ul style={{ paddingLeft: '10px' }}>
+      <li>
+        {name}
+        {acc}
+      </li>
+    </ul>), null);
+
 /**
  * Activity Preview Sector section
  * @author Nadejda Mandrescu
@@ -33,10 +43,10 @@ class APSector extends Component {
   render() {
     return (<div className={styles.sector_container}>
       <div className={styles.primary_sector}>
-        <PrimarySectorList key="primary-programs-list" {...this.props} />
+        <PrimarySectorList key="primary-programs-list" getItemTitle={getItemTitle} {...this.props} />
       </div>
       <div className={styles.secondary_sector}>
-        <SecondarySectorList key="secondary-programs-list" {...this.props} />
+        <SecondarySectorList key="secondary-programs-list" getItemTitle={getItemTitle} {...this.props} />
       </div>
     </div>);
   }

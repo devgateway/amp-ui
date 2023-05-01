@@ -173,6 +173,7 @@ const ACTIVITY_INTERNAL_IDS = 'activity_internal_ids';
 const HIERARCHICAL_VALUE = 'hierarchical_value';
 const HIERARCHICAL_VALUE_PARTS = 'hierarchical_value_parts';
 const HIERARCHICAL_VALUE_DEPTH = 'hierarchical_value_depth';
+const ANCESTOR_VALUES = 'ancestor-values';
 const PPC_AMOUNT = 'ppc_amount';
 const RPC_AMOUNT = 'rpc_amount';
 const PPC_ANNUAL_BUDGETS = 'ppc_annual_budgets';
@@ -534,6 +535,7 @@ export default Object.freeze({
   HIERARCHICAL_VALUE,
   HIERARCHICAL_VALUE_PARTS,
   HIERARCHICAL_VALUE_DEPTH,
+  ANCESTOR_VALUES,
   PPC_AMOUNT,
   RPC_AMOUNT,
   PPC_ANNUAL_BUDGETS,
