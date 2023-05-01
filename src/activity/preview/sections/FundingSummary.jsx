@@ -109,8 +109,8 @@ class FundingSummary extends Component {
       { trn: ValueConstants.ACTUAL_DISBURSEMENTS, total: true },
       { trn: ValueConstants.PLANNED_DISBURSEMENTS, total: true },
       { trn: ValueConstants.ACTUAL_EXPENDITURES, total: true },
-      { trn: ValueConstants.UNALLOCATED_DISBURSEMENTS, total: false },
-      { trn: ValueConstants.PLANNED_EXPENDITURES, total: true },
+      // { trn: ValueConstants.UNALLOCATED_DISBURSEMENTS, total: false },
+      // { trn: ValueConstants.PLANNED_EXPENDITURES, total: true },
       { trn: ValueConstants.MTEF_PROJECTIONS, total: true },
       { trn: ValueConstants.DURATION_OF_PROJECT, total: false, isText: true },
       { trn: ValueConstants.DELIVERY_RATE, total: false, isPercentage: true }];

@@ -142,7 +142,7 @@ class APFundingOrganizationSection extends Component {
     let totalActualDisbursements = 0;
     let totalActualCommitments = 0;
     const fd = this.props.funding;
-    if (!fd || fd.length === 0) {
+    if (!fd || fd.length === 0 || fd[ActivityConstants.SOURCE_ROLE][ActivityConstants.VALUE] !== 'Donor') {
       // Dont show this section if there are no funding details.
       return null;
     }
