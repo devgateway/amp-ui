@@ -7,6 +7,7 @@ import styles from '../ActivityPreview.css';
 import APField from '../components/APField.jsx';
 import FeatureManager from '../../../modules/util/FeatureManager';
 import FeatureManagerConstants from '../../../modules/util/FeatureManagerConstants';
+import NumberUtils from "../../../utils/NumberUtils";
 
 let logger = null;
 
@@ -67,32 +68,36 @@ class APME extends Component {
       key={Math.random()}
       className={[styles.box_table, styles.section_group_class].join(' ')}>
       <tbody>
-      <tr key={Math.random()}>
-        <td>
-          {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`])
-            ? <APField
-              key={Math.random()} title={translate(`${sectionName} ${ActivityConstants.INDICATOR_VALUE}`)}
-              value={value[ActivityConstants.INDICATOR_VALUE]} inline={false} separator={false}
-              fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} /> : null}
-        </td>
-        <td>
-          {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_DATE`]) ?
-            <APField
-              key={Math.random()} title={translate(`${sectionName} ${ActivityConstants.INDICATOR_DATE}`)}
-              value={value[ActivityConstants.INDICATOR_DATE]} inline={false} separator={false}
-              fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} /> : null}
-        </td>
-      </tr>
-      {this._generateTaggedValuesRows(sectionName, value[ActivityConstants.INDICATOR_TAGGED_VALUES])}
-      <tr key={Math.random()}>
-        <td colSpan={2}>
-          {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_COMMENTS`]) ?
-            <APField
-              key={Math.random()} title={translate(`${sectionName} ${ActivityConstants.INDICATOR_COMMENT}`)}
-              value={value[ActivityConstants.INDICATOR_COMMENT]} inline={false} separator={false}
-              fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} /> : null}
-        </td>
-      </tr>
+        <tr key={Math.random()}>
+          <td>
+            {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`])
+              ? <APField
+                key={Math.random()}
+                title={translate(`${sectionName} ${ActivityConstants.INDICATOR_VALUE}`)}
+                value={NumberUtils.rawNumberToFormattedString(value[ActivityConstants.INDICATOR_VALUE])}
+                inline={false}
+                separator={false}
+                fieldNameClass={styles.box_field_name}
+                fieldValueClass={styles.box_field_value} /> : null}
+          </td>
+          <td>
+            {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_DATE`]) ?
+              <APField
+                key={Math.random()} title={translate(`${sectionName} ${ActivityConstants.INDICATOR_DATE}`)}
+                value={value[ActivityConstants.INDICATOR_DATE]} inline={false} separator={false}
+                fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} /> : null}
+          </td>
+        </tr>
+        {this._generateTaggedValuesRows(sectionName, value[ActivityConstants.INDICATOR_TAGGED_VALUES])}
+        {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_COMMENTS`]) ?
+          <tr key={Math.random()}>
+            <td colSpan={2}>
+              <APField
+                key={Math.random()} title={translate(`${sectionName} ${ActivityConstants.INDICATOR_COMMENT}`)}
+                value={value[ActivityConstants.INDICATOR_COMMENT]} inline={false} separator={false}
+                fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} />
+            </td>
+          </tr> : null}
       </tbody>
     </table>);
   }
@@ -124,9 +129,13 @@ class APME extends Component {
     return (
       <td>
         <APField
-          key={Math.random()} title={`${titlePrefix} - ${titleSuffix}`}
-          value={value[ActivityConstants.INDICATOR_TAGGED_VALUE]} inline={false} separator={false}
-          fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} />
+          key={Math.random()}
+          title={`${titlePrefix} - ${titleSuffix}`}
+          value={NumberUtils.rawNumberToFormattedString(value[ActivityConstants.INDICATOR_TAGGED_VALUE])}
+          inline={false}
+          separator={false}
+          fieldNameClass={styles.box_field_name}
+          fieldValueClass={styles.box_field_value} />
       </td>
     );
   }
