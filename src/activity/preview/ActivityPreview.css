@@ -44,7 +44,7 @@
 
 .preview_icons ul {
   margin-left: 30px;
-  columns: 5;
+  columns: 6;
   column-rule: 1px solid #ebebeb;
 }
 
@@ -56,6 +56,9 @@
 }
 
 .print_word {
+  cursor: pointer;
+}
+.view_more {
   cursor: pointer;
 }
 

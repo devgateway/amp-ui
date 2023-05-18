@@ -15,11 +15,13 @@ import SummaryGroup from './SummaryGroup.jsx';
 import printIcon from '../../assets/images/print.svg';
 import GenerateWordPreview from '../../utils/export/GenerateWordPreview';
 import wordIcon from '../../assets/images/word.svg';
+import blockChainIcon from '../../assets/images/blockchain-icon.svg';
 import IconFormatter from '../common/IconFormatter.jsx';
 import APWorkspaceInfo from './sections/info/APWorkspaceInfo.jsx';
+import APViewBlockChainHistory from './sections/info/APViewBlockChainHistory.jsx';
 import APActivityVersionHistory from './sections/info/APActivityVersionHistory.jsx';
 import ActivityLinks from '../../utils/helpers/ActivityLinks';
-import UIUtils from "../../utils/UIUtils";
+import UIUtils from '../../utils/UIUtils';
 
 let logger = null;
 
@@ -104,7 +106,10 @@ export default class ActivityPreviewUI extends Component {
     const { Logger } = this.context;
     logger = new Logger('Activity preview');
     logger.debug('constructor');
-    this.state = { rtl: this.props.activityContext.rtlDirection };
+    this.state = {
+      rtl: this.props.activityContext.rtlDirection,
+      showBlockChainInfo: false
+    };
   }
 
   getChildContext() {
@@ -187,6 +192,12 @@ export default class ActivityPreviewUI extends Component {
                   title={translate('exportToWord')} onClick={() => this.wordExport()} /></li>
                 }
                 <li key={UIUtils.stringToUniqueId()}>
+                  <APViewBlockChainHistory
+                    show={this.state.showBlockChainInfo}
+                    onClose={() => this.setState({ showBlockChainInfo: false })}
+                  />
+                </li>
+                <li key={UIUtils.stringToUniqueId()}>
                   <APWorkspaceInfo
                     show={this.state.showViewDialog}
                     onClose={() => this.setState({ showViewDialog: false })}
@@ -265,7 +276,7 @@ export default class ActivityPreviewUI extends Component {
     if (this.props.messageInformation) {
       if (this.props.messageInformation.editingUser) {
         messages.danger.push(<li key="editingOtherUserError">{translate('editingOtherUserError') +
-        this.props.messageInformation.editingUser}</li>);
+          this.props.messageInformation.editingUser}</li>);
       }
       if (this.props.messageInformation.editPermissionError) {
         messages.danger.push((<li key="editPermissionError">{translate('editPermissionError')}</li>));
