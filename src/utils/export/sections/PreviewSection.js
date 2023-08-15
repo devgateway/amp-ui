@@ -6,7 +6,7 @@ import Section from '../../../activity/preview/sections/Section.jsx';
 
 const docx = require('docx');
 
-const {Paragraph, Numbering} = docx;
+const { Paragraph, Numbering } = docx;
 
 export default class PreviewSection {
   _document;
@@ -83,13 +83,22 @@ export default class PreviewSection {
             getItemTitle(item),
           percentage: item[percentageField]
         }))
-          .sort((a, b) => a.itemTitle.localeCompare(b.itemTitle));
-        items.map(({itemTitle, percentage}) => (
+          .sort((a, b) => {
+            if (a.itemTitle === null && b.itemTitle === null) {
+              return 0;
+            } else if (a.itemTitle === null) {
+              return -1;
+            } else if (b.itemTitle === null) {
+              return 1;
+            }
+            return a.itemTitle.localeCompare(b.itemTitle);
+          });
+        items.map(({ itemTitle, percentage }) => (
           this.createField(itemTitle, (percentage ? `${percentage}%` : ''))
             .bullet()
         ));
       } else {
-        this.createSimpleLabel('No Data', null, {tab: true});
+        this.createSimpleLabel('No Data', null, { tab: true });
       }
     }
   }
