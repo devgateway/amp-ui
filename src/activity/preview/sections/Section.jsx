@@ -147,7 +147,10 @@ const Section = (ComposedSection, params) => class extends Component {
           return { title, value: (value instanceof String ? params.translate(value) : value) };
         } else {
           return (<APField
-            key={UIUtils.stringToUniqueId(path)} title={title} value={value} useInnerHTML={useInnerHTML}
+            key={UIUtils.stringToUniqueId(path)}
+            title={title}
+            value={value}
+            useInnerHTML={useInnerHTML}
             inline={inline}
             separator={false}
             fieldClass={options_.fieldClass || this.props.fieldClass}
@@ -168,7 +171,10 @@ const Section = (ComposedSection, params) => class extends Component {
       return null;
     }
     const composedSection = (<ComposedSection
-      {...this.props} {...this.state} {...this.context} buildSimpleField={this.buildSimpleField.bind(this)} />);
+      {...this.props}
+      {...this.state}
+      {...this.context}
+      buildSimpleField={this.buildSimpleField.bind(this)} />);
     if (params.useEncapsulateHeader === false) {
       return composedSection;
     }
