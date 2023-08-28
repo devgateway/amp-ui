@@ -254,6 +254,10 @@ export default class FieldsManager {
             const lang = (this._lang !== undefined && this._lang !== null) ? this._lang : this._defaultLang;
             if (value.hasOwnProperty(lang)) {
               value = value[lang];
+            } else if (value.hasOwnProperty(this._defaultLang)) {
+              value = value[this._defaultLang];
+            } else {
+              value = "";
             }
           }
         }
