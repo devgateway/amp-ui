@@ -161,7 +161,6 @@ export default class FieldsManager {
   }
 
   getFieldDef(fieldPath) {
-
     function _searchDefInList(pList, pPart) {
       return pList.find(itemList => itemList.field_name === pPart);
     }
@@ -186,7 +185,7 @@ export default class FieldsManager {
               tmpDefinition = _searchDefInList(listDefinitions, partToSearch);
               if (tmpDefinition !== undefined) {
                 result = tmpDefinition;
-                i = i + 2;
+                i += 2;
               }
             } else {
               result = tmpDefinition;
@@ -257,7 +256,7 @@ export default class FieldsManager {
             } else if (value.hasOwnProperty(this._defaultLang)) {
               value = value[this._defaultLang];
             } else {
-              value = "";
+              value = '';
             }
           }
         }
