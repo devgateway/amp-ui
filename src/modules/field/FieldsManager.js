@@ -20,7 +20,7 @@ export default class FieldsManager {
     return newFieldsManager;
   }
 
-  constructor(fieldsDef, possibleValuesCollection, currentLanguage, LoggerManager, prefix) {
+  constructor(fieldsDef, possibleValuesCollection, currentLanguage, LoggerManager, prefix, multilingual = false) {
     // TODO remove cache
     this._fieldsDef = fieldsDef;
     this._possibleValuesMap = {};
@@ -31,6 +31,7 @@ export default class FieldsManager {
     this._prefix = prefix || null;
     this._lang = currentLanguage || Constants.LANGUAGE_ENGLISH;
     this._defaultLang = Constants.LANGUAGE_ENGLISH;
+    this._multilingual = multilingual;
     this.cleanup(fieldsDef);
   }
 
@@ -143,7 +144,7 @@ export default class FieldsManager {
     return trnLabel;
   }
 
-  getFieldDef(fieldPath) {
+  getFieldDef_old(fieldPath) {
     let fieldsDef = this._fieldsDef;
     if (fieldPath) {
       fieldPath.split('~').some(part => {
@@ -157,6 +158,49 @@ export default class FieldsManager {
       fieldsDef = { children: fieldsDef };
     }
     return fieldsDef;
+  }
+
+  getFieldDef(fieldPath) {
+    function _searchDefInList(pList, pPart) {
+      return pList.find(itemList => itemList.field_name === pPart);
+    }
+
+    let result;
+    let fieldsDef = this._fieldsDef;
+    if (fieldPath) {
+      let tmpDefinition;
+      let partToSearch;
+      let listDefinitions = fieldsDef;
+      const parts = fieldPath.split('~');
+
+      for (let i = 0; i < parts.length; i++) {
+        partToSearch = parts[i];
+        tmpDefinition = _searchDefInList(listDefinitions, partToSearch);
+        if (tmpDefinition !== undefined) {
+          if (tmpDefinition.children !== undefined) {
+            if (parts[i + 1] !== undefined) {
+              partToSearch = parts[i + 1];
+              listDefinitions = tmpDefinition.children;
+
+              tmpDefinition = _searchDefInList(listDefinitions, partToSearch);
+              if (tmpDefinition !== undefined) {
+                result = tmpDefinition;
+                i += 2;
+              }
+            } else {
+              result = tmpDefinition;
+              break;
+            }
+          } else { // It doesn't have children
+            result = tmpDefinition;
+            break;
+          }
+        }
+      }
+    } else {
+      fieldsDef = { children: fieldsDef }; // Deprecated??
+    }
+    return result;
   }
 
   getFieldPathsByDependencies(dependencies) {
@@ -183,11 +227,12 @@ export default class FieldsManager {
     });
   }
 
-  getValue(object, fieldPath, getOptionTranslation) {
-    return FieldsManager.getValue(object, fieldPath, getOptionTranslation);
-  }
+  // getValue(object, fieldPath, getOptionTranslation) {
+  //   return FieldsManager.getValue(object, fieldPath, getOptionTranslation);
+  // }
 
-  static getValue(object, fieldPath, getOptionTranslation) {
+
+  getValue(object, fieldPath, getOptionTranslation) {
     const parts = fieldPath ? fieldPath.split('~') : [];
     let value = object;
     parts.some(part => {
@@ -202,6 +247,19 @@ export default class FieldsManager {
         value = newList;
       } else {
         value = value[part];
+        if (typeof value === 'object' && value !== null) {
+          // I need to check if fieldDef is string, but I don't have it here
+          if (this._multilingual) { // --> check if we are in multilingual mode
+            const lang = (this._lang !== undefined && this._lang !== null) ? this._lang : this._defaultLang;
+            if (value.hasOwnProperty(lang)) {
+              value = value[lang];
+            } else if (value.hasOwnProperty(this._defaultLang)) {
+              value = value[this._defaultLang];
+            } else {
+              value = '';
+            }
+          }
+        }
       }
       return value === undefined || value === null || value.length === 0;
     });
@@ -215,6 +273,50 @@ export default class FieldsManager {
       });
       value = value instanceof Array ? values : values[0];
     }
+
     return value;
+  }
+
+  static getValue(object, fieldPath, getOptionTranslation) {
+    return this.getValue(object, fieldPath, getOptionTranslation);
+    // const parts = fieldPath ? fieldPath.split('~') : [];
+    // let value = object;
+    // parts.some(part => {
+    //   if (value instanceof Array) {
+    //     const newList = [];
+    //     value.forEach(current => {
+    //       const newElement = current[part];
+    //       if (newElement !== undefined && newElement !== null) {
+    //         newList.push(newElement);
+    //       }
+    //     });
+    //     value = newList;
+    //   } else {
+    //     value = value[part];
+    //
+    //     if (typeof value === 'object' && value !== null) {
+    //       // I need to check if fieldDef is string, but I don't have it here
+    //       if (this._multilingual) { // --> check if we are in multilingual mode
+    //         const lang = (this._lang !== undefined && this._lang !== null) ? this._lang : this._defaultLang;
+    //
+    //         if (value.hasOwnProperty(lang)) {
+    //           value = value[lang];
+    //         }
+    //       }
+    //     }
+    //   }
+    //   return value === undefined || value === null || value.length === 0;
+    // });
+    // if (value !== undefined && value !== null && value.length !== 0) {
+    //   let values = [].concat(value);
+    //   values = values.map(val => {
+    //     if (val.value === undefined) {
+    //       return val;
+    //     }
+    //     return getOptionTranslation(val, this._lang, this._defaultLang);
+    //   });
+    //   value = value instanceof Array ? values : values[0];
+    // }
+    // return value;
   }
 }

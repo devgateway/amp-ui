@@ -43,13 +43,13 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
   }
 
   getItemTitle(item) {
+    let itemTitle;
     if (this.props.getItemTitle) {
       return this.props.getItemTitle(item);
-    }
-    let itemTitle = ResourceUtils.getItemTitle(item, valueField, PossibleValuesManager, this.props.rtl);
-    if (!itemTitle) {
-      itemTitle = '';
-    }
+    } else itemTitle = ResourceUtils.getItemTitle(item, valueField, PossibleValuesManager, this.props.rtl);
+
+    if (!itemTitle) itemTitle = '';
+
     return itemTitle;
   }
 
@@ -74,6 +74,7 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     } = this.props;
     const title = listTitle ? translate(listTitle) : null;
     let items = activity[listField];
+
     let content = null;
     let isListEnabled = activityFieldsManager.isFieldPathEnabled(listField) === true;
     if (fmPath) {
@@ -81,19 +82,19 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     }
     if (isListEnabled) {
       if (items && items.length) {
-        items = items.map(item => {
-
-          return ({
-            itemTitle: this.getItemTitle(item),
-            percentage: item[percentageField],
-            subList: subList ? item[subList.field] : null
-          });
-        })
+        items = items.map(item => ({
+          itemTitle: this.getItemTitle(item),
+          percentage: item[percentageField],
+          subList: subList ? item[subList.field] : null
+        }))
           .sort((a, b) => UIUtils.sortByLocalCompare(a.itemTitle, b.itemTitle));
         content = items.map((item) =>
           (<APPercentageField
-            key={UIUtils.stringToUniqueId(item.itemTitle)} title={item.itemTitle} value={item.percentage}
-            titleClass={percentTitleClass} valueClass={percentValueClass}
+            key={UIUtils.stringToUniqueId(item.itemTitle)}
+            title={item.itemTitle}
+            value={item.percentage}
+            titleClass={percentTitleClass}
+            valueClass={percentValueClass}
             subList={this.getSubListItems(item)}
           />)
         );
@@ -101,14 +102,23 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
           content = <Tablify content={content} columns={columns} />;
         }
         content = (<APField
-          key={listField} title={title} value={content} separator={false} inline={tablify === true}
-          fieldNameClass={fieldNameClass} fieldValueClass={fieldValueClass}
+          key={listField}
+          title={title}
+          value={content}
+          separator={false}
+          inline={tablify === true}
+          fieldNameClass={fieldNameClass}
+          fieldValueClass={fieldValueClass}
         />);
       } else {
         content = (<APField
-          key={listField} title={title} value={translate('No Data')} separator={false}
+          key={listField}
+          title={title}
+          value={translate('No Data')}
+          separator={false}
           inline={tablify === true}
-          fieldNameClass={fieldNameClass} fieldValueClass={styles.nodata}
+          fieldNameClass={fieldNameClass}
+          fieldValueClass={styles.nodata}
         />);
       }
     }
