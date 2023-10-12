@@ -46,7 +46,7 @@ class FundingSummary extends Component {
     const textToFind = s.replace(/\w+/g,
       (w) => w[0].toUpperCase() + w.slice(1).toLowerCase()
     );
-    if (reportingTotals.hasOwnProperty(`Hide Total ${textToFind}`)) {
+    if (reportingTotals && reportingTotals.hasOwnProperty(`Hide Total ${textToFind}`)) {
       return reportingTotals[[`Hide Total ${textToFind}`]].__enabled;
     } else {
       return false;
