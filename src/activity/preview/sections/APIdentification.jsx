@@ -26,10 +26,8 @@ class APIdentification extends Component {
     logger.debug('constructor');
   }
 
-
-
   render() {
-    const { buildSimpleField, activityFieldsManager } = this.props;
+    const { buildSimpleField } = this.props;
     const fieldPaths = [ActivityConstants.STATUS_REASON, ActivityConstants.TYPE_OF_COOPERATION,
       ActivityConstants.TYPE_OF_IMPLEMENTATION, ActivityConstants.OBJECTIVE,
       ActivityConstants.DESCRIPTION, ActivityConstants.PROJECT_COMMENTS, ActivityConstants.RESULTS,
@@ -50,12 +48,9 @@ class APIdentification extends Component {
     }
     fieldPaths.push(...[ActivityConstants.FINANCIAL_INSTRUMENT, ActivityConstants.IATI_IDENTIFIER]);
     fieldPaths.push(...[ActivityConstants.MULTI_STAKEHOLDER_PARTNERSHIP, ActivityConstants.MULTI_STAKEHOLDER_PARTNERS]);
-
     return (
       <div>
-        {
-          fieldPaths.map(fieldPath => buildSimpleField(fieldPath, true, null, false, null, activityFieldsManager))
-        }
+        {fieldPaths.map(fieldPath => buildSimpleField(fieldPath, true))}
       </div>
     );
   }

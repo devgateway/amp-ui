@@ -14,7 +14,6 @@ import download from '../../../assets/images/download.svg';
 import gotoUrl from '../../../assets/images/goto_url.svg';
 import ResourceUtils from '../../../utils/ResourceUtils';
 import ErrorHelper from '../../../modules/util/ErrorHelper';
-import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 
 /**
  * Activity Preview Documents section
@@ -89,7 +88,6 @@ class APDocument extends Component {
   renderResource(resource) {
     const { resourceReducer, buildSimpleField, openExternal, translate } = this.props;
     const { resourceFieldsManager } = resourceReducer;
-
     const resData = this.getResourceUrlData(resource);
     const isAccessible = resData.url || resData.action;
     const iconImage = (resData.url && gotoUrl) || (resData.action && download);
@@ -99,7 +97,7 @@ class APDocument extends Component {
       <div key={resource.id} className={[styles.box_table, styles.table_raw].join(' ')}>
         <div key="doc-title" className={docSyles.header}>
           <span key="header" className={styles.section_subtitle_class}>
-            <span>{resourceFieldsManager.getValue(resource, ResourceConstants.TITLE, PossibleValuesManager.getOptionTranslation)}</span>
+            <span>{resource[ResourceConstants.TITLE]}</span>
             <span>&nbsp;&nbsp;-&nbsp;&nbsp;</span>
             <ActionUrl
               urlContent={resData.urlText}
