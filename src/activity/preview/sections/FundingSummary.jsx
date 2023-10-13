@@ -64,6 +64,7 @@ class FundingSummary extends Component {
     let acEnabled = false;
     let adEnabled = false;
     // Commitments, Disbursements, Expenditures
+    debugger;
     FieldPathConstants.TRANSACTION_TYPES.forEach(trnType => {
       if (activityFieldsManager.isFieldPathByPartsEnabled(ActivityConstants.FUNDINGS, trnType)) {
         const trnAdjOptPath = `${ActivityConstants.FUNDINGS}~${trnType}~${ActivityConstants.ADJUSTMENT_TYPE}`;

@@ -8,7 +8,6 @@ import Section from './Section.jsx';
 import styles from './APComponents.css';
 import CurrencyRatesManager from '../../../modules/util/CurrencyRatesManager';
 import APField from '../components/APField.jsx';
-import PossibleValuesManager from '../../../modules/field/PossibleValuesManager';
 
 let logger = null;
 
@@ -45,7 +44,7 @@ class APComponents extends Component {
     return groups;
   }
 
-  static _buildDetail(component, translate, currencyRatesManager, currency, keyTxt = 'keyTxt') {
+  static _buildDetail(component, translate, currencyRatesManager, currency) {
     const content = [];
     FieldPathConstants.TRANSACTION_TYPES.forEach(trnType => {
       const fundings = component[trnType];
@@ -53,7 +52,7 @@ class APComponents extends Component {
         const groups = APComponents._extractGroups(fundings, trnType, currencyRatesManager, currency);
         groups.forEach(group => {
           // TODO: Translate a single phrase instead of a combination of words (AMPOFFLINE-477).
-          content.push(<tr id={group.amount} key={group.amount}>
+          content.push(<tr>
             <td>{group.year}</td>
             <td>{translate(`${group.adjType.value} ${group.trnType}`)}</td>
             <td>{`${NumberUtils.rawNumberToFormattedString(group.amount)} ${currency}`}</td>
@@ -61,7 +60,7 @@ class APComponents extends Component {
         });
       }
     });
-    const table = (<div id={keyTxt} key={keyTxt}>
+    const table = (<div>
       <table className={styles.table}>
         <tbody>{content}</tbody>
       </table>
@@ -77,7 +76,6 @@ class APComponents extends Component {
   };
   static contextTypes = {
     currencyRatesManager: PropTypes.instanceOf(CurrencyRatesManager),
-    activityFieldsManager: PropTypes.instanceOf(FieldsManager),
     activityContext: PropTypes.shape({
       effectiveCurrency: PropTypes.string.isRequired
     }).isRequired
@@ -93,43 +91,23 @@ class APComponents extends Component {
   _buildComponents() {
     const content = [];
     const currency = this.context.activityContext.effectiveCurrency;
+
     if (this.props.activity[ActivityConstants.COMPONENTS]
       && this.props.activity[ActivityConstants.COMPONENTS].length > 0) {
-      let toCheckFieldPath;
-      const keyTxt = 'key';
-      let keyNumber = -1;
       this.props.activity[ActivityConstants.COMPONENTS].forEach((component) => {
-
-        toCheckFieldPath = `${ActivityConstants.COMPONENTS}~${ActivityConstants.COMPONENT_TITLE}`;
-        if (this.props.activityFieldsManager.isFieldPathEnabled(toCheckFieldPath)) {
-          keyNumber++;
-          content.push(<div className={styles.title} id={keyTxt + keyNumber} key={keyTxt + keyNumber}>
-            {this.context.activityFieldsManager.getValue(component, ActivityConstants.COMPONENT_TITLE, PossibleValuesManager.getOptionTranslation)}
-          </div>);
+        if (this.props.activityFieldsManager.isFieldPathEnabled(ActivityConstants.COMPONENT_TITLE)) {
+          content.push(<div className={styles.title}>{component[ActivityConstants.COMPONENT_TITLE]}</div>);
         }
-
         if (this.props.activityFieldsManager.isFieldPathEnabled(ActivityConstants.COMPONENT_TYPE)) {
-          keyNumber++;
-          content.push(<div className={styles.title} id={keyTxt + keyNumber} key={keyTxt + keyNumber}>{component[ActivityConstants.COMPONENT_TYPE].value}</div>);
+          content.push(<div className={styles.title}>{component[ActivityConstants.COMPONENT_TYPE].value}</div>);
         }
-
-        toCheckFieldPath = `${ActivityConstants.COMPONENTS}~${ActivityConstants.COMPONENT_DESCRIPTION}`;
-        if (this.props.activityFieldsManager.isFieldPathEnabled(toCheckFieldPath)) {
-          keyNumber++;
-          content.push(<div id={keyTxt + keyNumber} key={keyTxt + keyNumber}>
-            {this.context.activityFieldsManager.getValue(component, ActivityConstants.COMPONENT_DESCRIPTION, PossibleValuesManager.getOptionTranslation)}
-          </div>);
+        if (this.props.activityFieldsManager.isFieldPathEnabled(ActivityConstants.COMPONENT_DESCRIPTION)) {
+          content.push(<div>{component.description}</div>);
         }
-
-        keyNumber++;
-        content.push(<div className={styles.title} id={keyTxt + keyNumber} key={keyTxt + keyNumber}>{this.props.translate('Finance of the component')}</div>);
-
-        keyNumber++;
+        content.push(<div className={styles.title}>{this.props.translate('Finance of the component')}</div>);
         content.push(APComponents._buildDetail(component, this.props.translate, this.context.currencyRatesManager
-          , currency, keyTxt + keyNumber));
-
-        keyNumber++;
-        content.push(<hr id={keyTxt + keyNumber} key={keyTxt + keyNumber} />);
+          , currency));
+        content.push(<hr />);
       });
     } else {
       content.push(this.renderNoComponents());

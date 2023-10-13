@@ -19,8 +19,7 @@ import IconFormatter from '../common/IconFormatter.jsx';
 import APWorkspaceInfo from './sections/info/APWorkspaceInfo.jsx';
 import APActivityVersionHistory from './sections/info/APActivityVersionHistory.jsx';
 import ActivityLinks from '../../utils/helpers/ActivityLinks';
-import UIUtils from '../../utils/UIUtils';
-import PossibleValuesManager from '../../modules/field/PossibleValuesManager';
+import UIUtils from "../../utils/UIUtils";
 
 let logger = null;
 
@@ -160,15 +159,12 @@ export default class ActivityPreviewUI extends Component {
     const crossTeamWS = activityContext.teamMember !== null &&
       activityContext.teamMember.workspace[WorkspaceConstants.CROSS_TEAM_VALIDATION];
     const showWordExport = activityContext.teamMember !== null || !activityContext.hideEditableExportFormatsPublicView;
-
     return (
       <div className={rtl ? styles.rtl : ''}>
         <div className={styles.preview_container}>
           <div className={styles.preview_header}>
             <span className={styles.top_warning_text}>{privateWSWarning}</span>
-            <span className={styles.preview_title}>
-              {activityFieldsManager.getValue(activity, ActivityConstants.PROJECT_TITLE, PossibleValuesManager.getOptionTranslation)}
-            </span>
+            <span className={styles.preview_title}>{activity[ActivityConstants.PROJECT_TITLE]}</span>
             <span className={styles.preview_icons}>
               <ul>
                 <IconFormatter
@@ -198,9 +194,7 @@ export default class ActivityPreviewUI extends Component {
                     showActivityWorkspaces={this.props.activityContext.showActivityWorkspaces}
                   />
                   <APActivityVersionHistory
-                    activityContext={activityContext}
-                    activity={activity}
-                    translate={translate}
+                    activityContext={activityContext} activity={activity} translate={translate}
                     DateUtils={DateUtils} />
                 </li>
               </ul>
@@ -209,10 +203,8 @@ export default class ActivityPreviewUI extends Component {
             <div className={styles.preview_status_container}>
               <APStatusBar
                 fieldClass={styles.inline_flex}
-                fieldNameClass={styles.preview_status_title}
-                fieldValueClass={styles.preview_status_detail}
-                titleClass={styles.status_title_class}
-                groupClass={styles.status_group_class} />
+                fieldNameClass={styles.preview_status_title} fieldValueClass={styles.preview_status_detail}
+                titleClass={styles.status_title_class} groupClass={styles.status_group_class} />
             </div>
             <div className={styles.preview_categories}>
               <Scrollspy items={categoryKeys} currentClassName={styles.preview_category_selected}>
@@ -227,8 +219,7 @@ export default class ActivityPreviewUI extends Component {
                   md={9}
                   className={rtl ? [styles.float_right].join(' ') : null}>
                   <MainGroup
-                    getActivityContactIds={getActivityContactIds}
-                    rtl={rtl}
+                    getActivityContactIds={getActivityContactIds} rtl={rtl}
                     APDocumentPage={APDocumentPage}
                   />
                 </Col>
