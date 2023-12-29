@@ -95,7 +95,7 @@ export default class MainGroup extends Component {
         getActivityContactIds={getActivityContactIds}
         hideSection={activityContext.hideContacts}
       />
-      {/* <APME sectionPath={ActivityConstants.INDICATORS} /> */}
+      <APME sectionPath={ActivityConstants.INDICATORS} />
       <APDocumentPage
         sectionPath={ActivityConstants.ACTIVITY_DOCUMENTS}
         fieldNameClass={[styles.section_field_name, styles.noborder].join(' ')}
