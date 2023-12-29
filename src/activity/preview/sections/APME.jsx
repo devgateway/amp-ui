@@ -28,7 +28,8 @@ class APME extends Component {
   _generateTable(indicator) {
     const { buildSimpleField } = this.props;
     return (<div key={Math.random()}>
-      {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.INDICATOR}`, true, null, false, indicator,
+      <h1>THis is the indicator</h1>
+      {/* {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.INDICATOR}`, true, null, false, indicator,
         null, { noTitle: true, fieldValueClass: styles.sector_title })}
       {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.LOG_FRAME}`, true, null, false, indicator,
         null, { fieldClass: styles.noborder })}
@@ -36,7 +37,7 @@ class APME extends Component {
         null, { fieldClass: styles.noborder })}
       {ActivityConstants.ME_SECTIONS
         ? ActivityConstants.ME_SECTIONS.map(s => this._generateValueOrValuesTable(s, indicator[s]))
-        : null}
+        : null} */}
     </div>);
   }
 
