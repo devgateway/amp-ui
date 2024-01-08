@@ -45,17 +45,33 @@ class APME extends Component {
   }
 
   _generateValueOrValuesTable(sectionName, value) {
+    /** We need to separate different value pages based on if the value is single
+     * value or multiple value(i.e actual value might be an array)
+     * The pages thus are different in hierachy ME Item and ME Item Location/ME Item
+     */
+    let valueIsArray = false;
+    let meItemValue = `ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`;
+    let meItemDate = `ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_DATE`;
+    let meItemComment = `ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_COMMENTS`;
+    if (Array.isArray(value)) {
+      console.log("Value is array");
+      valueIsArray = true;
+      meItemValue = `ME_ITEM_LOCATION_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`;
+      meItemDate = `ME_ITEM_LOCATION_${sectionName.toUpperCase()}_VALUE_BASE_DATE`;
+      meItemComment = `ME_ITEM_LOCATION_${sectionName.toUpperCase()}_VALUE_BASE_COMMENTS`;
+    }
     return (<div>
-      {Array.isArray(value)
-        ? value.map(v => this._generateValueTable(sectionName, v))
-        : this._generateValueTable(sectionName, value)}
+      {valueIsArray
+        ? value.map(v => this._generateValueTable(sectionName, v, meItemValue, meItemDate, meItemComment))
+        : this._generateValueTable(sectionName, value, meItemValue, meItemDate, meItemComment)}
     </div>);
   }
 
-  _generateValueTable(sectionName, value) {
+  _generateValueTable(sectionName, value, meItemValue, meItemDate, meItemComment) {
     console.log('value table sectionName ', sectionName);
-    console.log('indicator value ', FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`]);
-    console.log(`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`);
+    console.log('indicator value ', meItemValue);
+    console.log('indicator DATE ', meItemDate);
+    console.log('indicator COMMENTS ', meItemComment);
     if (!value) {
       return null;
     }
