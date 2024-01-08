@@ -27,6 +27,10 @@ class APME extends Component {
 
   _generateTable(indicator) {
     const { buildSimpleField } = this.props;
+    // console.log('indicator value', ActivityConstants.INDICATOR_VALUE);
+    console.log('indicator ', indicator);
+    // ActivityConstants.ME_SECTIONS.map(s => console.log(`${s} indicator ${indicator[s]}`));
+    // console.log(`${ActivityConstants.INDICATORS}~${ActivityConstants.INDICATOR} ${JSON.stringify(indicator, null, 2)}`);
     return (<div key={Math.random()}>
       {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.INDICATOR}`, true, null, false, indicator,
         null, { noTitle: true, fieldValueClass: styles.sector_title })}
@@ -49,6 +53,9 @@ class APME extends Component {
   }
 
   _generateValueTable(sectionName, value) {
+    console.log('value table sectionName ', sectionName);
+    console.log('indicator value ', FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`]);
+    console.log(`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`);
     if (!value) {
       return null;
     }
@@ -123,6 +130,7 @@ class APME extends Component {
 
   render() {
     const { activity } = this.props;
+    console.log('activity ', activity);
     return (<div>
       {activity[ActivityConstants.INDICATORS] ?
         activity[ActivityConstants.INDICATORS].map(indicator => (this._generateTable(indicator))) :
