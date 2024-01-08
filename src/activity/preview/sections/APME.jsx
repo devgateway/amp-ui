@@ -27,10 +27,6 @@ class APME extends Component {
 
   _generateTable(indicator) {
     const { buildSimpleField } = this.props;
-    // console.log('indicator value', ActivityConstants.INDICATOR_VALUE);
-    console.log('indicator ', indicator);
-    // ActivityConstants.ME_SECTIONS.map(s => console.log(`${s} indicator ${indicator[s]}`));
-    // console.log(`${ActivityConstants.INDICATORS}~${ActivityConstants.INDICATOR} ${JSON.stringify(indicator, null, 2)}`);
     return (<div key={Math.random()}>
       {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.INDICATOR}`, true, null, false, indicator,
         null, { noTitle: true, fieldValueClass: styles.sector_title })}
@@ -50,15 +46,14 @@ class APME extends Component {
      * The pages thus are different in hierachy ME Item and ME Item Location/ME Item
      */
     let valueIsArray = false;
-    let meItemValue = `ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`;
-    let meItemDate = `ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_DATE`;
-    let meItemComment = `ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_COMMENTS`;
+    let meItemValue = FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`];
+    let meItemDate = FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_DATE`];
+    let meItemComment = FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_COMMENTS`];
     if (Array.isArray(value)) {
-      console.log("Value is array");
       valueIsArray = true;
-      meItemValue = `ME_ITEM_LOCATION_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`;
-      meItemDate = `ME_ITEM_LOCATION_${sectionName.toUpperCase()}_VALUE_BASE_DATE`;
-      meItemComment = `ME_ITEM_LOCATION_${sectionName.toUpperCase()}_VALUE_BASE_COMMENTS`;
+      meItemValue = FeatureManagerConstants[`ME_ITEM_LOCATION_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`];
+      meItemDate = FeatureManagerConstants[`ME_ITEM_LOCATION_${sectionName.toUpperCase()}_VALUE_BASE_DATE`];
+      meItemComment = FeatureManagerConstants[`ME_ITEM_LOCATION_${sectionName.toUpperCase()}_VALUE_BASE_COMMENTS`];
     }
     return (<div>
       {valueIsArray
@@ -68,10 +63,6 @@ class APME extends Component {
   }
 
   _generateValueTable(sectionName, value, meItemValue, meItemDate, meItemComment) {
-    console.log('value table sectionName ', sectionName);
-    console.log('indicator value ', meItemValue);
-    console.log('indicator DATE ', meItemDate);
-    console.log('indicator COMMENTS ', meItemComment);
     if (!value) {
       return null;
     }
@@ -82,14 +73,14 @@ class APME extends Component {
       <tbody>
       <tr key={Math.random()}>
         <td>
-          {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`])
+          {FeatureManager.isFMSettingEnabled(meItemValue)
             ? <APField
               key={Math.random()} title={translate(`${sectionName} ${ActivityConstants.INDICATOR_VALUE}`)}
               value={value[ActivityConstants.INDICATOR_VALUE]} inline={false} separator={false}
               fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} /> : null}
         </td>
         <td>
-          {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_DATE`]) ?
+          {FeatureManager.isFMSettingEnabled(meItemDate) ?
             <APField
               key={Math.random()} title={translate(`${sectionName} ${ActivityConstants.INDICATOR_DATE}`)}
               value={value[ActivityConstants.INDICATOR_DATE]} inline={false} separator={false}
@@ -146,7 +137,6 @@ class APME extends Component {
 
   render() {
     const { activity } = this.props;
-    console.log('activity ', activity);
     return (<div>
       {activity[ActivityConstants.INDICATORS] ?
         activity[ActivityConstants.INDICATORS].map(indicator => (this._generateTable(indicator))) :
