@@ -90,7 +90,7 @@ class APME extends Component {
       {this._generateTaggedValuesRows(sectionName, value[ActivityConstants.INDICATOR_TAGGED_VALUES])}
       <tr key={Math.random()}>
         <td colSpan={2}>
-          {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_COMMENTS`]) ?
+          {FeatureManager.isFMSettingEnabled(meItemComment) ?
             <APField
               key={Math.random()} title={translate(`${sectionName} ${ActivityConstants.INDICATOR_COMMENT}`)}
               value={value[ActivityConstants.INDICATOR_COMMENT]} inline={false} separator={false}
