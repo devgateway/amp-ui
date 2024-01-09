@@ -41,14 +41,28 @@ class APME extends Component {
   }
 
   _generateValueOrValuesTable(sectionName, value) {
+    /** We need to separate different value pages based on if the value is single
+     * value or multiple value(i.e actual value might be an array)
+     * The pages thus are different in hierachy ME Item and ME Item Location/ME Item
+     */
+    let valueIsArray = false;
+    let meItemValue = FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`];
+    let meItemDate = FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_DATE`];
+    let meItemComment = FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_COMMENTS`];
+    if (Array.isArray(value)) {
+      valueIsArray = true;
+      meItemValue = FeatureManagerConstants[`ME_ITEM_LOCATION_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`];
+      meItemDate = FeatureManagerConstants[`ME_ITEM_LOCATION_${sectionName.toUpperCase()}_VALUE_BASE_DATE`];
+      meItemComment = FeatureManagerConstants[`ME_ITEM_LOCATION_${sectionName.toUpperCase()}_VALUE_BASE_COMMENTS`];
+    }
     return (<div>
-      {Array.isArray(value)
-        ? value.map(v => this._generateValueTable(sectionName, v))
-        : this._generateValueTable(sectionName, value)}
+      {valueIsArray
+        ? value.map(v => this._generateValueTable(sectionName, v, meItemValue, meItemDate, meItemComment))
+        : this._generateValueTable(sectionName, value, meItemValue, meItemDate, meItemComment)}
     </div>);
   }
 
-  _generateValueTable(sectionName, value) {
+  _generateValueTable(sectionName, value, meItemValue, meItemDate, meItemComment) {
     if (!value) {
       return null;
     }
@@ -59,14 +73,14 @@ class APME extends Component {
       <tbody>
       <tr key={Math.random()}>
         <td>
-          {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_VALUE`])
+          {FeatureManager.isFMSettingEnabled(meItemValue)
             ? <APField
               key={Math.random()} title={translate(`${sectionName} ${ActivityConstants.INDICATOR_VALUE}`)}
               value={value[ActivityConstants.INDICATOR_VALUE]} inline={false} separator={false}
               fieldNameClass={styles.box_field_name} fieldValueClass={styles.box_field_value} /> : null}
         </td>
         <td>
-          {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_DATE`]) ?
+          {FeatureManager.isFMSettingEnabled(meItemDate) ?
             <APField
               key={Math.random()} title={translate(`${sectionName} ${ActivityConstants.INDICATOR_DATE}`)}
               value={value[ActivityConstants.INDICATOR_DATE]} inline={false} separator={false}
@@ -76,7 +90,7 @@ class APME extends Component {
       {this._generateTaggedValuesRows(sectionName, value[ActivityConstants.INDICATOR_TAGGED_VALUES])}
       <tr key={Math.random()}>
         <td colSpan={2}>
-          {FeatureManager.isFMSettingEnabled(FeatureManagerConstants[`ME_ITEM_${sectionName.toUpperCase()}_VALUE_BASE_COMMENTS`]) ?
+          {FeatureManager.isFMSettingEnabled(meItemComment) ?
             <APField
               key={Math.random()} title={translate(`${sectionName} ${ActivityConstants.INDICATOR_COMMENT}`)}
               value={value[ActivityConstants.INDICATOR_COMMENT]} inline={false} separator={false}

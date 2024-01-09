@@ -74,7 +74,6 @@ const APPercentageList = (listField, valueField, percentageField, listTitle = nu
     } = this.props;
     const title = listTitle ? translate(listTitle) : null;
     let items = activity[listField];
-
     let content = null;
     let isListEnabled = activityFieldsManager.isFieldPathEnabled(listField) === true;
     if (fmPath) {
