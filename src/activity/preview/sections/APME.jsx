@@ -25,13 +25,17 @@ class APME extends Component {
     logger.debug('constructor');
   }
 
-  /** Resolve a country name from activity.locations by AmpActivityLocation id. */
+  /** Resolve a country name from activity.locations by AmpActivityLocation id.
+   * locationId may be a plain number OR a hydrated object {id, value}. */
   _getLocationName(locationId) {
     const { activity } = this.props;
     const locations = activity[ActivityConstants.LOCATIONS] || [];
-    const found = locations.find(loc => loc.id === locationId);
+    const idNum = locationId && (typeof locationId === 'object' ? locationId.id : locationId);
+    if (!idNum) return null;
+    const found = locations.find(loc => loc.id === idNum);
     if (found && found[ActivityConstants.LOCATION]) {
-      return found[ActivityConstants.LOCATION].value;
+      const loc = found[ActivityConstants.LOCATION];
+      return (loc && typeof loc === 'object') ? (loc.value || null) : null;
     }
     return null;
   }
@@ -192,7 +196,10 @@ class APME extends Component {
     const indicators = activity[ActivityConstants.INDICATORS];
     if (!indicators || !indicators.length) return null;
 
-    const isMulticountry = indicators.some(ind => ind[ActivityConstants.ACTIVITY_LOCATION]);
+    const isMulticountry = indicators.some(ind => {
+      const raw = ind[ActivityConstants.ACTIVITY_LOCATION];
+      return raw && (typeof raw === 'object' ? raw.id : raw);
+    });
 
     if (!isMulticountry) {
       return (<div>
@@ -200,12 +207,14 @@ class APME extends Component {
       </div>);
     }
 
-    // Group by activity_location id; null/undefined → "Common" group
+    // Group by activity_location id; null/undefined → "Common" group.
+    // activity_location may be hydrated to {id, value} so normalise to a numeric key.
     const groups = new Map();
     indicators.forEach(ind => {
-      const locId = ind[ActivityConstants.ACTIVITY_LOCATION] || null;
-      if (!groups.has(locId)) groups.set(locId, []);
-      groups.get(locId).push(ind);
+      const raw = ind[ActivityConstants.ACTIVITY_LOCATION];
+      const locIdNum = raw && (typeof raw === 'object' ? raw.id : raw) || null;
+      if (!groups.has(locIdNum)) groups.set(locIdNum, []);
+      groups.get(locIdNum).push(ind);
     });
 
     const sections = [];
