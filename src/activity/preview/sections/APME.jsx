@@ -34,6 +34,9 @@ class APME extends Component {
         null, { fieldClass: styles.noborder })}
       {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.RISK}`, true, null, false, indicator,
         null, { fieldClass: styles.noborder })}
+      <div className={styles.box_field_name} style={{ marginTop: 8, marginBottom: 4 }}>
+        {this.props.translate('Value Tracking')}
+      </div>
       {ActivityConstants.ME_SECTIONS
         ? ActivityConstants.ME_SECTIONS.map(s => this._generateValueOrValuesTable(s, indicator[s]))
         : null}
