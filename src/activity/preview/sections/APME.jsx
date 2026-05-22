@@ -25,21 +25,6 @@ class APME extends Component {
     logger.debug('constructor');
   }
 
-  /** Resolve a country name from activity.locations by AmpActivityLocation id.
-   * locationId may be a plain number OR a hydrated object {id, value}. */
-  _getLocationName(locationId) {
-    const { activity } = this.props;
-    const locations = activity[ActivityConstants.LOCATIONS] || [];
-    const idNum = locationId && (typeof locationId === 'object' ? locationId.id : locationId);
-    if (!idNum) return null;
-    const found = locations.find(loc => loc.id === idNum);
-    if (found && found[ActivityConstants.LOCATION]) {
-      const loc = found[ActivityConstants.LOCATION];
-      return (loc && typeof loc === 'object') ? (loc.value || null) : null;
-    }
-    return null;
-  }
-
   _generateTable(indicator) {
     const { buildSimpleField } = this.props;
     return (<div key={Math.random()}>
@@ -219,7 +204,9 @@ class APME extends Component {
 
     const sections = [];
     groups.forEach((inds, locId) => {
-      const locationName = locId ? this._getLocationName(locId) : null;
+      // activity_location is now AmpCategoryValueLocations — after hydration its .value is the location name.
+      const raw = inds[0][ActivityConstants.ACTIVITY_LOCATION];
+      const locationName = raw && typeof raw === 'object' ? (raw.value || null) : null;
       sections.push(
         <div key={locId || 'common'}>
           <div className={styles.box_field_name} style={{ background: '#e8e8e8', padding: '4px 6px', marginTop: 8 }}>
