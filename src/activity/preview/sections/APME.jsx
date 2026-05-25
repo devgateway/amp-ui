@@ -145,8 +145,6 @@ class APME extends Component {
     if (!disaggValues || !disaggValues.length) return null;
     const { translate } = this.props;
 
-    // Group by parent category (preserving order), then by child within each group.
-    // Each child may have multiple actual values → one row per actual.
     const groups = [];
     const groupIndex = new Map();
     disaggValues.forEach(dv => {
