@@ -144,48 +144,80 @@ class APME extends Component {
     const disaggValues = indicator[ActivityConstants.DISAGGREGATION_VALUES];
     if (!disaggValues || !disaggValues.length) return null;
     const { translate } = this.props;
+
+    // Group by parent category (preserving order), then by child within each group.
+    // Each child may have multiple actual values → one row per actual.
+    const groups = [];
+    const groupIndex = new Map();
+    disaggValues.forEach(dv => {
+      const parentKey = dv[ActivityConstants.PARENT_CATEGORY_NAME] || '\u2014';
+      if (!groupIndex.has(parentKey)) {
+        groupIndex.set(parentKey, []);
+        groups.push({ key: parentKey, items: groupIndex.get(parentKey) });
+      }
+      groupIndex.get(parentKey).push(dv);
+    });
+
+    // Flatten into renderable rows, carrying rowSpan info
+    const rows = [];
+    groups.forEach(group => {
+      let groupRowCount = 0;
+      const groupRows = [];
+      group.items.forEach(dv => {
+        const actuals = dv[ActivityConstants.ACTUAL_VALUES] || [];
+        const dvRowCount = Math.max(1, actuals.length);
+        groupRowCount += dvRowCount;
+        Array.from({ length: dvRowCount }).forEach((_, i) => {
+          groupRows.push({
+            dv,
+            isFirstDvRow: i === 0,
+            dvRowCount,
+            av: actuals[i] || null,
+          });
+        });
+      });
+      groupRows.forEach((row, idx) => {
+        rows.push({ ...row, isFirstGroupRow: idx === 0, groupKey: group.key, groupRowCount });
+      });
+    });
+
     return (
       <table key={Math.random()} className={[styles.box_table, styles.section_group_class].join(' ')}
         style={{ marginTop: 6, borderTop: '1px solid #ccc', width: '100%' }}>
         <thead>
           <tr>
-            <th colSpan={8} style={{ textAlign: 'left', padding: '4px 0' }}>
+            <th colSpan={4} style={{ textAlign: 'left', padding: '4px 0' }}>
               {translate('Disaggregation Values')}
             </th>
           </tr>
           <tr>
             <th>{translate('Category')}</th>
             <th>{translate('Sub-Category')}</th>
-            <th>{translate('Base Value')}</th>
-            <th>{translate('Base Date')}</th>
-            <th>{translate('Target Value')}</th>
-            <th>{translate('Target Date')}</th>
             <th>{translate('Actual Value')}</th>
             <th>{translate('Actual Date')}</th>
           </tr>
         </thead>
         <tbody>
-          {disaggValues.map(dv => {
-            const base = dv[ActivityConstants.BASE_VALUE];
-            const target = dv[ActivityConstants.TARGET_VALUE];
-            const actuals = dv[ActivityConstants.ACTUAL_VALUES] || [];
-            const rowCount = Math.max(actuals.length, 1);
-            return Array.from({ length: rowCount }).map((_, i) => {
-              const av = actuals[i];
-              return (
-                <tr key={`${dv.id}-${i}`}>
-                  {i === 0 && <td rowSpan={rowCount}>{dv[ActivityConstants.PARENT_CATEGORY_NAME] || '\u2014'}</td>}
-                  {i === 0 && <td rowSpan={rowCount}>{dv[ActivityConstants.CHILD_CATEGORY_NAME] || '\u2014'}</td>}
-                  {i === 0 && <td rowSpan={rowCount}>{base ? base[ActivityConstants.ORIGINAL_VALUE] : '\u2014'}</td>}
-                  {i === 0 && <td rowSpan={rowCount}>{base ? (base[ActivityConstants.ORIGINAL_VALUE_DATE] || '\u2014') : '\u2014'}</td>}
-                  {i === 0 && <td rowSpan={rowCount}>{target ? target[ActivityConstants.ORIGINAL_VALUE] : '\u2014'}</td>}
-                  {i === 0 && <td rowSpan={rowCount}>{target ? (target[ActivityConstants.ORIGINAL_VALUE_DATE] || '\u2014') : '\u2014'}</td>}
-                  <td>{av ? (av[ActivityConstants.ORIGINAL_VALUE] != null ? av[ActivityConstants.ORIGINAL_VALUE] : '\u2014') : '\u2014'}</td>
-                  <td>{av ? (av[ActivityConstants.ORIGINAL_VALUE_DATE] || '\u2014') : '\u2014'}</td>
-                </tr>
-              );
-            });
-          })}
+          {rows.map((row, idx) => (
+            <tr key={idx}>
+              {row.isFirstGroupRow && (
+                <td rowSpan={row.groupRowCount}>{row.groupKey}</td>
+              )}
+              {row.isFirstDvRow && (
+                <td rowSpan={row.dvRowCount}>
+                  {row.dv[ActivityConstants.CHILD_CATEGORY_NAME] || '\u2014'}
+                </td>
+              )}
+              <td>
+                {row.av && row.av[ActivityConstants.ORIGINAL_VALUE] != null
+                  ? row.av[ActivityConstants.ORIGINAL_VALUE] : '\u2014'}
+              </td>
+              <td>
+                {row.av && row.av[ActivityConstants.ORIGINAL_VALUE_DATE]
+                  ? row.av[ActivityConstants.ORIGINAL_VALUE_DATE] : '\u2014'}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     );
