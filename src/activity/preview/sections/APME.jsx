@@ -34,9 +34,14 @@ class APME extends Component {
         null, { fieldClass: styles.noborder })}
       {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.RISK}`, true, null, false, indicator,
         null, { fieldClass: styles.noborder })}
-      {ActivityConstants.ME_SECTIONS
+      <div className={styles.box_field_name} style={{ marginTop: 8, marginBottom: 4 }}>
+        {this.props.translate('Value Tracking')}
+      </div>
+      {(!indicator[ActivityConstants.DISAGGREGATION_VALUES] || !indicator[ActivityConstants.DISAGGREGATION_VALUES].length)
+        && ActivityConstants.ME_SECTIONS
         ? ActivityConstants.ME_SECTIONS.map(s => this._generateValueOrValuesTable(s, indicator[s]))
         : null}
+      {this._generateDisaggregationTable(indicator)}
     </div>);
   }
 
@@ -121,13 +126,143 @@ class APME extends Component {
     );
   }
 
+  _renderGlobalValue(gv) {
+    if (!gv) return null;
+    const { translate } = this.props;
+    return (
+      <span>
+        {gv[ActivityConstants.ORIGINAL_VALUE] != null ? gv[ActivityConstants.ORIGINAL_VALUE] : '—'}
+        {gv[ActivityConstants.ORIGINAL_VALUE_DATE] ? ` (${gv[ActivityConstants.ORIGINAL_VALUE_DATE]})` : ''}
+        {gv[ActivityConstants.REVISED_VALUE] != null
+          ? ` / ${translate('Revised')}: ${gv[ActivityConstants.REVISED_VALUE]}` : ''}
+        {gv[ActivityConstants.REVISED_VALUE_DATE] ? ` (${gv[ActivityConstants.REVISED_VALUE_DATE]})` : ''}
+      </span>
+    );
+  }
+
+  _generateDisaggregationTable(indicator) {
+    const disaggValues = indicator[ActivityConstants.DISAGGREGATION_VALUES];
+    if (!disaggValues || !disaggValues.length) return null;
+    const { translate } = this.props;
+
+    const groups = [];
+    const groupIndex = new Map();
+    disaggValues.forEach(dv => {
+      const parentKey = dv[ActivityConstants.PARENT_CATEGORY_NAME] || '\u2014';
+      if (!groupIndex.has(parentKey)) {
+        groupIndex.set(parentKey, []);
+        groups.push({ key: parentKey, items: groupIndex.get(parentKey) });
+      }
+      groupIndex.get(parentKey).push(dv);
+    });
+
+    // Flatten into renderable rows, carrying rowSpan info
+    const rows = [];
+    groups.forEach(group => {
+      let groupRowCount = 0;
+      const groupRows = [];
+      group.items.forEach(dv => {
+        const actuals = dv[ActivityConstants.ACTUAL_VALUES] || [];
+        const dvRowCount = Math.max(1, actuals.length);
+        groupRowCount += dvRowCount;
+        Array.from({ length: dvRowCount }).forEach((_, i) => {
+          groupRows.push({
+            dv,
+            isFirstDvRow: i === 0,
+            dvRowCount,
+            av: actuals[i] || null,
+          });
+        });
+      });
+      groupRows.forEach((row, idx) => {
+        rows.push({ ...row, isFirstGroupRow: idx === 0, groupKey: group.key, groupRowCount });
+      });
+    });
+
+    return (
+      <table key={Math.random()} className={[styles.box_table, styles.section_group_class].join(' ')}
+        style={{ marginTop: 6, borderTop: '1px solid #ccc', width: '100%' }}>
+        <thead>
+          <tr>
+            <th colSpan={4} style={{ textAlign: 'left', padding: '4px 0' }}>
+              {translate('Disaggregation Values')}
+            </th>
+          </tr>
+          <tr>
+            <th>{translate('Category')}</th>
+            <th>{translate('Sub-Category')}</th>
+            <th>{translate('Actual Value')}</th>
+            <th>{translate('Actual Date')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, idx) => (
+            <tr key={idx}>
+              {row.isFirstGroupRow && (
+                <td rowSpan={row.groupRowCount}>{row.groupKey}</td>
+              )}
+              {row.isFirstDvRow && (
+                <td rowSpan={row.dvRowCount}>
+                  {row.dv[ActivityConstants.CHILD_CATEGORY_NAME] || '\u2014'}
+                </td>
+              )}
+              <td>
+                {row.av && row.av[ActivityConstants.ORIGINAL_VALUE] != null
+                  ? row.av[ActivityConstants.ORIGINAL_VALUE] : '\u2014'}
+              </td>
+              <td>
+                {row.av && row.av[ActivityConstants.ORIGINAL_VALUE_DATE]
+                  ? row.av[ActivityConstants.ORIGINAL_VALUE_DATE] : '\u2014'}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
+
   render() {
-    const { activity } = this.props;
-    return (<div>
-      {activity[ActivityConstants.INDICATORS] ?
-        activity[ActivityConstants.INDICATORS].map(indicator => (this._generateTable(indicator))) :
-        null}
-    </div>);
+    const { activity, translate } = this.props;
+    const indicators = activity[ActivityConstants.INDICATORS];
+    if (!indicators || !indicators.length) return null;
+
+    const isMulticountry = indicators.some(ind => {
+      const raw = ind[ActivityConstants.ACTIVITY_LOCATION];
+      return raw && (typeof raw === 'object' ? raw.id : raw);
+    });
+
+    if (!isMulticountry) {
+      return (<div>
+        {indicators.map(indicator => this._generateTable(indicator))}
+      </div>);
+    }
+
+    // Group by activity_location id; null/undefined → "Common" group.
+    // activity_location may be hydrated to {id, value} so normalise to a numeric key.
+    const groups = new Map();
+    indicators.forEach(ind => {
+      const raw = ind[ActivityConstants.ACTIVITY_LOCATION];
+      const locIdNum = raw && (typeof raw === 'object' ? raw.id : raw) || null;
+      if (!groups.has(locIdNum)) groups.set(locIdNum, []);
+      groups.get(locIdNum).push(ind);
+    });
+
+    const sections = [];
+    groups.forEach((inds, locId) => {
+      // activity_location is now AmpCategoryValueLocations — after hydration its .value is the location name.
+      const raw = inds[0][ActivityConstants.ACTIVITY_LOCATION];
+      const locationName = raw && typeof raw === 'object' ? (raw.value || null) : null;
+      sections.push(
+        <div key={locId || 'common'}>
+          <div className={styles.box_field_name} style={{ background: '#e8e8e8', padding: '4px 6px', marginTop: 8 }}>
+            {locationName || translate('Common Indicators')}
+          </div>
+          {inds.map(ind => this._generateTable(ind))}
+        </div>
+      );
+    });
+
+    return <div>{sections}</div>;
   }
 }
 
@@ -135,3 +270,5 @@ export default Section(APME, { SectionTitle: 'M&E',
   useEncapsulateHeader: true,
   sID: 'APME'
 });
+
+
