@@ -201,6 +201,17 @@ const TARGET = 'target';
 const REVISED = 'revised';
 const CURRENT = 'actual';
 const ME_SECTIONS = [BASE, TARGET, REVISED, CURRENT];
+const ACTIVITY_LOCATION = 'activity_location';
+const DISAGGREGATION_VALUES = 'disaggregation_values';
+const PARENT_CATEGORY_NAME = 'parent_category_name';
+const CHILD_CATEGORY_NAME = 'child_category_name';
+const BASE_VALUE = 'base_value';
+const TARGET_VALUE = 'target_value';
+const ACTUAL_VALUES = 'actual_values';
+const ORIGINAL_VALUE = 'original_value';
+const ORIGINAL_VALUE_DATE = 'original_value_date';
+const REVISED_VALUE = 'revised_value';
+const REVISED_VALUE_DATE = 'revised_value_date';
 const COMPONENT_TYPE = 'component_type';
 const COMPONENT_TITLE = 'component_title';
 const COMPONENT_FUNDING = 'funding';
@@ -563,6 +574,17 @@ export default Object.freeze({
   REVISED,
   CURRENT,
   ME_SECTIONS,
+  ACTIVITY_LOCATION,
+  DISAGGREGATION_VALUES,
+  PARENT_CATEGORY_NAME,
+  CHILD_CATEGORY_NAME,
+  BASE_VALUE,
+  TARGET_VALUE,
+  ACTUAL_VALUES,
+  ORIGINAL_VALUE,
+  ORIGINAL_VALUE_DATE,
+  REVISED_VALUE,
+  REVISED_VALUE_DATE,
   COMPONENT_TYPE,
   COMPONENT_TITLE,
   COMPONENT_FUNDING,
