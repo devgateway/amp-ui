@@ -30,10 +30,10 @@ class APME extends Component {
     return (<div key={Math.random()}>
       {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.INDICATOR}`, true, null, false, indicator,
         null, { noTitle: true, fieldValueClass: styles.sector_title })}
-      {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.LOG_FRAME}`, true, null, false, indicator,
-        null, { fieldClass: styles.noborder })}
-      {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.RISK}`, true, null, false, indicator,
-        null, { fieldClass: styles.noborder })}
+      {/*{buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.LOG_FRAME}`, true, null, false, indicator,*/}
+      {/*  null, { fieldClass: styles.noborder })}*/}
+      {/*{buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.RISK}`, true, null, false, indicator,*/}
+      {/*  null, { fieldClass: styles.noborder })}*/}
       <div className={styles.box_field_name} style={{ marginTop: 8, marginBottom: 4 }}>
         {this.props.translate('Value Tracking')}
       </div>
