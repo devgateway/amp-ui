@@ -46,11 +46,49 @@ class APME extends Component {
   }
 
   _generateValueOrValuesTable(sectionName, value) {
+    // For the 'actual' section we may have multiple entries — render as a single structured table.
+    if (sectionName === ActivityConstants.CURRENT && Array.isArray(value) && value.length > 0) {
+      return this._generateActualsTable(value);
+    }
     return (<div>
       {Array.isArray(value)
         ? value.map(v => this._generateValueTable(sectionName, v))
         : this._generateValueTable(sectionName, value)}
     </div>);
+  }
+
+  _generateActualsTable(values) {
+    const { translate } = this.props;
+    const hasComment = values.some(v => v[ActivityConstants.INDICATOR_COMMENT]);
+    return (
+      <table key={Math.random()} className={[styles.box_table, styles.section_group_class].join(' ')}
+        style={{ marginTop: 6, width: '100%' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '4px 6px' }}>{translate('Actual Date')}</th>
+            <th style={{ textAlign: 'left', padding: '4px 6px' }}>{translate('Actual Value')}</th>
+            {hasComment && <th style={{ textAlign: 'left', padding: '4px 6px' }}>{translate('Comment')}</th>}
+          </tr>
+        </thead>
+        <tbody>
+          {values.map((v, idx) => (
+            <tr key={idx}>
+              <td style={{ padding: '3px 6px' }}>
+                {v[ActivityConstants.INDICATOR_DATE] || '\u2014'}
+              </td>
+              <td style={{ padding: '3px 6px' }}>
+                {v[ActivityConstants.INDICATOR_VALUE] != null ? v[ActivityConstants.INDICATOR_VALUE] : '\u2014'}
+              </td>
+              {hasComment && (
+                <td style={{ padding: '3px 6px' }}>
+                  {v[ActivityConstants.INDICATOR_COMMENT] || '\u2014'}
+                </td>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
   }
 
   _generateValueTable(sectionName, value) {
