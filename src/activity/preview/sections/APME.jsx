@@ -167,14 +167,23 @@ class APME extends Component {
   _renderGlobalValue(gv) {
     if (!gv) return null;
     const { translate } = this.props;
+    const original = [
+      gv[ActivityConstants.ORIGINAL_VALUE] != null ? gv[ActivityConstants.ORIGINAL_VALUE] : '—',
+      gv[ActivityConstants.ORIGINAL_VALUE_DATE] ? `(${gv[ActivityConstants.ORIGINAL_VALUE_DATE]})` : null,
+    ].filter(Boolean).join(' ');
+
+    const revised = gv[ActivityConstants.REVISED_VALUE] != null
+      ? [
+        `${translate('Revised')}: ${gv[ActivityConstants.REVISED_VALUE]}`,
+        gv[ActivityConstants.REVISED_VALUE_DATE] ? `(${gv[ActivityConstants.REVISED_VALUE_DATE]})` : null,
+      ].filter(Boolean).join(' ')
+      : null;
+
     return (
-      <span>
-        {gv[ActivityConstants.ORIGINAL_VALUE] != null ? gv[ActivityConstants.ORIGINAL_VALUE] : '—'}
-        {gv[ActivityConstants.ORIGINAL_VALUE_DATE] ? ` (${gv[ActivityConstants.ORIGINAL_VALUE_DATE]})` : ''}
-        {gv[ActivityConstants.REVISED_VALUE] != null
-          ? ` / ${translate('Revised')}: ${gv[ActivityConstants.REVISED_VALUE]}` : ''}
-        {gv[ActivityConstants.REVISED_VALUE_DATE] ? ` (${gv[ActivityConstants.REVISED_VALUE_DATE]})` : ''}
-      </span>
+      <div className={styles.me_disagg_global_value}>
+        <div>{original}</div>
+        {revised ? <div className={styles.me_disagg_global_value_revised}>{revised}</div> : null}
+      </div>
     );
   }
 
@@ -218,49 +227,49 @@ class APME extends Component {
     });
 
     return (
-      <table key={Math.random()} className={[styles.box_table, styles.section_group_class].join(' ')}
+      <table key={Math.random()} className={[styles.box_table, styles.section_group_class, styles.me_disagg_table].join(' ')}
         style={{ marginTop: 6, borderTop: '1px solid #ccc', width: '100%' }}>
         <thead>
           <tr>
-            <th colSpan={6} style={{ textAlign: 'left', padding: '4px 0' }}>
+            <th colSpan={6} className={styles.me_disagg_title}>
               {translate('Disaggregation Values')}
             </th>
           </tr>
           <tr>
-            <th>{translate('Category')}</th>
-            <th>{translate('Sub-Category')}</th>
-            <th>{translate('Base Value')}</th>
-            <th>{translate('Target Value')}</th>
-            <th>{translate('Actual Value')}</th>
-            <th>{translate('Actual Date')}</th>
+            <th className={[styles.me_disagg_header, styles.me_disagg_category_col].join(' ')}>{translate('Category')}</th>
+            <th className={[styles.me_disagg_header, styles.me_disagg_subcategory_col].join(' ')}>{translate('Sub-Category')}</th>
+            <th className={[styles.me_disagg_header, styles.me_disagg_value_col].join(' ')}>{translate('Base Value')}</th>
+            <th className={[styles.me_disagg_header, styles.me_disagg_value_col].join(' ')}>{translate('Target Value')}</th>
+            <th className={[styles.me_disagg_header, styles.me_disagg_actual_col].join(' ')}>{translate('Actual Value')}</th>
+            <th className={[styles.me_disagg_header, styles.me_disagg_date_col].join(' ')}>{translate('Actual Date')}</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row, idx) => (
             <tr key={idx}>
               {row.isFirstGroupRow && (
-                <td rowSpan={row.groupRowCount}>{row.groupKey}</td>
+                <td rowSpan={row.groupRowCount} className={[styles.me_disagg_cell, styles.me_disagg_category_col].join(' ')}>{row.groupKey}</td>
               )}
               {row.isFirstDvRow && (
-                <td rowSpan={row.dvRowCount}>
+                <td rowSpan={row.dvRowCount} className={[styles.me_disagg_cell, styles.me_disagg_subcategory_col].join(' ')}>
                   {row.dv[ActivityConstants.CHILD_CATEGORY_NAME] || '\u2014'}
                 </td>
               )}
               {row.isFirstDvRow && (
-                <td rowSpan={row.dvRowCount}>
+                <td rowSpan={row.dvRowCount} className={[styles.me_disagg_cell, styles.me_disagg_value_col].join(' ')}>
                   {this._renderGlobalValue(row.dv[ActivityConstants.BASE_VALUE]) || '\u2014'}
                 </td>
               )}
               {row.isFirstDvRow && (
-                <td rowSpan={row.dvRowCount}>
+                <td rowSpan={row.dvRowCount} className={[styles.me_disagg_cell, styles.me_disagg_value_col].join(' ')}>
                   {this._renderGlobalValue(row.dv[ActivityConstants.TARGET_VALUE]) || '\u2014'}
                 </td>
               )}
-              <td>
+              <td className={[styles.me_disagg_cell, styles.me_disagg_actual_col].join(' ')}>
                 {row.av && row.av[ActivityConstants.ORIGINAL_VALUE] != null
                   ? row.av[ActivityConstants.ORIGINAL_VALUE] : '\u2014'}
               </td>
-              <td>
+              <td className={[styles.me_disagg_cell, styles.me_disagg_date_col].join(' ')}>
                 {row.av && row.av[ActivityConstants.ORIGINAL_VALUE_DATE]
                   ? row.av[ActivityConstants.ORIGINAL_VALUE_DATE] : '\u2014'}
               </td>
