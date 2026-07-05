@@ -166,23 +166,23 @@ class APME extends Component {
 
   _renderGlobalValue(gv) {
     if (!gv) return null;
-    const { translate } = this.props;
-    const original = [
-      gv[ActivityConstants.ORIGINAL_VALUE] != null ? gv[ActivityConstants.ORIGINAL_VALUE] : '—',
-      gv[ActivityConstants.ORIGINAL_VALUE_DATE] ? `(${gv[ActivityConstants.ORIGINAL_VALUE_DATE]})` : null,
-    ].filter(Boolean).join(' ');
+    // Display revised value if available, otherwise original (matching activity form behavior)
+    const value = gv[ActivityConstants.REVISED_VALUE] != null
+      ? gv[ActivityConstants.REVISED_VALUE]
+      : (gv[ActivityConstants.ORIGINAL_VALUE] != null ? gv[ActivityConstants.ORIGINAL_VALUE] : '—');
 
-    const revised = gv[ActivityConstants.REVISED_VALUE] != null
-      ? [
-        `${translate('Revised')}: ${gv[ActivityConstants.REVISED_VALUE]}`,
-        gv[ActivityConstants.REVISED_VALUE_DATE] ? `(${gv[ActivityConstants.REVISED_VALUE_DATE]})` : null,
-      ].filter(Boolean).join(' ')
-      : null;
+    const valueDate = gv[ActivityConstants.REVISED_VALUE] != null
+      ? gv[ActivityConstants.REVISED_VALUE_DATE]
+      : gv[ActivityConstants.ORIGINAL_VALUE_DATE];
+
+    const display = [
+      value,
+      valueDate ? `(${valueDate})` : null,
+    ].filter(Boolean).join(' ');
 
     return (
       <div className={styles.me_disagg_global_value}>
-        <div>{original}</div>
-        {revised ? <div className={styles.me_disagg_global_value_revised}>{revised}</div> : null}
+        <div>{display}</div>
       </div>
     );
   }
