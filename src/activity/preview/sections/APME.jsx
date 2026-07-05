@@ -222,13 +222,15 @@ class APME extends Component {
         style={{ marginTop: 6, borderTop: '1px solid #ccc', width: '100%' }}>
         <thead>
           <tr>
-            <th colSpan={4} style={{ textAlign: 'left', padding: '4px 0' }}>
+            <th colSpan={6} style={{ textAlign: 'left', padding: '4px 0' }}>
               {translate('Disaggregation Values')}
             </th>
           </tr>
           <tr>
             <th>{translate('Category')}</th>
             <th>{translate('Sub-Category')}</th>
+            <th>{translate('Base Value')}</th>
+            <th>{translate('Target Value')}</th>
             <th>{translate('Actual Value')}</th>
             <th>{translate('Actual Date')}</th>
           </tr>
@@ -242,6 +244,16 @@ class APME extends Component {
               {row.isFirstDvRow && (
                 <td rowSpan={row.dvRowCount}>
                   {row.dv[ActivityConstants.CHILD_CATEGORY_NAME] || '\u2014'}
+                </td>
+              )}
+              {row.isFirstDvRow && (
+                <td rowSpan={row.dvRowCount}>
+                  {this._renderGlobalValue(row.dv[ActivityConstants.BASE_VALUE]) || '\u2014'}
+                </td>
+              )}
+              {row.isFirstDvRow && (
+                <td rowSpan={row.dvRowCount}>
+                  {this._renderGlobalValue(row.dv[ActivityConstants.TARGET_VALUE]) || '\u2014'}
                 </td>
               )}
               <td>
