@@ -165,40 +165,25 @@ export default class FieldsManager {
       return pList.find(itemList => itemList.field_name === pPart);
     }
 
+    if (!fieldPath) {
+      return undefined;
+    }
+
+    const parts = fieldPath.split('~');
+    let listDefinitions = this._fieldsDef;
     let result;
-    let fieldsDef = this._fieldsDef;
-    if (fieldPath) {
-      let tmpDefinition;
-      let partToSearch;
-      let listDefinitions = fieldsDef;
-      const parts = fieldPath.split('~');
 
-      for (let i = 0; i < parts.length; i++) {
-        partToSearch = parts[i];
-        tmpDefinition = _searchDefInList(listDefinitions, partToSearch);
-        if (tmpDefinition !== undefined) {
-          if (tmpDefinition.children !== undefined) {
-            if (parts[i + 1] !== undefined) {
-              partToSearch = parts[i + 1];
-              listDefinitions = tmpDefinition.children;
-
-              tmpDefinition = _searchDefInList(listDefinitions, partToSearch);
-              if (tmpDefinition !== undefined) {
-                result = tmpDefinition;
-                i += 2;
-              }
-            } else {
-              result = tmpDefinition;
-              break;
-            }
-          } else { // It doesn't have children
-            result = tmpDefinition;
-            break;
-          }
-        }
+    for (let i = 0; i < parts.length; i++) {
+      const tmpDefinition = _searchDefInList(listDefinitions, parts[i]);
+      if (tmpDefinition === undefined) {
+        return undefined;
       }
-    } else {
-      fieldsDef = { children: fieldsDef }; // Deprecated??
+      result = tmpDefinition;
+      if (tmpDefinition.children !== undefined && i + 1 < parts.length) {
+        listDefinitions = tmpDefinition.children;
+      } else {
+        break;
+      }
     }
     return result;
   }

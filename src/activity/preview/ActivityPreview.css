@@ -251,6 +251,59 @@
   border: 1px solid #ebebeb;
 }
 
+.me_disagg_table {
+  table-layout: fixed;
+}
+
+.me_disagg_title {
+  text-align: left;
+  padding: 8px 10px;
+}
+
+.me_disagg_header {
+  text-align: left;
+  padding: 8px 10px;
+  vertical-align: top;
+  line-height: 1.35;
+}
+
+.me_disagg_cell {
+  padding: 8px 10px !important;
+  vertical-align: top;
+  line-height: 1.35;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.me_disagg_category_col {
+  width: 13%;
+}
+
+.me_disagg_subcategory_col {
+  width: 13%;
+}
+
+.me_disagg_value_col {
+  width: 25%;
+}
+
+.me_disagg_actual_col {
+  width: 12%;
+}
+
+.me_disagg_date_col {
+  width: 12%;
+  white-space: nowrap;
+}
+
+.me_disagg_global_value {
+  min-height: 34px;
+}
+
+.me_disagg_global_value_revised {
+  margin-top: 4px;
+}
+
 .two_box_table {
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;

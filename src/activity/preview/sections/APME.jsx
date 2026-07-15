@@ -30,10 +30,10 @@ class APME extends Component {
     return (<div key={Math.random()}>
       {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.INDICATOR}`, true, null, false, indicator,
         null, { noTitle: true, fieldValueClass: styles.sector_title })}
-      {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.LOG_FRAME}`, true, null, false, indicator,
-        null, { fieldClass: styles.noborder })}
-      {buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.RISK}`, true, null, false, indicator,
-        null, { fieldClass: styles.noborder })}
+      {/*{buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.LOG_FRAME}`, true, null, false, indicator,*/}
+      {/*  null, { fieldClass: styles.noborder })}*/}
+      {/*{buildSimpleField(`${ActivityConstants.INDICATORS}~${ActivityConstants.RISK}`, true, null, false, indicator,*/}
+      {/*  null, { fieldClass: styles.noborder })}*/}
       <div className={styles.box_field_name} style={{ marginTop: 8, marginBottom: 4 }}>
         {this.props.translate('Value Tracking')}
       </div>
@@ -46,11 +46,49 @@ class APME extends Component {
   }
 
   _generateValueOrValuesTable(sectionName, value) {
+    // For the 'actual' section we may have multiple entries — render as a single structured table.
+    if (sectionName === ActivityConstants.CURRENT && Array.isArray(value) && value.length > 0) {
+      return this._generateActualsTable(value);
+    }
     return (<div>
       {Array.isArray(value)
         ? value.map(v => this._generateValueTable(sectionName, v))
         : this._generateValueTable(sectionName, value)}
     </div>);
+  }
+
+  _generateActualsTable(values) {
+    const { translate } = this.props;
+    const hasComment = values.some(v => v[ActivityConstants.INDICATOR_COMMENT]);
+    return (
+      <table key={Math.random()} className={[styles.box_table, styles.section_group_class].join(' ')}
+        style={{ marginTop: 6, width: '100%' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '4px 6px' }}>{translate('Actual Date')}</th>
+            <th style={{ textAlign: 'left', padding: '4px 6px' }}>{translate('Actual Value')}</th>
+            {hasComment && <th style={{ textAlign: 'left', padding: '4px 6px' }}>{translate('Comment')}</th>}
+          </tr>
+        </thead>
+        <tbody>
+          {values.map((v, idx) => (
+            <tr key={idx}>
+              <td style={{ padding: '3px 6px' }}>
+                {v[ActivityConstants.INDICATOR_DATE] || '\u2014'}
+              </td>
+              <td style={{ padding: '3px 6px' }}>
+                {v[ActivityConstants.INDICATOR_VALUE] != null ? v[ActivityConstants.INDICATOR_VALUE] : '\u2014'}
+              </td>
+              {hasComment && (
+                <td style={{ padding: '3px 6px' }}>
+                  {v[ActivityConstants.INDICATOR_COMMENT] || '\u2014'}
+                </td>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
   }
 
   _generateValueTable(sectionName, value) {
@@ -128,15 +166,24 @@ class APME extends Component {
 
   _renderGlobalValue(gv) {
     if (!gv) return null;
-    const { translate } = this.props;
+    // Display revised value if available, otherwise original (matching activity form behavior)
+    const value = gv[ActivityConstants.REVISED_VALUE] != null
+      ? gv[ActivityConstants.REVISED_VALUE]
+      : (gv[ActivityConstants.ORIGINAL_VALUE] != null ? gv[ActivityConstants.ORIGINAL_VALUE] : '—');
+
+    const valueDate = gv[ActivityConstants.REVISED_VALUE] != null
+      ? gv[ActivityConstants.REVISED_VALUE_DATE]
+      : gv[ActivityConstants.ORIGINAL_VALUE_DATE];
+
+    const display = [
+      value,
+      valueDate ? `(${valueDate})` : null,
+    ].filter(Boolean).join(' ');
+
     return (
-      <span>
-        {gv[ActivityConstants.ORIGINAL_VALUE] != null ? gv[ActivityConstants.ORIGINAL_VALUE] : '—'}
-        {gv[ActivityConstants.ORIGINAL_VALUE_DATE] ? ` (${gv[ActivityConstants.ORIGINAL_VALUE_DATE]})` : ''}
-        {gv[ActivityConstants.REVISED_VALUE] != null
-          ? ` / ${translate('Revised')}: ${gv[ActivityConstants.REVISED_VALUE]}` : ''}
-        {gv[ActivityConstants.REVISED_VALUE_DATE] ? ` (${gv[ActivityConstants.REVISED_VALUE_DATE]})` : ''}
-      </span>
+      <div className={styles.me_disagg_global_value}>
+        <div>{display}</div>
+      </div>
     );
   }
 
@@ -180,37 +227,37 @@ class APME extends Component {
     });
 
     return (
-      <table key={Math.random()} className={[styles.box_table, styles.section_group_class].join(' ')}
+      <table key={Math.random()} className={[styles.box_table, styles.section_group_class, styles.me_disagg_table].join(' ')}
         style={{ marginTop: 6, borderTop: '1px solid #ccc', width: '100%' }}>
         <thead>
           <tr>
-            <th colSpan={4} style={{ textAlign: 'left', padding: '4px 0' }}>
+            <th colSpan={4} className={styles.me_disagg_title}>
               {translate('Disaggregation Values')}
             </th>
           </tr>
           <tr>
-            <th>{translate('Category')}</th>
-            <th>{translate('Sub-Category')}</th>
-            <th>{translate('Actual Value')}</th>
-            <th>{translate('Actual Date')}</th>
+            <th className={[styles.me_disagg_header, styles.me_disagg_category_col].join(' ')}>{translate('Category')}</th>
+            <th className={[styles.me_disagg_header, styles.me_disagg_subcategory_col].join(' ')}>{translate('Sub-Category')}</th>
+            <th className={[styles.me_disagg_header, styles.me_disagg_actual_col].join(' ')}>{translate('Actual Value')}</th>
+            <th className={[styles.me_disagg_header, styles.me_disagg_date_col].join(' ')}>{translate('Actual Date')}</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row, idx) => (
             <tr key={idx}>
               {row.isFirstGroupRow && (
-                <td rowSpan={row.groupRowCount}>{row.groupKey}</td>
+                <td rowSpan={row.groupRowCount} className={[styles.me_disagg_cell, styles.me_disagg_category_col].join(' ')}>{row.groupKey}</td>
               )}
               {row.isFirstDvRow && (
-                <td rowSpan={row.dvRowCount}>
+                <td rowSpan={row.dvRowCount} className={[styles.me_disagg_cell, styles.me_disagg_subcategory_col].join(' ')}>
                   {row.dv[ActivityConstants.CHILD_CATEGORY_NAME] || '\u2014'}
                 </td>
               )}
-              <td>
+              <td className={[styles.me_disagg_cell, styles.me_disagg_actual_col].join(' ')}>
                 {row.av && row.av[ActivityConstants.ORIGINAL_VALUE] != null
                   ? row.av[ActivityConstants.ORIGINAL_VALUE] : '\u2014'}
               </td>
-              <td>
+              <td className={[styles.me_disagg_cell, styles.me_disagg_date_col].join(' ')}>
                 {row.av && row.av[ActivityConstants.ORIGINAL_VALUE_DATE]
                   ? row.av[ActivityConstants.ORIGINAL_VALUE_DATE] : '\u2014'}
               </td>
