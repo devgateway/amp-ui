@@ -231,15 +231,13 @@ class APME extends Component {
         style={{ marginTop: 6, borderTop: '1px solid #ccc', width: '100%' }}>
         <thead>
           <tr>
-            <th colSpan={6} className={styles.me_disagg_title}>
+            <th colSpan={4} className={styles.me_disagg_title}>
               {translate('Disaggregation Values')}
             </th>
           </tr>
           <tr>
             <th className={[styles.me_disagg_header, styles.me_disagg_category_col].join(' ')}>{translate('Category')}</th>
             <th className={[styles.me_disagg_header, styles.me_disagg_subcategory_col].join(' ')}>{translate('Sub-Category')}</th>
-            <th className={[styles.me_disagg_header, styles.me_disagg_value_col].join(' ')}>{translate('Base Value')}</th>
-            <th className={[styles.me_disagg_header, styles.me_disagg_value_col].join(' ')}>{translate('Target Value')}</th>
             <th className={[styles.me_disagg_header, styles.me_disagg_actual_col].join(' ')}>{translate('Actual Value')}</th>
             <th className={[styles.me_disagg_header, styles.me_disagg_date_col].join(' ')}>{translate('Actual Date')}</th>
           </tr>
@@ -253,16 +251,6 @@ class APME extends Component {
               {row.isFirstDvRow && (
                 <td rowSpan={row.dvRowCount} className={[styles.me_disagg_cell, styles.me_disagg_subcategory_col].join(' ')}>
                   {row.dv[ActivityConstants.CHILD_CATEGORY_NAME] || '\u2014'}
-                </td>
-              )}
-              {row.isFirstDvRow && (
-                <td rowSpan={row.dvRowCount} className={[styles.me_disagg_cell, styles.me_disagg_value_col].join(' ')}>
-                  {this._renderGlobalValue(row.dv[ActivityConstants.BASE_VALUE]) || '\u2014'}
-                </td>
-              )}
-              {row.isFirstDvRow && (
-                <td rowSpan={row.dvRowCount} className={[styles.me_disagg_cell, styles.me_disagg_value_col].join(' ')}>
-                  {this._renderGlobalValue(row.dv[ActivityConstants.TARGET_VALUE]) || '\u2014'}
                 </td>
               )}
               <td className={[styles.me_disagg_cell, styles.me_disagg_actual_col].join(' ')}>
